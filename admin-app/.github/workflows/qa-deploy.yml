@@ -1,0 +1,64 @@
+name: Deploy to QA (QA Branch)
+
+on:
+  push:
+    branches: [ qa ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Run linter
+        run: |
+          cd frontend
+          npm run lint
+
+      - name: Type check
+        run: |
+          cd frontend
+          npm run type-check
+
+      - name: Run tests
+        run: |
+          cd frontend
+          npm run test -- --run --coverage
+
+      - name: Build application
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Deploy to Vercel
+        uses: vercel/action@v4
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID_QA }}
+          alias: staging
+
+      - name: Create deployment comment
+        if: github.event_name == 'push'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ Deployed to QA environment'
+            })
