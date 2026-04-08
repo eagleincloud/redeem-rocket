@@ -1,0 +1,136 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: redeem-rocket-postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME:-redeem_rocket}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - redeem-rocket-network
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: redeem-rocket-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - redeem-rocket-network
+
+  # Django Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: redeem-rocket-backend
+    command: >
+      sh -c "python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    environment:
+      DEBUG: "True"
+      SECRET_KEY: ${SECRET_KEY:-django-insecure-dev-key}
+      DB_ENGINE: django.db.backends.postgresql
+      DB_NAME: ${DB_NAME:-redeem_rocket}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      REDIS_URL: redis://redis:6379
+      CORS_ALLOWED_ORIGINS: "http://localhost:3001,http://localhost:3002,http://localhost:3003,http://localhost:5173"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - redeem-rocket-network
+
+  # Customer App
+  customer-app:
+    build:
+      context: ./customer-app
+      dockerfile: Dockerfile
+      target: development
+    container_name: redeem-rocket-customer-app
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://backend:8000
+    volumes:
+      - ./customer-app/frontend:/app/frontend
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - redeem-rocket-network
+
+  # Business App
+  business-app:
+    build:
+      context: ./business-app
+      dockerfile: Dockerfile
+      target: development
+    container_name: redeem-rocket-business-app
+    ports:
+      - "5174:5173"
+    environment:
+      VITE_API_URL: http://backend:8000
+    volumes:
+      - ./business-app/frontend:/app/frontend
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - redeem-rocket-network
+
+  # Admin App
+  admin-app:
+    build:
+      context: ./admin-app
+      dockerfile: Dockerfile
+      target: development
+    container_name: redeem-rocket-admin-app
+    ports:
+      - "5175:5173"
+    environment:
+      VITE_API_URL: http://backend:8000
+    volumes:
+      - ./admin-app/frontend:/app/frontend
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - redeem-rocket-network
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+
+networks:
+  redeem-rocket-network:
+    driver: bridge
