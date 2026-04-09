@@ -46,27 +46,30 @@ jobs:
       - name: Deploy Customer App to Vercel (Production)
         run: |
           cd customer-app/frontend
-          vercel --token ${{ secrets.VERCEL_TOKEN }} --org-id ${{ secrets.VERCEL_ORG_ID }} \
-            --project-id ${{ secrets.VERCEL_PROJECT_ID_CUSTOMER }} --prod --yes
+          vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
         env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_CUSTOMER }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - name: Deploy Business App to Vercel (Production)
         run: |
           cd business-app/frontend
-          vercel --token ${{ secrets.VERCEL_TOKEN }} --org-id ${{ secrets.VERCEL_ORG_ID }} \
-            --project-id ${{ secrets.VERCEL_PROJECT_ID_BUSINESS }} --prod --yes
+          vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
         env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_BUSINESS }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - name: Deploy Admin App to Vercel (Production)
         run: |
           cd admin-app/frontend
-          vercel --token ${{ secrets.VERCEL_TOKEN }} --org-id ${{ secrets.VERCEL_ORG_ID }} \
-            --project-id ${{ secrets.VERCEL_PROJECT_ID_ADMIN }} --prod --yes
+          vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
         env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_ADMIN }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
