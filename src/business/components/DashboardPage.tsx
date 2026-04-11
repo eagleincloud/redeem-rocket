@@ -306,7 +306,12 @@ function FirstLoginPasswordModal({ isDark }: { isDark: boolean }) {
 function BusinessWebsiteCard({ bizUser, isDark, isMobile }: { bizUser: { businessId?: string | null } | null; isDark: boolean; isMobile: boolean }) {
   if (!bizUser?.businessId) return null;
 
-  const bizUrl = `${window.location.origin}/business.html/biz/${bizUser.businessId}`;
+  const [showPreview, setShowPreview] = useState(false);
+
+  // In production basename is '/' so route is /biz/:id; in dev basename is /business.html
+  const bizUrl = import.meta.env.PROD
+    ? `${window.location.origin}/biz/${bizUser.businessId}`
+    : `${window.location.origin}/business.html/biz/${bizUser.businessId}`;
   const card   = isDark ? '#0e1530' : '#ffffff';
   const border = isDark ? '#1c2a55' : '#e8d8cc';
   const text   = isDark ? '#e2e8f0' : '#18100a';
@@ -361,6 +366,12 @@ function BusinessWebsiteCard({ bizUser, isDark, isMobile }: { bizUser: { busines
               <Copy size={13} /> Copy Link
             </button>
             <button
+              onClick={() => setShowPreview(true)}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 16px', borderRadius: 8, border: `1px solid ${accent}`, background: `${accent}15`, color: accent, fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
+            >
+              👁 Customer View
+            </button>
+            <button
               onClick={openWebsite}
               style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 16px', borderRadius: 8, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
             >
@@ -369,6 +380,40 @@ function BusinessWebsiteCard({ bizUser, isDark, isMobile }: { bizUser: { busines
           </div>
         </div>
       </div>
+
+      {/* Customer View Preview Modal */}
+      {showPreview && (
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', zIndex: 9999, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+          <div style={{ width: '100%', maxWidth: 420, background: isDark ? '#0e1530' : '#f3f4f6', borderRadius: 20, overflow: 'hidden', boxShadow: '0 24px 64px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column', maxHeight: '90vh' }}>
+            {/* Phone-style header bar */}
+            <div style={{ background: isDark ? '#162040' : '#e5e7eb', padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ef4444' }} />
+                <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#f59e0b' }} />
+                <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#22c55e' }} />
+              </div>
+              <div style={{ flex: 1, margin: '0 12px', background: isDark ? '#0e1530' : '#fff', borderRadius: 6, padding: '3px 10px', fontSize: 11, color: isDark ? '#64748b' : '#9a7860', textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {bizUrl}
+              </div>
+              <button
+                onClick={() => setShowPreview(false)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', color: isDark ? '#94a3b8' : '#6b7280', fontSize: 18, lineHeight: 1, padding: 2 }}
+              >✕</button>
+            </div>
+            {/* Iframe preview */}
+            <div style={{ flex: 1, overflow: 'hidden', minHeight: 500 }}>
+              <iframe
+                src={bizUrl}
+                style={{ width: '100%', height: '100%', minHeight: 500, border: 'none' }}
+                title="Customer View Preview"
+              />
+            </div>
+            <div style={{ padding: '10px 16px', background: isDark ? '#162040' : '#e5e7eb', textAlign: 'center', fontSize: 11, color: isDark ? '#64748b' : '#9a7860', flexShrink: 0 }}>
+              👁 Customer View Preview — <span style={{ color: accent, cursor: 'pointer', fontWeight: 600 }} onClick={openWebsite}>Open in new tab ↗</span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

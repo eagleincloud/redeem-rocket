@@ -77,8 +77,8 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
       const { data: member, error: memberErr } = await supabase
         .from('business_team_members')
         .select('id, business_id, name, email, role_id, permissions, status, password, first_login')
-        .eq('email', email.trim().toLowerCase())
-        .eq('status', 'active')
+        .ilike('email', email.trim())
+        .in('status', ['active', 'invited'])
         .single();
 
       if (memberErr || !member) {
@@ -96,6 +96,14 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
         return;
       }
 
+      // Mark member as active on first login
+      if (member.status === 'invited') {
+        await supabase
+          .from('business_team_members')
+          .update({ status: 'active', joined_at: new Date().toISOString() })
+          .eq('id', member.id);
+      }
+
       // Store team member session
       const teamSession = {
         id: member.id,
@@ -104,7 +112,7 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
         email: member.email,
         role_id: member.role_id,
         permissions: member.permissions,
-        status: member.status,
+        status: 'active',
       };
       localStorage.setItem('team_member_session', JSON.stringify(teamSession));
 

@@ -1,31 +1,22 @@
 {
-  "version": 2,
-  "builds": [
+  "buildCommand": "npm run build:business",
+  "outputDirectory": "dist-business",
+  "installCommand": "npm install",
+  "routes": [
     {
-      "src": "customer-app/frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
+      "src": "/logo\\.(png|jpeg|jpg|svg|ico)$",
+      "dest": "/logo.$1",
+      "headers": {
+        "cache-control": "public, max-age=86400"
       }
     },
     {
-      "src": "business-app/frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1"
     },
     {
-      "src": "admin-app/frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
+      "src": "/(.*)",
+      "dest": "/business.html"
     }
-  ],
-  "env": {
-    "VITE_API_URL": {
-      "default": "https://api.redeemrocket.com"
-    }
-  }
+  ]
 }
