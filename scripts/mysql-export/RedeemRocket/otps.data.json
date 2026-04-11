@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1028674e-cc35-4748-a283-4b3eb4a05eb6",
+    "phone": "+918349104459",
+    "email": null,
+    "code": "358746",
+    "expires_at": "2026-02-13T05:22:08.000Z",
+    "verified": 0,
+    "created_at": "2026-02-13T05:12:08.000Z"
+  },
+  {
+    "id": "6569aaeb-b946-4ae6-82a1-6d73c8359967",
+    "phone": "+919981088145",
+    "email": null,
+    "code": "230394",
+    "expires_at": "2026-02-13T05:37:59.000Z",
+    "verified": 0,
+    "created_at": "2026-02-13T05:27:59.000Z"
+  },
+  {
+    "id": "a5068730-9a1b-466e-b478-c2b7e690134d",
+    "phone": null,
+    "email": "admin@redeemrocket.com",
+    "code": "810742",
+    "expires_at": "2026-02-05T04:26:24.000Z",
+    "verified": 0,
+    "created_at": "2026-02-05T04:16:24.000Z"
+  },
+  {
+    "id": "deb735cd-4396-45a7-9814-144a6a215e47",
+    "phone": "+911234567891",
+    "email": null,
+    "code": "583143",
+    "expires_at": "2026-02-13T04:08:43.000Z",
+    "verified": 0,
+    "created_at": "2026-02-13T03:58:43.000Z"
+  }
+]

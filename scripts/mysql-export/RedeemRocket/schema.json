@@ -1,0 +1,2916 @@
+{
+  "database": "RedeemRocket",
+  "tables": {
+    "admin_config": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "config_key",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "UNI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "config_value",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        },
+        {
+          "name": "updated_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+        }
+      ]
+    },
+    "advertisements": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "merchant_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "placement",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "image_url",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "link_url",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "start_date",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "end_date",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_active",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "1",
+          "extra": ""
+        },
+        {
+          "name": "click_count",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "0",
+          "extra": ""
+        },
+        {
+          "name": "impression_count",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "0",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        }
+      ]
+    },
+    "business_claim_requests": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "scraped_business_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "merchant_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "owner_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "owner_email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "owner_phone",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "owner_address",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "business_license_number",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "gst_number",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "pan_number",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "additional_documents",
+          "mysqlType": "json",
+          "pgType": "jsonb",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": "pending",
+          "extra": ""
+        },
+        {
+          "name": "admin_notes",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "admin_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "reviewed_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        },
+        {
+          "name": "updated_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+        }
+      ]
+    },
+    "businesses": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "type",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "image",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "lat",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "lng",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "address",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "phone",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "rating",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "0.00",
+          "extra": ""
+        },
+        {
+          "name": "is_active",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "1",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        },
+        {
+          "name": "updated_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+        }
+      ]
+    },
+    "cart": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "product_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "quantity",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "1",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        }
+      ]
+    },
+    "customer_auction_bids": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "auction_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "bid_amount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "bid_payment_amount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": "active",
+          "extra": ""
+        },
+        {
+          "name": "payment_status",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": "pending",
+          "extra": ""
+        },
+        {
+          "name": "otp",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "refund_amount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "0.00",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        },
+        {
+          "name": "updated_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+        }
+      ]
+    },
+    "lead_participations": {
+      "columns": [
+        {
+          "name": "lead_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "merchant_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "fee_paid",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "paid_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        }
+      ]
+    },
+    "merchant_auctions": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "merchant_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "product_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "product_image",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "product_video",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "category",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "quantity",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "1",
+          "extra": ""
+        },
+        {
+          "name": "base_price",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "current_bid",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "bid_count",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "0",
+          "extra": ""
+        },
+        {
+          "name": "duration_hours",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "24",
+          "extra": ""
+        },
+        {
+          "name": "bid_increment",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "50.00",
+          "extra": ""
+        },
+        {
+          "name": "bid_start_date",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "bid_end_date",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "product_expiry_date",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "has_guarantee",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "0",
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": "live",
+          "extra": ""
+        },
+        {
+          "name": "winner",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        },
+        {
+          "name": "ended_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "merchant_offers": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "merchant_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "type",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "config",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_active",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "1",
+          "extra": ""
+        },
+        {
+          "name": "redemption_count",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "0",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        },
+        {
+          "name": "updated_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+        }
+      ]
+    },
+    "merchant_products": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "merchant_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "price",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "selling_price",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "discount_type",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "discount_value",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "split_rule",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "30.00",
+          "extra": ""
+        },
+        {
+          "name": "category",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "image",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "product_video",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "quantity",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "0",
+          "extra": ""
+        },
+        {
+          "name": "is_featured",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "0",
+          "extra": ""
+        },
+        {
+          "name": "allow_silver_rr",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "1",
+          "extra": ""
+        },
+        {
+          "name": "cashback_amount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "platform_margin",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        },
+        {
+          "name": "updated_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+        }
+      ]
+    },
+    "merchant_settlements": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "merchant_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "order_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "amount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "settlement_type",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": "daily",
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": "pending",
+          "extra": ""
+        },
+        {
+          "name": "settled_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        }
+      ]
+    },
+    "merchant_wallet_transactions": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "merchant_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "amount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "type",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        }
+      ]
+    },
+    "merchants": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "UNI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "merchant_key",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "UNI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "phone",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "role",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "categories",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "shop_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "area",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "pincode",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "pan_number",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "gstin",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "aadhaar_number",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "wallet_balance",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "0.00",
+          "extra": ""
+        },
+        {
+          "name": "trial_days_left",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "7",
+          "extra": ""
+        },
+        {
+          "name": "is_active",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "0",
+          "extra": ""
+        },
+        {
+          "name": "badges",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "package_tier",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": "starter",
+          "extra": ""
+        },
+        {
+          "name": "rules",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        },
+        {
+          "name": "updated_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+        }
+      ]
+    },
+    "offers": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "title",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "discount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "discount_type",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": "percentage",
+          "extra": ""
+        },
+        {
+          "name": "min_purchase",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "coin_multiplier",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "business_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "valid_from",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "valid_until",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_active",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "1",
+          "extra": ""
+        },
+        {
+          "name": "image",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        }
+      ]
+    },
+    "order_items": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "order_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "product_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "quantity",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "price",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "orders": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "merchant_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "lead_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "total_amount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "cashback_used",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "0.00",
+          "extra": ""
+        },
+        {
+          "name": "gold_rr_used",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "0.00",
+          "extra": ""
+        },
+        {
+          "name": "silver_rr_used",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "0.00",
+          "extra": ""
+        },
+        {
+          "name": "cash_paid",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "0.00",
+          "extra": ""
+        },
+        {
+          "name": "cashback_amount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "0.00",
+          "extra": ""
+        },
+        {
+          "name": "platform_margin",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "0.00",
+          "extra": ""
+        },
+        {
+          "name": "payment_method",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": "cash",
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": "pending",
+          "extra": ""
+        },
+        {
+          "name": "address",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "otp",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "otp_verified",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "0",
+          "extra": ""
+        },
+        {
+          "name": "otp_verified_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        },
+        {
+          "name": "updated_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+        }
+      ]
+    },
+    "otps": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "phone",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "code",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "expires_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "verified",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "0",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        }
+      ]
+    },
+    "platform_revenue": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "source",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "amount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "order_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "auction_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "lead_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "advertisement_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        }
+      ]
+    },
+    "products": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "price",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "image",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "category",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "business_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "coin_multiplier",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "2",
+          "extra": ""
+        },
+        {
+          "name": "stock",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "0",
+          "extra": ""
+        },
+        {
+          "name": "is_active",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "1",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        },
+        {
+          "name": "updated_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+        }
+      ]
+    },
+    "requirement_bids": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "requirement_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "merchant_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "amount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "message",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "eta",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": "pending",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        }
+      ]
+    },
+    "requirements": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "title",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "category",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "budget",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "location",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "platform_fee",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "0.00",
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": "open",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        },
+        {
+          "name": "updated_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+        }
+      ]
+    },
+    "schema_migrations": {
+      "columns": [
+        {
+          "name": "version",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "applied_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        }
+      ]
+    },
+    "scraped_businesses": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "merchant_key",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "UNI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "place_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "UNI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "category",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "subcategory",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "address",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "area",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "city",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": "Indore",
+          "extra": ""
+        },
+        {
+          "name": "pincode",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "phone",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "mobile",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "website",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "latitude",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "longitude",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "rating",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "review_count",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "0",
+          "extra": ""
+        },
+        {
+          "name": "price_level",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "opening_hours",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "business_status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": "OPERATIONAL",
+          "extra": ""
+        },
+        {
+          "name": "types",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "amenities",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "verification_status",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": "unverified",
+          "extra": ""
+        },
+        {
+          "name": "claimed_by_merchant_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "verified_by_admin_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "verified_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        },
+        {
+          "name": "updated_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+        }
+      ]
+    },
+    "scratch_cards": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "order_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "reward_type",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "reward_amount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "reward_message",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_scratched",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "0",
+          "extra": ""
+        },
+        {
+          "name": "scratched_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        },
+        {
+          "name": "expires_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "user_events": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "event_type",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "entity_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "metadata",
+          "mysqlType": "json",
+          "pgType": "jsonb",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        }
+      ]
+    },
+    "user_signals": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "product_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "signal_type",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        }
+      ]
+    },
+    "users": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "phone",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "UNI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "UNI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "password",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "role",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": "user",
+          "extra": ""
+        },
+        {
+          "name": "cashback_balance",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "0.00",
+          "extra": ""
+        },
+        {
+          "name": "coins",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "0.00",
+          "extra": ""
+        },
+        {
+          "name": "gold_rr",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "0.00",
+          "extra": ""
+        },
+        {
+          "name": "silver_rr",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": "0.00",
+          "extra": ""
+        },
+        {
+          "name": "whatsapp_notifications",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": "1",
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        },
+        {
+          "name": "updated_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+        }
+      ]
+    },
+    "wallet_transactions": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "amount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "type",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "category",
+          "mysqlType": "enum",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": "general",
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "text",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "order_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "product_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "merchant_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": "CURRENT_TIMESTAMP",
+          "extra": "DEFAULT_GENERATED"
+        }
+      ]
+    }
+  }
+}

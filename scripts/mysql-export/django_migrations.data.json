@@ -1,0 +1,284 @@
+[
+  {
+    "id": 1,
+    "app": "contenttypes",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:55:39.560Z"
+  },
+  {
+    "id": 2,
+    "app": "contenttypes",
+    "name": "0002_remove_content_type_name",
+    "applied": "2026-02-19T02:55:41.711Z"
+  },
+  {
+    "id": 3,
+    "app": "auth",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:55:45.992Z"
+  },
+  {
+    "id": 4,
+    "app": "auth",
+    "name": "0002_alter_permission_name_max_length",
+    "applied": "2026-02-19T02:55:46.728Z"
+  },
+  {
+    "id": 5,
+    "app": "auth",
+    "name": "0003_alter_user_email_max_length",
+    "applied": "2026-02-19T02:55:47.038Z"
+  },
+  {
+    "id": 6,
+    "app": "auth",
+    "name": "0004_alter_user_username_opts",
+    "applied": "2026-02-19T02:55:47.348Z"
+  },
+  {
+    "id": 7,
+    "app": "auth",
+    "name": "0005_alter_user_last_login_null",
+    "applied": "2026-02-19T02:55:47.657Z"
+  },
+  {
+    "id": 8,
+    "app": "auth",
+    "name": "0006_require_contenttypes_0002",
+    "applied": "2026-02-19T02:55:48.059Z"
+  },
+  {
+    "id": 9,
+    "app": "auth",
+    "name": "0007_alter_validators_add_error_messages",
+    "applied": "2026-02-19T02:55:48.369Z"
+  },
+  {
+    "id": 10,
+    "app": "auth",
+    "name": "0008_alter_user_username_max_length",
+    "applied": "2026-02-19T02:55:48.717Z"
+  },
+  {
+    "id": 11,
+    "app": "auth",
+    "name": "0009_alter_user_last_name_max_length",
+    "applied": "2026-02-19T02:55:49.028Z"
+  },
+  {
+    "id": 12,
+    "app": "auth",
+    "name": "0010_alter_group_name_max_length",
+    "applied": "2026-02-19T02:55:49.654Z"
+  },
+  {
+    "id": 13,
+    "app": "auth",
+    "name": "0011_update_proxy_permissions",
+    "applied": "2026-02-19T02:55:50.924Z"
+  },
+  {
+    "id": 14,
+    "app": "auth",
+    "name": "0012_alter_user_first_name_max_length",
+    "applied": "2026-02-19T02:55:51.239Z"
+  },
+  {
+    "id": 15,
+    "app": "account",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:55:57.866Z"
+  },
+  {
+    "id": 16,
+    "app": "account",
+    "name": "0002_tenant_model_and_tenant_fields",
+    "applied": "2026-02-19T02:56:04.105Z"
+  },
+  {
+    "id": 17,
+    "app": "admin",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:56:28.173Z"
+  },
+  {
+    "id": 18,
+    "app": "admin",
+    "name": "0002_logentry_remove_auto_add",
+    "applied": "2026-02-19T02:56:28.483Z"
+  },
+  {
+    "id": 19,
+    "app": "admin",
+    "name": "0003_logentry_add_action_flag_choices",
+    "applied": "2026-02-19T02:56:28.796Z"
+  },
+  {
+    "id": 20,
+    "app": "employee",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:56:33.627Z"
+  },
+  {
+    "id": 21,
+    "app": "managers",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:56:40.337Z"
+  },
+  {
+    "id": 22,
+    "app": "employee",
+    "name": "0002_initial",
+    "applied": "2026-02-19T02:56:45.920Z"
+  },
+  {
+    "id": 23,
+    "app": "employee",
+    "name": "0003_employeefixeddocuments",
+    "applied": "2026-02-19T02:56:47.000Z"
+  },
+  {
+    "id": 24,
+    "app": "employee",
+    "name": "0004_employeedocument_delete_employeefixeddocuments",
+    "applied": "2026-02-19T02:56:48.862Z"
+  },
+  {
+    "id": 25,
+    "app": "administration",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:56:52.294Z"
+  },
+  {
+    "id": 26,
+    "app": "administration",
+    "name": "0002_initial",
+    "applied": "2026-02-19T02:57:03.324Z"
+  },
+  {
+    "id": 27,
+    "app": "administration",
+    "name": "0003_employeealldocuments",
+    "applied": "2026-02-19T02:57:05.690Z"
+  },
+  {
+    "id": 28,
+    "app": "administration",
+    "name": "0004_employeedocument_delete_employeealldocuments",
+    "applied": "2026-02-19T02:57:07.422Z"
+  },
+  {
+    "id": 29,
+    "app": "administration",
+    "name": "0005_delete_employeedocument",
+    "applied": "2026-02-19T02:57:08.239Z"
+  },
+  {
+    "id": 30,
+    "app": "administration",
+    "name": "0006_alter_task_assigned_to",
+    "applied": "2026-02-19T02:57:11.310Z"
+  },
+  {
+    "id": 31,
+    "app": "administration",
+    "name": "0007_emailnotification",
+    "applied": "2026-02-19T02:57:12.675Z"
+  },
+  {
+    "id": 32,
+    "app": "employee",
+    "name": "0005_attendance_source",
+    "applied": "2026-02-19T02:57:13.676Z"
+  },
+  {
+    "id": 33,
+    "app": "employee",
+    "name": "0007_add_tenant_fields",
+    "applied": "2026-02-19T02:57:21.617Z"
+  },
+  {
+    "id": 34,
+    "app": "leave",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:57:24.891Z"
+  },
+  {
+    "id": 35,
+    "app": "leave",
+    "name": "0002_leave_description",
+    "applied": "2026-02-19T02:57:25.591Z"
+  },
+  {
+    "id": 36,
+    "app": "management",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:57:28.105Z"
+  },
+  {
+    "id": 37,
+    "app": "manager_leave",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:57:31.423Z"
+  },
+  {
+    "id": 38,
+    "app": "manager_leave",
+    "name": "0002_managerleave_description",
+    "applied": "2026-02-19T02:57:32.101Z"
+  },
+  {
+    "id": 39,
+    "app": "manager_leave",
+    "name": "0003_balanceleave_enddate_balanceleave_reason_and_more",
+    "applied": "2026-02-19T02:57:33.673Z"
+  },
+  {
+    "id": 40,
+    "app": "manager_leave",
+    "name": "0004_remove_balanceleave_enddate_and_more",
+    "applied": "2026-02-19T02:57:35.171Z"
+  },
+  {
+    "id": 41,
+    "app": "manager_resign",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:57:36.627Z"
+  },
+  {
+    "id": 42,
+    "app": "manageregularization",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:57:38.242Z"
+  },
+  {
+    "id": 43,
+    "app": "managerpayroll",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:57:39.676Z"
+  },
+  {
+    "id": 44,
+    "app": "payroll",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:57:41.296Z"
+  },
+  {
+    "id": 45,
+    "app": "regularization",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:57:43.669Z"
+  },
+  {
+    "id": 46,
+    "app": "resign",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:57:45.922Z"
+  },
+  {
+    "id": 47,
+    "app": "sessions",
+    "name": "0001_initial",
+    "applied": "2026-02-19T02:57:47.256Z"
+  }
+]

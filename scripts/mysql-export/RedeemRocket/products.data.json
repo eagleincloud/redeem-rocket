@@ -1,0 +1,72 @@
+[
+  {
+    "id": "155b164b-d8d8-40be-879f-70f449dfbc59",
+    "name": "Smart Watch X",
+    "description": "Health tracking watch",
+    "price": "4999.00",
+    "image": null,
+    "category": "Electronics",
+    "business_id": "849b6611-6c8e-42a0-acc6-972f45a3c6fe",
+    "coin_multiplier": 2,
+    "stock": 0,
+    "is_active": 1,
+    "created_at": "2026-02-04T04:39:28.000Z",
+    "updated_at": "2026-02-04T04:39:28.000Z"
+  },
+  {
+    "id": "7af877b3-0a82-45f7-80de-69de2f6f6324",
+    "name": "Denim Jeans",
+    "description": "Slim fit blue jeans",
+    "price": "1999.00",
+    "image": null,
+    "category": "Fashion",
+    "business_id": "a5c0afb2-b77c-4d07-9c30-42877603dffa",
+    "coin_multiplier": 2,
+    "stock": 0,
+    "is_active": 1,
+    "created_at": "2026-02-04T04:39:28.000Z",
+    "updated_at": "2026-02-04T04:39:28.000Z"
+  },
+  {
+    "id": "8b25be6d-f7e9-4ac6-957f-06994f35d3ad",
+    "name": "Cotton T-Shirt",
+    "description": "Premium cotton shirt",
+    "price": "899.00",
+    "image": null,
+    "category": "Fashion",
+    "business_id": "a5c0afb2-b77c-4d07-9c30-42877603dffa",
+    "coin_multiplier": 2,
+    "stock": 0,
+    "is_active": 1,
+    "created_at": "2026-02-04T04:39:28.000Z",
+    "updated_at": "2026-02-04T04:39:28.000Z"
+  },
+  {
+    "id": "eab12c86-acbf-46a4-9458-11fca8bb5b41",
+    "name": "Optimus Earbuds",
+    "description": "Noise-cancelling earbuds",
+    "price": "2999.00",
+    "image": null,
+    "category": "Electronics",
+    "business_id": "849b6611-6c8e-42a0-acc6-972f45a3c6fe",
+    "coin_multiplier": 2,
+    "stock": 0,
+    "is_active": 1,
+    "created_at": "2026-02-04T04:39:28.000Z",
+    "updated_at": "2026-02-04T04:39:28.000Z"
+  },
+  {
+    "id": "faf1a986-04c6-4d4b-9691-775f9e1e57cc",
+    "name": "Organic Apple",
+    "description": "Fresh organic apples",
+    "price": "120.00",
+    "image": null,
+    "category": "Food",
+    "business_id": "062a89ec-671a-4c6a-8b57-a8cf0beb9b68",
+    "coin_multiplier": 2,
+    "stock": 0,
+    "is_active": 1,
+    "created_at": "2026-02-04T04:39:28.000Z",
+    "updated_at": "2026-02-04T04:39:28.000Z"
+  }
+]

@@ -1,0 +1,3807 @@
+{
+  "database": "employee_conduct",
+  "tables": {
+    "account_company": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "company_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "company_email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "company_phone",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "company_address",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "tenant_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "account_companystaff": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "password",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_company_admin",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_manager",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_employee",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_active",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_authenticated",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "new_notification",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "company_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "tenant_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "account_user": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "password",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "UNI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "full_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_admin",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_employee",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_staff",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_superuser",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_active",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "last_login",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "date_joined",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "tenant_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "account_user_groups": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "group_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "account_user_user_permissions": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "permission_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "administration_asign": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "description",
+          "mysqlType": "longtext",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_date",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "assigned_to_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "administration_client": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "client_first_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "client_last_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "client_username",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "UNI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "client_email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "client_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "client_address",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "technology",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "client_phone",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "client_status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "company_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "administration_emailnotification": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "message_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "UNI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "sender_email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "sender_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "subject",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "body_preview",
+          "mysqlType": "longtext",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "received_date",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_read",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "company_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "administration_holiday": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "day",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "date",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "occassion",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "holidaytype",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "company_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "administration_lead": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "lead_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "lead_email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "lead_phone",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "lead_project",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "lead_assign_staff",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "lead_created",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "lead_source",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "company_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "administration_managernotification": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "notifications",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_read",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "administration_mtask": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "title",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "longtext",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_date",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "assigned_to_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "administration_notification": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "notify",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "company_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "administration_task": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "title",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "longtext",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_date",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "assigned_to_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "company_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "auth_group": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "UNI",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "auth_group_permissions": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "group_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "permission_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "auth_permission": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "content_type_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "codename",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "django_admin_log": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "action_time",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "object_id",
+          "mysqlType": "longtext",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "object_repr",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "action_flag",
+          "mysqlType": "smallint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "change_message",
+          "mysqlType": "longtext",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "content_type_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "django_content_type": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "app_label",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "model",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "django_migrations": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "app",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "applied",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "django_session": {
+      "columns": [
+        {
+          "name": "session_key",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "session_data",
+          "mysqlType": "longtext",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "expire_date",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "employee_attendance": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "check_in",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "check_out",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "updated",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "source",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "tenant_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "employee_department": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "department_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "company_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "tenant_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "employee_designation": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "Designation_Name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "Department_Name_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "tenant_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "employee_employee": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "employee_first_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_last_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_joining_date",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_designation",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_phone",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_salary",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_birth_date",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_gender",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_address",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_pin_code",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_state",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_country",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_image",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_created_date",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_tel",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_nationality",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_marital_status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_father",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_mother",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_emergency_primary_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_emergency_primary_relationship",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_emergency_primary_phone1",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_emergency_primary_phone2",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_education_institution",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_education_subject",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_education_starting_date",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_education_complete_date",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_education_degree",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_education_grade",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_experience_company_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_experience_company_location",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_experience_company_job_position",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_experience_company_period_from",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_experience_company_period_to",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_department_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_reports_to_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "UNI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "tenant_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "employee_employeedocument": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "experience_letter",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "offer_letter",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "education_certificate",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "skill_certificate",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "tenant_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "employee_entries": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "title",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "start_time",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "end_time",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_date",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "project",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "activity",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "assigned_to_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "tenant_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "employee_post": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "experience_letter",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "offer_letter",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "education_certificate",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "skill_certificate",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "date_posted",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "tenant_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "leave_balanceleaves": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "balancedays",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "leaves_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "leave_leave": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "startdate",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "enddate",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "leavetype",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "reason",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_approved",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "updated",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "longtext",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "management_invoice": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "client",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "client_email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "billing_address",
+          "mysqlType": "longtext",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "date",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "due_date",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "project",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "total_amount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "company_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "management_lineitem": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "service",
+          "mysqlType": "longtext",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "longtext",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "quantity",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "rate",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "amount",
+          "mysqlType": "decimal",
+          "pgType": "numeric",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "client_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "manager_leave_balanceleave": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "balancedays",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "leaves_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "manager_leave_managerleave": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "startdate",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "enddate",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "leavetype",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "reason",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_approved",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "updated",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "description",
+          "mysqlType": "longtext",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "manager_resign_managerresign": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "startdate",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "reason",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_approved",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "updated",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "manageregularization_mregularization": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "check_in",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "check_out",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "reason",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_approved",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "updated",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "managerpayroll_salary": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "month",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "basic",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "da_percent",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "hra_percent",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "conveyance",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "bonuses",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "allowance",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "medical_allowance",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "tds",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "esi",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "providence_fund",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "leave",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "tax",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "labour_welfare",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "loan_repayment",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "others",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "managers_employeenotification": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "notifications",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_read",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "managers_manager": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "manager_first_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_last_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_joining_date",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_designation",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_id",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_phone",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_salary",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_birth_date",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_gender",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_father",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_mother",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_address",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_pin_code",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_state",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_country",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_image",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_created_date",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_tel",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_nationality",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_religion",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_marital_status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_emergency_primary_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_emergency_primary_relationship",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_emergency_primary_phone1",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_emergency_primary_phone2",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_education_institution",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_education_subject",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_education_starting_date",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_education_complete_date",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_education_degree",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_education_grade",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_experience_company_name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_experience_company_location",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_experience_company_job_position",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_experience_company_period_from",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_experience_company_period_to",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_department_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "UNI",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "managers_managerattendance": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "check_in",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "check_out",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "manager_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "managers_managerentry": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "start_time",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "end_time",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "project",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "activity",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "managers_managerpost": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "experience_letter",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "offer_letter",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "education_certificate",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "skill_certificate",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "date_posted",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "payroll_salary": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "month",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "basic",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "da_percent",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "hra_percent",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "conveyance",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "bonuses",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "allowance",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "medical_allowance",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "tds",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "esi",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "providence_fund",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "leave",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "tax",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "labour_welfare",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "loan_repayment",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "others",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "employee_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "regularization_regularization": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "check_in",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "check_out",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "reason",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_approved",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "updated",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "r_assigned_to_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "resign_resign": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "startdate",
+          "mysqlType": "date",
+          "pgType": "date",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "reason",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "is_approved",
+          "mysqlType": "tinyint",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "updated",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "assigned_too_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "user_id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": true,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    },
+    "tenants": {
+      "columns": [
+        {
+          "name": "id",
+          "mysqlType": "int",
+          "pgType": "integer",
+          "nullable": false,
+          "key": "PRI",
+          "default": null,
+          "extra": "auto_increment"
+        },
+        {
+          "name": "name",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "subdomain",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "UNI",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "sales_email",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "sales_phone",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": true,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "status",
+          "mysqlType": "varchar",
+          "pgType": "text",
+          "nullable": false,
+          "key": "MUL",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "created_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "updated_at",
+          "mysqlType": "datetime",
+          "pgType": "timestamptz",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        },
+        {
+          "name": "settings",
+          "mysqlType": "json",
+          "pgType": "jsonb",
+          "nullable": false,
+          "key": "",
+          "default": null,
+          "extra": ""
+        }
+      ]
+    }
+  }
+}

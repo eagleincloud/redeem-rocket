@@ -51,6 +51,13 @@ export function LocationSelector({
   const [geoLoading, setGeoLoading] = useState(false);
   const [geoError, setGeoError] = useState('');
 
+  // When switching back to map tab, tell Leaflet to recalculate size
+  useEffect(() => {
+    if (activeTab === 'map' && map.current) {
+      setTimeout(() => map.current?.invalidateSize(), 50);
+    }
+  }, [activeTab]);
+
   // Initialize Leaflet map
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
@@ -280,15 +287,13 @@ export function LocationSelector({
         </button>
       </div>
 
-      {/* Map Tab */}
-      {activeTab === 'map' && (
-        <div style={{ marginBottom: 16 }}>
-          <div ref={mapContainer} style={{ height: 300, borderRadius: 8, overflow: 'hidden', marginBottom: 12 }} />
-          <div style={{ fontSize: 12, color: isDark ? '#94a3b8' : '#9a7860' }}>
-            Click or drag the pin to select location
-          </div>
+      {/* Map Tab — always rendered, hidden via CSS when not active so Leaflet stays mounted */}
+      <div style={{ display: activeTab === 'map' ? 'block' : 'none', marginBottom: 16 }}>
+        <div ref={mapContainer} style={{ height: 300, borderRadius: 8, overflow: 'hidden', marginBottom: 12 }} />
+        <div style={{ fontSize: 12, color: isDark ? '#94a3b8' : '#9a7860' }}>
+          Click or drag the pin to select location
         </div>
-      )}
+      </div>
 
       {/* Search Tab */}
       {activeTab === 'search' && (

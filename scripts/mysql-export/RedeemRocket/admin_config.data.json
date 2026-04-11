@@ -1,0 +1,30 @@
+[
+  {
+    "id": "a1e5d143-01b0-11f1-bdce-16ffec586c95",
+    "config_key": "minimum_bid_fee",
+    "config_value": "50.00",
+    "created_at": "2026-02-04T04:32:36.000Z",
+    "updated_at": "2026-02-04T04:32:36.000Z"
+  },
+  {
+    "id": "a1e665a5-01b0-11f1-bdce-16ffec586c95",
+    "config_key": "auction_payment_percent",
+    "config_value": "5.00",
+    "created_at": "2026-02-04T04:32:36.000Z",
+    "updated_at": "2026-02-04T04:32:36.000Z"
+  },
+  {
+    "id": "a1e6817b-01b0-11f1-bdce-16ffec586c95",
+    "config_key": "platform_fee_percent",
+    "config_value": "10.00",
+    "created_at": "2026-02-04T04:32:36.000Z",
+    "updated_at": "2026-02-04T04:32:36.000Z"
+  },
+  {
+    "id": "a1e6839d-01b0-11f1-bdce-16ffec586c95",
+    "config_key": "settlement_cycle",
+    "config_value": "daily",
+    "created_at": "2026-02-04T04:32:36.000Z",
+    "updated_at": "2026-02-04T04:32:36.000Z"
+  }
+]

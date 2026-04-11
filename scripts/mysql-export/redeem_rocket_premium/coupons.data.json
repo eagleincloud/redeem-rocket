@@ -1,0 +1,102 @@
+[
+  {
+    "id": "75c9ca89-7dac-11f0-b52c-16482aec3087",
+    "merchant_id": null,
+    "business_id": null,
+    "title": "50% Off Large Pizza",
+    "description": "Get 50% discount on any large pizza",
+    "discount_type": "percentage",
+    "discount_value": "50.00",
+    "minimum_amount": "0.00",
+    "maximum_discount": null,
+    "total_quantity": 100,
+    "used_quantity": 0,
+    "valid_from": "2025-08-20T04:30:11.000Z",
+    "valid_until": "2025-12-31T18:29:59.000Z",
+    "terms_conditions": null,
+    "coupon_code": "PIZZA50",
+    "status": "active",
+    "target_subscription": [
+      "free",
+      "pro",
+      "premium"
+    ],
+    "created_by": null,
+    "created_at": "2025-08-20T04:30:11.000Z"
+  },
+  {
+    "id": "75c9d135-7dac-11f0-b52c-16482aec3087",
+    "merchant_id": null,
+    "business_id": null,
+    "title": "Buy 2 Get 1 Free",
+    "description": "Buy any 2 items and get 1 free",
+    "discount_type": "bogo",
+    "discount_value": "33.33",
+    "minimum_amount": "0.00",
+    "maximum_discount": null,
+    "total_quantity": 50,
+    "used_quantity": 0,
+    "valid_from": "2025-08-20T04:30:11.000Z",
+    "valid_until": "2025-11-30T18:29:59.000Z",
+    "terms_conditions": null,
+    "coupon_code": "FASHION33",
+    "status": "active",
+    "target_subscription": [
+      "free",
+      "pro",
+      "premium"
+    ],
+    "created_by": null,
+    "created_at": "2025-08-20T04:30:11.000Z"
+  },
+  {
+    "id": "75c9d42e-7dac-11f0-b52c-16482aec3087",
+    "merchant_id": null,
+    "business_id": null,
+    "title": "Spa Package Deal",
+    "description": "40% off on spa package treatments",
+    "discount_type": "percentage",
+    "discount_value": "40.00",
+    "minimum_amount": "0.00",
+    "maximum_discount": null,
+    "total_quantity": 25,
+    "used_quantity": 0,
+    "valid_from": "2025-08-20T04:30:11.000Z",
+    "valid_until": "2025-10-31T18:29:59.000Z",
+    "terms_conditions": null,
+    "coupon_code": "SPA40",
+    "status": "active",
+    "target_subscription": [
+      "free",
+      "pro",
+      "premium"
+    ],
+    "created_by": null,
+    "created_at": "2025-08-20T04:30:11.000Z"
+  },
+  {
+    "id": "75c9d62a-7dac-11f0-b52c-16482aec3087",
+    "merchant_id": null,
+    "business_id": null,
+    "title": "Electronics Discount",
+    "description": "Fixed ₹500 off on electronics above ₹2000",
+    "discount_type": "fixed",
+    "discount_value": "500.00",
+    "minimum_amount": "0.00",
+    "maximum_discount": null,
+    "total_quantity": 75,
+    "used_quantity": 0,
+    "valid_from": "2025-08-20T04:30:11.000Z",
+    "valid_until": "2025-12-15T18:29:59.000Z",
+    "terms_conditions": null,
+    "coupon_code": "TECH500",
+    "status": "active",
+    "target_subscription": [
+      "free",
+      "pro",
+      "premium"
+    ],
+    "created_by": null,
+    "created_at": "2025-08-20T04:30:11.000Z"
+  }
+]

@@ -4,7 +4,7 @@ import { useTheme } from '@/app/context/ThemeContext';
 import { useBusinessContext } from '../context/BusinessContext';
 import { LocationSelector } from './LocationSelector';
 import { DocumentUploader } from './DocumentUploader';
-import { ArrowRight, ArrowLeft, Check, MapPin, Clock, Image, CreditCard, Store, Users, FileText, Globe } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, MapPin, Clock, Image, CreditCard, Store, Users, FileText, Globe, Layers } from 'lucide-react';
 import { registerBusiness, upsertBusinessHours, markScrapedBizClaimed } from '@/app/api/supabase-data';
 import { supabase as _supabase, hasSupabase } from '@/app/lib/supabase';
 
@@ -83,7 +83,10 @@ export function BusinessOnboarding() {
     linkedin: '',
   });
 
-  // Step 7: Team & Plan
+  // Step 1: Product Selection
+  const [productSelection, setProductSelection] = useState<'rr' | 'lms' | 'both'>('both');
+
+  // Step 8: Team & Plan
   const [teamMembers, setTeamMembers] = useState([
     { name: '', email: '', role: 'staff' as const, password: '' }
   ]);
@@ -115,6 +118,7 @@ export function BusinessOnboarding() {
 
   const STEPS = [
     { label: 'Description', icon: Store },
+    { label: 'Product Selection', icon: Layers },
     { label: 'Location', icon: MapPin },
     { label: 'Service Area', icon: Globe },
     { label: 'Hours', icon: Clock },
@@ -193,6 +197,7 @@ export function BusinessOnboarding() {
       plan,
       planExpiry,
       onboarding_done: true,
+      product_selection: productSelection,
     };
     setBizUser(updatedUser);
 
@@ -288,32 +293,94 @@ export function BusinessOnboarding() {
                 />
               </div>
               <button onClick={() => setStep(1)} style={{ width: '100%', padding: 12, background: accent, color: 'white', border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>
-                Next: Location
+                Next: Product Selection
               </button>
             </div>
           )}
 
-          {/* Step 1: Location */}
+          {/* Step 1: Product Selection */}
           {step === 1 && (
+            <div>
+              <h2 style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 8 }}>Choose your product</h2>
+              <p style={{ fontSize: 13, color: '#94a3b8', marginBottom: 24 }}>Select the modules you want to activate for your business.</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 24 }}>
+                {[
+                  {
+                    id: 'rr' as const,
+                    title: 'Redeem Rocket (RR)',
+                    icon: '🚀',
+                    description: 'Orders, Products, Offers, Auctions, Invoices & Wallet',
+                    color: '#f97316',
+                  },
+                  {
+                    id: 'lms' as const,
+                    title: 'LMS (Leads & CRM)',
+                    icon: '🎯',
+                    description: 'Leads, Requirements, Campaigns, Outreach & Analytics',
+                    color: '#3b82f6',
+                  },
+                  {
+                    id: 'both' as const,
+                    title: 'Both — Full Access',
+                    icon: '⚡',
+                    description: 'Everything in Redeem Rocket + LMS combined',
+                    color: '#22c55e',
+                  },
+                ].map((option) => (
+                  <div
+                    key={option.id}
+                    onClick={() => setProductSelection(option.id)}
+                    style={{
+                      padding: 20,
+                      borderRadius: 14,
+                      border: `2px solid ${productSelection === option.id ? option.color : border}`,
+                      background: productSelection === option.id ? `${option.color}18` : 'transparent',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 16,
+                    }}
+                  >
+                    <div style={{ fontSize: 32, lineHeight: 1 }}>{option.icon}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: productSelection === option.id ? option.color : text, marginBottom: 4 }}>{option.title}</div>
+                      <div style={{ fontSize: 12, color: textMuted }}>{option.description}</div>
+                    </div>
+                    {productSelection === option.id && (
+                      <Check style={{ width: 20, height: 20, color: option.color, flexShrink: 0 }} />
+                    )}
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: 'flex', gap: 12 }}>
+                <button onClick={() => setStep(0)} style={{ flex: 1, padding: 12, background: 'transparent', color: accent, border: `1.5px solid ${accent}`, borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Back</button>
+                <button onClick={() => setStep(2)} style={{ flex: 1, padding: 12, background: accent, color: 'white', border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Next: Location</button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 2: Location */}
+          {step === 2 && (
             <div>
               <h2 style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 20 }}>Where is your business?</h2>
               <LocationSelector
                 onLocationSelected={(loc) => {
                   setLocationData(loc);
-                  setStep(2);
+                  setStep(3);
                 }}
                 initialLat={locationData.lat}
                 initialLng={locationData.lng}
                 initialAddress={locationData.address}
               />
-              <button onClick={() => setStep(0)} style={{ width: '100%', padding: 12, background: 'transparent', color: accent, border: `1.5px solid ${accent}`, borderRadius: 10, cursor: 'pointer', fontWeight: 600, marginTop: 16 }}>
+              <button onClick={() => setStep(1)} style={{ width: '100%', padding: 12, background: 'transparent', color: accent, border: `1.5px solid ${accent}`, borderRadius: 10, cursor: 'pointer', fontWeight: 600, marginTop: 16 }}>
                 Back
               </button>
             </div>
           )}
 
-          {/* Step 2: Service Coverage */}
-          {step === 2 && (
+          {/* Step 3: Service Coverage */}
+          {step === 3 && (
             <div>
               <h2 style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 20 }}>What's your service coverage?</h2>
 
@@ -350,14 +417,14 @@ export function BusinessOnboarding() {
               </div>
 
               <div style={{ display: 'flex', gap: 12 }}>
-                <button onClick={() => setStep(1)} style={{ flex: 1, padding: 12, background: 'transparent', color: accent, border: `1.5px solid ${accent}`, borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Back</button>
-                <button onClick={() => setStep(3)} style={{ flex: 1, padding: 12, background: accent, color: 'white', border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Next</button>
+                <button onClick={() => setStep(2)} style={{ flex: 1, padding: 12, background: 'transparent', color: accent, border: `1.5px solid ${accent}`, borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Back</button>
+                <button onClick={() => setStep(4)} style={{ flex: 1, padding: 12, background: accent, color: 'white', border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Next</button>
               </div>
             </div>
           )}
 
-          {/* Step 3: Hours */}
-          {step === 3 && (
+          {/* Step 4: Hours */}
+          {step === 4 && (
             <div>
               <h2 style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 20 }}>Business Hours</h2>
               {hours.map((h, i) => (
@@ -376,14 +443,14 @@ export function BusinessOnboarding() {
                 </div>
               ))}
               <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
-                <button onClick={() => setStep(2)} style={{ flex: 1, padding: 12, background: 'transparent', color: accent, border: `1.5px solid ${accent}`, borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Back</button>
-                <button onClick={() => setStep(4)} style={{ flex: 1, padding: 12, background: accent, color: 'white', border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Next</button>
+                <button onClick={() => setStep(3)} style={{ flex: 1, padding: 12, background: 'transparent', color: accent, border: `1.5px solid ${accent}`, borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Back</button>
+                <button onClick={() => setStep(5)} style={{ flex: 1, padding: 12, background: accent, color: 'white', border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Next</button>
               </div>
             </div>
           )}
 
-          {/* Step 4: Photos */}
-          {step === 4 && (
+          {/* Step 5: Photos */}
+          {step === 5 && (
             <div>
               <h2 style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 20 }}>Upload Photos</h2>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
@@ -397,25 +464,25 @@ export function BusinessOnboarding() {
                 ))}
               </div>
               <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
-                <button onClick={() => setStep(3)} style={{ flex: 1, padding: 12, background: 'transparent', color: accent, border: `1.5px solid ${accent}`, borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Back</button>
-                <button onClick={() => setStep(5)} style={{ flex: 1, padding: 12, background: accent, color: 'white', border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Next</button>
-              </div>
-            </div>
-          )}
-
-          {/* Step 5: Documents */}
-          {step === 5 && (
-            <div>
-              <DocumentUploader onDocumentsUpdated={setDocuments} documents={documents} />
-              <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
                 <button onClick={() => setStep(4)} style={{ flex: 1, padding: 12, background: 'transparent', color: accent, border: `1.5px solid ${accent}`, borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Back</button>
                 <button onClick={() => setStep(6)} style={{ flex: 1, padding: 12, background: accent, color: 'white', border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Next</button>
               </div>
             </div>
           )}
 
-          {/* Step 6: Website & Links */}
+          {/* Step 6: Documents */}
           {step === 6 && (
+            <div>
+              <DocumentUploader onDocumentsUpdated={setDocuments} documents={documents} />
+              <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
+                <button onClick={() => setStep(5)} style={{ flex: 1, padding: 12, background: 'transparent', color: accent, border: `1.5px solid ${accent}`, borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Back</button>
+                <button onClick={() => setStep(7)} style={{ flex: 1, padding: 12, background: accent, color: 'white', border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Next</button>
+              </div>
+            </div>
+          )}
+
+          {/* Step 7: Website & Links */}
+          {step === 7 && (
             <div>
               <h2 style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 20 }}>Website & Social Links</h2>
               <div style={{ marginBottom: 16 }}>
@@ -431,14 +498,14 @@ export function BusinessOnboarding() {
                 ))}
               </div>
               <div style={{ display: 'flex', gap: 12, marginTop: 20 }}>
-                <button onClick={() => setStep(5)} style={{ flex: 1, padding: 12, background: 'transparent', color: accent, border: `1.5px solid ${accent}`, borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Back</button>
-                <button onClick={() => setStep(7)} style={{ flex: 1, padding: 12, background: accent, color: 'white', border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Next</button>
+                <button onClick={() => setStep(6)} style={{ flex: 1, padding: 12, background: 'transparent', color: accent, border: `1.5px solid ${accent}`, borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Back</button>
+                <button onClick={() => setStep(8)} style={{ flex: 1, padding: 12, background: accent, color: 'white', border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Next</button>
               </div>
             </div>
           )}
 
-          {/* Step 7: Team & Plan */}
-          {step === 7 && (
+          {/* Step 8: Team & Plan */}
+          {step === 8 && (
             <div>
               <h2 style={{ fontSize: 18, fontWeight: 700, color: '#fff', marginBottom: 20 }}>Team & Subscription Plan</h2>
 
@@ -467,7 +534,7 @@ export function BusinessOnboarding() {
               </div>
 
               <div style={{ display: 'flex', gap: 12 }}>
-                <button onClick={() => setStep(6)} style={{ flex: 1, padding: 12, background: 'transparent', color: accent, border: `1.5px solid ${accent}`, borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Back</button>
+                <button onClick={() => setStep(7)} style={{ flex: 1, padding: 12, background: 'transparent', color: accent, border: `1.5px solid ${accent}`, borderRadius: 10, cursor: 'pointer', fontWeight: 600 }}>Back</button>
                 <button onClick={finish} disabled={finishing} style={{ flex: 1, padding: 12, background: accent, color: 'white', border: 'none', borderRadius: 10, cursor: finishing ? 'not-allowed' : 'pointer', fontWeight: 600, opacity: finishing ? 0.7 : 1 }}>
                   {finishing ? 'Finishing...' : 'Complete Setup'}
                 </button>

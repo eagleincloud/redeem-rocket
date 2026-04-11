@@ -1,0 +1,228 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+/* MapLibre popups for business markers */
+.maplibregl-popup {
+  max-width: 200px;
+}
+
+/* Single business marker: icon + offer count */
+.biz-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  border: 2px solid #eab308;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  padding: 2px;
+}
+.biz-marker-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+.biz-marker-offer {
+  font-size: 10px;
+  font-weight: 600;
+  color: #b45309;
+  margin-top: 0;
+}
+
+/* Cluster marker: multiple type icons + count */
+.cluster-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 50%;
+  padding: 8px;
+  min-width: 50px;
+  min-height: 50px;
+  cursor: pointer;
+  border: 2px solid #eab308;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+.cluster-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  line-height: 1;
+}
+.cluster-icon-emoji {
+  display: inline-block;
+}
+.cluster-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: #374151;
+  margin-top: 4px;
+}
+
+/* Leaflet business markers (divIcon) – icon only, no circle */
+.biz-marker-leaflet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  box-shadow: none;
+  padding: 0;
+}
+.biz-marker-leaflet .biz-marker-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+.biz-marker-leaflet .biz-marker-offer {
+  font-size: 9px;
+  font-weight: 600;
+  color: #b45309;
+}
+.biz-marker-leaflet .biz-marker-header {
+  order: -1;
+  margin-bottom: 0;
+  line-height: 1;
+}
+.biz-div-icon {
+  background: transparent !important;
+  border: none !important;
+}
+.biz-marker-selected {
+  width: auto !important;
+  height: auto !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+.biz-marker-selected .biz-marker-icon {
+  font-size: 28px !important;
+  filter: drop-shadow(0 0 3px rgba(59, 130, 246, 0.8));
+}
+.biz-marker-name {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  color: #1e293b;
+  max-width: 88px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.2;
+  margin-bottom: 2px;
+  text-align: center;
+}
+.current-location-leaflet-pin {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Keep map at the back so overlays (route bar, popups, FAB, offers) stay on top */
+.leaflet-container {
+  z-index: 0 !important;
+}
+
+/* When one business is selected, map is frozen - no grab cursor */
+[data-map-frozen='true'] .leaflet-container {
+  cursor: default !important;
+}
+[data-map-frozen='true'] .leaflet-grab {
+  cursor: default !important;
+}
+[data-map-frozen='true'] .leaflet-dragging {
+  cursor: default !important;
+}
+
+/* Custom cluster: business icons + offer count (override default circle) */
+.marker-cluster:has(.cluster-custom-div) {
+  background: transparent !important;
+}
+.marker-cluster:has(.cluster-custom-div) div {
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+.cluster-custom-div {
+  background: transparent !important;
+  border: none !important;
+}
+.cluster-biz-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+.cluster-biz-wrap .cluster-offer-count {
+  font-size: 10px;
+  font-weight: 700;
+  color: #b45309;
+  line-height: 1;
+  margin-bottom: 1px;
+}
+.cluster-biz-wrap .cluster-biz-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  line-height: 1;
+}
+.cluster-biz-wrap .cluster-ico {
+  display: inline-block;
+}
+
+/* Route label on the map (distance, time, Clear) */
+.route-label-div-icon {
+  background: transparent !important;
+  border: none !important;
+  pointer-events: auto !important;
+}
+.route-label-on-map {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 10px;
+  background: rgba(30, 41, 59, 0.95);
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+}
+.route-label-on-map .route-label-stats {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+.route-label-on-map .route-label-clear {
+  font-size: 11px;
+  font-weight: 500;
+  color: #94a3b8;
+  background: rgba(71, 85, 105, 0.8);
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  pointer-events: auto;
+}
+.route-label-on-map .route-label-clear:hover {
+  background: rgba(100, 116, 139, 0.9);
+  color: #fff;
+}

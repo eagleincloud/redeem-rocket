@@ -1,0 +1,50 @@
+[
+  {
+    "id": "062a89ec-671a-4c6a-8b57-a8cf0beb9b68",
+    "name": "Grocer Fresh",
+    "type": "store",
+    "description": "Organic vegetables",
+    "image": null,
+    "lat": "0.00000000",
+    "lng": "0.00000000",
+    "address": null,
+    "phone": null,
+    "email": null,
+    "rating": "4.80",
+    "is_active": 1,
+    "created_at": "2026-02-04T04:39:28.000Z",
+    "updated_at": "2026-02-04T04:39:28.000Z"
+  },
+  {
+    "id": "849b6611-6c8e-42a0-acc6-972f45a3c6fe",
+    "name": "Electronics Hub",
+    "type": "store",
+    "description": "High-end electronics",
+    "image": null,
+    "lat": "0.00000000",
+    "lng": "0.00000000",
+    "address": null,
+    "phone": null,
+    "email": null,
+    "rating": "4.50",
+    "is_active": 1,
+    "created_at": "2026-02-04T04:39:28.000Z",
+    "updated_at": "2026-02-04T04:39:28.000Z"
+  },
+  {
+    "id": "a5c0afb2-b77c-4d07-9c30-42877603dffa",
+    "name": "Fashion Elite",
+    "type": "store",
+    "description": "Luxury clothing",
+    "image": null,
+    "lat": "0.00000000",
+    "lng": "0.00000000",
+    "address": null,
+    "phone": null,
+    "email": null,
+    "rating": "4.20",
+    "is_active": 1,
+    "created_at": "2026-02-04T04:39:28.000Z",
+    "updated_at": "2026-02-04T04:39:28.000Z"
+  }
+]

@@ -1,0 +1,8 @@
+Fetching businesses (id, name, category, subcategory, business_type)...
+Found 1000 businesses. DRY_RUN= false
+Processed 200 / 1000
+Processed 400 / 1000
+Processed 600 / 1000
+Processed 800 / 1000
+Processed 1000 / 1000
+Done. Updated: 0 Failed: 0

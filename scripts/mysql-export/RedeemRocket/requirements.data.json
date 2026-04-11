@@ -1,0 +1,15 @@
+[
+  {
+    "id": "a4deb532-058d-44cf-b8c0-09cad7fd16d2",
+    "user_id": "a0173cea-7462-446e-87c7-9bde522c5343",
+    "title": "Bulk order for office supplies",
+    "description": "burger quantity 20",
+    "category": "Food",
+    "budget": "10000.00",
+    "location": "{\"lat\":22.7196,\"lng\":75.8577}",
+    "platform_fee": "1000.00",
+    "status": "open",
+    "created_at": "2026-02-05T02:48:05.000Z",
+    "updated_at": "2026-02-05T02:48:05.000Z"
+  }
+]

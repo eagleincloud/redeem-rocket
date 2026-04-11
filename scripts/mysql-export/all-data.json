@@ -1,0 +1,1353 @@
+{
+  "account_company": [],
+  "account_companystaff": [],
+  "account_user": [],
+  "account_user_groups": [],
+  "account_user_user_permissions": [],
+  "administration_asign": [],
+  "administration_client": [],
+  "administration_emailnotification": [],
+  "administration_holiday": [],
+  "administration_lead": [],
+  "administration_managernotification": [],
+  "administration_mtask": [],
+  "administration_notification": [],
+  "administration_task": [],
+  "auth_group": [],
+  "auth_group_permissions": [],
+  "auth_permission": [
+    {
+      "id": 1,
+      "name": "Can add permission",
+      "content_type_id": 1,
+      "codename": "add_permission"
+    },
+    {
+      "id": 2,
+      "name": "Can change permission",
+      "content_type_id": 1,
+      "codename": "change_permission"
+    },
+    {
+      "id": 3,
+      "name": "Can delete permission",
+      "content_type_id": 1,
+      "codename": "delete_permission"
+    },
+    {
+      "id": 4,
+      "name": "Can view permission",
+      "content_type_id": 1,
+      "codename": "view_permission"
+    },
+    {
+      "id": 5,
+      "name": "Can add group",
+      "content_type_id": 2,
+      "codename": "add_group"
+    },
+    {
+      "id": 6,
+      "name": "Can change group",
+      "content_type_id": 2,
+      "codename": "change_group"
+    },
+    {
+      "id": 7,
+      "name": "Can delete group",
+      "content_type_id": 2,
+      "codename": "delete_group"
+    },
+    {
+      "id": 8,
+      "name": "Can view group",
+      "content_type_id": 2,
+      "codename": "view_group"
+    },
+    {
+      "id": 9,
+      "name": "Can add content type",
+      "content_type_id": 3,
+      "codename": "add_contenttype"
+    },
+    {
+      "id": 10,
+      "name": "Can change content type",
+      "content_type_id": 3,
+      "codename": "change_contenttype"
+    },
+    {
+      "id": 11,
+      "name": "Can delete content type",
+      "content_type_id": 3,
+      "codename": "delete_contenttype"
+    },
+    {
+      "id": 12,
+      "name": "Can view content type",
+      "content_type_id": 3,
+      "codename": "view_contenttype"
+    },
+    {
+      "id": 13,
+      "name": "Can add company",
+      "content_type_id": 4,
+      "codename": "add_company"
+    },
+    {
+      "id": 14,
+      "name": "Can change company",
+      "content_type_id": 4,
+      "codename": "change_company"
+    },
+    {
+      "id": 15,
+      "name": "Can delete company",
+      "content_type_id": 4,
+      "codename": "delete_company"
+    },
+    {
+      "id": 16,
+      "name": "Can view company",
+      "content_type_id": 4,
+      "codename": "view_company"
+    },
+    {
+      "id": 17,
+      "name": "Can add user",
+      "content_type_id": 5,
+      "codename": "add_user"
+    },
+    {
+      "id": 18,
+      "name": "Can change user",
+      "content_type_id": 5,
+      "codename": "change_user"
+    },
+    {
+      "id": 19,
+      "name": "Can delete user",
+      "content_type_id": 5,
+      "codename": "delete_user"
+    },
+    {
+      "id": 20,
+      "name": "Can view user",
+      "content_type_id": 5,
+      "codename": "view_user"
+    },
+    {
+      "id": 21,
+      "name": "Can add company staff",
+      "content_type_id": 6,
+      "codename": "add_companystaff"
+    },
+    {
+      "id": 22,
+      "name": "Can change company staff",
+      "content_type_id": 6,
+      "codename": "change_companystaff"
+    },
+    {
+      "id": 23,
+      "name": "Can delete company staff",
+      "content_type_id": 6,
+      "codename": "delete_companystaff"
+    },
+    {
+      "id": 24,
+      "name": "Can view company staff",
+      "content_type_id": 6,
+      "codename": "view_companystaff"
+    },
+    {
+      "id": 25,
+      "name": "Can add Tenant",
+      "content_type_id": 7,
+      "codename": "add_tenant"
+    },
+    {
+      "id": 26,
+      "name": "Can change Tenant",
+      "content_type_id": 7,
+      "codename": "change_tenant"
+    },
+    {
+      "id": 27,
+      "name": "Can delete Tenant",
+      "content_type_id": 7,
+      "codename": "delete_tenant"
+    },
+    {
+      "id": 28,
+      "name": "Can view Tenant",
+      "content_type_id": 7,
+      "codename": "view_tenant"
+    },
+    {
+      "id": 29,
+      "name": "Can add log entry",
+      "content_type_id": 8,
+      "codename": "add_logentry"
+    },
+    {
+      "id": 30,
+      "name": "Can change log entry",
+      "content_type_id": 8,
+      "codename": "change_logentry"
+    },
+    {
+      "id": 31,
+      "name": "Can delete log entry",
+      "content_type_id": 8,
+      "codename": "delete_logentry"
+    },
+    {
+      "id": 32,
+      "name": "Can view log entry",
+      "content_type_id": 8,
+      "codename": "view_logentry"
+    },
+    {
+      "id": 33,
+      "name": "Can add session",
+      "content_type_id": 9,
+      "codename": "add_session"
+    },
+    {
+      "id": 34,
+      "name": "Can change session",
+      "content_type_id": 9,
+      "codename": "change_session"
+    },
+    {
+      "id": 35,
+      "name": "Can delete session",
+      "content_type_id": 9,
+      "codename": "delete_session"
+    },
+    {
+      "id": 36,
+      "name": "Can view session",
+      "content_type_id": 9,
+      "codename": "view_session"
+    },
+    {
+      "id": 37,
+      "name": "Can add asign",
+      "content_type_id": 10,
+      "codename": "add_asign"
+    },
+    {
+      "id": 38,
+      "name": "Can change asign",
+      "content_type_id": 10,
+      "codename": "change_asign"
+    },
+    {
+      "id": 39,
+      "name": "Can delete asign",
+      "content_type_id": 10,
+      "codename": "delete_asign"
+    },
+    {
+      "id": 40,
+      "name": "Can view asign",
+      "content_type_id": 10,
+      "codename": "view_asign"
+    },
+    {
+      "id": 41,
+      "name": "Can add client",
+      "content_type_id": 11,
+      "codename": "add_client"
+    },
+    {
+      "id": 42,
+      "name": "Can change client",
+      "content_type_id": 11,
+      "codename": "change_client"
+    },
+    {
+      "id": 43,
+      "name": "Can delete client",
+      "content_type_id": 11,
+      "codename": "delete_client"
+    },
+    {
+      "id": 44,
+      "name": "Can view client",
+      "content_type_id": 11,
+      "codename": "view_client"
+    },
+    {
+      "id": 45,
+      "name": "Can add holiday",
+      "content_type_id": 12,
+      "codename": "add_holiday"
+    },
+    {
+      "id": 46,
+      "name": "Can change holiday",
+      "content_type_id": 12,
+      "codename": "change_holiday"
+    },
+    {
+      "id": 47,
+      "name": "Can delete holiday",
+      "content_type_id": 12,
+      "codename": "delete_holiday"
+    },
+    {
+      "id": 48,
+      "name": "Can view holiday",
+      "content_type_id": 12,
+      "codename": "view_holiday"
+    },
+    {
+      "id": 49,
+      "name": "Can add lead",
+      "content_type_id": 13,
+      "codename": "add_lead"
+    },
+    {
+      "id": 50,
+      "name": "Can change lead",
+      "content_type_id": 13,
+      "codename": "change_lead"
+    },
+    {
+      "id": 51,
+      "name": "Can delete lead",
+      "content_type_id": 13,
+      "codename": "delete_lead"
+    },
+    {
+      "id": 52,
+      "name": "Can view lead",
+      "content_type_id": 13,
+      "codename": "view_lead"
+    },
+    {
+      "id": 53,
+      "name": "Can add manager notification",
+      "content_type_id": 14,
+      "codename": "add_managernotification"
+    },
+    {
+      "id": 54,
+      "name": "Can change manager notification",
+      "content_type_id": 14,
+      "codename": "change_managernotification"
+    },
+    {
+      "id": 55,
+      "name": "Can delete manager notification",
+      "content_type_id": 14,
+      "codename": "delete_managernotification"
+    },
+    {
+      "id": 56,
+      "name": "Can view manager notification",
+      "content_type_id": 14,
+      "codename": "view_managernotification"
+    },
+    {
+      "id": 57,
+      "name": "Can add m task",
+      "content_type_id": 15,
+      "codename": "add_mtask"
+    },
+    {
+      "id": 58,
+      "name": "Can change m task",
+      "content_type_id": 15,
+      "codename": "change_mtask"
+    },
+    {
+      "id": 59,
+      "name": "Can delete m task",
+      "content_type_id": 15,
+      "codename": "delete_mtask"
+    },
+    {
+      "id": 60,
+      "name": "Can view m task",
+      "content_type_id": 15,
+      "codename": "view_mtask"
+    },
+    {
+      "id": 61,
+      "name": "Can add notification",
+      "content_type_id": 16,
+      "codename": "add_notification"
+    },
+    {
+      "id": 62,
+      "name": "Can change notification",
+      "content_type_id": 16,
+      "codename": "change_notification"
+    },
+    {
+      "id": 63,
+      "name": "Can delete notification",
+      "content_type_id": 16,
+      "codename": "delete_notification"
+    },
+    {
+      "id": 64,
+      "name": "Can view notification",
+      "content_type_id": 16,
+      "codename": "view_notification"
+    },
+    {
+      "id": 65,
+      "name": "Can add task",
+      "content_type_id": 17,
+      "codename": "add_task"
+    },
+    {
+      "id": 66,
+      "name": "Can change task",
+      "content_type_id": 17,
+      "codename": "change_task"
+    },
+    {
+      "id": 67,
+      "name": "Can delete task",
+      "content_type_id": 17,
+      "codename": "delete_task"
+    },
+    {
+      "id": 68,
+      "name": "Can view task",
+      "content_type_id": 17,
+      "codename": "view_task"
+    },
+    {
+      "id": 69,
+      "name": "Can add email notification",
+      "content_type_id": 18,
+      "codename": "add_emailnotification"
+    },
+    {
+      "id": 70,
+      "name": "Can change email notification",
+      "content_type_id": 18,
+      "codename": "change_emailnotification"
+    },
+    {
+      "id": 71,
+      "name": "Can delete email notification",
+      "content_type_id": 18,
+      "codename": "delete_emailnotification"
+    },
+    {
+      "id": 72,
+      "name": "Can view email notification",
+      "content_type_id": 18,
+      "codename": "view_emailnotification"
+    },
+    {
+      "id": 73,
+      "name": "Can add invoice",
+      "content_type_id": 19,
+      "codename": "add_invoice"
+    },
+    {
+      "id": 74,
+      "name": "Can change invoice",
+      "content_type_id": 19,
+      "codename": "change_invoice"
+    },
+    {
+      "id": 75,
+      "name": "Can delete invoice",
+      "content_type_id": 19,
+      "codename": "delete_invoice"
+    },
+    {
+      "id": 76,
+      "name": "Can view invoice",
+      "content_type_id": 19,
+      "codename": "view_invoice"
+    },
+    {
+      "id": 77,
+      "name": "Can add line item",
+      "content_type_id": 20,
+      "codename": "add_lineitem"
+    },
+    {
+      "id": 78,
+      "name": "Can change line item",
+      "content_type_id": 20,
+      "codename": "change_lineitem"
+    },
+    {
+      "id": 79,
+      "name": "Can delete line item",
+      "content_type_id": 20,
+      "codename": "delete_lineitem"
+    },
+    {
+      "id": 80,
+      "name": "Can view line item",
+      "content_type_id": 20,
+      "codename": "view_lineitem"
+    },
+    {
+      "id": 81,
+      "name": "Can add attendance",
+      "content_type_id": 21,
+      "codename": "add_attendance"
+    },
+    {
+      "id": 82,
+      "name": "Can change attendance",
+      "content_type_id": 21,
+      "codename": "change_attendance"
+    },
+    {
+      "id": 83,
+      "name": "Can delete attendance",
+      "content_type_id": 21,
+      "codename": "delete_attendance"
+    },
+    {
+      "id": 84,
+      "name": "Can view attendance",
+      "content_type_id": 21,
+      "codename": "view_attendance"
+    },
+    {
+      "id": 85,
+      "name": "Can add entries",
+      "content_type_id": 22,
+      "codename": "add_entries"
+    },
+    {
+      "id": 86,
+      "name": "Can change entries",
+      "content_type_id": 22,
+      "codename": "change_entries"
+    },
+    {
+      "id": 87,
+      "name": "Can delete entries",
+      "content_type_id": 22,
+      "codename": "delete_entries"
+    },
+    {
+      "id": 88,
+      "name": "Can view entries",
+      "content_type_id": 22,
+      "codename": "view_entries"
+    },
+    {
+      "id": 89,
+      "name": "Can add Post",
+      "content_type_id": 23,
+      "codename": "add_post"
+    },
+    {
+      "id": 90,
+      "name": "Can change Post",
+      "content_type_id": 23,
+      "codename": "change_post"
+    },
+    {
+      "id": 91,
+      "name": "Can delete Post",
+      "content_type_id": 23,
+      "codename": "delete_post"
+    },
+    {
+      "id": 92,
+      "name": "Can view Post",
+      "content_type_id": 23,
+      "codename": "view_post"
+    },
+    {
+      "id": 93,
+      "name": "Can add department",
+      "content_type_id": 24,
+      "codename": "add_department"
+    },
+    {
+      "id": 94,
+      "name": "Can change department",
+      "content_type_id": 24,
+      "codename": "change_department"
+    },
+    {
+      "id": 95,
+      "name": "Can delete department",
+      "content_type_id": 24,
+      "codename": "delete_department"
+    },
+    {
+      "id": 96,
+      "name": "Can view department",
+      "content_type_id": 24,
+      "codename": "view_department"
+    },
+    {
+      "id": 97,
+      "name": "Can add designation",
+      "content_type_id": 25,
+      "codename": "add_designation"
+    },
+    {
+      "id": 98,
+      "name": "Can change designation",
+      "content_type_id": 25,
+      "codename": "change_designation"
+    },
+    {
+      "id": 99,
+      "name": "Can delete designation",
+      "content_type_id": 25,
+      "codename": "delete_designation"
+    },
+    {
+      "id": 100,
+      "name": "Can view designation",
+      "content_type_id": 25,
+      "codename": "view_designation"
+    },
+    {
+      "id": 101,
+      "name": "Can add employee",
+      "content_type_id": 26,
+      "codename": "add_employee"
+    },
+    {
+      "id": 102,
+      "name": "Can change employee",
+      "content_type_id": 26,
+      "codename": "change_employee"
+    },
+    {
+      "id": 103,
+      "name": "Can delete employee",
+      "content_type_id": 26,
+      "codename": "delete_employee"
+    },
+    {
+      "id": 104,
+      "name": "Can view employee",
+      "content_type_id": 26,
+      "codename": "view_employee"
+    },
+    {
+      "id": 105,
+      "name": "Can add employee document",
+      "content_type_id": 27,
+      "codename": "add_employeedocument"
+    },
+    {
+      "id": 106,
+      "name": "Can change employee document",
+      "content_type_id": 27,
+      "codename": "change_employeedocument"
+    },
+    {
+      "id": 107,
+      "name": "Can delete employee document",
+      "content_type_id": 27,
+      "codename": "delete_employeedocument"
+    },
+    {
+      "id": 108,
+      "name": "Can view employee document",
+      "content_type_id": 27,
+      "codename": "view_employeedocument"
+    },
+    {
+      "id": 109,
+      "name": "Can add Leave",
+      "content_type_id": 28,
+      "codename": "add_leave"
+    },
+    {
+      "id": 110,
+      "name": "Can change Leave",
+      "content_type_id": 28,
+      "codename": "change_leave"
+    },
+    {
+      "id": 111,
+      "name": "Can delete Leave",
+      "content_type_id": 28,
+      "codename": "delete_leave"
+    },
+    {
+      "id": 112,
+      "name": "Can view Leave",
+      "content_type_id": 28,
+      "codename": "view_leave"
+    },
+    {
+      "id": 113,
+      "name": "Can add balance leaves",
+      "content_type_id": 29,
+      "codename": "add_balanceleaves"
+    },
+    {
+      "id": 114,
+      "name": "Can change balance leaves",
+      "content_type_id": 29,
+      "codename": "change_balanceleaves"
+    },
+    {
+      "id": 115,
+      "name": "Can delete balance leaves",
+      "content_type_id": 29,
+      "codename": "delete_balanceleaves"
+    },
+    {
+      "id": 116,
+      "name": "Can view balance leaves",
+      "content_type_id": 29,
+      "codename": "view_balanceleaves"
+    },
+    {
+      "id": 117,
+      "name": "Can add salary",
+      "content_type_id": 30,
+      "codename": "add_salary"
+    },
+    {
+      "id": 118,
+      "name": "Can change salary",
+      "content_type_id": 30,
+      "codename": "change_salary"
+    },
+    {
+      "id": 119,
+      "name": "Can delete salary",
+      "content_type_id": 30,
+      "codename": "delete_salary"
+    },
+    {
+      "id": 120,
+      "name": "Can view salary",
+      "content_type_id": 30,
+      "codename": "view_salary"
+    },
+    {
+      "id": 121,
+      "name": "Can add employee notification",
+      "content_type_id": 31,
+      "codename": "add_employeenotification"
+    },
+    {
+      "id": 122,
+      "name": "Can change employee notification",
+      "content_type_id": 31,
+      "codename": "change_employeenotification"
+    },
+    {
+      "id": 123,
+      "name": "Can delete employee notification",
+      "content_type_id": 31,
+      "codename": "delete_employeenotification"
+    },
+    {
+      "id": 124,
+      "name": "Can view employee notification",
+      "content_type_id": 31,
+      "codename": "view_employeenotification"
+    },
+    {
+      "id": 125,
+      "name": "Can add manager",
+      "content_type_id": 32,
+      "codename": "add_manager"
+    },
+    {
+      "id": 126,
+      "name": "Can change manager",
+      "content_type_id": 32,
+      "codename": "change_manager"
+    },
+    {
+      "id": 127,
+      "name": "Can delete manager",
+      "content_type_id": 32,
+      "codename": "delete_manager"
+    },
+    {
+      "id": 128,
+      "name": "Can view manager",
+      "content_type_id": 32,
+      "codename": "view_manager"
+    },
+    {
+      "id": 129,
+      "name": "Can add manager attendance",
+      "content_type_id": 33,
+      "codename": "add_managerattendance"
+    },
+    {
+      "id": 130,
+      "name": "Can change manager attendance",
+      "content_type_id": 33,
+      "codename": "change_managerattendance"
+    },
+    {
+      "id": 131,
+      "name": "Can delete manager attendance",
+      "content_type_id": 33,
+      "codename": "delete_managerattendance"
+    },
+    {
+      "id": 132,
+      "name": "Can view manager attendance",
+      "content_type_id": 33,
+      "codename": "view_managerattendance"
+    },
+    {
+      "id": 133,
+      "name": "Can add manager entry",
+      "content_type_id": 34,
+      "codename": "add_managerentry"
+    },
+    {
+      "id": 134,
+      "name": "Can change manager entry",
+      "content_type_id": 34,
+      "codename": "change_managerentry"
+    },
+    {
+      "id": 135,
+      "name": "Can delete manager entry",
+      "content_type_id": 34,
+      "codename": "delete_managerentry"
+    },
+    {
+      "id": 136,
+      "name": "Can view manager entry",
+      "content_type_id": 34,
+      "codename": "view_managerentry"
+    },
+    {
+      "id": 137,
+      "name": "Can add manager post",
+      "content_type_id": 35,
+      "codename": "add_managerpost"
+    },
+    {
+      "id": 138,
+      "name": "Can change manager post",
+      "content_type_id": 35,
+      "codename": "change_managerpost"
+    },
+    {
+      "id": 139,
+      "name": "Can delete manager post",
+      "content_type_id": 35,
+      "codename": "delete_managerpost"
+    },
+    {
+      "id": 140,
+      "name": "Can view manager post",
+      "content_type_id": 35,
+      "codename": "view_managerpost"
+    }
+  ],
+  "django_admin_log": [],
+  "django_content_type": [
+    {
+      "id": 4,
+      "app_label": "account",
+      "model": "company"
+    },
+    {
+      "id": 6,
+      "app_label": "account",
+      "model": "companystaff"
+    },
+    {
+      "id": 7,
+      "app_label": "account",
+      "model": "tenant"
+    },
+    {
+      "id": 5,
+      "app_label": "account",
+      "model": "user"
+    },
+    {
+      "id": 8,
+      "app_label": "admin",
+      "model": "logentry"
+    },
+    {
+      "id": 10,
+      "app_label": "administration",
+      "model": "asign"
+    },
+    {
+      "id": 11,
+      "app_label": "administration",
+      "model": "client"
+    },
+    {
+      "id": 18,
+      "app_label": "administration",
+      "model": "emailnotification"
+    },
+    {
+      "id": 12,
+      "app_label": "administration",
+      "model": "holiday"
+    },
+    {
+      "id": 13,
+      "app_label": "administration",
+      "model": "lead"
+    },
+    {
+      "id": 14,
+      "app_label": "administration",
+      "model": "managernotification"
+    },
+    {
+      "id": 15,
+      "app_label": "administration",
+      "model": "mtask"
+    },
+    {
+      "id": 16,
+      "app_label": "administration",
+      "model": "notification"
+    },
+    {
+      "id": 17,
+      "app_label": "administration",
+      "model": "task"
+    },
+    {
+      "id": 2,
+      "app_label": "auth",
+      "model": "group"
+    },
+    {
+      "id": 1,
+      "app_label": "auth",
+      "model": "permission"
+    },
+    {
+      "id": 3,
+      "app_label": "contenttypes",
+      "model": "contenttype"
+    },
+    {
+      "id": 21,
+      "app_label": "employee",
+      "model": "attendance"
+    },
+    {
+      "id": 24,
+      "app_label": "employee",
+      "model": "department"
+    },
+    {
+      "id": 25,
+      "app_label": "employee",
+      "model": "designation"
+    },
+    {
+      "id": 26,
+      "app_label": "employee",
+      "model": "employee"
+    },
+    {
+      "id": 27,
+      "app_label": "employee",
+      "model": "employeedocument"
+    },
+    {
+      "id": 22,
+      "app_label": "employee",
+      "model": "entries"
+    },
+    {
+      "id": 23,
+      "app_label": "employee",
+      "model": "post"
+    },
+    {
+      "id": 29,
+      "app_label": "leave",
+      "model": "balanceleaves"
+    },
+    {
+      "id": 28,
+      "app_label": "leave",
+      "model": "leave"
+    },
+    {
+      "id": 19,
+      "app_label": "management",
+      "model": "invoice"
+    },
+    {
+      "id": 20,
+      "app_label": "management",
+      "model": "lineitem"
+    },
+    {
+      "id": 36,
+      "app_label": "manageregularization",
+      "model": "mregularization"
+    },
+    {
+      "id": 31,
+      "app_label": "managers",
+      "model": "employeenotification"
+    },
+    {
+      "id": 32,
+      "app_label": "managers",
+      "model": "manager"
+    },
+    {
+      "id": 33,
+      "app_label": "managers",
+      "model": "managerattendance"
+    },
+    {
+      "id": 34,
+      "app_label": "managers",
+      "model": "managerentry"
+    },
+    {
+      "id": 35,
+      "app_label": "managers",
+      "model": "managerpost"
+    },
+    {
+      "id": 30,
+      "app_label": "payroll",
+      "model": "salary"
+    },
+    {
+      "id": 9,
+      "app_label": "sessions",
+      "model": "session"
+    }
+  ],
+  "django_migrations": [
+    {
+      "id": 1,
+      "app": "contenttypes",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:55:39.560Z"
+    },
+    {
+      "id": 2,
+      "app": "contenttypes",
+      "name": "0002_remove_content_type_name",
+      "applied": "2026-02-19T02:55:41.711Z"
+    },
+    {
+      "id": 3,
+      "app": "auth",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:55:45.992Z"
+    },
+    {
+      "id": 4,
+      "app": "auth",
+      "name": "0002_alter_permission_name_max_length",
+      "applied": "2026-02-19T02:55:46.728Z"
+    },
+    {
+      "id": 5,
+      "app": "auth",
+      "name": "0003_alter_user_email_max_length",
+      "applied": "2026-02-19T02:55:47.038Z"
+    },
+    {
+      "id": 6,
+      "app": "auth",
+      "name": "0004_alter_user_username_opts",
+      "applied": "2026-02-19T02:55:47.348Z"
+    },
+    {
+      "id": 7,
+      "app": "auth",
+      "name": "0005_alter_user_last_login_null",
+      "applied": "2026-02-19T02:55:47.657Z"
+    },
+    {
+      "id": 8,
+      "app": "auth",
+      "name": "0006_require_contenttypes_0002",
+      "applied": "2026-02-19T02:55:48.059Z"
+    },
+    {
+      "id": 9,
+      "app": "auth",
+      "name": "0007_alter_validators_add_error_messages",
+      "applied": "2026-02-19T02:55:48.369Z"
+    },
+    {
+      "id": 10,
+      "app": "auth",
+      "name": "0008_alter_user_username_max_length",
+      "applied": "2026-02-19T02:55:48.717Z"
+    },
+    {
+      "id": 11,
+      "app": "auth",
+      "name": "0009_alter_user_last_name_max_length",
+      "applied": "2026-02-19T02:55:49.028Z"
+    },
+    {
+      "id": 12,
+      "app": "auth",
+      "name": "0010_alter_group_name_max_length",
+      "applied": "2026-02-19T02:55:49.654Z"
+    },
+    {
+      "id": 13,
+      "app": "auth",
+      "name": "0011_update_proxy_permissions",
+      "applied": "2026-02-19T02:55:50.924Z"
+    },
+    {
+      "id": 14,
+      "app": "auth",
+      "name": "0012_alter_user_first_name_max_length",
+      "applied": "2026-02-19T02:55:51.239Z"
+    },
+    {
+      "id": 15,
+      "app": "account",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:55:57.866Z"
+    },
+    {
+      "id": 16,
+      "app": "account",
+      "name": "0002_tenant_model_and_tenant_fields",
+      "applied": "2026-02-19T02:56:04.105Z"
+    },
+    {
+      "id": 17,
+      "app": "admin",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:56:28.173Z"
+    },
+    {
+      "id": 18,
+      "app": "admin",
+      "name": "0002_logentry_remove_auto_add",
+      "applied": "2026-02-19T02:56:28.483Z"
+    },
+    {
+      "id": 19,
+      "app": "admin",
+      "name": "0003_logentry_add_action_flag_choices",
+      "applied": "2026-02-19T02:56:28.796Z"
+    },
+    {
+      "id": 20,
+      "app": "employee",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:56:33.627Z"
+    },
+    {
+      "id": 21,
+      "app": "managers",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:56:40.337Z"
+    },
+    {
+      "id": 22,
+      "app": "employee",
+      "name": "0002_initial",
+      "applied": "2026-02-19T02:56:45.920Z"
+    },
+    {
+      "id": 23,
+      "app": "employee",
+      "name": "0003_employeefixeddocuments",
+      "applied": "2026-02-19T02:56:47.000Z"
+    },
+    {
+      "id": 24,
+      "app": "employee",
+      "name": "0004_employeedocument_delete_employeefixeddocuments",
+      "applied": "2026-02-19T02:56:48.862Z"
+    },
+    {
+      "id": 25,
+      "app": "administration",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:56:52.294Z"
+    },
+    {
+      "id": 26,
+      "app": "administration",
+      "name": "0002_initial",
+      "applied": "2026-02-19T02:57:03.324Z"
+    },
+    {
+      "id": 27,
+      "app": "administration",
+      "name": "0003_employeealldocuments",
+      "applied": "2026-02-19T02:57:05.690Z"
+    },
+    {
+      "id": 28,
+      "app": "administration",
+      "name": "0004_employeedocument_delete_employeealldocuments",
+      "applied": "2026-02-19T02:57:07.422Z"
+    },
+    {
+      "id": 29,
+      "app": "administration",
+      "name": "0005_delete_employeedocument",
+      "applied": "2026-02-19T02:57:08.239Z"
+    },
+    {
+      "id": 30,
+      "app": "administration",
+      "name": "0006_alter_task_assigned_to",
+      "applied": "2026-02-19T02:57:11.310Z"
+    },
+    {
+      "id": 31,
+      "app": "administration",
+      "name": "0007_emailnotification",
+      "applied": "2026-02-19T02:57:12.675Z"
+    },
+    {
+      "id": 32,
+      "app": "employee",
+      "name": "0005_attendance_source",
+      "applied": "2026-02-19T02:57:13.676Z"
+    },
+    {
+      "id": 33,
+      "app": "employee",
+      "name": "0007_add_tenant_fields",
+      "applied": "2026-02-19T02:57:21.617Z"
+    },
+    {
+      "id": 34,
+      "app": "leave",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:57:24.891Z"
+    },
+    {
+      "id": 35,
+      "app": "leave",
+      "name": "0002_leave_description",
+      "applied": "2026-02-19T02:57:25.591Z"
+    },
+    {
+      "id": 36,
+      "app": "management",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:57:28.105Z"
+    },
+    {
+      "id": 37,
+      "app": "manager_leave",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:57:31.423Z"
+    },
+    {
+      "id": 38,
+      "app": "manager_leave",
+      "name": "0002_managerleave_description",
+      "applied": "2026-02-19T02:57:32.101Z"
+    },
+    {
+      "id": 39,
+      "app": "manager_leave",
+      "name": "0003_balanceleave_enddate_balanceleave_reason_and_more",
+      "applied": "2026-02-19T02:57:33.673Z"
+    },
+    {
+      "id": 40,
+      "app": "manager_leave",
+      "name": "0004_remove_balanceleave_enddate_and_more",
+      "applied": "2026-02-19T02:57:35.171Z"
+    },
+    {
+      "id": 41,
+      "app": "manager_resign",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:57:36.627Z"
+    },
+    {
+      "id": 42,
+      "app": "manageregularization",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:57:38.242Z"
+    },
+    {
+      "id": 43,
+      "app": "managerpayroll",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:57:39.676Z"
+    },
+    {
+      "id": 44,
+      "app": "payroll",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:57:41.296Z"
+    },
+    {
+      "id": 45,
+      "app": "regularization",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:57:43.669Z"
+    },
+    {
+      "id": 46,
+      "app": "resign",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:57:45.922Z"
+    },
+    {
+      "id": 47,
+      "app": "sessions",
+      "name": "0001_initial",
+      "applied": "2026-02-19T02:57:47.256Z"
+    }
+  ],
+  "django_session": [],
+  "employee_attendance": [],
+  "employee_department": [],
+  "employee_designation": [],
+  "employee_employee": [],
+  "employee_employeedocument": [],
+  "employee_entries": [],
+  "employee_post": [],
+  "leave_balanceleaves": [],
+  "leave_leave": [],
+  "management_invoice": [],
+  "management_lineitem": [],
+  "manager_leave_balanceleave": [],
+  "manager_leave_managerleave": [],
+  "manager_resign_managerresign": [],
+  "manageregularization_mregularization": [],
+  "managerpayroll_salary": [],
+  "managers_employeenotification": [],
+  "managers_manager": [],
+  "managers_managerattendance": [],
+  "managers_managerentry": [],
+  "managers_managerpost": [],
+  "payroll_salary": [],
+  "regularization_regularization": [],
+  "resign_resign": [],
+  "tenants": []
+}
