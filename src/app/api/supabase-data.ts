@@ -2672,30 +2672,6 @@ export async function fetchBusinessDocuments(businessId: string) {
 
 // ─── Profile Updates ─────────────────────────────────────────────────────
 
-/** Update business profile with new details */
-export async function updateBusinessProfile(
-  businessId: string,
-  data: Record<string, any>,
-): Promise<{ ok: boolean; error: string | null }> {
-  if (!supabase) return { ok: false, error: 'Supabase not initialized' };
-
-  try {
-    const { error: updateError } = await supabase
-      .from('biz_users')
-      .update(data)
-      .eq('business_id', businessId);
-
-    if (updateError) {
-      return { ok: false, error: updateError.message };
-    }
-
-    return { ok: true, error: null };
-  } catch (err) {
-    console.error('Profile update failed:', err);
-    return { ok: false, error: 'Update failed' };
-  }
-}
-
 /** Update business location */
 export async function updateBusinessLocation(
   businessId: string,
