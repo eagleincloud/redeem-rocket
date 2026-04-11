@@ -1,0 +1,161 @@
+name: Deploy Frontend Apps
+
+on:
+  push:
+    branches:
+      - develop
+      - qa
+      - main
+    paths:
+      - 'customer-app/**'
+      - 'business-app/**'
+      - 'admin-app/**'
+      - '.github/workflows/frontend-deploy.yml'
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID_CUSTOMER: ${{ secrets.VERCEL_PROJECT_ID_CUSTOMER }}
+  VERCEL_PROJECT_ID_BUSINESS: ${{ secrets.VERCEL_PROJECT_ID_BUSINESS }}
+  VERCEL_PROJECT_ID_ADMIN: ${{ secrets.VERCEL_PROJECT_ID_ADMIN }}
+
+jobs:
+  deploy-customer:
+    name: Deploy Customer App
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel environment information (dev)
+        if: github.ref == 'refs/heads/develop'
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./customer-app/frontend
+
+      - name: Pull Vercel environment information (staging)
+        if: github.ref == 'refs/heads/qa'
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./customer-app/frontend
+
+      - name: Pull Vercel environment information (production)
+        if: github.ref == 'refs/heads/main'
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./customer-app/frontend
+
+      - name: Build project artifacts (dev/staging)
+        if: github.ref != 'refs/heads/main'
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./customer-app/frontend
+
+      - name: Build project artifacts (production)
+        if: github.ref == 'refs/heads/main'
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./customer-app/frontend
+
+      - name: Deploy to Vercel (dev/staging)
+        if: github.ref != 'refs/heads/main'
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./customer-app/frontend
+
+      - name: Deploy to Vercel (production)
+        if: github.ref == 'refs/heads/main'
+        run: vercel deploy --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./customer-app/frontend
+
+  deploy-business:
+    name: Deploy Business App
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel environment information (dev)
+        if: github.ref == 'refs/heads/develop'
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./business-app/frontend
+
+      - name: Pull Vercel environment information (staging)
+        if: github.ref == 'refs/heads/qa'
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./business-app/frontend
+
+      - name: Pull Vercel environment information (production)
+        if: github.ref == 'refs/heads/main'
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./business-app/frontend
+
+      - name: Build project artifacts (dev/staging)
+        if: github.ref != 'refs/heads/main'
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./business-app/frontend
+
+      - name: Build project artifacts (production)
+        if: github.ref == 'refs/heads/main'
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./business-app/frontend
+
+      - name: Deploy to Vercel (dev/staging)
+        if: github.ref != 'refs/heads/main'
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./business-app/frontend
+
+      - name: Deploy to Vercel (production)
+        if: github.ref == 'refs/heads/main'
+        run: vercel deploy --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./business-app/frontend
+
+  deploy-admin:
+    name: Deploy Admin App
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel environment information (dev)
+        if: github.ref == 'refs/heads/develop'
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./admin-app/frontend
+
+      - name: Pull Vercel environment information (staging)
+        if: github.ref == 'refs/heads/qa'
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./admin-app/frontend
+
+      - name: Pull Vercel environment information (production)
+        if: github.ref == 'refs/heads/main'
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./admin-app/frontend
+
+      - name: Build project artifacts (dev/staging)
+        if: github.ref != 'refs/heads/main'
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./admin-app/frontend
+
+      - name: Build project artifacts (production)
+        if: github.ref == 'refs/heads/main'
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./admin-app/frontend
+
+      - name: Deploy to Vercel (dev/staging)
+        if: github.ref != 'refs/heads/main'
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./admin-app/frontend
+
+      - name: Deploy to Vercel (production)
+        if: github.ref == 'refs/heads/main'
+        run: vercel deploy --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./admin-app/frontend
