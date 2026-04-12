@@ -159,6 +159,8 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
         status: string;
       };
 
+      console.log('[BusinessContext] Loading team member session:', { teamId: teamSession.id, businessId: teamSession.business_id });
+
       // Load the owner's biz_users record via business_id
       supabase
         .from('biz_users')
@@ -167,14 +169,25 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
         .single()
         .then(({ data, error }) => {
           if (error || !data) {
+            console.log('[BusinessContext] biz_users query failed/empty, trying businesses table fallback:', { error: error?.message });
             // Fallback: load businesses table directly
             supabase!
               .from('businesses')
               .select('*')
               .eq('id', teamSession.business_id)
               .single()
-              .then(({ data: biz }) => {
-                if (!biz) { setIsLoading(false); return; }
+              .then(({ data: biz, error: bizError }) => {
+                if (bizError) {
+                  console.error('[BusinessContext] Fallback businesses query failed:', bizError.message);
+                  setIsLoading(false);
+                  return;
+                }
+                if (!biz) {
+                  console.error('[BusinessContext] Business record not found for ID:', teamSession.business_id);
+                  setIsLoading(false);
+                  return;
+                }
+                console.log('[BusinessContext] Loaded business from fallback:', { businessId: biz.id, businessName: biz.name });
                 const user: BizUser = {
                   id: biz.id,
                   name: teamSession.name,
@@ -199,10 +212,15 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
                 };
                 setBizUserState(user);
                 setIsLoading(false);
+              })
+              .catch(err => {
+                console.error('[BusinessContext] Fallback businesses query threw error:', err);
+                setIsLoading(false);
               });
             return;
           }
 
+          console.log('[BusinessContext] Loaded biz_users record successfully:', { bizUserId: data.id, businessId: teamSession.business_id });
           const biz = data.businesses as Record<string, unknown> | null;
           const user: BizUser = {
             id: data.id,
@@ -229,9 +247,13 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
           };
           setBizUserState(user);
           setIsLoading(false);
+        })
+        .catch(err => {
+          console.error('[BusinessContext] biz_users query threw error:', err);
+          setIsLoading(false);
         });
     } catch (e) {
-      console.warn('[BusinessContext] Failed to load team member session:', e);
+      console.error('[BusinessContext] Failed to load team member session:', e);
       setIsLoading(false);
     }
 

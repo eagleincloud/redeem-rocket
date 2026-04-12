@@ -84,6 +84,7 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
         return;
       }
 
+      console.log('[LoginPage] Checking team members for email:', email.trim());
       const { data: member, error: memberErr } = await supabase
         .from('business_team_members')
         .select('id, business_id, name, email, role_id, permissions, status, password, first_login')
@@ -91,10 +92,19 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
         .in('status', ['active', 'invited'])
         .single();
 
-      if (memberErr || !member) {
+      if (memberErr) {
+        console.log('[LoginPage] Team member query error:', memberErr.message);
         setError('Invalid email or password');
         return;
       }
+
+      if (!member) {
+        console.log('[LoginPage] No team member found for email:', email.trim());
+        setError('Invalid email or password');
+        return;
+      }
+
+      console.log('[LoginPage] Team member found:', { id: member.id, email: member.email, businessId: member.business_id, hasPassword: !!member.password });
 
       // Verify password
       const passwordMatch = member.password
@@ -102,12 +112,16 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
         : false;
 
       if (!passwordMatch) {
+        console.log('[LoginPage] Password verification failed for team member:', member.id);
         setError('Invalid email or password');
         return;
       }
 
+      console.log('[LoginPage] Password verified successfully for team member:', member.id);
+
       // Mark member as active on first login
       if (member.status === 'invited') {
+        console.log('[LoginPage] Marking team member as active (first login):', member.id);
         await supabase
           .from('business_team_members')
           .update({ status: 'active', joined_at: new Date().toISOString() })
@@ -124,6 +138,7 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
         permissions: member.permissions,
         status: 'active',
       };
+      console.log('[LoginPage] Saving team member session to localStorage:', { id: member.id, businessId: member.business_id });
       localStorage.setItem('team_member_session', JSON.stringify(teamSession));
 
       // Log team member login (fire-and-forget)
@@ -137,13 +152,14 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
 
       setSuccessMessage('Login successful!');
 
-      // Navigate immediately - the page reload will happen on the /app route
-      // This gives the browser time to register the localStorage change
+      // Hard page reload to ensure React app reinitializes with fresh localStorage data
+      // This gives the browser time to flush localStorage before reload
+      console.log('[LoginPage] Team member login successful, reloading page to initialize app...');
       setTimeout(() => {
         onSuccess?.();
-        // Use hard refresh to reload page with new localStorage
-        window.location.href = '/app';
-      }, 50);
+        // Full page reload ensures BusinessContext reads fresh localStorage data
+        window.location.reload();
+      }, 150);
     } catch (err) {
       console.error('Login error:', err);
       setError('An unexpected error occurred');
