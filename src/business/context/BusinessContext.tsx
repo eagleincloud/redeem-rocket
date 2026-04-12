@@ -235,17 +235,6 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
       setIsLoading(false);
     }
 
-    // Listen for team member login event
-    const handleTeamMemberLogin = () => {
-      // Small delay to ensure localStorage is updated
-      setTimeout(() => {
-        // Re-run the team member loading logic by refreshing the page
-        // This ensures all context and state is properly initialized
-        window.location.reload();
-      }, 50);
-    };
-    window.addEventListener('team_member_login', handleTeamMemberLogin);
-    return () => window.removeEventListener('team_member_login', handleTeamMemberLogin);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -126,9 +126,6 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
       };
       localStorage.setItem('team_member_session', JSON.stringify(teamSession));
 
-      // Dispatch custom event so BusinessContext reloads
-      window.dispatchEvent(new Event('team_member_login'));
-
       // Log team member login (fire-and-forget)
       logActivity({ businessId: member.business_id, actorId: member.id, actorType: 'team_member', actorName: member.name, action: 'login', metadata: { method: 'password', first_login: member.first_login } }).catch(() => {});
 
@@ -139,8 +136,14 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
       }
 
       setSuccessMessage('Login successful!');
-      // Give context time to listen to the event and start loading
-      setTimeout(() => { onSuccess?.(); navigate('/app', { replace: true }); }, 100);
+
+      // Navigate immediately - the page reload will happen on the /app route
+      // This gives the browser time to register the localStorage change
+      setTimeout(() => {
+        onSuccess?.();
+        // Use hard refresh to reload page with new localStorage
+        window.location.href = '/app';
+      }, 50);
     } catch (err) {
       console.error('Login error:', err);
       setError('An unexpected error occurred');
