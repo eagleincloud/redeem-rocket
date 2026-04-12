@@ -1274,6 +1274,84 @@ export async function deleteOffer(id: string): Promise<boolean> {
   } catch { return false; }
 }
 
+// ── Business-side own offers fetch (by business_id) ──────────────────────────
+
+export interface OwnOffer {
+  id: string;
+  title: string;
+  description: string;
+  discount: number;
+  price: number | null;
+  category: string;
+  isFlashDeal: boolean;
+  startDate: string;
+  endDate: string;
+  status: 'pending_approval' | 'approved' | 'rejected' | 'expired';
+  rejectionReason?: string;
+}
+
+export async function fetchOwnOffers(businessId: string): Promise<OwnOffer[]> {
+  if (!supabase) return [];
+  try {
+    const { data, error } = await supabase
+      .from('offers')
+      .select('id, title, description, discount_value, price, category, is_flash_deal, start_date, end_date, status, rejection_reason')
+      .eq('business_id', businessId)
+      .order('created_at', { ascending: false });
+
+    if (error || !Array.isArray(data)) return [];
+    return data.map(r => ({
+      id: r.id as string,
+      title: r.title as string,
+      description: (r.description as string) ?? '',
+      discount: (r.discount_value as number) ?? 0,
+      price: (r.price as number | null) ?? null,
+      category: (r.category as string) ?? 'General',
+      isFlashDeal: Boolean(r.is_flash_deal),
+      startDate: (r.start_date as string) ?? '',
+      endDate: (r.end_date as string) ?? '',
+      status: (r.status as OwnOffer['status']) ?? 'pending_approval',
+      rejectionReason: (r.rejection_reason as string | undefined),
+    }));
+  } catch { return []; }
+}
+
+// ── Business-side own products fetch (by business_id) ────────────────────────
+
+export interface OwnProduct {
+  id: string;
+  name: string;
+  description: string;
+  mrp: number;
+  sellingPrice: number;
+  category: string;
+  emoji: string;
+  stock: number;
+}
+
+export async function fetchOwnProducts(businessId: string): Promise<OwnProduct[]> {
+  if (!supabase) return [];
+  try {
+    const { data, error } = await supabase
+      .from('products')
+      .select('id, name, description, price, selling_price, category, image, stock')
+      .eq('business_id', businessId)
+      .order('created_at', { ascending: false });
+
+    if (error || !Array.isArray(data)) return [];
+    return data.map(r => ({
+      id: r.id as string,
+      name: r.name as string,
+      description: (r.description as string) ?? '',
+      mrp: (r.price as number) ?? 0,
+      sellingPrice: (r.selling_price as number) ?? (r.price as number) ?? 0,
+      category: (r.category as string) ?? 'Other',
+      emoji: '📦',
+      stock: (r.stock as number) ?? 0,
+    }));
+  } catch { return []; }
+}
+
 export interface AuctionPayload {
   businessId: string;
   title: string;

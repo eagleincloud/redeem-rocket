@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router';
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
@@ -16,7 +16,12 @@ interface LoginFormProps {
 
 export function LoginPage({ onSuccess }: LoginFormProps) {
   const navigate = useNavigate();
-  const { setUser } = useAuthBusiness();
+  const { setUser, user } = useAuthBusiness();
+
+  // If already logged in, skip the login page entirely
+  useEffect(() => {
+    if (user) navigate('/app', { replace: true });
+  }, [user, navigate]);
 
   // Password login state
   const [email, setEmail] = useState('');

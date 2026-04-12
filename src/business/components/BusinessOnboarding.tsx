@@ -238,6 +238,16 @@ export function BusinessOnboarding() {
 
     const sb = _supabase;
     if (sb) {
+      // ── Link the new business to the biz_user record ──────────────────────────
+      // This is critical: without this, future logins won't see business_id →
+      // user gets redirected back to /onboarding on every login.
+      if (bizUser.id) {
+        await sb
+          .from('biz_users')
+          .update({ business_id: businessId })
+          .eq('id', bizUser.id);
+      }
+
       const validMembers = teamMembers.filter((m) => m.name.trim() && m.email.trim());
       if (validMembers.length > 0) {
         await sb.from('business_team_members').insert(

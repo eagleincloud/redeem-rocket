@@ -60,6 +60,7 @@ interface BusinessContextValue {
   bizUser: BizUser | null;
   setBizUser: (user: BizUser | null) => void;
   isAuthenticated: boolean;
+  isLoading: boolean;
   logout: () => void;
   updatePlan: (plan: SubscriptionPlan, expiry?: string | null) => void;
   productSelection: 'rr' | 'lms' | 'both';
@@ -130,12 +131,21 @@ const BusinessContext = createContext<BusinessContextValue | null>(null);
 
 export function BusinessProvider({ children }: { children: React.ReactNode }) {
   const [bizUser, setBizUserState] = useState<BizUser | null>(loadBizUser);
+  // isLoading = true while we're async-loading a team member session so
+  // BusinessLayout doesn't immediately redirect to /login before data arrives.
+  const [isLoading, setIsLoading] = useState<boolean>(() => {
+    if (DEV_BYPASS) return false;
+    try { return Boolean(localStorage.getItem(TEAM_SESSION_KEY)); } catch { return false; }
+  });
 
   // Load owner data for team member sessions
   useEffect(() => {
     if (DEV_BYPASS) return;
     const teamRaw = localStorage.getItem(TEAM_SESSION_KEY);
-    if (!teamRaw || !supabase) return;
+    if (!teamRaw || !supabase) {
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const teamSession = JSON.parse(teamRaw) as {
@@ -163,7 +173,7 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
               .eq('id', teamSession.business_id)
               .single()
               .then(({ data: biz }) => {
-                if (!biz) return;
+                if (!biz) { setIsLoading(false); return; }
                 const user: BizUser = {
                   id: biz.id,
                   name: teamSession.name,
@@ -187,6 +197,7 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
                   },
                 };
                 setBizUserState(user);
+                setIsLoading(false);
               });
             return;
           }
@@ -216,9 +227,11 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
             },
           };
           setBizUserState(user);
+          setIsLoading(false);
         });
     } catch (e) {
       console.warn('[BusinessContext] Failed to load team member session:', e);
+      setIsLoading(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -253,10 +266,11 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
     bizUser,
     setBizUser,
     isAuthenticated: Boolean(bizUser),
+    isLoading,
     logout,
     updatePlan,
     productSelection: (bizUser?.product_selection as 'rr' | 'lms' | 'both') || 'both',
-  }), [bizUser, setBizUser, logout, updatePlan]);
+  }), [bizUser, setBizUser, isLoading, logout, updatePlan]);
 
   return <BusinessContext.Provider value={value}>{children}</BusinessContext.Provider>;
 }
@@ -279,6 +293,7 @@ export function useAuthBusiness() {
     user: ctx.bizUser,
     setUser: ctx.setBizUser,
     isAuthenticated: ctx.isAuthenticated,
+    isLoading: ctx.isLoading,
     logout: ctx.logout,
     updatePlan: ctx.updatePlan,
   };

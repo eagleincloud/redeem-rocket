@@ -145,7 +145,7 @@ export function BusinessLayout() {
   const searchRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { bizUser, logout } = useBusinessContext();
+  const { bizUser, isLoading, logout } = useBusinessContext();
   const { isDark, toggleTheme } = useTheme();
   const { isMobile } = useViewport();
   const navigate = useNavigate();
@@ -301,6 +301,16 @@ export function BusinessLayout() {
     return () => { if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current); };
   }, [searchQuery, runSearch]);
 
+  // Wait for async team-member session to load before deciding auth state
+  if (isLoading) return (
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#080d20' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
+        <img src="/logo.png" alt="Redeem Rocket" style={{ width: 56, height: 56, objectFit: 'contain', opacity: 0.8 }} />
+        <div style={{ width: 36, height: 36, border: '3px solid #f97316', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+    </div>
+  );
   if (!bizUser) return <Navigate to="/login" replace />;
   if (!bizUser.onboarding_done) return <Navigate to="/onboarding" replace />;
 
