@@ -52,28 +52,30 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
 
       if (result.ok) {
         // Owner login succeeded
+        console.log('[LoginPage] Owner login successful:', { userId: result.user?.id, email: result.user?.email, plan: (result.user as any)?.plan, businessId: result.biz?.id });
         const userData = {
           id: result.user?.id || '',
           name: result.user?.name || email,
           email: result.user?.email || '',
           phone: result.user?.phone || '',
           businessId: result.biz?.id || null,
-          businessName: result.biz?.name || null,
-          businessLogo: result.biz?.logo || '🏪',
-          businessCategory: result.biz?.category || '',
+          businessName: result.biz?.name || (result.user as any)?.business_name || null,
+          businessLogo: result.biz?.logo || (result.user as any)?.business_logo || '🏪',
+          businessCategory: result.biz?.category || (result.user as any)?.business_category || '',
           role: 'business' as const,
-          plan: 'free' as const,
-          planExpiry: null,
-          onboarding_done: !!result.biz,
+          plan: ((result.user as any)?.plan || 'free') as any,
+          planExpiry: ((result.user as any)?.plan_expiry || null),
+          onboarding_done: (result.user as any)?.onboarding_done ?? !!result.biz,
         };
 
         setUser(userData);
         localStorage.setItem('biz_user', JSON.stringify(userData));
         // Log owner login activity
         if (result.biz?.id) {
-          logActivity({ businessId: result.biz.id, actorId: result.user?.id ?? '', actorType: 'owner', actorName: result.user?.name ?? email, action: 'login', metadata: { method: 'password' } });
+          logActivity({ businessId: result.biz.id, actorId: result.user?.id ?? '', actorType: 'owner', actorName: result.user?.name ?? email, action: 'login', metadata: { method: 'password', plan: userData.plan } });
         }
         setSuccessMessage('Login successful!');
+        console.log('[LoginPage] Owner redirect to /app with navigate()');
         setTimeout(() => { onSuccess?.(); navigate('/app'); }, 1000);
         return;
       }
@@ -219,25 +221,27 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
 
       // Get or create user after OTP verification
       const userResult = await getOrCreateBizUser(contact, otpType);
+      console.log('[LoginPage] OTP user login successful:', { userId: userResult.user?.id, email: userResult.user?.email, plan: (userResult.user as any)?.plan, businessId: userResult.biz?.id });
       const userData = {
         id: userResult.user?.id || '',
         name: userResult.user?.name || contact,
         email: userResult.user?.email || '',
         phone: userResult.user?.phone || '',
         businessId: userResult.biz?.id || null,
-        businessName: userResult.biz?.name || null,
-        businessLogo: userResult.biz?.logo || '🏪',
-        businessCategory: userResult.biz?.category || '',
+        businessName: userResult.biz?.name || (userResult.user as any)?.business_name || null,
+        businessLogo: userResult.biz?.logo || (userResult.user as any)?.business_logo || '🏪',
+        businessCategory: userResult.biz?.category || (userResult.user as any)?.business_category || '',
         role: 'business' as const,
-        plan: 'free' as const,
-        planExpiry: null,
-        onboarding_done: !!userResult.biz,
+        plan: ((userResult.user as any)?.plan || 'free') as any,
+        planExpiry: ((userResult.user as any)?.plan_expiry || null),
+        onboarding_done: (userResult.user as any)?.onboarding_done ?? !!userResult.biz,
       };
 
       setUser(userData);
       localStorage.setItem('biz_user', JSON.stringify(userData));
       setSuccessMessage('Login successful!');
 
+      console.log('[LoginPage] OTP redirect to /app with navigate()');
       setTimeout(() => {
         onSuccess?.();
         navigate('/app');
@@ -270,25 +274,27 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
 
       // Get or create user after Google sign-in
       const userResult = await getOrCreateBizUser(result.email, 'email');
+      console.log('[LoginPage] Google sign-in successful:', { userId: userResult.user?.id, email: userResult.user?.email, plan: (userResult.user as any)?.plan, businessId: userResult.biz?.id });
       const userData = {
         id: userResult.user?.id || '',
         name: userResult.user?.name || result.name || result.email,
         email: userResult.user?.email || result.email,
         phone: userResult.user?.phone || '',
         businessId: userResult.biz?.id || null,
-        businessName: userResult.biz?.name || null,
-        businessLogo: userResult.biz?.logo || '🏪',
-        businessCategory: userResult.biz?.category || '',
+        businessName: userResult.biz?.name || (userResult.user as any)?.business_name || null,
+        businessLogo: userResult.biz?.logo || (userResult.user as any)?.business_logo || '🏪',
+        businessCategory: userResult.biz?.category || (userResult.user as any)?.business_category || '',
         role: 'business' as const,
-        plan: 'free' as const,
-        planExpiry: null,
-        onboarding_done: !!userResult.biz,
+        plan: ((userResult.user as any)?.plan || 'free') as any,
+        planExpiry: ((userResult.user as any)?.plan_expiry || null),
+        onboarding_done: (userResult.user as any)?.onboarding_done ?? !!userResult.biz,
       };
 
       setUser(userData);
       localStorage.setItem('biz_user', JSON.stringify(userData));
       setSuccessMessage('Login successful!');
 
+      console.log('[LoginPage] Google sign-in redirect to /app with navigate()');
       setTimeout(() => {
         onSuccess?.();
         navigate('/app');

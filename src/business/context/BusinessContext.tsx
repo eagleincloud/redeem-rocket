@@ -110,11 +110,18 @@ function loadBizUser(): BizUser | null {
     if (teamRaw) {
       // Return a placeholder — the provider will load owner data asynchronously
       // We return null here and let the effect handle it
+      console.log('[BusinessContext] Team member session detected, will load async');
       return null;
     }
     const s = localStorage.getItem(STORAGE_KEY);
-    return s ? JSON.parse(s) : null;
+    if (s) {
+      const user = JSON.parse(s);
+      console.log('[BusinessContext] Owner loaded from localStorage:', { id: user.id, email: user.email, role: user.role });
+      return user;
+    }
+    return null;
   } catch {
+    console.error('[BusinessContext] Error loading biz user from localStorage');
     return null;
   }
 }
