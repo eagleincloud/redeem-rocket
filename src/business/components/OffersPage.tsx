@@ -36,7 +36,17 @@ const KANBAN_COLS: { key: OfferStatus; label: string; color: string }[] = [
   { key: 'expired',          label: 'Expired',        color: '#6b7280' },
 ];
 
-const EMPTY_FORM = { title: '', description: '', discount: 10, price: 0, isFlashDeal: false, startDate: '', endDate: '', category: 'Grocery' };
+// Default category: use business category if available, otherwise 'Grocery'
+const getEmptyForm = (businessCategory?: string) => ({
+  title: '',
+  description: '',
+  discount: 10,
+  price: 0,
+  isFlashDeal: false,
+  startDate: '',
+  endDate: '',
+  category: businessCategory || 'Grocery',
+});
 const CATEGORIES = ['Grocery', 'Electronics', 'Fashion', 'Food & Beverage', 'Pharmacy', 'Beauty', 'All'];
 
 // Mark 'offer' step complete in Getting Started checklist
@@ -75,7 +85,7 @@ export function OffersPage() {
   const [statusFilter, setStatusFilter] = usePersistedState<OfferStatus | 'all'>('offers_filter', 'all', bizUser?.id);
   const [formOpen, setFormOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
-  const [form, setForm] = useState({ ...EMPTY_FORM });
+  const [form, setForm] = useState(getEmptyForm(bizUser?.businessCategory));
   const [saved, setSaved] = useState(false);
   const [view, setView] = usePersistedState<'kanban' | 'list'>('offers_view', 'kanban', bizUser?.id);
   const [dragging, setDragging] = useState<string | null>(null);
@@ -98,7 +108,7 @@ export function OffersPage() {
     expired: offers.filter(o => o.status === 'expired').length,
   };
 
-  function openNew() { setForm({ ...EMPTY_FORM }); setEditId(null); setFormOpen(true); }
+  function openNew() { setForm(getEmptyForm(bizUser?.businessCategory)); setEditId(null); setFormOpen(true); }
   function openEdit(o: Offer) { setForm({ title: o.title, description: o.description, discount: o.discount, price: o.price, isFlashDeal: o.isFlashDeal, startDate: o.startDate, endDate: o.endDate, category: o.category }); setEditId(o.id); setFormOpen(true); }
   function resubmit(o: Offer) { setOffers(os => os.map(x => x.id === o.id ? { ...x, status: 'pending_approval', rejectionReason: undefined } : x)); }
   function deleteOffer(id: string) {

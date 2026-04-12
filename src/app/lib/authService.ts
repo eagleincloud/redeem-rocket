@@ -416,13 +416,13 @@ export function buildLocalStorageBizUser(
     email: row.email ?? '',
     phone: row.phone ?? '',
     businessId: biz?.id ?? row.business_id ?? null,
-    businessName: biz?.name ?? null,
-    businessLogo: biz?.logo ?? '🏪',
-    businessCategory: biz?.category ?? '',
+    businessName: biz?.name ?? (row as any)?.business_name ?? null,
+    businessLogo: biz?.logo ?? (row as any)?.business_logo ?? '🏪',
+    businessCategory: biz?.category ?? (row as any)?.business_category ?? '',
     role: 'business' as const,
-    plan: 'free' as const,
-    planExpiry: null,
-    onboarding_done: Boolean(biz?.id ?? row.business_id),
+    plan: ((row as any)?.plan || 'free') as any,                    // ✅ Read from database
+    planExpiry: ((row as any)?.plan_expiry || null),                // ✅ Read from database
+    onboarding_done: (row as any)?.onboarding_done ?? Boolean(biz?.id ?? row.business_id),  // ✅ Read from database
     isApproved: biz?.is_approved ?? false,
   };
 }

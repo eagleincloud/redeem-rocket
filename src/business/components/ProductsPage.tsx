@@ -20,7 +20,16 @@ interface Product {
 
 const CATEGORIES = ['Grocery', 'Electronics', 'Fashion', 'Food & Beverage', 'Pharmacy', 'Beauty', 'Home & Garden', 'Sports', 'Books', 'Other'];
 
-const EMPTY_PRODUCT = { name: '', category: 'Grocery', mrp: 0, sellingPrice: 0, description: '', emoji: '📦', stock: 0 };
+// Default category: use business category if available, otherwise 'Grocery'
+const getEmptyProduct = (businessCategory?: string) => ({
+  name: '',
+  category: businessCategory || 'Grocery',
+  mrp: 0,
+  sellingPrice: 0,
+  description: '',
+  emoji: '📦',
+  stock: 0,
+});
 
 export function ProductsPage() {
   const { isDark } = useTheme();
@@ -32,7 +41,7 @@ export function ProductsPage() {
   const [catFilter, setCatFilter] = usePersistedState<string>('products_cat_filter', 'All', bizUser?.id);
   const [panelOpen, setPanelOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
-  const [form, setForm] = useState({ ...EMPTY_PRODUCT });
+  const [form, setForm] = useState(getEmptyProduct(bizUser?.businessCategory));
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
 
@@ -79,7 +88,7 @@ export function ProductsPage() {
 
   const uniqueCats = ['All', ...Array.from(new Set(products.map(p => p.category)))];
 
-  function openNew() { setForm({ ...EMPTY_PRODUCT }); setEditId(null); setPanelOpen(true); }
+  function openNew() { setForm(getEmptyProduct(bizUser?.businessCategory)); setEditId(null); setPanelOpen(true); }
   function openEdit(p: Product) { setForm({ name: p.name, category: p.category, mrp: p.mrp, sellingPrice: p.sellingPrice, description: p.description, emoji: p.emoji, stock: p.stock }); setEditId(p.id); setPanelOpen(true); }
   function closePanel() { setPanelOpen(false); setEditId(null); }
 
