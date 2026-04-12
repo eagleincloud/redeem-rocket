@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useTheme } from '@/app/context/ThemeContext';
 import { useViewport } from '../hooks/useViewport';
 import { useBusinessContext } from '../context/BusinessContext';
-import { fetchOwnProducts, createProduct, updateProduct, deleteProduct as supaDeleteProduct } from '@/app/api/supabase-data';
+import { usePersistedState } from '../hooks/usePersistedState';
+import { fetchOwnProducts, createProduct, updateProduct, deleteProduct as supaDeleteProduct, logActivity } from '@/app/api/supabase-data';
 import { Plus, Search, Edit2, Trash2, X, Check, Package, RefreshCw } from 'lucide-react';
 
 interface Product {
@@ -28,7 +29,7 @@ export function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [fetchLoading, setFetchLoading] = useState(true);
   const [search, setSearch] = useState('');
-  const [catFilter, setCatFilter] = useState('All');
+  const [catFilter, setCatFilter] = usePersistedState<string>('products_cat_filter', 'All', bizUser?.id);
   const [panelOpen, setPanelOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState({ ...EMPTY_PRODUCT });
@@ -86,6 +87,9 @@ export function ProductsPage() {
     if (!form.name.trim() || form.mrp <= 0 || form.sellingPrice <= 0) return;
     const mc = Math.floor((form.mrp - form.sellingPrice) / 2);
     const businessId = bizUser?.businessId ?? 'unknown';
+    const actorId = bizUser?.isTeamMember ? (bizUser.teamMemberData?.id ?? bizUser.id) : bizUser?.id ?? '';
+    const actorType = bizUser?.isTeamMember ? 'team_member' as const : 'owner' as const;
+    const actorName = bizUser?.name;
     if (editId) {
       setProducts(ps => ps.map(p => p.id === editId ? { ...p, ...form, maxCashback: Math.max(0, mc) } : p));
       updateProduct(editId, {
@@ -95,6 +99,7 @@ export function ProductsPage() {
         mrp: form.mrp,
         category: form.category,
       }).catch(() => {});
+      logActivity({ businessId, actorId, actorType, actorName, action: 'update_product', entityType: 'product', entityId: editId, entityName: form.name });
     } else {
       const newId = `p${Date.now()}`;
       const newP: Product = { id: newId, ...form, maxCashback: Math.max(0, mc) };
@@ -108,15 +113,21 @@ export function ProductsPage() {
         category: form.category,
         image: form.emoji,
       }).catch(() => {});
+      logActivity({ businessId, actorId, actorType, actorName, action: 'create_product', entityType: 'product', entityId: newId, entityName: form.name, metadata: { category: form.category, mrp: form.mrp } });
     }
     setSaved(true);
     setTimeout(() => { setSaved(false); closePanel(); }, 800);
   }
 
   function deleteProduct(id: string) {
+    const product = products.find(p => p.id === id);
+    const businessId = bizUser?.businessId ?? 'unknown';
+    const actorId = bizUser?.isTeamMember ? (bizUser.teamMemberData?.id ?? bizUser.id) : bizUser?.id ?? '';
+    const actorType = bizUser?.isTeamMember ? 'team_member' as const : 'owner' as const;
     setProducts(ps => ps.filter(p => p.id !== id));
     setDeleteId(null);
     supaDeleteProduct(id).catch(() => {});
+    logActivity({ businessId, actorId, actorType, actorName: bizUser?.name, action: 'delete_product', entityType: 'product', entityId: id, entityName: product?.name });
   }
 
   const inputStyle = {

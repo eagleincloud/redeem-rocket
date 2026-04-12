@@ -21,13 +21,17 @@ const RBACContext = createContext<RBACContextValue>({
 export function RBACProvider({ children }: { children: ReactNode }) {
   const { bizUser } = useBusinessContext();
 
-  // Business owners (role === 'business' without explicit member permissions) always have full access.
-  // Team members would have a 'permissions' field loaded onto bizUser from DB.
-  const isOwner = !bizUser || bizUser.role === 'business';
+  // isOwner is true only for business owners, not team members.
+  // bizUser.isTeamMember is set when the session comes from business_team_members table.
+  const isOwner = !bizUser?.isTeamMember;
 
   function getLevel(feature: Feature): PermLevel {
     if (isOwner) return 'admin';
-    return ((bizUser as any)?.permissions?.[feature] as PermLevel) ?? 'none';
+    // Permissions are stored inside teamMemberData.permissions (loaded from DB).
+    // If no explicit permission is set for a feature, default to 'readwrite' so
+    // team members can use the platform normally — only owner-only features are blocked.
+    const perms = (bizUser as any)?.teamMemberData?.permissions as Record<string, PermLevel> | undefined;
+    return perms?.[feature] ?? 'readwrite';
   }
 
   return (

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useTheme } from '@/app/context/ThemeContext';
 import { useBusinessContext } from '../context/BusinessContext';
 import { useViewport } from '../hooks/useViewport';
+import { usePersistedState } from '../hooks/usePersistedState';
 import { supabase } from '@/app/lib/supabase';
 import {
   LayoutDashboard, Package, Tag, Gavel, ShoppingBag, ClipboardList,
@@ -134,7 +135,9 @@ const PLAN_BADGE_LABELS: Record<string, string> = {
 // ── Component ──────────────────────────────────────────────────────────────────
 
 export function BusinessLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const { bizUser, isLoading, logout } = useBusinessContext();
+  // Sidebar open/collapsed state persisted per user
+  const [sidebarOpen, setSidebarOpen] = usePersistedState<boolean>('sidebar_open', true, bizUser?.id);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [lockedMsg, setLockedMsg] = useState<string | null>(null);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -145,7 +148,6 @@ export function BusinessLayout() {
   const searchRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { bizUser, isLoading, logout } = useBusinessContext();
   const { isDark, toggleTheme } = useTheme();
   const { isMobile } = useViewport();
   const navigate = useNavigate();

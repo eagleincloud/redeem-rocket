@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useTheme } from '@/app/context/ThemeContext';
 import { useBusinessContext } from '../context/BusinessContext';
 import { useViewport } from '../hooks/useViewport';
-import { createOffer as supaCreateOffer, updateOffer as supaUpdateOffer, fetchOwnOffers } from '@/app/api/supabase-data';
+import { usePersistedState } from '../hooks/usePersistedState';
+import { createOffer as supaCreateOffer, updateOffer as supaUpdateOffer, deleteOffer as supaDeleteOffer, fetchOwnOffers, logActivity } from '@/app/api/supabase-data';
 import { Plus, Tag, Clock, Percent, X, Check, AlertCircle, RefreshCw, Zap, LayoutGrid, List } from 'lucide-react';
 
 type OfferStatus = 'pending_approval' | 'approved' | 'rejected' | 'expired';
@@ -71,12 +72,12 @@ export function OffersPage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bizUser?.businessId]);
 
-  const [statusFilter, setStatusFilter] = useState<OfferStatus | 'all'>('all');
+  const [statusFilter, setStatusFilter] = usePersistedState<OfferStatus | 'all'>('offers_filter', 'all', bizUser?.id);
   const [formOpen, setFormOpen] = useState(false);
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState({ ...EMPTY_FORM });
   const [saved, setSaved] = useState(false);
-  const [view, setView] = useState<'kanban' | 'list'>('kanban');
+  const [view, setView] = usePersistedState<'kanban' | 'list'>('offers_view', 'kanban', bizUser?.id);
   const [dragging, setDragging] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState<OfferStatus | null>(null);
 
@@ -100,11 +101,21 @@ export function OffersPage() {
   function openNew() { setForm({ ...EMPTY_FORM }); setEditId(null); setFormOpen(true); }
   function openEdit(o: Offer) { setForm({ title: o.title, description: o.description, discount: o.discount, price: o.price, isFlashDeal: o.isFlashDeal, startDate: o.startDate, endDate: o.endDate, category: o.category }); setEditId(o.id); setFormOpen(true); }
   function resubmit(o: Offer) { setOffers(os => os.map(x => x.id === o.id ? { ...x, status: 'pending_approval', rejectionReason: undefined } : x)); }
-  function deleteOffer(id: string) { setOffers(os => os.filter(o => o.id !== id)); }
+  function deleteOffer(id: string) {
+    const offer = offers.find(o => o.id === id);
+    const businessId = bizUser?.businessId ?? 'unknown';
+    const actorId = bizUser?.isTeamMember ? (bizUser.teamMemberData?.id ?? bizUser?.id ?? '') : bizUser?.id ?? '';
+    const actorType = bizUser?.isTeamMember ? 'team_member' as const : 'owner' as const;
+    setOffers(os => os.filter(o => o.id !== id));
+    supaDeleteOffer(id).catch(() => {});
+    logActivity({ businessId, actorId, actorType, actorName: bizUser?.name, action: 'delete_offer', entityType: 'offer', entityId: id, entityName: offer?.title });
+  }
 
   function save() {
     if (!form.title.trim()) return;
     const businessId = bizUser?.businessId ?? 'unknown';
+    const actorId = bizUser?.isTeamMember ? (bizUser.teamMemberData?.id ?? bizUser?.id ?? '') : bizUser?.id ?? '';
+    const actorType = bizUser?.isTeamMember ? 'team_member' as const : 'owner' as const;
     if (editId) {
       setOffers(os => os.map(o => o.id === editId ? { ...o, ...form, status: 'pending_approval' as OfferStatus } : o));
       supaUpdateOffer(editId, {
@@ -118,6 +129,7 @@ export function OffersPage() {
         startDate: form.startDate,
         endDate: form.endDate,
       }).catch(() => {});
+      logActivity({ businessId, actorId, actorType, actorName: bizUser?.name, action: 'update_offer', entityType: 'offer', entityId: editId, entityName: form.title });
     } else {
       const newId = `o${Date.now()}`;
       const newO: Offer = { id: newId, ...form, status: 'pending_approval' };
@@ -133,6 +145,7 @@ export function OffersPage() {
         startDate: form.startDate,
         endDate: form.endDate,
       }).catch(() => {});
+      logActivity({ businessId, actorId, actorType, actorName: bizUser?.name, action: 'create_offer', entityType: 'offer', entityId: newId, entityName: form.title, metadata: { discount: form.discount, isFlashDeal: form.isFlashDeal } });
     }
     setSaved(true);
     setTimeout(() => { setSaved(false); setFormOpen(false); setEditId(null); }, 800);

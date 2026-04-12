@@ -4,6 +4,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useTheme } from '@/app/context/ThemeContext';
 import { useBusinessContext } from '../context/BusinessContext';
+import { useRBAC } from '../context/RBACContext';
 import { useViewport } from '../hooks/useViewport';
 import { getBusinessTypeKey } from '@/app/utils/businessType';
 import { registerBusiness } from '@/app/api/supabase-data';
@@ -63,6 +64,7 @@ const BUSINESS_CATEGORIES = [
 
 export function BusinessProfilePage() {
   const { bizUser, setBizUser } = useBusinessContext();
+  const { isOwner } = useRBAC();
   const { isDark } = useTheme();
   const { isMobile } = useViewport();
 
@@ -686,7 +688,20 @@ export function BusinessProfilePage() {
         </div>
       )}
 
-      {/* Platform Access — always visible below tabs */}
+      {/* Platform Access — owner-only: team members cannot change RR/LMS selection */}
+      {!isOwner && (
+        <div style={{ background: isDark ? '#0e1530' : '#fff', borderRadius: 16, border: `1px solid ${border}`, padding: 20, marginTop: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
+          <span style={{ fontSize: 20 }}>🔒</span>
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#f97316', marginBottom: 2 }}>Platform Access — Owner Only</div>
+            <div style={{ fontSize: 12, color: '#64748b' }}>
+              Only the business owner can change the active platform (Redeem Rocket / LMS).
+              Currently active: <strong style={{ color: '#f97316' }}>{bizUser?.product_selection === 'rr' ? 'Redeem Rocket' : bizUser?.product_selection === 'lms' ? 'LMS' : 'Both'}</strong>
+            </div>
+          </div>
+        </div>
+      )}
+      {isOwner && (
       <div style={{ background: card, borderRadius: 16, border: `1px solid ${border}`, padding: 24, marginTop: 24 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
           <div>
@@ -737,6 +752,7 @@ export function BusinessProfilePage() {
           ))}
         </div>
       </div>
+      )}
     </div>
   );
 }

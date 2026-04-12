@@ -5,6 +5,7 @@ import { Input } from '@/app/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
 import { loginBusinessWithPassword, sendOtp, verifyOtp, getOrCreateBizUser, signInWithGoogle } from '@/app/lib/authService';
+import { logActivity } from '@/app/api/supabase-data';
 import { useAuthBusiness } from '@/business/context/BusinessContext';
 import { AlertCircle, Loader2, Eye, EyeOff, Mail, Smartphone } from 'lucide-react';
 import { supabase } from '@/app/lib/supabase';
@@ -68,6 +69,10 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
 
         setUser(userData);
         localStorage.setItem('biz_user', JSON.stringify(userData));
+        // Log owner login activity
+        if (result.biz?.id) {
+          logActivity({ businessId: result.biz.id, actorId: result.user?.id ?? '', actorType: 'owner', actorName: result.user?.name ?? email, action: 'login', metadata: { method: 'password' } });
+        }
         setSuccessMessage('Login successful!');
         setTimeout(() => { onSuccess?.(); navigate('/app'); }, 1000);
         return;
@@ -120,6 +125,9 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
         status: 'active',
       };
       localStorage.setItem('team_member_session', JSON.stringify(teamSession));
+
+      // Log team member login
+      logActivity({ businessId: member.business_id, actorId: member.id, actorType: 'team_member', actorName: member.name, action: 'login', metadata: { method: 'password', first_login: member.first_login } });
 
       // Flag first login for password change modal
       if (member.first_login) {

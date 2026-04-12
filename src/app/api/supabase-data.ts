@@ -1274,6 +1274,41 @@ export async function deleteOffer(id: string): Promise<boolean> {
   } catch { return false; }
 }
 
+// ── Activity Logging ──────────────────────────────────────────────────────────
+
+export interface ActivityLogParams {
+  businessId: string;
+  actorId: string;
+  actorType: 'owner' | 'team_member';
+  actorName?: string;
+  action: string;           // e.g. 'login', 'create_product', 'update_offer', 'delete_lead'
+  entityType?: string;      // 'product' | 'offer' | 'lead' | 'campaign' | 'team_member' | ...
+  entityId?: string;
+  entityName?: string;
+  metadata?: Record<string, unknown>;
+}
+
+/**
+ * Append an entry to the activity_logs table.
+ * Fire-and-forget — errors are silently swallowed so they never break the UX.
+ */
+export async function logActivity(params: ActivityLogParams): Promise<void> {
+  if (!supabase) return;
+  try {
+    await supabase.from('activity_logs').insert({
+      business_id: params.businessId,
+      actor_id:    params.actorId,
+      actor_type:  params.actorType,
+      actor_name:  params.actorName ?? null,
+      action:      params.action,
+      entity_type: params.entityType ?? null,
+      entity_id:   params.entityId ?? null,
+      entity_name: params.entityName ?? null,
+      metadata:    params.metadata ?? {},
+    });
+  } catch { /* silent — never break the user flow */ }
+}
+
 // ── Business-side own offers fetch (by business_id) ──────────────────────────
 
 export interface OwnOffer {
