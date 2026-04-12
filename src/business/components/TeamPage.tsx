@@ -5,6 +5,7 @@ import { useBusinessContext } from '../context/BusinessContext';
 import { supabase } from '@/app/lib/supabase';
 import { toast } from 'sonner';
 import bcrypt from 'bcryptjs';
+import { fetchBusinessTeamMembers, updateTeamMember, deleteTeamMember, logActivity } from '@/app/api/supabase-data';
 
 type PermLevel = 'none' | 'read' | 'readwrite' | 'admin';
 type Feature = 'leads' | 'campaigns' | 'invoices' | 'analytics' | 'notifications' | 'auctions' | 'requirements' | 'settings' | 'team';
@@ -476,46 +477,96 @@ export function TeamPage() {
     const member = { ...data, business_id: bizUser?.businessId ?? data.business_id };
     if (editingMember) {
       // Update
-      if (supabase) {
-        const { data: updated } = await supabase.from('business_team_members').update(member).eq('id', editingMember.id).select().single();
-        if (updated) setMembers(prev => prev.map(m => m.id === editingMember.id ? updated as TeamMember : m));
-      } else {
+      const success = await updateTeamMember(editingMember.id, member);
+      if (success) {
         setMembers(prev => prev.map(m => m.id === editingMember.id ? { ...editingMember, ...member } : m));
+        logActivity({
+          businessId: bizUser!.businessId!,
+          actorId: bizUser!.id,
+          actorType: bizUser!.isTeamMember ? 'team_member' : 'owner',
+          actorName: bizUser!.name,
+          action: 'update',
+          entityType: 'team_member',
+          entityId: editingMember.id,
+          entityName: member.name,
+          metadata: { email: member.email },
+        });
+        toast.success('Team member updated successfully');
+      } else {
+        toast.error('Failed to update team member');
       }
       setEditingMember(null);
     } else {
-      // Insert
+      // Insert new team member
       let insertedMember: TeamMember | null = null;
       if (supabase) {
-        const { data: inserted } = await supabase.from('business_team_members').insert(member).select().single();
-        if (inserted) {
-          insertedMember = inserted as TeamMember;
-          setMembers(prev => [...prev, insertedMember!]);
+        try {
+          // Ensure password is included for new members
+          const insertData = {
+            ...member,
+            // Explicitly include password if provided
+            password: member.password || undefined,
+            first_login: member.first_login ?? true,
+            status: member.status || 'invited',
+          };
+
+          const { data: inserted, error } = await supabase
+            .from('business_team_members')
+            .insert(insertData)
+            .select()
+            .single();
+
+          if (error) {
+            console.error('Insert error:', error);
+            toast.error(`Failed to add team member: ${error.message}`);
+            return;
+          }
+
+          if (inserted) {
+            insertedMember = inserted as TeamMember;
+            setMembers(prev => [...prev, insertedMember!]);
+
+            logActivity({
+              businessId: bizUser!.businessId!,
+              actorId: bizUser!.id,
+              actorType: bizUser!.isTeamMember ? 'team_member' : 'owner',
+              actorName: bizUser!.name,
+              action: 'create',
+              entityType: 'team_member',
+              entityId: insertedMember.id,
+              entityName: member.name,
+              metadata: { email: member.email, hasPassword: !!member.password },
+            });
+
+            toast.success(`Team member ${member.email} added successfully. They can now login with the provided credentials.`);
+          }
+        } catch (err) {
+          console.error('Add member error:', err);
+          toast.error('Failed to add team member');
+          return;
         }
-      } else {
-        insertedMember = { ...member, id: crypto.randomUUID(), created_at: new Date().toISOString() };
-        setMembers(prev => [...prev, insertedMember!]);
       }
       setShowAddMember(false);
-
-      // ── Send email invite ──────────────────────────────────────────────────────
-      // TODO: Implement email invite - create send-direct-message edge function
-      if (member.email) {
-        try {
-          // Email invite placeholder - will be implemented
-          toast.success(`Team member ${member.email} added successfully`);
-        } catch (inviteErr) {
-          console.warn('Team member added but invite pending:', inviteErr);
-        }
-      }
     }
   }
 
   async function handleDeleteMember(id: string) {
-    if (supabase) {
-      await supabase.from('business_team_members').delete().eq('id', id);
+    const member = members.find(m => m.id === id);
+    const success = await deleteTeamMember(id);
+    if (success) {
+      setMembers(prev => prev.filter(m => m.id !== id));
+      logActivity({
+        businessId: bizUser!.businessId!,
+        actorId: bizUser!.id,
+        actorType: bizUser!.isTeamMember ? 'team_member' : 'owner',
+        actorName: bizUser!.name,
+        action: 'delete',
+        entityType: 'team_member',
+        entityId: id,
+        entityName: member?.name || 'Team Member',
+        metadata: {},
+      });
     }
-    setMembers(prev => prev.filter(m => m.id !== id));
   }
 
   // ── Role CRUD ───────────────────────────────────────────────────────────────

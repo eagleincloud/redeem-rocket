@@ -126,8 +126,11 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
       };
       localStorage.setItem('team_member_session', JSON.stringify(teamSession));
 
-      // Log team member login
-      logActivity({ businessId: member.business_id, actorId: member.id, actorType: 'team_member', actorName: member.name, action: 'login', metadata: { method: 'password', first_login: member.first_login } });
+      // Dispatch custom event so BusinessContext reloads
+      window.dispatchEvent(new Event('team_member_login'));
+
+      // Log team member login (fire-and-forget)
+      logActivity({ businessId: member.business_id, actorId: member.id, actorType: 'team_member', actorName: member.name, action: 'login', metadata: { method: 'password', first_login: member.first_login } }).catch(() => {});
 
       // Flag first login for password change modal
       if (member.first_login) {
@@ -136,7 +139,8 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
       }
 
       setSuccessMessage('Login successful!');
-      setTimeout(() => { onSuccess?.(); navigate('/app'); }, 1000);
+      // Give context time to listen to the event and start loading
+      setTimeout(() => { onSuccess?.(); navigate('/app', { replace: true }); }, 100);
     } catch (err) {
       console.error('Login error:', err);
       setError('An unexpected error occurred');

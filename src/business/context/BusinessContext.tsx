@@ -139,6 +139,7 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
   });
 
   // Load owner data for team member sessions
+  // Also subscribe to storage changes so we reload when team member logs in
   useEffect(() => {
     if (DEV_BYPASS) return;
     const teamRaw = localStorage.getItem(TEAM_SESSION_KEY);
@@ -233,6 +234,18 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
       console.warn('[BusinessContext] Failed to load team member session:', e);
       setIsLoading(false);
     }
+
+    // Listen for team member login event
+    const handleTeamMemberLogin = () => {
+      // Small delay to ensure localStorage is updated
+      setTimeout(() => {
+        // Re-run the team member loading logic by refreshing the page
+        // This ensures all context and state is properly initialized
+        window.location.reload();
+      }, 50);
+    };
+    window.addEventListener('team_member_login', handleTeamMemberLogin);
+    return () => window.removeEventListener('team_member_login', handleTeamMemberLogin);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

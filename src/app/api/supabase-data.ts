@@ -2851,3 +2851,245 @@ export async function updateBusinessServices(
     return { ok: false, error: 'Update failed' };
   }
 }
+
+/** ─────── Campaign Management ─────── */
+export async function fetchCampaignsForBusiness(businessId: string) {
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from('campaigns')
+      .select('*')
+      .eq('business_id', businessId)
+      .order('created_at', { ascending: false });
+    return data || [];
+  } catch (err) {
+    console.error('Fetch campaigns failed:', err);
+    return [];
+  }
+}
+
+export async function createCampaignForBusiness(
+  businessId: string,
+  name: string,
+  messageTemplate: string,
+  channel: 'whatsapp' | 'sms' | 'push',
+) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('campaigns')
+      .insert({
+        business_id: businessId,
+        name,
+        message_template: messageTemplate,
+        channel,
+        status: 'draft',
+      });
+    return !error;
+  } catch (err) {
+    console.error('Create campaign failed:', err);
+    return false;
+  }
+}
+
+export async function updateCampaignForBusiness(
+  campaignId: string,
+  patch: Partial<{ name: string; message_template: string; status: string }>,
+) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('campaigns')
+      .update(patch)
+      .eq('id', campaignId);
+    return !error;
+  } catch (err) {
+    console.error('Update campaign failed:', err);
+    return false;
+  }
+}
+
+export async function deleteCampaignForBusiness(campaignId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('campaigns')
+      .delete()
+      .eq('id', campaignId);
+    return !error;
+  } catch (err) {
+    console.error('Delete campaign failed:', err);
+    return false;
+  }
+}
+
+/** ─────── Business Notifications ─────── */
+export async function fetchBusinessNotifications(businessId: string) {
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from('in_app_notifications')
+      .select('*')
+      .eq('user_id', businessId)
+      .eq('user_type', 'business')
+      .order('created_at', { ascending: false });
+    return data || [];
+  } catch (err) {
+    console.error('Fetch notifications failed:', err);
+    return [];
+  }
+}
+
+export async function markNotificationAsRead(notificationId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('in_app_notifications')
+      .update({ is_read: true })
+      .eq('id', notificationId);
+    return !error;
+  } catch (err) {
+    console.error('Mark notification read failed:', err);
+    return false;
+  }
+}
+
+export async function markAllNotificationsRead(businessId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('in_app_notifications')
+      .update({ is_read: true })
+      .eq('user_id', businessId)
+      .eq('user_type', 'business')
+      .eq('is_read', false);
+    return !error;
+  } catch (err) {
+    console.error('Mark all notifications read failed:', err);
+    return false;
+  }
+}
+
+/** ─────── Team Members Management ─────── */
+export async function fetchBusinessTeamMembers(businessId: string) {
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from('business_team_members')
+      .select('*')
+      .eq('business_id', businessId)
+      .order('created_at', { ascending: false });
+    return data || [];
+  } catch (err) {
+    console.error('Fetch team members failed:', err);
+    return [];
+  }
+}
+
+export async function createTeamMember(
+  businessId: string,
+  data: {
+    name: string;
+    email: string;
+    phone?: string;
+    password?: string;
+    role_id?: string;
+    permissions?: Record<string, string>;
+    status?: 'invited' | 'active' | 'inactive';
+  },
+) {
+  if (!supabase) return { ok: false, error: 'Supabase not initialized', id: null };
+  try {
+    const insertData = {
+      business_id: businessId,
+      name: data.name,
+      email: data.email,
+      phone: data.phone || null,
+      password: data.password || null,
+      role_id: data.role_id || null,
+      permissions: data.permissions || null,
+      status: data.status || 'invited',
+      first_login: !!data.password,
+      created_at: new Date().toISOString(),
+    };
+
+    const { data: inserted, error } = await supabase
+      .from('business_team_members')
+      .insert(insertData)
+      .select()
+      .single();
+
+    if (error) {
+      return { ok: false, error: error.message, id: null };
+    }
+
+    return { ok: true, error: null, id: inserted?.id };
+  } catch (err) {
+    console.error('Create team member failed:', err);
+    return { ok: false, error: 'Failed to create team member', id: null };
+  }
+}
+
+export async function updateTeamMember(
+  teamMemberId: string,
+  patch: Partial<{ name: string; email: string; role: string; permissions: Record<string, string> }>,
+) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('business_team_members')
+      .update(patch)
+      .eq('id', teamMemberId);
+    return !error;
+  } catch (err) {
+    console.error('Update team member failed:', err);
+    return false;
+  }
+}
+
+export async function deleteTeamMember(teamMemberId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('business_team_members')
+      .delete()
+      .eq('id', teamMemberId);
+    return !error;
+  } catch (err) {
+    console.error('Delete team member failed:', err);
+    return false;
+  }
+}
+
+/** ─────── Invoices / Payment Submissions ─────── */
+export async function fetchPaymentSubmissionsForBusiness(businessId: string) {
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from('payment_submissions')
+      .select('*')
+      .eq('business_id', businessId)
+      .order('created_at', { ascending: false });
+    return data || [];
+  } catch (err) {
+    console.error('Fetch payment submissions failed:', err);
+    return [];
+  }
+}
+
+export async function updatePaymentSubmissionStatus(
+  paymentId: string,
+  status: 'pending' | 'acknowledged' | 'approved' | 'rejected',
+) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('payment_submissions')
+      .update({ status })
+      .eq('id', paymentId);
+    return !error;
+  } catch (err) {
+    console.error('Update payment status failed:', err);
+    return false;
+  }
+}
