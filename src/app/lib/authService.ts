@@ -15,7 +15,7 @@
  *
  * ── After verification ────────────────────────────────────────────────────────
  *  3. getOrCreateAppUser / getOrCreateBizUser  → upserts user row in DB
- *  4. buildLocalStorageUser / buildLocalStorageBizUser → shapes for localStorage
+ *  4. buildLocalStorageUser → shapes for localStorage
  *
  * ── Env vars needed ───────────────────────────────────────────────────────────
  *   VITE_SUPABASE_URL                  — Supabase project URL
@@ -403,27 +403,6 @@ export function buildLocalStorageUser(row: AppUserRow) {
     avatar:
       row.avatar_url ??
       `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(displayName)}`,
-  };
-}
-
-export function buildLocalStorageBizUser(
-  row: BizUserRow,
-  biz?: BusinessRow | null,
-) {
-  return {
-    id: row.id,
-    name: row.name ?? row.email ?? row.phone ?? 'Business Owner',
-    email: row.email ?? '',
-    phone: row.phone ?? '',
-    businessId: biz?.id ?? row.business_id ?? null,
-    businessName: biz?.name ?? (row as any)?.business_name ?? null,
-    businessLogo: biz?.logo ?? (row as any)?.business_logo ?? '🏪',
-    businessCategory: biz?.category ?? (row as any)?.business_category ?? '',
-    role: 'business' as const,
-    plan: ((row as any)?.plan || 'free') as any,                    // ✅ Read from database
-    planExpiry: ((row as any)?.plan_expiry || null),                // ✅ Read from database
-    onboarding_done: (row as any)?.onboarding_done ?? Boolean(biz?.id ?? row.business_id),  // ✅ Read from database
-    isApproved: biz?.is_approved ?? false,
   };
 }
 

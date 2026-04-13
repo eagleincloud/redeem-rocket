@@ -2,7 +2,6 @@ import { createBrowserRouter } from 'react-router';
 import { BusinessProvider } from './context/BusinessContext';
 import { ThemeProvider } from '@/app/context/ThemeContext';
 import { BusinessLayout } from './components/BusinessLayout';
-import { BusinessLogin } from './components/BusinessLogin';
 import { BusinessOnboarding } from './components/BusinessOnboarding';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ErrorElement } from './components/ErrorElement';
@@ -56,18 +55,6 @@ function Root() {
             <BusinessLayout />
           </ErrorBoundary>
         </RBACProvider>
-      </BusinessProvider>
-    </ThemeProvider>
-  );
-}
-
-function LoginRoot() {
-  return (
-    <ThemeProvider>
-      <BusinessProvider>
-        <ErrorBoundary>
-          <BusinessLogin />
-        </ErrorBoundary>
       </BusinessProvider>
     </ThemeProvider>
   );
