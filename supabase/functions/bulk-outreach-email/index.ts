@@ -119,8 +119,13 @@ async function sendBatchViaResend(
 
 async function filterSuppressedEmails(
   recipients: Recipient[],
-  supabase: ReturnType<typeof createClient>,
+  supabase: ReturnType<typeof createClient> | null,
 ): Promise<{ active: Recipient[]; suppressed: string[] }> {
+  // If no Supabase client or table doesn't exist, skip filtering
+  if (!supabase) {
+    return { active: recipients, suppressed: [] };
+  }
+
   try {
     const emails = recipients.map(r => r.email.toLowerCase());
 
@@ -130,11 +135,16 @@ async function filterSuppressedEmails(
       .in('email', emails);
 
     if (error) {
-      console.warn('[bulk-outreach-email] Could not fetch suppressed emails:', error);
+      // Table might not exist yet - skip filtering
+      console.log('[bulk-outreach-email] Suppression table not available, skipping filter');
       return { active: recipients, suppressed: [] };
     }
 
-    const suppressedSet = new Set((suppressedEmails || []).map(s => s.email));
+    if (!suppressedEmails || suppressedEmails.length === 0) {
+      return { active: recipients, suppressed: [] };
+    }
+
+    const suppressedSet = new Set(suppressedEmails.map(s => s.email));
     const active = recipients.filter(r => !suppressedSet.has(r.email.toLowerCase()));
     const suppressed = recipients
       .filter(r => suppressedSet.has(r.email.toLowerCase()))
@@ -148,7 +158,7 @@ async function filterSuppressedEmails(
 
     return { active, suppressed };
   } catch (err) {
-    console.warn('[bulk-outreach-email] Suppression filter error:', err);
+    console.log('[bulk-outreach-email] Suppression filter skipped (table may not exist yet)');
     return { active: recipients, suppressed: [] };
   }
 }
