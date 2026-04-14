@@ -92,10 +92,10 @@ function ProfileCompletenessBanner({ bizUser, isDark, isMobile }: { bizUser: { n
   }
 
   const accent = '#f97316';
-  const card   = isDark ? '#0e1530' : '#ffffff';
-  const border = isDark ? '#1c2a55' : '#e8d8cc';
-  const text   = isDark ? '#e2e8f0' : '#18100a';
-  const muted  = isDark ? '#64748b' : '#9a7860';
+  const card   = isDark ? '#111827' : '#ffffff';
+  const border = isDark ? 'rgba(255,255,255,0.07)' : '#e8d8cc';
+  const text   = isDark ? '#f1f5f9' : '#18100a';
+  const muted  = isDark ? '#6b7280' : '#9a7860';
 
   return (
     <div style={{ background: card, borderRadius: 16, border: `1.5px solid ${accent}55`, padding: isMobile ? 16 : 20, position: 'relative' }}>
@@ -134,7 +134,7 @@ function ProfileCompletenessBanner({ bizUser, isDark, isMobile }: { bizUser: { n
         )}
       </div>
 
-      <div style={{ height: 6, borderRadius: 6, background: isDark ? '#1c2a55' : '#f3f0ec', marginBottom: 12, overflow: 'hidden' }}>
+      <div style={{ height: 6, borderRadius: 6, background: isDark ? '#1f2937' : '#f3f0ec', marginBottom: 12, overflow: 'hidden' }}>
         <div style={{ height: '100%', width: `${pct}%`, borderRadius: 6, background: `linear-gradient(90deg, ${accent}, #fb923c)`, transition: 'width 0.4s ease' }} />
       </div>
 
@@ -144,7 +144,7 @@ function ProfileCompletenessBanner({ bizUser, isDark, isMobile }: { bizUser: { n
             <Link
               key={f.label}
               to={f.link}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 20, background: isDark ? '#1c2a55' : '#fdf6f0', border: `1px solid ${border}`, textDecoration: 'none', color: text, fontSize: 11, fontWeight: 600 }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: 5, padding: '4px 10px', borderRadius: 20, background: isDark ? '#1f2937' : '#fdf6f0', border: `1px solid ${border}`, textDecoration: 'none', color: text, fontSize: 11, fontWeight: 600 }}
             >
               <Pencil size={10} color={accent} />
               {f.label}
@@ -181,11 +181,11 @@ function FirstLoginPasswordModal({ isDark }: { isDark: boolean }) {
 
   const strength = getPasswordStrength(newPw);
 
-  const card   = isDark ? '#0e1530' : '#ffffff';
-  const border = isDark ? '#1c2a55' : '#e8d8cc';
-  const text   = isDark ? '#e2e8f0' : '#18100a';
-  const muted  = isDark ? '#64748b' : '#9a7860';
-  const inputBg = isDark ? '#162040' : '#fdf6f0';
+  const card   = isDark ? '#111827' : '#ffffff';
+  const border = isDark ? 'rgba(255,255,255,0.08)' : '#e8d8cc';
+  const text   = isDark ? '#f1f5f9' : '#18100a';
+  const muted  = isDark ? '#6b7280' : '#9a7860';
+  const inputBg = isDark ? '#1f2937' : '#fdf6f0';
   const accent  = '#f97316';
 
   async function handleSubmit(e: React.FormEvent) {
@@ -261,7 +261,7 @@ function FirstLoginPasswordModal({ isDark }: { isDark: boolean }) {
 
             {newPw && (
               <div style={{ marginTop: 8 }}>
-                <div style={{ height: 4, borderRadius: 4, background: isDark ? '#1c2a55' : '#f3f0ec', overflow: 'hidden' }}>
+                <div style={{ height: 4, borderRadius: 4, background: isDark ? '#1f2937' : '#f3f0ec', overflow: 'hidden' }}>
                   <div style={{ height: '100%', width: `${(strength.score / 4) * 100}%`, borderRadius: 4, background: strength.color, transition: 'all 0.3s' }} />
                 </div>
                 <div style={{ fontSize: 11, color: strength.color, marginTop: 4, fontWeight: 600 }}>{strength.label}</div>
@@ -305,11 +305,11 @@ function BusinessWebsiteCard({ bizUser, isDark, isMobile }: { bizUser: { busines
   const bizUrl = import.meta.env.PROD
     ? `${window.location.origin}/biz/${bizUser.businessId}`
     : `${window.location.origin}/business.html/biz/${bizUser.businessId}`;
-  const card   = isDark ? '#0e1530' : '#ffffff';
-  const border = isDark ? '#1c2a55' : '#e8d8cc';
-  const text   = isDark ? '#e2e8f0' : '#18100a';
-  const muted  = isDark ? '#64748b' : '#9a7860';
-  const inputBg = isDark ? '#162040' : '#fdf6f0';
+  const card   = isDark ? '#111827' : '#ffffff';
+  const border = isDark ? 'rgba(255,255,255,0.08)' : '#e8d8cc';
+  const text   = isDark ? '#f1f5f9' : '#18100a';
+  const muted  = isDark ? '#6b7280' : '#9a7860';
+  const inputBg = isDark ? '#1f2937' : '#fdf6f0';
   const accent  = '#f97316';
 
   function copyLink() {
@@ -374,14 +374,14 @@ function BusinessWebsiteCard({ bizUser, isDark, isMobile }: { bizUser: { busines
 
       {showPreview && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', zIndex: 9999, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
-          <div style={{ width: '100%', maxWidth: 420, background: isDark ? '#0e1530' : '#f3f4f6', borderRadius: 20, overflow: 'hidden', boxShadow: '0 24px 64px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column', maxHeight: '90vh' }}>
-            <div style={{ background: isDark ? '#162040' : '#e5e7eb', padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
+          <div style={{ width: '100%', maxWidth: 420, background: isDark ? '#111827' : '#f3f4f6', borderRadius: 20, overflow: 'hidden', boxShadow: '0 24px 64px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column', maxHeight: '90vh' }}>
+            <div style={{ background: isDark ? '#1f2937' : '#e5e7eb', padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ef4444' }} />
                 <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#f59e0b' }} />
                 <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#22c55e' }} />
               </div>
-              <div style={{ flex: 1, margin: '0 12px', background: isDark ? '#0e1530' : '#fff', borderRadius: 6, padding: '3px 10px', fontSize: 11, color: isDark ? '#64748b' : '#9a7860', textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <div style={{ flex: 1, margin: '0 12px', background: isDark ? '#111827' : '#fff', borderRadius: 6, padding: '3px 10px', fontSize: 11, color: isDark ? '#64748b' : '#9a7860', textAlign: 'center', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {bizUrl}
               </div>
               <button
@@ -396,7 +396,7 @@ function BusinessWebsiteCard({ bizUser, isDark, isMobile }: { bizUser: { busines
                 title="Customer View Preview"
               />
             </div>
-            <div style={{ padding: '10px 16px', background: isDark ? '#162040' : '#e5e7eb', textAlign: 'center', fontSize: 11, color: isDark ? '#64748b' : '#9a7860', flexShrink: 0 }}>
+            <div style={{ padding: '10px 16px', background: isDark ? '#1f2937' : '#e5e7eb', textAlign: 'center', fontSize: 11, color: isDark ? '#64748b' : '#9a7860', flexShrink: 0 }}>
               👁 Customer View Preview — <span style={{ color: accent, cursor: 'pointer', fontWeight: 600 }} onClick={openWebsite}>Open in new tab ↗</span>
             </div>
           </div>
@@ -417,10 +417,11 @@ export function DashboardPage() {
   );
 
   const accent  = '#f97316';
-  const card    = isDark ? '#0e1530' : '#ffffff';
-  const border  = isDark ? 'rgba(255,140,80,0.1)' : '#e8d8cc';
-  const text    = isDark ? '#e2e8f0' : '#18100a';
-  const textMuted = isDark ? '#64748b' : '#9a7860';
+  const card    = isDark ? '#111827' : '#ffffff';
+  const cardAlt = isDark ? '#1f2937' : '#fdf6f0';
+  const border  = isDark ? 'rgba(255,255,255,0.07)' : '#e8d8cc';
+  const text    = isDark ? '#f1f5f9' : '#18100a';
+  const textMuted = isDark ? '#6b7280' : '#9a7860';
 
   const [kpis, setKpis] = useState<DashboardKPIs>({
     totalRevenue: 147600,
@@ -661,7 +662,7 @@ export function DashboardPage() {
     payment_received: '#a855f7',
   };
 
-  const heroBg = 'linear-gradient(135deg, #0d0621 0%, #1a0a4d 30%, #2d1080 50%, #1a0a4d 70%, #0d0621 100%)';
+  const heroBg = 'linear-gradient(135deg, #0b0e1a 0%, #111827 20%, #1e1b4b 45%, #312e81 60%, #1e1b4b 75%, #111827 90%, #0b0e1a 100%)';
 
   const bizUrl = bizUser?.businessId
     ? (import.meta.env.PROD
@@ -692,33 +693,40 @@ export function DashboardPage() {
         justifyContent: 'center',
         padding: isMobile ? '28px 24px' : '32px 40px',
       }}>
-        {/* Radial glow overlay */}
+        {/* Nebula glow layers — matches space photo effect in reference */}
         <div style={{
-          position: 'absolute',
-          right: 0,
-          top: 0,
-          width: '50%',
-          height: '100%',
-          background: 'radial-gradient(ellipse at 80% 50%, rgba(255,100,30,0.25) 0%, rgba(120,40,200,0.35) 40%, transparent 70%)',
-          pointerEvents: 'none',
+          position: 'absolute', inset: 0, pointerEvents: 'none',
+          background: 'radial-gradient(ellipse 70% 80% at 65% 40%, rgba(99,102,241,0.35) 0%, rgba(79,70,229,0.25) 35%, transparent 70%)',
+        }} />
+        <div style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none',
+          background: 'radial-gradient(ellipse 50% 60% at 80% 60%, rgba(139,92,246,0.3) 0%, rgba(124,58,237,0.2) 40%, transparent 70%)',
+        }} />
+        <div style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none',
+          background: 'radial-gradient(ellipse 30% 40% at 55% 30%, rgba(249,115,22,0.15) 0%, transparent 60%)',
         }} />
 
-        {/* Stars decoration */}
+        {/* Stars scattered across the hero */}
         <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
           {[
-            { top: '15%', left: '60%', size: 2 }, { top: '30%', left: '75%', size: 1.5 },
-            { top: '55%', left: '82%', size: 2 }, { top: '70%', left: '65%', size: 1 },
-            { top: '20%', left: '88%', size: 2.5 }, { top: '45%', left: '92%', size: 1.5 },
-            { top: '80%', left: '78%', size: 1 }, { top: '10%', left: '95%', size: 2 },
+            { top: '8%',  left: '52%', size: 1.5, op: 0.6 }, { top: '15%', left: '63%', size: 2,   op: 0.8 },
+            { top: '22%', left: '74%', size: 1,   op: 0.5 }, { top: '30%', left: '81%', size: 2.5, op: 0.7 },
+            { top: '12%', left: '87%', size: 1.5, op: 0.6 }, { top: '40%', left: '57%', size: 1,   op: 0.4 },
+            { top: '48%', left: '90%', size: 2,   op: 0.8 }, { top: '55%', left: '69%', size: 1.5, op: 0.6 },
+            { top: '62%', left: '78%', size: 1,   op: 0.5 }, { top: '70%', left: '94%', size: 2,   op: 0.7 },
+            { top: '78%', left: '61%', size: 1.5, op: 0.6 }, { top: '85%', left: '85%', size: 1,   op: 0.4 },
+            { top: '5%',  left: '96%', size: 2.5, op: 0.8 }, { top: '33%', left: '96%', size: 1,   op: 0.5 },
+            { top: '58%', left: '54%', size: 1.5, op: 0.3 }, { top: '90%', left: '73%', size: 2,   op: 0.6 },
           ].map((s, i) => (
             <div key={i} style={{
               position: 'absolute',
-              top: s.top,
-              left: s.left,
-              width: s.size,
-              height: s.size,
+              top: s.top, left: s.left,
+              width: s.size, height: s.size,
               borderRadius: '50%',
-              background: 'rgba(255,255,255,0.6)',
+              background: '#ffffff',
+              opacity: s.op,
+              boxShadow: s.size >= 2 ? `0 0 ${s.size * 2}px rgba(255,255,255,0.6)` : 'none',
             }} />
           ))}
         </div>
@@ -844,17 +852,26 @@ export function DashboardPage() {
               cursor: 'pointer',
               position: 'relative',
               overflow: 'hidden',
-              transition: 'border-color 0.15s, transform 0.15s',
+              transition: 'border-color 0.2s, transform 0.2s, box-shadow 0.2s',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
             }}
             onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.borderColor = mc.iconColor;
-              (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+              (e.currentTarget as HTMLElement).style.borderColor = mc.iconColor + '88';
+              (e.currentTarget as HTMLElement).style.transform = 'translateY(-3px)';
+              (e.currentTarget as HTMLElement).style.boxShadow = `0 8px 24px ${mc.iconColor}20`;
             }}
             onMouseLeave={e => {
               (e.currentTarget as HTMLElement).style.borderColor = border;
               (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+              (e.currentTarget as HTMLElement).style.boxShadow = '0 1px 3px rgba(0,0,0,0.3)';
             }}
           >
+            {/* Colored top accent bar */}
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: `linear-gradient(90deg, ${mc.iconColor}, ${mc.iconColor}55)`, borderRadius: '16px 16px 0 0' }} />
+
+            {/* Background icon watermark */}
+            <div style={{ position: 'absolute', bottom: -10, right: -10, fontSize: 64, opacity: 0.04, pointerEvents: 'none', userSelect: 'none' }}>{mc.icon}</div>
+
             {/* Top row: icon badge + trend badge */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
               <div style={{
@@ -948,8 +965,11 @@ export function DashboardPage() {
           gap: 14,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
-            <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#a855f7', boxShadow: '0 0 6px #a855f7' }} />
+            <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#a855f7', boxShadow: '0 0 8px #a855f7aa' }} />
             <span style={{ fontSize: 13, fontWeight: 700, color: text }}>AI Command Center</span>
+            <span style={{ marginLeft: 'auto', padding: '2px 8px', borderRadius: 20, background: 'rgba(99,102,241,0.15)', border: '1px solid rgba(99,102,241,0.3)', color: '#818cf8', fontSize: 10, fontWeight: 700 }}>
+              Offers 1
+            </span>
           </div>
 
           {/* QR code mini */}
@@ -971,7 +991,7 @@ export function DashboardPage() {
           <div style={{
             padding: '10px 12px',
             borderRadius: 10,
-            background: isDark ? '#162040' : '#fdf6f0',
+            background: cardAlt,
             border: `1px solid ${accent}22`,
           }}>
             <div style={{ fontSize: 11, color: textMuted, marginBottom: 3 }}>Top Service</div>
@@ -1038,7 +1058,7 @@ export function DashboardPage() {
                   alignItems: 'flex-start',
                   padding: '10px 12px',
                   borderRadius: 10,
-                  background: isDark ? '#162040' : '#fdf6f0',
+                  background: cardAlt,
                   border: `1px solid ${border}`,
                   cursor: 'pointer',
                 }}
@@ -1109,7 +1129,7 @@ export function DashboardPage() {
                   alignItems: 'flex-start',
                   padding: '10px 12px',
                   borderRadius: 10,
-                  background: isDark ? '#162040' : '#fdf6f0',
+                  background: cardAlt,
                   border: `1px solid ${border}`,
                   cursor: 'pointer',
                   transition: 'opacity 0.15s',

@@ -10,22 +10,24 @@
   --color-primary-active: #E67E31;
   --color-primary-light: rgba(255, 158, 100, 0.1);
 
-  /* Background Colors */
-  --bg-dark: #0F1426;
-  --bg-darker: #0A0E1A;
-  --bg-card: #1A1E3F;
-  --bg-input: #242B4D;
-  --bg-hover: #2D3557;
-  --bg-overlay: rgba(15, 20, 38, 0.8);
+  /* Background Colors — Figma tokens */
+  --bg-dark: #0B1220;
+  --bg-darker: #060c18;
+  --bg-card: #111827;
+  --bg-card-alt: #1f2937;
+  --bg-input: #1f2937;
+  --bg-hover: #374151;
+  --bg-sidebar: #0F172A;
+  --bg-overlay: rgba(11, 18, 32, 0.85);
 
   /* Text Colors */
-  --text-primary: #F8F9FA;
+  --text-primary: #F1F5F9;
   --text-secondary: #D1D5DB;
-  --text-muted: #9CA3AF;
-  --text-placeholder: #6B7280;
+  --text-muted: #6B7280;
+  --text-placeholder: #4B5563;
 
   /* Border & Divider */
-  --border-light: rgba(255, 158, 100, 0.1);
+  --border-light: rgba(255, 255, 255, 0.07);
   --border-focus: #FF9E64;
   --border-default: 1px solid var(--border-light);
 

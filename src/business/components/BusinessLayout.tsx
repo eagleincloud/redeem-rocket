@@ -305,7 +305,7 @@ export function BusinessLayout() {
 
   // Wait for async team-member session to load before deciding auth state
   if (isLoading) return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#080d20' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0b1220' }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
         <img src="/logo.png" alt="Redeem Rocket" style={{ width: 56, height: 56, objectFit: 'contain', opacity: 0.8 }} />
         <div style={{ width: 36, height: 36, border: '3px solid #f97316', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
@@ -344,11 +344,11 @@ export function BusinessLayout() {
     }
   }
 
-  const bg        = isDark ? '#080d20' : '#faf7f3';
-  const sidebar   = isDark ? '#0e1530' : '#ffffff';
-  const border    = isDark ? '#1c2a55' : '#e8d8cc';
-  const text      = isDark ? '#e2e8f0' : '#18100a';
-  const textMuted = isDark ? '#64748b' : '#9a7860';
+  const bg        = isDark ? '#0b1220' : '#faf7f3';
+  const sidebar   = isDark ? '#0f172a' : '#ffffff';
+  const border    = isDark ? 'rgba(255,255,255,0.07)' : '#e8d8cc';
+  const text      = isDark ? '#f1f5f9' : '#18100a';
+  const textMuted = isDark ? '#6b7280' : '#9a7860';
   const accent    = '#f97316';
 
   // ── Dynamic nav groups based on product_selection ─────────────────────────
@@ -586,7 +586,7 @@ export function BusinessLayout() {
 
                 {/* Business info */}
                 {bizUser.businessName && (
-                  <div style={{ padding: '12px 16px', borderBottom: `1px solid ${border}`, background: isDark ? '#0f1838' : '#fdf6f0' }}>
+                  <div style={{ padding: '12px 16px', borderBottom: `1px solid ${border}`, background: isDark ? '#111827' : '#fdf6f0' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <div style={{ width: 32, height: 32, borderRadius: 8, background: `linear-gradient(135deg, ${accent}33, #fb923c33)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, border: `1px solid ${accent}44` }}>
                         {bizUser.businessLogo || '🏪'}
@@ -697,7 +697,7 @@ export function BusinessLayout() {
 
         {/* Business info */}
         {sidebarOpen && bizUser.businessName && (
-          <div style={{ padding: '12px 16px', borderBottom: `1px solid ${border}`, background: isDark ? '#0f1838' : '#fdf6f0', flexShrink: 0 }}>
+          <div style={{ padding: '12px 16px', borderBottom: `1px solid ${border}`, background: isDark ? '#111827' : '#fdf6f0', flexShrink: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <div style={{ width: 32, height: 32, borderRadius: 8, background: `linear-gradient(135deg, ${accent}33, #fb923c33)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, border: `1px solid ${accent}44`, flexShrink: 0 }}>
                 {bizUser.businessLogo || '🏪'}
