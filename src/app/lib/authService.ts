@@ -693,29 +693,10 @@ export async function requestPasswordReset(
   email: string,
   userTable: 'biz_users' | 'app_users' = 'biz_users',
 ): Promise<PasswordResetResult> {
-  if (!supabase) {
-    return { ok: false, error: 'Supabase not configured' };
-  }
-
-  try {
-    const { data, error } = await supabase.functions.invoke('password-reset-otp', {
-      body: { action: 'request', email, userTable },
-    });
-
-    if (error) {
-      console.error('Password reset request error:', error);
-      return { ok: false, error: 'Could not send reset email. Check your connection.' };
-    }
-
-    if (!data?.ok) {
-      return { ok: false, error: data?.error ?? 'Failed to send reset email.' };
-    }
-
-    return { ok: true };
-  } catch (err) {
-    console.error('Password reset request error:', err);
-    return { ok: false, error: 'Could not send reset email. Check your connection.' };
-  }
+  // DEPRECATED: Use sessionStorage-based OTP approach instead
+  // This function is kept for backward compatibility but does not work
+  console.warn('requestPasswordReset is deprecated. Password reset now uses sessionStorage OTP.');
+  return { ok: false, error: 'Password reset service temporarily unavailable. Please use forgot password link.' };
 }
 
 /**
@@ -730,37 +711,10 @@ export async function verifyPasswordResetOtp(
   otp: string,
   userTable: 'biz_users' | 'app_users' = 'biz_users',
 ): Promise<PasswordResetResult> {
-  if (!supabase) {
-    return { ok: false, error: 'Supabase not configured' };
-  }
-
-  if (!otp || typeof otp !== 'string') {
-    return { ok: false, error: 'OTP is required' };
-  }
-
-  try {
-    const { data, error } = await supabase.functions.invoke('password-reset-otp', {
-      body: { action: 'verify', email, otp: otp.trim(), userTable },
-    });
-
-    if (error) {
-      console.error('OTP verification error:', error);
-      return { ok: false, error: 'Could not verify OTP. Check your connection.' };
-    }
-
-    if (!data?.ok) {
-      return {
-        ok: false,
-        error: data?.error ?? 'OTP verification failed.',
-        attemptsLeft: data?.attemptsLeft,
-      };
-    }
-
-    return { ok: true };
-  } catch (err) {
-    console.error('OTP verification error:', err);
-    return { ok: false, error: 'Could not verify OTP. Check your connection.' };
-  }
+  // DEPRECATED: Use sessionStorage-based OTP approach instead
+  // This function is kept for backward compatibility but does not work
+  console.warn('verifyPasswordResetOtp is deprecated. Password reset now uses sessionStorage OTP.');
+  return { ok: false, error: 'OTP verification service temporarily unavailable.' };
 }
 
 /**
@@ -777,38 +731,10 @@ export async function resetPasswordWithOtp(
   newPassword: string,
   userTable: 'biz_users' | 'app_users' = 'biz_users',
 ): Promise<PasswordResetResult> {
-  if (!supabase) {
-    return { ok: false, error: 'Supabase not configured' };
-  }
-
-  // Validate password strength
-  const validation = validatePasswordStrength(newPassword);
-  if (!validation.valid) {
-    return { ok: false, error: validation.errors[0] };
-  }
-
-  try {
-    // Hash password on client side
-    const passwordHash = await hashPassword(newPassword);
-
-    const { data, error } = await supabase.functions.invoke('password-reset-otp', {
-      body: { action: 'reset', email, otp, newPassword: passwordHash, userTable },
-    });
-
-    if (error) {
-      console.error('Password reset error:', error);
-      return { ok: false, error: 'Could not reset password. Check your connection.' };
-    }
-
-    if (!data?.ok) {
-      return { ok: false, error: data?.error ?? 'Failed to reset password.' };
-    }
-
-    return { ok: true };
-  } catch (err) {
-    console.error('Password reset error:', err);
-    return { ok: false, error: 'Could not reset password. Check your connection.' };
-  }
+  // DEPRECATED: Use resetPasswordAfterOtp instead
+  // This function is kept for backward compatibility but does not work
+  console.warn('resetPasswordWithOtp is deprecated. Use resetPasswordAfterOtp instead.');
+  return { ok: false, error: 'Password reset service temporarily unavailable.' };
 }
 
 /**
