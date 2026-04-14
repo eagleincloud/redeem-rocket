@@ -4,10 +4,7 @@ import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app/components/ui/card';
 import { AlertCircle, Loader2, Check } from 'lucide-react';
-import {
-  validatePassword,
-  resetPasswordAfterOtp,
-} from '@/app/lib/authService';
+import { validatePassword, resetPasswordAfterOtp } from '@/app/lib/authService';
 import { supabase } from '@/app/lib/supabase';
 
 type ResetStep = 'request' | 'verify' | 'reset' | 'success';
@@ -30,7 +27,6 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [attemptsLeft, setAttemptsLeft] = useState(3);
 
   // Password validation state
   const [passwordErrors, setPasswordErrors] = useState<string[]>([]);
@@ -46,7 +42,7 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
     }
   };
 
-  // ── STEP 1: Request Password Reset ─────────────────────────────────────────
+  // ── STEP 1: Request Password Reset (Generate OTP locally) ─────────────────────
   const handleRequestReset = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -59,51 +55,51 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
         return;
       }
 
-      // Check if user exists
+      // Verify user exists
       if (!supabase) {
         setError('Supabase not configured');
         setLoading(false);
         return;
       }
 
-      const { data: user } = await supabase
+      const { data: user, error: userError } = await supabase
         .from('biz_users')
         .select('id, email')
         .eq('email', email.toLowerCase().trim())
         .single();
 
-      if (!user) {
+      if (userError || !user) {
         setError('Email not found. Please sign up first.');
         setLoading(false);
         return;
       }
 
-      // Generate 6-digit OTP
-      const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+      // Generate 6-digit OTP locally
+      const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
 
-      // Store OTP in sessionStorage (10 minutes expiry)
+      // Store in sessionStorage (10 min expiry)
       sessionStorage.setItem(`pwd_reset_otp_${email.toLowerCase()}`, JSON.stringify({
-        code: generatedOtp,
+        code: newOtp,
         expires: Date.now() + 10 * 60 * 1000,
       }));
 
-      // Log OTP to console for testing
-      console.log(`📧 Password Reset OTP for ${email}: ${generatedOtp}`);
+      // Log to console for testing
+      console.log(`📧 Password Reset OTP for ${email}: ${newOtp}`);
 
-      setSuccessMessage('Reset code generated! Check console (F12) for OTP code.');
+      setSuccessMessage('Reset code generated! Check console (F12) for code.');
       setTimeout(() => {
         setSuccessMessage('');
         setCurrentStep('verify');
       }, 2000);
     } catch (err) {
-      console.error('Password reset request error:', err);
+      console.error('Error generating OTP:', err);
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);
     }
   };
 
-  // ── STEP 2: Verify OTP ────────────────────────────────────────────────────
+  // ── STEP 2: Verify OTP (from sessionStorage) ──────────────────────────────────
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -116,56 +112,56 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
         return;
       }
 
-      // Retrieve stored OTP from sessionStorage
-      const storedData = sessionStorage.getItem(`pwd_reset_otp_${email.toLowerCase()}`);
+      // Get OTP from sessionStorage
+      const storedOtpData = sessionStorage.getItem(`pwd_reset_otp_${email.toLowerCase()}`);
 
-      if (!storedData) {
-        setError('OTP request expired. Please request a new one.');
+      if (!storedOtpData) {
+        setError('OTP request expired or not found. Please request a new one.');
         setLoading(false);
         return;
       }
 
-      const { code, expires } = JSON.parse(storedData);
+      const { code: storedCode, expires: expiresAt } = JSON.parse(storedOtpData);
 
-      // Check if OTP has expired
-      if (Date.now() > expires) {
+      // Check expiry
+      if (Date.now() > expiresAt) {
         sessionStorage.removeItem(`pwd_reset_otp_${email.toLowerCase()}`);
         setError('OTP has expired. Please request a new one.');
         setLoading(false);
         return;
       }
 
-      // Verify OTP matches
-      if (otp.trim() !== code) {
-        setError('Invalid OTP. Please check and try again.');
+      // Verify code matches
+      if (otp.trim() !== storedCode) {
+        setError('Invalid code. Please check and try again.');
         setLoading(false);
         return;
       }
 
-      // OTP verified - clear it and move to reset
+      // Clear OTP after verification
       sessionStorage.removeItem(`pwd_reset_otp_${email.toLowerCase()}`);
 
-      setSuccessMessage('OTP verified successfully!');
+      setSuccessMessage('Code verified! Now set your new password.');
       setTimeout(() => {
         setSuccessMessage('');
         setCurrentStep('reset');
       }, 1500);
     } catch (err) {
-      console.error('OTP verification error:', err);
+      console.error('Error verifying OTP:', err);
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);
     }
   };
 
-  // ── STEP 3: Reset Password ─────────────────────────────────────────────────
+  // ── STEP 3: Reset Password (update in database) ───────────────────────────────
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      // Validate passwords
+      // Validate both passwords entered
       if (!newPassword || !confirmPassword) {
         setError('Please enter both passwords');
         setLoading(false);
@@ -178,6 +174,7 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
         return;
       }
 
+      // Validate password strength
       const validation = validatePassword(newPassword);
       if (!validation.valid) {
         setError(validation.errors[0]);
@@ -185,6 +182,7 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
         return;
       }
 
+      // Update password in database
       const result = await resetPasswordAfterOtp(email, newPassword);
 
       if (!result.ok) {
@@ -199,7 +197,7 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
         setCurrentStep('success');
       }, 1500);
     } catch (err) {
-      console.error('Password reset error:', err);
+      console.error('Error resetting password:', err);
       setError('An unexpected error occurred');
     } finally {
       setLoading(false);
@@ -229,7 +227,7 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
               <CardTitle className="text-2xl">Reset Password</CardTitle>
               <CardDescription className="text-base">
                 {currentStep === 'request' && 'Enter your email to receive a reset code'}
-                {currentStep === 'verify' && 'Enter the code from your email'}
+                {currentStep === 'verify' && 'Enter the code from console (F12)'}
                 {currentStep === 'reset' && 'Create a new password'}
                 {currentStep === 'success' && 'Password reset complete'}
               </CardDescription>
@@ -250,51 +248,37 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-2">
               <AlertCircle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="text-sm text-red-800">{error}</p>
-                {attemptsLeft > 0 && attemptsLeft < 3 && currentStep === 'verify' && (
-                  <p className="text-xs text-red-600 mt-1">
-                    Attempts remaining: {attemptsLeft}
-                  </p>
-                )}
-              </div>
+              <p className="text-sm text-red-800">{error}</p>
             </div>
           )}
 
           {/* STEP 1: Request Reset */}
           {currentStep === 'request' && (
             <form onSubmit={handleRequestReset} className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Email Address</label>
+              <div>
+                <label className="block text-sm font-medium mb-1">Email Address</label>
                 <Input
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder="aditya@eagleincloud.io"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={loading}
                   required
                 />
               </div>
-
-              <Button
-                type="submit"
-                className="w-full bg-purple-600 hover:bg-purple-700"
-                disabled={loading}
-              >
+              <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Sending...
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Generating Code...
                   </>
                 ) : (
                   'Send Reset Code'
                 )}
               </Button>
-
-              <div className="text-center text-sm text-gray-600">
-                Remember your password?{' '}
-                <Link to="/login" className="text-purple-600 hover:underline font-medium">
-                  Login here
+              <div className="text-center text-sm">
+                <Link to="/login" className="text-blue-600 hover:underline">
+                  Back to login
                 </Link>
               </div>
             </form>
@@ -303,38 +287,31 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
           {/* STEP 2: Verify OTP */}
           {currentStep === 'verify' && (
             <form onSubmit={handleVerifyOtp} className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Enter Code</label>
-                <p className="text-xs text-gray-600">
-                  We sent a 6-digit code to <span className="font-medium">{email}</span>
-                </p>
+              <div>
+                <label className="block text-sm font-medium mb-1">Reset Code (6 digits)</label>
                 <Input
                   type="text"
                   placeholder="000000"
                   value={otp}
-                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                  maxLength={6}
+                  onChange={(e) => setOtp(e.target.value.slice(0, 6))}
                   disabled={loading}
-                  className="text-center text-lg tracking-widest font-mono"
+                  maxLength={6}
                   required
                 />
+                <p className="text-xs text-gray-500 mt-1">
+                  Check console (F12 → Console tab) for code like "📧 Password Reset OTP for..."
+                </p>
               </div>
-
-              <Button
-                type="submit"
-                className="w-full bg-purple-600 hover:bg-purple-700"
-                disabled={loading || otp.length !== 6}
-              >
+              <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                     Verifying...
                   </>
                 ) : (
                   'Verify Code'
                 )}
               </Button>
-
               <Button
                 type="button"
                 variant="outline"
@@ -350,8 +327,8 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
           {/* STEP 3: Reset Password */}
           {currentStep === 'reset' && (
             <form onSubmit={handleResetPassword} className="space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">New Password</label>
+              <div>
+                <label className="block text-sm font-medium mb-1">New Password</label>
                 <Input
                   type="password"
                   placeholder="Enter new password"
@@ -360,31 +337,23 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
                   disabled={loading}
                   required
                 />
+                {passwordErrors.length > 0 && (
+                  <div className="mt-2 space-y-1">
+                    {passwordErrors.map((err, i) => (
+                      <p key={i} className="text-xs text-red-600">• {err}</p>
+                    ))}
+                  </div>
+                )}
+                <p className="text-xs text-gray-500 mt-2">
+                  Min 8 chars, uppercase, lowercase, number, special char
+                </p>
               </div>
 
-              {/* Password strength indicator */}
-              {newPassword && (
-                <div className="space-y-2">
-                  <div className="flex gap-2">
-                    <div className={`h-1 flex-1 rounded ${newPassword.length >= 8 ? 'bg-green-500' : 'bg-gray-300'}`} />
-                    <div className={`h-1 flex-1 rounded ${/[A-Z]/.test(newPassword) && /[a-z]/.test(newPassword) ? 'bg-green-500' : 'bg-gray-300'}`} />
-                    <div className={`h-1 flex-1 rounded ${/[0-9]/.test(newPassword) ? 'bg-green-500' : 'bg-gray-300'}`} />
-                  </div>
-                  {passwordErrors.length > 0 && (
-                    <ul className="text-xs text-red-600 space-y-1">
-                      {passwordErrors.map((err) => (
-                        <li key={err}>• {err}</li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              )}
-
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Confirm Password</label>
+              <div>
+                <label className="block text-sm font-medium mb-1">Confirm Password</label>
                 <Input
                   type="password"
-                  placeholder="Confirm password"
+                  placeholder="Confirm new password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   disabled={loading}
@@ -392,14 +361,10 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
                 />
               </div>
 
-              <Button
-                type="submit"
-                className="w-full bg-purple-600 hover:bg-purple-700"
-                disabled={loading || passwordErrors.length > 0 || !newPassword || !confirmPassword}
-              >
+              <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                     Resetting...
                   </>
                 ) : (
@@ -421,21 +386,19 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
 
           {/* STEP 4: Success */}
           {currentStep === 'success' && (
-            <div className="space-y-4 text-center">
+            <div className="text-center space-y-4">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                <Check className="h-8 w-8 text-green-600" />
+                <Check className="w-8 h-8 text-green-600" />
               </div>
-              <div>
-                <h3 className="font-semibold text-gray-900">Password Reset Successful</h3>
-                <p className="text-sm text-gray-600 mt-1">
-                  Your password has been changed. You can now login with your new password.
-                </p>
-              </div>
+              <h3 className="text-lg font-semibold">Password Reset Complete!</h3>
+              <p className="text-sm text-gray-600">
+                You can now login with your new password.
+              </p>
               <Button
                 onClick={() => navigate('/login')}
-                className="w-full bg-purple-600 hover:bg-purple-700"
+                className="w-full"
               >
-                Back to Login
+                Go to Login
               </Button>
             </div>
           )}
