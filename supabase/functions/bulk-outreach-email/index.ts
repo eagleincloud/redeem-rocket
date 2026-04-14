@@ -12,6 +12,7 @@
  *     content: string (text fallback),
  *     campaignName: string,
  *     businessId: string,
+ *     resendApiKey?: string (from VITE_RESEND_API_KEY),
  *     batchSize?: number (default: 50),
  *     delayMs?: number (default: 500 ms between batches),
  *   }
@@ -19,14 +20,13 @@
  * Deploy:
  *   supabase functions deploy bulk-outreach-email
  *
- * Required secrets:
- *   RESEND_API_KEY    — from resend.com
- *   RESEND_FROM       — verified sender
+ * No secrets required - API key passed in request body
  */
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-const RESEND_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
+// Try to get from Deno env (if set as secret), fallback to empty
+const RESEND_KEY_ENV = Deno.env.get('RESEND_API_KEY') ?? '';
 const RESEND_FROM = Deno.env.get('RESEND_FROM') ?? 'Redeem Rocket <noreply@redeemrocket.in>';
 const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';
 const SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
@@ -56,6 +56,7 @@ interface OutreachPayload {
   content: string;
   campaignName: string;
   businessId: string;
+  resendApiKey?: string;
   batchSize?: number;
   delayMs?: number;
 }
@@ -69,9 +70,12 @@ async function sendBatchViaResend(
   subject: string,
   htmlContent: string,
   content: string,
+  resendApiKey: string,
 ): Promise<{ accepted: string[]; rejected: string[] }> {
+  const RESEND_KEY = resendApiKey || RESEND_KEY_ENV;
+
   if (!RESEND_KEY) {
-    console.log(`[DEV] Would send batch of ${batch.length} emails`);
+    console.log(`[DEV] Would send batch of ${batch.length} emails (no API key provided)`);
     return {
       accepted: batch.map(r => r.email),
       rejected: [],
@@ -193,6 +197,7 @@ Deno.serve(async (req) => {
       content,
       campaignName,
       businessId,
+      resendApiKey,
       batchSize = 50,
       delayMs = 500,
     } = body;
@@ -235,7 +240,7 @@ Deno.serve(async (req) => {
 
       console.log(`[bulk-outreach-email] Processing batch ${batchNum}/${totalBatches}`);
 
-      const result = await sendBatchViaResend(batch, subject, htmlContent, content);
+      const result = await sendBatchViaResend(batch, subject, htmlContent, content, resendApiKey);
 
       totalAccepted += result.accepted.length;
       totalRejected += result.rejected.length;
