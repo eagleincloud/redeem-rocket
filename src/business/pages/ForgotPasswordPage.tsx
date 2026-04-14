@@ -3,403 +3,232 @@ import { useNavigate, Link } from 'react-router';
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app/components/ui/card';
-import { AlertCircle, Loader2, Check } from 'lucide-react';
+import { AlertCircle, Check } from 'lucide-react';
 import { validatePassword, resetPasswordAfterOtp } from '@/app/lib/authService';
 import { supabase } from '@/app/lib/supabase';
 
-type ResetStep = 'request' | 'verify' | 'reset' | 'success';
-
-interface ForgotPasswordPageProps {
-  onSuccess?: () => void;
-}
-
-export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
+export function ForgotPasswordPage() {
   const navigate = useNavigate();
-
-  // Form state
-  const [currentStep, setCurrentStep] = useState<ResetStep>('request');
+  const [step, setStep] = useState<'email' | 'otp' | 'password' | 'success'>('email');
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
-  const [newPassword, setNewPassword] = useState('');
+  const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
-  // UI state
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // Password validation state
-  const [passwordErrors, setPasswordErrors] = useState<string[]>([]);
-
-  // Handle password validation display
-  const handlePasswordChange = (value: string) => {
-    setNewPassword(value);
-    if (value) {
-      const validation = validatePassword(value);
-      setPasswordErrors(validation.errors);
-    } else {
-      setPasswordErrors([]);
-    }
-  };
-
-  // ── STEP 1: Request Password Reset (Generate OTP locally) ─────────────────────
-  const handleRequestReset = async (e: React.FormEvent) => {
+  const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      if (!email || !email.includes('@')) {
-        setError('Please enter a valid email address');
+      if (!email.includes('@')) {
+        setError('Invalid email');
         setLoading(false);
         return;
       }
 
-      // Verify user exists
       if (!supabase) {
-        setError('Supabase not configured');
+        setError('Database error');
         setLoading(false);
         return;
       }
 
-      const { data: user, error: userError } = await supabase
+      const { data: user } = await supabase
         .from('biz_users')
-        .select('id, email')
-        .eq('email', email.toLowerCase().trim())
+        .select('id')
+        .eq('email', email.toLowerCase())
         .single();
 
-      if (userError || !user) {
-        setError('Email not found. Please sign up first.');
+      if (!user) {
+        setError('Email not found');
         setLoading(false);
         return;
       }
 
-      // Generate 6-digit OTP locally
-      const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-
-      // Store in sessionStorage (10 min expiry)
-      sessionStorage.setItem(`pwd_reset_otp_${email.toLowerCase()}`, JSON.stringify({
-        code: newOtp,
-        expires: Date.now() + 10 * 60 * 1000,
+      const code = String(Math.floor(100000 + Math.random() * 900000));
+      const key = `reset_${email.toLowerCase()}`;
+      sessionStorage.setItem(key, JSON.stringify({
+        code,
+        expires: Date.now() + 600000,
       }));
 
-      // Log to console for testing
-      console.log(`📧 Password Reset OTP for ${email}: ${newOtp}`);
-
-      setSuccessMessage('Reset code generated! Check console (F12) for code.');
+      console.log(`📧 OTP: ${code}`);
+      setSuccess(`Code sent! Check console (F12).`);
       setTimeout(() => {
-        setSuccessMessage('');
-        setCurrentStep('verify');
-      }, 2000);
-    } catch (err) {
-      console.error('Error generating OTP:', err);
-      setError('An unexpected error occurred');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // ── STEP 2: Verify OTP (from sessionStorage) ──────────────────────────────────
-  const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    try {
-      if (!otp || otp.length !== 6) {
-        setError('Please enter a valid 6-digit code');
-        setLoading(false);
-        return;
-      }
-
-      // Get OTP from sessionStorage
-      const storedOtpData = sessionStorage.getItem(`pwd_reset_otp_${email.toLowerCase()}`);
-
-      if (!storedOtpData) {
-        setError('OTP request expired or not found. Please request a new one.');
-        setLoading(false);
-        return;
-      }
-
-      const { code: storedCode, expires: expiresAt } = JSON.parse(storedOtpData);
-
-      // Check expiry
-      if (Date.now() > expiresAt) {
-        sessionStorage.removeItem(`pwd_reset_otp_${email.toLowerCase()}`);
-        setError('OTP has expired. Please request a new one.');
-        setLoading(false);
-        return;
-      }
-
-      // Verify code matches
-      if (otp.trim() !== storedCode) {
-        setError('Invalid code. Please check and try again.');
-        setLoading(false);
-        return;
-      }
-
-      // Clear OTP after verification
-      sessionStorage.removeItem(`pwd_reset_otp_${email.toLowerCase()}`);
-
-      setSuccessMessage('Code verified! Now set your new password.');
-      setTimeout(() => {
-        setSuccessMessage('');
-        setCurrentStep('reset');
+        setSuccess('');
+        setStep('otp');
       }, 1500);
     } catch (err) {
-      console.error('Error verifying OTP:', err);
-      setError('An unexpected error occurred');
+      setError('Error: ' + String(err).slice(0, 50));
     } finally {
       setLoading(false);
     }
   };
 
-  // ── STEP 3: Reset Password (update in database) ───────────────────────────────
-  const handleResetPassword = async (e: React.FormEvent) => {
+  const handleVerifyCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    try {
+      const key = `reset_${email.toLowerCase()}`;
+      const stored = sessionStorage.getItem(key);
+
+      if (!stored) {
+        setError('Code expired');
+        return;
+      }
+
+      const { code: savedCode, expires } = JSON.parse(stored);
+
+      if (Date.now() > expires) {
+        sessionStorage.removeItem(key);
+        setError('Code expired');
+        return;
+      }
+
+      if (otp !== savedCode) {
+        setError('Wrong code');
+        return;
+      }
+
+      sessionStorage.removeItem(key);
+      setSuccess('Verified!');
+      setTimeout(() => {
+        setSuccess('');
+        setStep('password');
+      }, 1000);
+    } catch (err) {
+      setError('Error');
+    }
+  };
+
+  const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
     try {
-      // Validate both passwords entered
-      if (!newPassword || !confirmPassword) {
-        setError('Please enter both passwords');
-        setLoading(false);
-        return;
-      }
-
-      if (newPassword !== confirmPassword) {
+      if (password !== confirmPassword) {
         setError('Passwords do not match');
         setLoading(false);
         return;
       }
 
-      // Validate password strength
-      const validation = validatePassword(newPassword);
+      const validation = validatePassword(password);
       if (!validation.valid) {
         setError(validation.errors[0]);
         setLoading(false);
         return;
       }
 
-      // Update password in database
-      const result = await resetPasswordAfterOtp(email, newPassword);
+      const result = await resetPasswordAfterOtp(email, password);
 
       if (!result.ok) {
-        setError(result.error || 'Failed to reset password');
+        setError(result.error || 'Failed');
         setLoading(false);
         return;
       }
 
-      setSuccessMessage('Password reset successfully!');
+      setSuccess('Password reset!');
       setTimeout(() => {
-        setSuccessMessage('');
-        setCurrentStep('success');
+        navigate('/login');
       }, 1500);
     } catch (err) {
-      console.error('Error resetting password:', err);
-      setError('An unexpected error occurred');
+      setError('Error: ' + String(err).slice(0, 50));
     } finally {
       setLoading(false);
-    }
-  };
-
-  // Handle back button
-  const handleBack = () => {
-    if (currentStep === 'verify') {
-      setOtp('');
-      setCurrentStep('request');
-      setError('');
-    } else if (currentStep === 'reset') {
-      setNewPassword('');
-      setConfirmPassword('');
-      setCurrentStep('verify');
-      setError('');
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center p-4">
       <Card className="w-full max-w-md">
-        <CardHeader className="space-y-2">
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle className="text-2xl">Reset Password</CardTitle>
-              <CardDescription className="text-base">
-                {currentStep === 'request' && 'Enter your email to receive a reset code'}
-                {currentStep === 'verify' && 'Enter the code from console (F12)'}
-                {currentStep === 'reset' && 'Create a new password'}
-                {currentStep === 'success' && 'Password reset complete'}
-              </CardDescription>
-            </div>
-          </div>
+        <CardHeader>
+          <CardTitle>Reset Password</CardTitle>
+          <CardDescription>
+            {step === 'email' && 'Enter your email'}
+            {step === 'otp' && 'Enter code from console'}
+            {step === 'password' && 'Set new password'}
+            {step === 'success' && 'Done!'}
+          </CardDescription>
         </CardHeader>
-
         <CardContent className="space-y-4">
-          {/* Success Message */}
-          {successMessage && (
-            <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-start gap-2">
-              <Check className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
-              <p className="text-sm text-green-800">{successMessage}</p>
-            </div>
-          )}
-
-          {/* Error Message */}
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start gap-2">
-              <AlertCircle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
+            <div className="bg-red-50 border border-red-200 rounded p-3 flex gap-2">
+              <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
               <p className="text-sm text-red-800">{error}</p>
             </div>
           )}
-
-          {/* STEP 1: Request Reset */}
-          {currentStep === 'request' && (
-            <form onSubmit={handleRequestReset} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">Email Address</label>
-                <Input
-                  type="email"
-                  placeholder="aditya@eagleincloud.io"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={loading}
-                  required
-                />
-              </div>
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Generating Code...
-                  </>
-                ) : (
-                  'Send Reset Code'
-                )}
-              </Button>
-              <div className="text-center text-sm">
-                <Link to="/login" className="text-blue-600 hover:underline">
-                  Back to login
-                </Link>
-              </div>
-            </form>
+          {success && (
+            <div className="bg-green-50 border border-green-200 rounded p-3 flex gap-2">
+              <Check className="h-5 w-5 text-green-600 flex-shrink-0" />
+              <p className="text-sm text-green-800">{success}</p>
+            </div>
           )}
 
-          {/* STEP 2: Verify OTP */}
-          {currentStep === 'verify' && (
-            <form onSubmit={handleVerifyOtp} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">Reset Code (6 digits)</label>
-                <Input
-                  type="text"
-                  placeholder="000000"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value.slice(0, 6))}
-                  disabled={loading}
-                  maxLength={6}
-                  required
-                />
-                <p className="text-xs text-gray-500 mt-1">
-                  Check console (F12 → Console tab) for code like "📧 Password Reset OTP for..."
-                </p>
-              </div>
+          {step === 'email' && (
+            <form onSubmit={handleSendCode} className="space-y-4">
+              <Input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Verifying...
-                  </>
-                ) : (
-                  'Verify Code'
-                )}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                onClick={handleBack}
-                disabled={loading}
-              >
-                Back
+                {loading ? 'Sending...' : 'Send Code'}
               </Button>
             </form>
           )}
 
-          {/* STEP 3: Reset Password */}
-          {currentStep === 'reset' && (
-            <form onSubmit={handleResetPassword} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">New Password</label>
-                <Input
-                  type="password"
-                  placeholder="Enter new password"
-                  value={newPassword}
-                  onChange={(e) => handlePasswordChange(e.target.value)}
-                  disabled={loading}
-                  required
-                />
-                {passwordErrors.length > 0 && (
-                  <div className="mt-2 space-y-1">
-                    {passwordErrors.map((err, i) => (
-                      <p key={i} className="text-xs text-red-600">• {err}</p>
-                    ))}
-                  </div>
-                )}
-                <p className="text-xs text-gray-500 mt-2">
-                  Min 8 chars, uppercase, lowercase, number, special char
-                </p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Confirm Password</label>
-                <Input
-                  type="password"
-                  placeholder="Confirm new password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  disabled={loading}
-                  required
-                />
-              </div>
-
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Resetting...
-                  </>
-                ) : (
-                  'Reset Password'
-                )}
-              </Button>
-
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                onClick={handleBack}
-                disabled={loading}
-              >
-                Back
+          {step === 'otp' && (
+            <form onSubmit={handleVerifyCode} className="space-y-4">
+              <Input
+                type="text"
+                placeholder="6-digit code"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                maxLength={6}
+                required
+              />
+              <Button type="submit" className="w-full">
+                Verify Code
               </Button>
             </form>
           )}
 
-          {/* STEP 4: Success */}
-          {currentStep === 'success' && (
+          {step === 'password' && (
+            <form onSubmit={handleReset} className="space-y-4">
+              <Input
+                type="password"
+                placeholder="New password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <Input
+                type="password"
+                placeholder="Confirm password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+              />
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading ? 'Resetting...' : 'Reset Password'}
+              </Button>
+            </form>
+          )}
+
+          {step === 'success' && (
             <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                <Check className="w-8 h-8 text-green-600" />
-              </div>
-              <h3 className="text-lg font-semibold">Password Reset Complete!</h3>
-              <p className="text-sm text-gray-600">
-                You can now login with your new password.
-              </p>
-              <Button
-                onClick={() => navigate('/login')}
-                className="w-full"
-              >
-                Go to Login
-              </Button>
+              <Check className="w-12 h-12 text-green-600 mx-auto" />
+              <p>Password reset successful!</p>
+              <Link to="/login" className="text-blue-600 hover:underline">
+                Back to login
+              </Link>
             </div>
           )}
         </CardContent>
