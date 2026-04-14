@@ -205,27 +205,33 @@ async function trackOutreachEmails(
 ) {
   if (!campaignId) return;
 
-  const records = accepted.map(email => ({
-    campaign_id: campaignId,
-    recipient_email: email,
-    business_id: businessId,
-    status: 'sent',
-    sent_at: new Date().toISOString(),
-  }));
+  try {
+    const records = accepted.map(email => ({
+      campaign_id: campaignId,
+      recipient_email: email,
+      business_id: businessId,
+      status: 'sent',
+      sent_at: new Date().toISOString(),
+    }));
 
-  const { error } = await supabase
-    .from('outreach_email_tracking')
-    .insert(records);
+    const { error } = await supabase
+      .from('outreach_email_tracking')
+      .insert(records);
 
-  if (error) {
-    console.error('[bulk-outreach-email] Tracking error:', error);
+    if (error) {
+      console.warn('[bulk-outreach-email] Tracking insert error (table may not have expected columns):', error);
+      // Continue even if insert fails
+    } else {
+      // Update campaign sent count
+      await supabase
+        .from('outreach_campaigns')
+        .update({ sent_count: accepted.length })
+        .eq('id', campaignId);
+    }
+  } catch (trackErr) {
+    console.warn('[bulk-outreach-email] Tracking error (continuing):', String(trackErr));
+    // Continue even if tracking fails - emails were already sent
   }
-
-  // Update campaign sent count
-  await supabase
-    .from('outreach_campaigns')
-    .update({ sent_count: accepted.length })
-    .eq('id', campaignId);
 }
 
 Deno.serve(async (req) => {
@@ -325,9 +331,14 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Track all sent emails
+    // Track all sent emails (optional - skip if table doesn't exist or has missing columns)
     if (campaignId && supabase && allAccepted.length > 0) {
-      await trackOutreachEmails(campaignId, allAccepted, businessId, supabase);
+      try {
+        await trackOutreachEmails(campaignId, allAccepted, businessId, supabase);
+      } catch (trackErr) {
+        console.log('[bulk-outreach-email] Tracking skipped:', String(trackErr));
+        // Continue even if tracking fails - emails were already sent
+      }
     }
 
     console.log(
