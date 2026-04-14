@@ -80,6 +80,7 @@ export interface TrackingPixelUrl {
 
 // ── Env config ─────────────────────────────────────────────────────────────────
 
+const RESEND_API_KEY = import.meta.env.VITE_RESEND_API_KEY || '';
 const RESEND_FROM = import.meta.env.VITE_RESEND_FROM || 'Redeem Rocket <noreply@redeemrocket.in>';
 const RESEND_REPLY_TO = import.meta.env.VITE_RESEND_REPLY_TO || 'support@redeemrocket.in';
 
@@ -328,6 +329,7 @@ export async function sendBulkOutreach(
         content: payload.content,
         campaignName: payload.campaignName,
         businessId: payload.businessId,
+        resendApiKey: RESEND_API_KEY,
         batchSize: payload.batchSize || 50,
         delayMs: payload.delayMs || 500,
       },
