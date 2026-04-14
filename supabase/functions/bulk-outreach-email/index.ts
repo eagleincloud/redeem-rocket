@@ -268,18 +268,25 @@ Deno.serve(async (req) => {
       ? createClient(SUPABASE_URL, SERVICE_ROLE_KEY)
       : null;
 
-    // Filter out suppressed emails
+    // Filter out suppressed emails (optional - skip if table doesn't exist)
     let activeRecipients = recipients;
     let suppressedCount = 0;
     if (supabase) {
-      const { active, suppressed } = await filterSuppressedEmails(recipients, supabase);
-      activeRecipients = active;
-      suppressedCount = suppressed.length;
+      try {
+        const { active, suppressed } = await filterSuppressedEmails(recipients, supabase);
+        activeRecipients = active;
+        suppressedCount = suppressed.length;
 
-      if (suppressedCount > 0) {
-        console.log(
-          `[bulk-outreach-email] Suppressed emails filtered: ${suppressedCount}/${recipients.length}`,
-        );
+        if (suppressedCount > 0) {
+          console.log(
+            `[bulk-outreach-email] Suppressed emails filtered: ${suppressedCount}/${recipients.length}`,
+          );
+        }
+      } catch (filterErr) {
+        console.log('[bulk-outreach-email] Suppression filter error (skipping):', String(filterErr));
+        // Continue with all recipients if filtering fails
+        activeRecipients = recipients;
+        suppressedCount = 0;
       }
     }
 
