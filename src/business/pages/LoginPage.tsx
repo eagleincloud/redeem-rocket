@@ -10,6 +10,7 @@ import { useAuthBusiness } from '@/business/context/BusinessContext';
 import { AlertCircle, Loader2, Eye, EyeOff, Mail, Smartphone } from 'lucide-react';
 import { supabase } from '@/app/lib/supabase';
 import bcrypt from 'bcryptjs';
+import { PasswordResetModal } from '@/business/components/PasswordResetModal';
 
 interface LoginFormProps {
   onSuccess?: () => void;
@@ -40,6 +41,9 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
   const [otpLoading, setOtpLoading] = useState(false);
   const [otpError, setOtpError] = useState('');
   const [otpType, setOtpType] = useState<'email' | 'phone'>('email');
+
+  // Password reset state
+  const [showResetModal, setShowResetModal] = useState(false);
 
   // Handle password login
   const handlePasswordLogin = async (e: React.FormEvent) => {
@@ -396,12 +400,13 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
                 </Button>
 
               <div className="text-center mt-2">
-                <Link
-                  to="/forgot-password"
+                <button
+                  type="button"
+                  onClick={() => setShowResetModal(true)}
                   className="text-sm text-purple-600 hover:text-purple-700 font-medium"
                 >
                   Forgot password?
-                </Link>
+                </button>
               </div>
               </form>
 
@@ -563,6 +568,18 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
           </Tabs>
         </CardContent>
       </Card>
+
+      {/* Password Reset Modal */}
+      {showResetModal && (
+        <PasswordResetModal
+          onClose={() => setShowResetModal(false)}
+          onSuccess={() => {
+            setShowResetModal(false);
+            setEmail('');
+            setPassword('');
+          }}
+        />
+      )}
     </div>
   );
 }

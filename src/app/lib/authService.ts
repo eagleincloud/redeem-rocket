@@ -810,3 +810,54 @@ export async function resetPasswordWithOtp(
     return { ok: false, error: 'Could not reset password. Check your connection.' };
   }
 }
+
+/**
+ * Reset password after OTP has been verified (simplified flow for UI)
+ * @param email - Email address
+ * @param newPassword - New password to set
+ * @returns Reset result
+ */
+export async function resetPasswordAfterOtp(
+  email: string,
+  newPassword: string,
+): Promise<PasswordResetResult> {
+  if (!supabase) {
+    return { ok: false, error: 'Supabase not configured' };
+  }
+
+  // Validate password strength
+  const validation = validatePasswordStrength(newPassword);
+  if (!validation.valid) {
+    return { ok: false, error: validation.errors[0] };
+  }
+
+  try {
+    // Hash password on client side
+    const passwordHash = await hashPassword(newPassword);
+
+    // Update password for business user
+    const { data, error } = await supabase
+      .from('biz_users')
+      .update({
+        password_hash: passwordHash,
+        password_set_at: new Date().toISOString(),
+      })
+      .eq('email', email.toLowerCase())
+      .select('*')
+      .single();
+
+    if (error) {
+      console.error('Password update error:', error);
+      return { ok: false, error: 'Failed to update password' };
+    }
+
+    if (!data) {
+      return { ok: false, error: 'User not found' };
+    }
+
+    return { ok: true };
+  } catch (err) {
+    console.error('Password reset error:', err);
+    return { ok: false, error: 'Could not reset password. Please try again.' };
+  }
+}
