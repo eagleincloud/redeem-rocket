@@ -5,11 +5,10 @@ import { Input } from '@/app/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app/components/ui/card';
 import { AlertCircle, Loader2, Check } from 'lucide-react';
 import {
-  requestPasswordReset,
-  verifyPasswordResetOtp,
-  resetPasswordWithOtp,
   validatePassword,
+  resetPasswordAfterOtp,
 } from '@/app/lib/authService';
+import { supabase } from '@/app/lib/supabase';
 
 type ResetStep = 'request' | 'verify' | 'reset' | 'success';
 
@@ -60,15 +59,38 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
         return;
       }
 
-      const result = await requestPasswordReset(email, 'biz_users');
-
-      if (!result.ok) {
-        setError(result.error || 'Failed to send reset email');
+      // Check if user exists
+      if (!supabase) {
+        setError('Supabase not configured');
         setLoading(false);
         return;
       }
 
-      setSuccessMessage('Password reset email sent! Check your inbox.');
+      const { data: user } = await supabase
+        .from('biz_users')
+        .select('id, email')
+        .eq('email', email.toLowerCase().trim())
+        .single();
+
+      if (!user) {
+        setError('Email not found. Please sign up first.');
+        setLoading(false);
+        return;
+      }
+
+      // Generate 6-digit OTP
+      const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
+      // Store OTP in sessionStorage (10 minutes expiry)
+      sessionStorage.setItem(`pwd_reset_otp_${email.toLowerCase()}`, JSON.stringify({
+        code: generatedOtp,
+        expires: Date.now() + 10 * 60 * 1000,
+      }));
+
+      // Log OTP to console for testing
+      console.log(`📧 Password Reset OTP for ${email}: ${generatedOtp}`);
+
+      setSuccessMessage('Reset code generated! Check console (F12) for OTP code.');
       setTimeout(() => {
         setSuccessMessage('');
         setCurrentStep('verify');
@@ -94,16 +116,34 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
         return;
       }
 
-      const result = await verifyPasswordResetOtp(email, otp, 'biz_users');
+      // Retrieve stored OTP from sessionStorage
+      const storedData = sessionStorage.getItem(`pwd_reset_otp_${email.toLowerCase()}`);
 
-      if (!result.ok) {
-        setError(result.error || 'Invalid OTP');
-        if (result.attemptsLeft !== undefined) {
-          setAttemptsLeft(result.attemptsLeft);
-        }
+      if (!storedData) {
+        setError('OTP request expired. Please request a new one.');
         setLoading(false);
         return;
       }
+
+      const { code, expires } = JSON.parse(storedData);
+
+      // Check if OTP has expired
+      if (Date.now() > expires) {
+        sessionStorage.removeItem(`pwd_reset_otp_${email.toLowerCase()}`);
+        setError('OTP has expired. Please request a new one.');
+        setLoading(false);
+        return;
+      }
+
+      // Verify OTP matches
+      if (otp.trim() !== code) {
+        setError('Invalid OTP. Please check and try again.');
+        setLoading(false);
+        return;
+      }
+
+      // OTP verified - clear it and move to reset
+      sessionStorage.removeItem(`pwd_reset_otp_${email.toLowerCase()}`);
 
       setSuccessMessage('OTP verified successfully!');
       setTimeout(() => {
@@ -145,7 +185,7 @@ export function ForgotPasswordPage({ onSuccess }: ForgotPasswordPageProps) {
         return;
       }
 
-      const result = await resetPasswordWithOtp(email, otp, newPassword, 'biz_users');
+      const result = await resetPasswordAfterOtp(email, newPassword);
 
       if (!result.ok) {
         setError(result.error || 'Failed to reset password');
