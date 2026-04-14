@@ -1,11 +1,8 @@
 import { useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router';
-import { Button } from '@/app/components/ui/button';
-import { Input } from '@/app/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app/components/ui/card';
 import { registerBusinessWithPassword, validatePassword } from '@/app/lib/authService';
 import { useAuthBusiness } from '@/business/context/BusinessContext';
-import { AlertCircle, Loader2, Eye, EyeOff, CheckCircle2, AlertTriangle, Upload, X } from 'lucide-react';
+import { Loader2, Eye, EyeOff, CheckCircle2, AlertTriangle, Upload, X } from 'lucide-react';
 
 const BUSINESS_TYPES = [
   { emoji: '🍛', label: 'Restaurant' },
@@ -38,6 +35,97 @@ interface SignupFormData {
   confirmPassword: string;
   agreeToTerms: boolean;
   ownerPhotoUrl?: string;
+}
+
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  background: '#162040',
+  border: '1px solid rgba(255,140,80,0.15)',
+  borderRadius: 10,
+  padding: '12px 16px',
+  color: '#e2e8f0',
+  fontSize: 14,
+  outline: 'none',
+  boxSizing: 'border-box',
+  transition: 'border-color 0.2s',
+};
+
+const labelStyle: React.CSSProperties = {
+  display: 'block',
+  fontSize: 13,
+  fontWeight: 500,
+  color: '#94a3b8',
+  marginBottom: 6,
+};
+
+const errorBannerStyle: React.CSSProperties = {
+  background: 'rgba(239,68,68,0.1)',
+  border: '1px solid rgba(239,68,68,0.3)',
+  borderRadius: 10,
+  padding: '12px 14px',
+  color: '#ef4444',
+  fontSize: 13,
+  display: 'flex',
+  alignItems: 'center',
+  gap: 8,
+};
+
+const successBannerStyle: React.CSSProperties = {
+  background: 'rgba(34,197,94,0.1)',
+  border: '1px solid rgba(34,197,94,0.3)',
+  borderRadius: 10,
+  padding: '12px 14px',
+  color: '#22c55e',
+  fontSize: 13,
+  display: 'flex',
+  alignItems: 'center',
+  gap: 8,
+};
+
+const primaryBtnStyle: React.CSSProperties = {
+  flex: 1,
+  background: 'linear-gradient(135deg, #f97316, #fb923c)',
+  color: '#fff',
+  border: 'none',
+  borderRadius: 10,
+  padding: '13px 20px',
+  fontSize: 14,
+  fontWeight: 600,
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 8,
+  transition: 'opacity 0.2s',
+};
+
+const secondaryBtnStyle: React.CSSProperties = {
+  flex: 1,
+  background: 'transparent',
+  color: '#e2e8f0',
+  border: '1px solid rgba(255,140,80,0.2)',
+  borderRadius: 10,
+  padding: '13px 20px',
+  fontSize: 14,
+  fontWeight: 500,
+  cursor: 'pointer',
+  transition: 'border-color 0.2s, background 0.2s',
+};
+
+function DarkInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <input
+      {...props}
+      style={{
+        ...inputStyle,
+        borderColor: focused ? '#f97316' : 'rgba(255,140,80,0.15)',
+        ...props.style,
+      }}
+      onFocus={(e) => { setFocused(true); props.onFocus?.(e); }}
+      onBlur={(e) => { setFocused(false); props.onBlur?.(e); }}
+    />
+  );
 }
 
 export function SignupPage() {
@@ -257,457 +345,658 @@ export function SignupPage() {
     }
   };
 
+  const stepTitles = [
+    'Set Credentials',
+    'Owner Info',
+    'Business Basics',
+    'Contact Details',
+    'Review & Submit',
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-lg">
-        <CardHeader className="space-y-2">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold">🏪</h1>
-          </div>
-          <CardTitle className="text-center">Create Business Account</CardTitle>
-          <CardDescription className="text-center">
+    <div
+      style={{
+        minHeight: '100vh',
+        background: '#080d20',
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        padding: '32px 16px',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Cosmic gradient top section */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 300,
+          background: 'linear-gradient(180deg, rgba(45,16,128,0.5) 0%, transparent 100%)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+      {/* Purple glow */}
+      <div
+        style={{
+          position: 'fixed',
+          left: '-5%',
+          top: '10%',
+          width: 500,
+          height: 500,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(120,40,200,0.07) 0%, transparent 70%)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
+
+      {/* Card */}
+      <div
+        style={{
+          width: '100%',
+          maxWidth: 560,
+          background: '#0e1530',
+          border: '1px solid rgba(255,140,80,0.15)',
+          borderRadius: 20,
+          padding: 40,
+          boxShadow: '0 0 60px rgba(120,40,200,0.15)',
+          position: 'relative',
+          zIndex: 1,
+        }}
+      >
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <img
+            src="/logo.png"
+            alt="Logo"
+            style={{ height: 44, margin: '0 auto 14px', display: 'block' }}
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+          />
+          <h1 style={{ color: '#e2e8f0', fontWeight: 700, fontSize: 22, margin: '0 0 6px' }}>
+            Create Business Account
+          </h1>
+          <p style={{ color: '#64748b', fontSize: 13, margin: 0 }}>
             {step === 1 && 'Step 1: Set your credentials'}
             {step === 2 && 'Step 2: Owner information'}
             {step === 3 && 'Step 3: Business basics'}
             {step === 4 && 'Step 4: Business contact details'}
             {step === 5 && 'Account created!'}
-          </CardDescription>
-        </CardHeader>
+          </p>
+        </div>
 
-        <CardContent>
-          {/* Progress bar */}
-          <div className="flex gap-2 mb-6">
-            {[1, 2, 3, 4, 5].map((s) => (
+        {/* Progress indicator */}
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: 32 }}>
+          {[1, 2, 3, 4, 5].map((s, i) => (
+            <div key={s} style={{ display: 'flex', alignItems: 'center', flex: i < 4 ? 1 : 'none' }}>
+              {/* Dot */}
               <div
-                key={s}
-                className={`flex-1 h-2 rounded-full transition ${
-                  s <= step ? 'bg-blue-600' : 'bg-gray-200'
-                }`}
+                style={{
+                  width: s === step ? 32 : 24,
+                  height: s === step ? 32 : 24,
+                  borderRadius: '50%',
+                  background: s < step
+                    ? '#22c55e'
+                    : s === step
+                    ? 'linear-gradient(135deg, #f97316, #fb923c)'
+                    : '#162040',
+                  border: s > step ? '1px solid rgba(255,140,80,0.2)' : 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: s < step ? 12 : 11,
+                  color: s <= step ? '#fff' : '#64748b',
+                  fontWeight: 600,
+                  flexShrink: 0,
+                  transition: 'all 0.3s',
+                  boxShadow: s === step ? '0 0 16px rgba(249,115,22,0.4)' : 'none',
+                }}
+              >
+                {s < step ? '✓' : s}
+              </div>
+              {/* Connector line */}
+              {i < 4 && (
+                <div
+                  style={{
+                    flex: 1,
+                    height: 2,
+                    background: s < step
+                      ? 'linear-gradient(90deg, #22c55e, rgba(34,197,94,0.3))'
+                      : 'rgba(255,140,80,0.1)',
+                    margin: '0 4px',
+                    transition: 'background 0.3s',
+                  }}
+                />
+              )}
+            </div>
+          ))}
+        </div>
+
+        {/* Step title */}
+        <h2 style={{ color: '#e2e8f0', fontWeight: 700, fontSize: 18, margin: '0 0 24px' }}>
+          {stepTitles[step - 1]}
+        </h2>
+
+        {/* Step 1: Credentials */}
+        {step === 1 && (
+          <form onSubmit={(e) => { e.preventDefault(); handleNextStep(); }} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {error && <div style={errorBannerStyle}><span>⚠</span>{error}</div>}
+
+            <div>
+              <label style={labelStyle}>Email</label>
+              <DarkInput
+                type="email"
+                placeholder="you@business.com"
+                value={formData.email}
+                onChange={(e) => updateForm({ email: e.target.value })}
+                required
               />
-            ))}
-          </div>
+            </div>
 
-          {/* Step 1: Basic Details */}
-          {step === 1 && (
-            <form onSubmit={(e) => { e.preventDefault(); handleNextStep(); }} className="space-y-4">
-              {error && (
-                <div className="flex items-center gap-2 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
-                  <AlertCircle className="w-4 h-4" />
-                  {error}
-                </div>
-              )}
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Email</label>
-                <Input
-                  type="email"
-                  placeholder="you@business.com"
-                  value={formData.email}
-                  onChange={(e) => updateForm({ email: e.target.value })}
+            <div>
+              <label style={labelStyle}>Password</label>
+              <div style={{ position: 'relative' }}>
+                <DarkInput
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={(e) => updateForm({ password: e.target.value })}
                   required
+                  style={{ paddingRight: 44 }}
                 />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Password</label>
-                <div className="relative">
-                  <Input
-                    type={showPassword ? 'text' : 'password'}
-                    placeholder="••••••••"
-                    value={formData.password}
-                    onChange={(e) => updateForm({ password: e.target.value })}
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
-              </div>
-
-              {formData.password && (
-                <div className="space-y-2">
-                  <div className="text-sm font-medium">Password Requirements:</div>
-                  <div className="space-y-1">
-                    {[
-                      { check: formData.password.length >= 8, label: 'At least 8 characters' },
-                      { check: /[A-Z]/.test(formData.password), label: 'One uppercase letter' },
-                      { check: /[a-z]/.test(formData.password), label: 'One lowercase letter' },
-                      { check: /[0-9]/.test(formData.password), label: 'One number' },
-                    ].map((req, i) => (
-                      <div
-                        key={i}
-                        className={`flex items-center gap-2 text-sm ${
-                          req.check ? 'text-green-700' : 'text-gray-500'
-                        }`}
-                      >
-                        {req.check ? <CheckCircle2 className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
-                        {req.label}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Confirm Password</label>
-                <div className="relative">
-                  <Input
-                    type={showConfirm ? 'text' : 'password'}
-                    placeholder="••••••••"
-                    value={formData.confirmPassword}
-                    onChange={(e) => updateForm({ confirmPassword: e.target.value })}
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirm(!showConfirm)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
-                </div>
-              </div>
-
-              {formData.confirmPassword && !passwordsMatch && (
-                <div className="flex items-center gap-2 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
-                  <AlertCircle className="w-4 h-4" />
-                  Passwords do not match
-                </div>
-              )}
-
-              <div className="flex items-start gap-2">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  checked={formData.agreeToTerms}
-                  onChange={(e) => updateForm({ agreeToTerms: e.target.checked })}
-                  className="mt-1"
-                />
-                <label htmlFor="terms" className="text-sm text-gray-600">
-                  I agree to the{' '}
-                  <a href="#" className="text-blue-600 hover:underline" onClick={(e) => e.preventDefault()}>
-                    Terms and Conditions
-                  </a>
-                </label>
-              </div>
-
-              <Button type="submit" className="w-full">
-                Next: Owner Information
-              </Button>
-
-              <div className="text-center text-sm">
-                Already have an account?{' '}
-                <Link to="/login" className="text-blue-600 hover:underline">
-                  Log in
-                </Link>
-              </div>
-            </form>
-          )}
-
-          {/* Step 2: Owner Information */}
-          {step === 2 && (
-            <form onSubmit={(e) => { e.preventDefault(); handleNextStep(); }} className="space-y-4">
-              {error && (
-                <div className="flex items-center gap-2 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
-                  <AlertCircle className="w-4 h-4" />
-                  {error}
-                </div>
-              )}
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Your Full Name</label>
-                <Input
-                  type="text"
-                  placeholder="John Doe"
-                  value={formData.ownerName}
-                  onChange={(e) => updateForm({ ownerName: e.target.value })}
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Phone Number</label>
-                <Input
-                  type="tel"
-                  placeholder="9876543210"
-                  value={formData.ownerPhone}
-                  onChange={(e) => updateForm({ ownerPhone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
-                  maxLength={10}
-                  required
-                />
-                <div className="text-xs text-gray-500 mt-1">10-digit phone number</div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Profile Photo (Optional)</label>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handlePhotoSelect}
-                  style={{ display: 'none' }}
-                />
-                {ownerPhotoPreview ? (
-                  <div className="flex items-center gap-3 p-3 bg-gray-100 rounded-lg">
-                    <img src={ownerPhotoPreview} alt="Preview" className="w-12 h-12 rounded-full object-cover" />
-                    <div className="flex-1">
-                      <div className="text-sm font-medium">Photo uploaded</div>
-                      <div className="text-xs text-gray-500">Click below to change</div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleRemovePhoto}
-                      className="text-red-600 hover:text-red-700"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="w-full p-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 flex items-center justify-center gap-2"
-                  >
-                    <Upload className="w-4 h-4" />
-                    <span className="text-sm">Upload photo</span>
-                  </button>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Bio (Optional)</label>
-                <textarea
-                  placeholder="Tell us about yourself..."
-                  value={formData.ownerBio}
-                  onChange={(e) => updateForm({ ownerBio: e.target.value })}
-                  className="w-full p-2 border rounded-lg text-sm"
-                  rows={3}
-                />
-              </div>
-
-              <div className="flex gap-2">
-                <Button
+                <button
                   type="button"
-                  variant="outline"
-                  className="flex-1"
-                  onClick={handlePrevStep}
-                  disabled={loading}
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: 'absolute',
+                    right: 14,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: '#64748b',
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: 0,
+                  }}
                 >
-                  Back
-                </Button>
-                <Button type="submit" className="flex-1" disabled={loading}>
-                  Next: Business Info
-                </Button>
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
               </div>
-            </form>
-          )}
+            </div>
 
-          {/* Step 3: Business Basics */}
-          {step === 3 && (
-            <form onSubmit={(e) => { e.preventDefault(); handleNextStep(); }} className="space-y-4">
-              {error && (
-                <div className="flex items-center gap-2 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
-                  <AlertCircle className="w-4 h-4" />
-                  {error}
+            {formData.password && (
+              <div
+                style={{
+                  background: 'rgba(22,32,64,0.6)',
+                  border: '1px solid rgba(255,140,80,0.1)',
+                  borderRadius: 10,
+                  padding: '12px 14px',
+                }}
+              >
+                <div style={{ fontSize: 12, fontWeight: 600, color: '#94a3b8', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Password Requirements
                 </div>
-              )}
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Business Name</label>
-                <Input
-                  type="text"
-                  placeholder="My Awesome Store"
-                  value={formData.businessName}
-                  onChange={(e) => updateForm({ businessName: e.target.value })}
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-3">Business Category</label>
-                <div className="grid grid-cols-3 gap-2">
-                  {BUSINESS_TYPES.map(({ emoji, label }) => (
-                    <button
-                      key={label}
-                      type="button"
-                      onClick={() => updateForm({ businessCategory: label })}
-                      className={`p-3 rounded-lg border-2 transition text-center ${
-                        formData.businessCategory === label
-                          ? 'border-blue-600 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
-                      }`}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {[
+                    { check: formData.password.length >= 8, label: 'At least 8 characters' },
+                    { check: /[A-Z]/.test(formData.password), label: 'One uppercase letter' },
+                    { check: /[a-z]/.test(formData.password), label: 'One lowercase letter' },
+                    { check: /[0-9]/.test(formData.password), label: 'One number' },
+                  ].map((req, i) => (
+                    <div
+                      key={i}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 8,
+                        fontSize: 12,
+                        color: req.check ? '#22c55e' : '#64748b',
+                      }}
                     >
-                      <div className="text-2xl mb-1">{emoji}</div>
-                      <div className="text-xs font-medium">{label}</div>
-                    </button>
+                      {req.check
+                        ? <CheckCircle2 size={13} />
+                        : <AlertTriangle size={13} />}
+                      {req.label}
+                    </div>
                   ))}
                 </div>
               </div>
+            )}
 
-              <div className="flex gap-2">
-                <Button
+            <div>
+              <label style={labelStyle}>Confirm Password</label>
+              <div style={{ position: 'relative' }}>
+                <DarkInput
+                  type={showConfirm ? 'text' : 'password'}
+                  placeholder="••••••••"
+                  value={formData.confirmPassword}
+                  onChange={(e) => updateForm({ confirmPassword: e.target.value })}
+                  required
+                  style={{ paddingRight: 44 }}
+                />
+                <button
                   type="button"
-                  variant="outline"
-                  className="flex-1"
-                  onClick={handlePrevStep}
-                  disabled={loading}
+                  onClick={() => setShowConfirm(!showConfirm)}
+                  style={{
+                    position: 'absolute',
+                    right: 14,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: '#64748b',
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: 0,
+                  }}
                 >
-                  Back
-                </Button>
-                <Button type="submit" className="flex-1" disabled={loading}>
-                  Next: Contact Details
-                </Button>
+                  {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
               </div>
-            </form>
-          )}
+            </div>
 
-          {/* Step 4: Business Contact Details */}
-          {step === 4 && (
-            <form onSubmit={(e) => { e.preventDefault(); handleNextStep(); }} className="space-y-4">
-              {error && (
-                <div className="flex items-center gap-2 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
-                  <AlertCircle className="w-4 h-4" />
-                  {error}
+            {formData.confirmPassword && !passwordsMatch && (
+              <div style={errorBannerStyle}>
+                <span>⚠</span>
+                Passwords do not match
+              </div>
+            )}
+
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+              <input
+                type="checkbox"
+                id="terms"
+                checked={formData.agreeToTerms}
+                onChange={(e) => updateForm({ agreeToTerms: e.target.checked })}
+                style={{ marginTop: 2, accentColor: '#f97316', cursor: 'pointer' }}
+              />
+              <label htmlFor="terms" style={{ fontSize: 13, color: '#94a3b8', cursor: 'pointer', lineHeight: 1.5 }}>
+                I agree to the{' '}
+                <a
+                  href="#"
+                  onClick={(e) => e.preventDefault()}
+                  style={{ color: '#f97316', textDecoration: 'none' }}
+                >
+                  Terms and Conditions
+                </a>
+              </label>
+            </div>
+
+            <button type="submit" style={{ ...primaryBtnStyle, flex: 'none', width: '100%', marginTop: 4 }}>
+              Next: Owner Information
+            </button>
+
+            <div style={{ textAlign: 'center', fontSize: 13, color: '#64748b' }}>
+              Already have an account?{' '}
+              <Link to="/login" style={{ color: '#f97316', textDecoration: 'none', fontWeight: 500 }}>
+                Log in
+              </Link>
+            </div>
+          </form>
+        )}
+
+        {/* Step 2: Owner Information */}
+        {step === 2 && (
+          <form onSubmit={(e) => { e.preventDefault(); handleNextStep(); }} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {error && <div style={errorBannerStyle}><span>⚠</span>{error}</div>}
+
+            <div>
+              <label style={labelStyle}>Your Full Name</label>
+              <DarkInput
+                type="text"
+                placeholder="John Doe"
+                value={formData.ownerName}
+                onChange={(e) => updateForm({ ownerName: e.target.value })}
+                required
+              />
+            </div>
+
+            <div>
+              <label style={labelStyle}>Phone Number</label>
+              <DarkInput
+                type="tel"
+                placeholder="9876543210"
+                value={formData.ownerPhone}
+                onChange={(e) => updateForm({ ownerPhone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
+                maxLength={10}
+                required
+              />
+              <div style={{ fontSize: 11, color: '#64748b', marginTop: 4 }}>10-digit phone number</div>
+            </div>
+
+            {/* Profile Photo */}
+            <div>
+              <label style={labelStyle}>Profile Photo (Optional)</label>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoSelect}
+                style={{ display: 'none' }}
+              />
+              {ownerPhotoPreview ? (
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 12,
+                    padding: '12px 14px',
+                    background: '#162040',
+                    border: '1px solid rgba(255,140,80,0.15)',
+                    borderRadius: 10,
+                  }}
+                >
+                  <img
+                    src={ownerPhotoPreview}
+                    alt="Preview"
+                    style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(249,115,22,0.4)' }}
+                  />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, fontWeight: 500, color: '#e2e8f0' }}>Photo uploaded</div>
+                    <div style={{ fontSize: 11, color: '#64748b' }}>Click remove to change</div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleRemovePhoto}
+                    style={{
+                      background: 'rgba(239,68,68,0.1)',
+                      border: '1px solid rgba(239,68,68,0.3)',
+                      borderRadius: 6,
+                      color: '#ef4444',
+                      cursor: 'pointer',
+                      padding: '4px 8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <X size={14} />
+                  </button>
                 </div>
-              )}
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Business Email (Optional)</label>
-                <Input
-                  type="email"
-                  placeholder="business@example.com"
-                  value={formData.businessEmail}
-                  onChange={(e) => updateForm({ businessEmail: e.target.value })}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Business Phone (Optional)</label>
-                <Input
-                  type="tel"
-                  placeholder="9876543210"
-                  value={formData.businessPhone}
-                  onChange={(e) => updateForm({ businessPhone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
-                  maxLength={10}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">WhatsApp Number (Optional)</label>
-                <Input
-                  type="tel"
-                  placeholder="9876543210"
-                  value={formData.businessWhatsApp}
-                  onChange={(e) => updateForm({ businessWhatsApp: e.target.value.replace(/\D/g, '').slice(0, 10) })}
-                  maxLength={10}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">Website (Optional)</label>
-                <Input
-                  type="text"
-                  placeholder="https://example.com"
-                  value={formData.businessWebsite}
-                  onChange={(e) => updateForm({ businessWebsite: e.target.value })}
-                />
-              </div>
-
-              <div className="flex gap-2">
-                <Button
+              ) : (
+                <button
                   type="button"
-                  variant="outline"
-                  className="flex-1"
-                  onClick={handlePrevStep}
-                  disabled={loading}
+                  onClick={() => fileInputRef.current?.click()}
+                  style={{
+                    width: '100%',
+                    padding: '20px',
+                    border: '2px dashed rgba(249,115,22,0.25)',
+                    borderRadius: 10,
+                    background: 'rgba(249,115,22,0.04)',
+                    color: '#94a3b8',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 8,
+                    fontSize: 13,
+                    transition: 'border-color 0.2s, background 0.2s',
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(249,115,22,0.5)';
+                    (e.currentTarget as HTMLButtonElement).style.background = 'rgba(249,115,22,0.08)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(249,115,22,0.25)';
+                    (e.currentTarget as HTMLButtonElement).style.background = 'rgba(249,115,22,0.04)';
+                  }}
                 >
-                  Back
-                </Button>
-                <Button type="submit" className="flex-1" disabled={loading}>
-                  Review & Submit
-                </Button>
+                  <Upload size={16} />
+                  Upload photo
+                </button>
+              )}
+            </div>
+
+            <div>
+              <label style={labelStyle}>Bio (Optional)</label>
+              <textarea
+                placeholder="Tell us about yourself..."
+                value={formData.ownerBio}
+                onChange={(e) => updateForm({ ownerBio: e.target.value })}
+                rows={3}
+                style={{
+                  ...inputStyle,
+                  resize: 'vertical',
+                  fontFamily: 'inherit',
+                  lineHeight: 1.5,
+                }}
+                onFocus={(e) => { (e.target as HTMLTextAreaElement).style.borderColor = '#f97316'; }}
+                onBlur={(e) => { (e.target as HTMLTextAreaElement).style.borderColor = 'rgba(255,140,80,0.15)'; }}
+              />
+            </div>
+
+            <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
+              <button type="button" onClick={handlePrevStep} disabled={loading} style={secondaryBtnStyle}>
+                Back
+              </button>
+              <button type="submit" disabled={loading} style={primaryBtnStyle}>
+                Next: Business Info
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* Step 3: Business Basics */}
+        {step === 3 && (
+          <form onSubmit={(e) => { e.preventDefault(); handleNextStep(); }} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {error && <div style={errorBannerStyle}><span>⚠</span>{error}</div>}
+
+            <div>
+              <label style={labelStyle}>Business Name</label>
+              <DarkInput
+                type="text"
+                placeholder="My Awesome Store"
+                value={formData.businessName}
+                onChange={(e) => updateForm({ businessName: e.target.value })}
+                required
+              />
+            </div>
+
+            <div>
+              <label style={{ ...labelStyle, marginBottom: 12 }}>Business Category</label>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+                {BUSINESS_TYPES.map(({ emoji, label }) => (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => updateForm({ businessCategory: label })}
+                    style={{
+                      padding: '12px 8px',
+                      borderRadius: 10,
+                      border: `2px solid ${formData.businessCategory === label ? '#f97316' : 'rgba(255,140,80,0.12)'}`,
+                      background: formData.businessCategory === label
+                        ? 'rgba(249,115,22,0.1)'
+                        : '#162040',
+                      cursor: 'pointer',
+                      textAlign: 'center',
+                      transition: 'all 0.2s',
+                      boxShadow: formData.businessCategory === label ? '0 0 12px rgba(249,115,22,0.2)' : 'none',
+                    }}
+                  >
+                    <div style={{ fontSize: 22, marginBottom: 4 }}>{emoji}</div>
+                    <div style={{ fontSize: 11, fontWeight: 500, color: formData.businessCategory === label ? '#f97316' : '#94a3b8' }}>
+                      {label}
+                    </div>
+                  </button>
+                ))}
               </div>
-            </form>
-          )}
+            </div>
 
-          {/* Step 5: Confirmation */}
-          {step === 5 && (
-            <form onSubmit={handleSignup} className="space-y-4">
-              {error && (
-                <div className="flex items-center gap-2 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
-                  <AlertCircle className="w-4 h-4" />
-                  {error}
+            <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
+              <button type="button" onClick={handlePrevStep} disabled={loading} style={secondaryBtnStyle}>
+                Back
+              </button>
+              <button type="submit" disabled={loading} style={primaryBtnStyle}>
+                Next: Contact Details
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* Step 4: Business Contact Details */}
+        {step === 4 && (
+          <form onSubmit={(e) => { e.preventDefault(); handleNextStep(); }} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {error && <div style={errorBannerStyle}><span>⚠</span>{error}</div>}
+
+            <div>
+              <label style={labelStyle}>Business Email (Optional)</label>
+              <DarkInput
+                type="email"
+                placeholder="business@example.com"
+                value={formData.businessEmail}
+                onChange={(e) => updateForm({ businessEmail: e.target.value })}
+              />
+            </div>
+
+            <div>
+              <label style={labelStyle}>Business Phone (Optional)</label>
+              <DarkInput
+                type="tel"
+                placeholder="9876543210"
+                value={formData.businessPhone}
+                onChange={(e) => updateForm({ businessPhone: e.target.value.replace(/\D/g, '').slice(0, 10) })}
+                maxLength={10}
+              />
+            </div>
+
+            <div>
+              <label style={labelStyle}>WhatsApp Number (Optional)</label>
+              <DarkInput
+                type="tel"
+                placeholder="9876543210"
+                value={formData.businessWhatsApp}
+                onChange={(e) => updateForm({ businessWhatsApp: e.target.value.replace(/\D/g, '').slice(0, 10) })}
+                maxLength={10}
+              />
+            </div>
+
+            <div>
+              <label style={labelStyle}>Website (Optional)</label>
+              <DarkInput
+                type="text"
+                placeholder="https://example.com"
+                value={formData.businessWebsite}
+                onChange={(e) => updateForm({ businessWebsite: e.target.value })}
+              />
+            </div>
+
+            <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
+              <button type="button" onClick={handlePrevStep} disabled={loading} style={secondaryBtnStyle}>
+                Back
+              </button>
+              <button type="submit" disabled={loading} style={primaryBtnStyle}>
+                Review &amp; Submit
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* Step 5: Confirmation */}
+        {step === 5 && (
+          <form onSubmit={handleSignup} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {error && <div style={errorBannerStyle}><span>⚠</span>{error}</div>}
+
+            {successMessage && (
+              <div style={successBannerStyle}>
+                <CheckCircle2 size={15} />
+                {successMessage}
+              </div>
+            )}
+
+            {!successMessage && (
+              <>
+                {/* Summary cards */}
+                <div
+                  style={{
+                    background: '#162040',
+                    border: '1px solid rgba(255,140,80,0.12)',
+                    borderRadius: 12,
+                    padding: '16px 18px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 8,
+                  }}
+                >
+                  <div style={{ fontSize: 11, fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 4 }}>
+                    Owner Information
+                  </div>
+                  <div style={{ fontSize: 13, color: '#e2e8f0' }}><span style={{ color: '#94a3b8' }}>Name: </span>{formData.ownerName}</div>
+                  <div style={{ fontSize: 13, color: '#e2e8f0' }}><span style={{ color: '#94a3b8' }}>Email: </span>{formData.email}</div>
+                  <div style={{ fontSize: 13, color: '#e2e8f0' }}><span style={{ color: '#94a3b8' }}>Phone: </span>{formData.ownerPhone}</div>
                 </div>
-              )}
 
-              {successMessage && (
-                <div className="flex items-center gap-2 p-3 bg-green-50 text-green-700 rounded-lg text-sm">
-                  <CheckCircle2 className="w-4 h-4" />
-                  {successMessage}
+                <div
+                  style={{
+                    background: '#162040',
+                    border: '1px solid rgba(255,140,80,0.12)',
+                    borderRadius: 12,
+                    padding: '16px 18px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 8,
+                  }}
+                >
+                  <div style={{ fontSize: 11, fontWeight: 600, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 4 }}>
+                    Business Information
+                  </div>
+                  <div style={{ fontSize: 13, color: '#e2e8f0' }}><span style={{ color: '#94a3b8' }}>Name: </span>{formData.businessName}</div>
+                  <div style={{ fontSize: 13, color: '#e2e8f0' }}><span style={{ color: '#94a3b8' }}>Category: </span>{formData.businessCategory}</div>
+                  {formData.businessEmail && (
+                    <div style={{ fontSize: 13, color: '#e2e8f0' }}><span style={{ color: '#94a3b8' }}>Email: </span>{formData.businessEmail}</div>
+                  )}
+                  {formData.businessPhone && (
+                    <div style={{ fontSize: 13, color: '#e2e8f0' }}><span style={{ color: '#94a3b8' }}>Phone: </span>{formData.businessPhone}</div>
+                  )}
+                  {formData.businessWebsite && (
+                    <div style={{ fontSize: 13, color: '#e2e8f0' }}><span style={{ color: '#94a3b8' }}>Website: </span>{formData.businessWebsite}</div>
+                  )}
                 </div>
-              )}
 
-              {!successMessage && (
-                <>
-                  <div className="space-y-3">
-                    <div>
-                      <div className="text-xs font-medium text-gray-500 uppercase">Owner Information</div>
-                      <div className="mt-2 space-y-1">
-                        <div className="text-sm"><strong>Name:</strong> {formData.ownerName}</div>
-                        <div className="text-sm"><strong>Email:</strong> {formData.email}</div>
-                        <div className="text-sm"><strong>Phone:</strong> {formData.ownerPhone}</div>
-                      </div>
-                    </div>
+                <div
+                  style={{
+                    background: 'rgba(249,115,22,0.06)',
+                    border: '1px solid rgba(249,115,22,0.15)',
+                    borderRadius: 10,
+                    padding: '12px 14px',
+                  }}
+                >
+                  <p style={{ fontSize: 13, color: '#94a3b8', margin: 0, lineHeight: 1.6 }}>
+                    After creating your account, you'll complete your business setup including location, hours, photos, and documents.
+                  </p>
+                </div>
 
-                    <div>
-                      <div className="text-xs font-medium text-gray-500 uppercase">Business Information</div>
-                      <div className="mt-2 space-y-1">
-                        <div className="text-sm"><strong>Name:</strong> {formData.businessName}</div>
-                        <div className="text-sm"><strong>Category:</strong> {formData.businessCategory}</div>
-                        {formData.businessEmail && <div className="text-sm"><strong>Email:</strong> {formData.businessEmail}</div>}
-                        {formData.businessPhone && <div className="text-sm"><strong>Phone:</strong> {formData.businessPhone}</div>}
-                        {formData.businessWebsite && <div className="text-sm"><strong>Website:</strong> {formData.businessWebsite}</div>}
-                      </div>
-                    </div>
-                  </div>
+                <div style={{ display: 'flex', gap: 10, marginTop: 4 }}>
+                  <button type="button" onClick={handlePrevStep} disabled={loading} style={secondaryBtnStyle}>
+                    Back
+                  </button>
+                  <button type="submit" disabled={loading} style={{ ...primaryBtnStyle, opacity: loading ? 0.7 : 1 }}>
+                    {loading ? (
+                      <>
+                        <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
+                        Creating...
+                      </>
+                    ) : (
+                      'Create Account'
+                    )}
+                  </button>
+                </div>
+              </>
+            )}
+          </form>
+        )}
+      </div>
 
-                  <div className="bg-blue-50 p-3 rounded-lg">
-                    <p className="text-sm text-blue-900">
-                      After creating your account, you'll complete your business setup including location, hours, photos, and documents.
-                    </p>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="flex-1"
-                      onClick={handlePrevStep}
-                      disabled={loading}
-                    >
-                      Back
-                    </Button>
-                    <Button type="submit" className="flex-1" disabled={loading}>
-                      {loading ? (
-                        <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          Creating...
-                        </>
-                      ) : (
-                        'Create Account'
-                      )}
-                    </Button>
-                  </div>
-                </>
-              )}
-            </form>
-          )}
-        </CardContent>
-      </Card>
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }

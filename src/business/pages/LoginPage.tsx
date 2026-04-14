@@ -1,19 +1,52 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router';
-import { Button } from '@/app/components/ui/button';
-import { Input } from '@/app/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/app/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
 import { loginBusinessWithPassword, sendOtp, verifyOtp, getOrCreateBizUser, signInWithGoogle } from '@/app/lib/authService';
 import { logActivity } from '@/app/api/supabase-data';
 import { useAuthBusiness } from '@/business/context/BusinessContext';
-import { AlertCircle, Loader2, Eye, EyeOff, Mail, Smartphone } from 'lucide-react';
+import { Loader2, Eye, EyeOff } from 'lucide-react';
 import { supabase } from '@/app/lib/supabase';
 import bcrypt from 'bcryptjs';
 import { PasswordResetModal } from '@/business/components/PasswordResetModal';
 
 interface LoginFormProps {
   onSuccess?: () => void;
+}
+
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  background: '#162040',
+  border: '1px solid rgba(255,140,80,0.15)',
+  borderRadius: 10,
+  padding: '12px 16px',
+  color: '#e2e8f0',
+  fontSize: 14,
+  outline: 'none',
+  boxSizing: 'border-box',
+  transition: 'border-color 0.2s',
+};
+
+const labelStyle: React.CSSProperties = {
+  display: 'block',
+  fontSize: 13,
+  fontWeight: 500,
+  color: '#94a3b8',
+  marginBottom: 6,
+};
+
+function DarkInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <input
+      {...props}
+      style={{
+        ...inputStyle,
+        borderColor: focused ? '#f97316' : 'rgba(255,140,80,0.15)',
+        ...props.style,
+      }}
+      onFocus={(e) => { setFocused(true); props.onFocus?.(e); }}
+      onBlur={(e) => { setFocused(false); props.onBlur?.(e); }}
+    />
+  );
 }
 
 export function LoginPage({ onSuccess }: LoginFormProps) {
@@ -41,6 +74,9 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
   const [otpLoading, setOtpLoading] = useState(false);
   const [otpError, setOtpError] = useState('');
   const [otpType, setOtpType] = useState<'email' | 'phone'>('email');
+
+  // Tab state
+  const [activeTab, setActiveTab] = useState<'password' | 'otp'>('password');
 
   // Password reset state
   const [showResetModal, setShowResetModal] = useState(false);
@@ -312,262 +348,464 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
-      <Card className="w-full max-w-md shadow-lg">
-        <CardHeader className="space-y-2">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold">🏪</h1>
-          </div>
-          <CardTitle className="text-center">Business Login</CardTitle>
-          <CardDescription className="text-center">
+    <div
+      style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #0d0621 0%, #1a0a4d 30%, #2d1080 50%, #1a0a4d 70%, #0d0621 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 16,
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Radial glow right */}
+      <div
+        style={{
+          position: 'absolute',
+          right: '-10%',
+          top: '20%',
+          width: 600,
+          height: 600,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Card */}
+      <div
+        style={{
+          width: 420,
+          maxWidth: '100%',
+          background: '#0e1530',
+          border: '1px solid rgba(255,140,80,0.15)',
+          borderRadius: 20,
+          padding: 40,
+          boxShadow: '0 0 60px rgba(120,40,200,0.2)',
+          position: 'relative',
+          zIndex: 1,
+        }}
+      >
+        {/* Logo area */}
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+          <img
+            src="/logo.png"
+            alt="Logo"
+            style={{ height: 52, margin: '0 auto 16px', display: 'block' }}
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+          <h1 style={{ color: '#e2e8f0', fontWeight: 700, fontSize: 24, margin: '0 0 6px' }}>
+            Business Login
+          </h1>
+          <p style={{ color: '#64748b', fontSize: 14, margin: 0 }}>
             Sign in to your business account
-          </CardDescription>
-        </CardHeader>
+          </p>
+        </div>
 
-        <CardContent>
-          <Tabs defaultValue="password" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="password">Password</TabsTrigger>
-              <TabsTrigger value="otp">OTP</TabsTrigger>
-            </TabsList>
+        {/* Tab switcher */}
+        <div
+          style={{
+            display: 'flex',
+            borderBottom: '1px solid rgba(255,140,80,0.12)',
+            marginBottom: 24,
+          }}
+        >
+          {(['password', 'otp'] as const).map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              onClick={() => setActiveTab(tab)}
+              style={{
+                flex: 1,
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: '10px 0',
+                fontSize: 14,
+                fontWeight: 500,
+                color: activeTab === tab ? '#f97316' : '#64748b',
+                borderBottom: activeTab === tab ? '2px solid #f97316' : '2px solid transparent',
+                marginBottom: -1,
+                transition: 'color 0.2s, border-color 0.2s',
+                textTransform: 'capitalize',
+              }}
+            >
+              {tab === 'password' ? 'Password' : 'OTP'}
+            </button>
+          ))}
+        </div>
 
-            {/* Password Login Tab */}
-            <TabsContent value="password" className="space-y-4">
-              {error && (
-                <div className="flex items-center gap-2 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
-                  <AlertCircle className="w-4 h-4" />
-                  {error}
-                </div>
-              )}
-              {successMessage && (
-                <div className="flex items-center gap-2 p-3 bg-green-50 text-green-700 rounded-lg text-sm">
-                  {successMessage}
-                </div>
-              )}
+        {/* Password Tab */}
+        {activeTab === 'password' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {error && (
+              <div
+                style={{
+                  background: 'rgba(239,68,68,0.1)',
+                  border: '1px solid rgba(239,68,68,0.3)',
+                  borderRadius: 10,
+                  padding: '12px 14px',
+                  color: '#ef4444',
+                  fontSize: 13,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                }}
+              >
+                <span>⚠</span>
+                {error}
+              </div>
+            )}
+            {successMessage && (
+              <div
+                style={{
+                  background: 'rgba(34,197,94,0.1)',
+                  border: '1px solid rgba(34,197,94,0.3)',
+                  borderRadius: 10,
+                  padding: '12px 14px',
+                  color: '#22c55e',
+                  fontSize: 13,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                }}
+              >
+                <span>✓</span>
+                {successMessage}
+              </div>
+            )}
 
-              <form onSubmit={handlePasswordLogin} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Email</label>
-                  <Input
-                    type="email"
-                    placeholder="you@business.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+            <form onSubmit={handlePasswordLogin} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <div>
+                <label style={labelStyle}>Email</label>
+                <DarkInput
+                  type="email"
+                  placeholder="you@business.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={loading}
+                  required
+                />
+              </div>
+
+              <div>
+                <label style={labelStyle}>Password</label>
+                <div style={{ position: 'relative' }}>
+                  <DarkInput
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     disabled={loading}
                     required
+                    style={{ paddingRight: 44 }}
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    disabled={loading}
+                    style={{
+                      position: 'absolute',
+                      right: 14,
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      color: '#64748b',
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: 0,
+                    }}
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
                 </div>
+              </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-1">Password</label>
-                  <div className="relative">
-                    <Input
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="••••••••"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      disabled={loading}
-                      required
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                      disabled={loading}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="w-4 h-4" />
-                      ) : (
-                        <Eye className="w-4 h-4" />
-                      )}
-                    </button>
-                  </div>
-                </div>
+              <button
+                type="submit"
+                disabled={loading}
+                style={{
+                  width: '100%',
+                  background: loading ? 'rgba(249,115,22,0.5)' : 'linear-gradient(135deg, #f97316, #fb923c)',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 10,
+                  padding: '14px',
+                  fontSize: 15,
+                  fontWeight: 600,
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
+                  transition: 'opacity 0.2s',
+                }}
+              >
+                {loading ? (
+                  <>
+                    <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
+                    Logging in...
+                  </>
+                ) : (
+                  'Login'
+                )}
+              </button>
 
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={loading}
-                >
-                  {loading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Logging in...
-                    </>
-                  ) : (
-                    'Login'
-                  )}
-                </Button>
-
-              <div className="text-center mt-2">
+              <div style={{ textAlign: 'center' }}>
                 <button
                   type="button"
                   onClick={() => setShowResetModal(true)}
-                  className="text-sm text-purple-600 hover:text-purple-700 font-medium"
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    color: '#f97316',
+                    fontSize: 13,
+                    fontWeight: 500,
+                    padding: 0,
+                  }}
                 >
                   Forgot password?
                 </button>
               </div>
-              </form>
+            </form>
 
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-200" />
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">or continue with</span>
-                </div>
-              </div>
+            {/* Divider */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <div style={{ flex: 1, height: 1, background: 'rgba(255,140,80,0.12)' }} />
+              <span style={{ color: '#64748b', fontSize: 12, whiteSpace: 'nowrap' }}>or continue with</span>
+              <div style={{ flex: 1, height: 1, background: 'rgba(255,140,80,0.12)' }} />
+            </div>
 
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full"
-                onClick={handleGoogleSignIn}
-                disabled={loading}
+            {/* Google button */}
+            <button
+              type="button"
+              onClick={handleGoogleSignIn}
+              disabled={loading}
+              style={{
+                width: '100%',
+                background: 'transparent',
+                color: '#e2e8f0',
+                border: '1px solid rgba(255,140,80,0.15)',
+                borderRadius: 10,
+                padding: '12px 16px',
+                fontSize: 14,
+                fontWeight: 500,
+                cursor: loading ? 'not-allowed' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 10,
+                transition: 'border-color 0.2s, background 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,140,80,0.06)';
+                (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,140,80,0.3)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+                (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,140,80,0.15)';
+              }}
+            >
+              <span style={{ fontSize: 16 }}>G</span>
+              Google
+            </button>
+
+            <div style={{ textAlign: 'center', fontSize: 13, color: '#64748b' }}>
+              Don't have an account?{' '}
+              <Link to="/signup" style={{ color: '#f97316', textDecoration: 'none', fontWeight: 500 }}>
+                Sign up
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* OTP Tab */}
+        {activeTab === 'otp' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {otpError && (
+              <div
+                style={{
+                  background: 'rgba(239,68,68,0.1)',
+                  border: '1px solid rgba(239,68,68,0.3)',
+                  borderRadius: 10,
+                  padding: '12px 14px',
+                  color: '#ef4444',
+                  fontSize: 13,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                }}
               >
-                Google
-              </Button>
-
-              <div className="text-center text-sm">
-                Don't have an account?{' '}
-                <Link to="/signup" className="text-blue-600 hover:underline">
-                  Sign up
-                </Link>
+                <span>⚠</span>
+                {otpError}
               </div>
-            </TabsContent>
+            )}
 
-            {/* OTP Login Tab */}
-            <TabsContent value="otp" className="space-y-4">
-              {otpError && (
-                <div className="flex items-center gap-2 p-3 bg-red-50 text-red-700 rounded-lg text-sm">
-                  <AlertCircle className="w-4 h-4" />
-                  {otpError}
-                </div>
-              )}
-
-              <div className="flex gap-2 mb-4">
+            {/* OTP type toggle: Email / Phone */}
+            <div style={{ display: 'flex', gap: 8 }}>
+              {(['email', 'phone'] as const).map((type) => (
                 <button
+                  key={type}
                   type="button"
                   onClick={() => {
-                    setOtpType('email');
+                    setOtpType(type);
                     setOtpSent(false);
                     setOtpCode('');
                   }}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-medium transition ${
-                    otpType === 'email'
-                      ? 'bg-blue-100 text-blue-700'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  <Mail className="w-4 h-4" />
-                  Email
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOtpType('phone');
-                    setOtpSent(false);
-                    setOtpCode('');
+                  style={{
+                    flex: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 6,
+                    padding: '10px 12px',
+                    borderRadius: 10,
+                    border: `1px solid ${otpType === type ? '#f97316' : 'rgba(255,140,80,0.15)'}`,
+                    background: otpType === type ? 'rgba(249,115,22,0.12)' : 'transparent',
+                    color: otpType === type ? '#f97316' : '#64748b',
+                    fontSize: 13,
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    textTransform: 'capitalize',
                   }}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-medium transition ${
-                    otpType === 'phone'
-                      ? 'bg-blue-100 text-blue-700'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
                 >
-                  <Smartphone className="w-4 h-4" />
-                  Phone
+                  <span>{type === 'email' ? '✉' : '📱'}</span>
+                  {type === 'email' ? 'Email' : 'Phone'}
                 </button>
-              </div>
+              ))}
+            </div>
 
-              {!otpSent ? (
-                <form onSubmit={handleSendOtp} className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">
-                      {otpType === 'email' ? 'Email' : 'Phone Number'}
-                    </label>
-                    <Input
-                      type={otpType === 'email' ? 'email' : 'tel'}
-                      placeholder={otpType === 'email' ? 'you@business.com' : '+91 9876543210'}
-                      value={otpType === 'email' ? otpEmail : otpPhone}
-                      onChange={(e) => {
-                        if (otpType === 'email') setOtpEmail(e.target.value);
-                        else setOtpPhone(e.target.value);
-                      }}
-                      disabled={otpLoading}
-                      required
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    className="w-full"
+            {!otpSent ? (
+              <form onSubmit={handleSendOtp} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <div>
+                  <label style={labelStyle}>
+                    {otpType === 'email' ? 'Email' : 'Phone Number'}
+                  </label>
+                  <DarkInput
+                    type={otpType === 'email' ? 'email' : 'tel'}
+                    placeholder={otpType === 'email' ? 'you@business.com' : '+91 9876543210'}
+                    value={otpType === 'email' ? otpEmail : otpPhone}
+                    onChange={(e) => {
+                      if (otpType === 'email') setOtpEmail(e.target.value);
+                      else setOtpPhone(e.target.value);
+                    }}
                     disabled={otpLoading}
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={otpLoading}
+                  style={{
+                    width: '100%',
+                    background: otpLoading ? 'rgba(249,115,22,0.5)' : 'linear-gradient(135deg, #f97316, #fb923c)',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: 10,
+                    padding: '14px',
+                    fontSize: 15,
+                    fontWeight: 600,
+                    cursor: otpLoading ? 'not-allowed' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 8,
+                  }}
+                >
+                  {otpLoading ? (
+                    <>
+                      <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
+                      Sending...
+                    </>
+                  ) : (
+                    'Send OTP'
+                  )}
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={handleVerifyOtp} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <div>
+                  <label style={labelStyle}>Enter OTP</label>
+                  <DarkInput
+                    type="text"
+                    placeholder="000000"
+                    value={otpCode}
+                    onChange={(e) => setOtpCode(e.target.value)}
+                    disabled={otpLoading}
+                    maxLength={6}
+                    required
+                  />
+                </div>
+
+                <div style={{ display: 'flex', gap: 10 }}>
+                  <button
+                    type="button"
+                    onClick={() => setOtpSent(false)}
+                    disabled={otpLoading}
+                    style={{
+                      flex: 1,
+                      background: 'transparent',
+                      color: '#e2e8f0',
+                      border: '1px solid rgba(255,140,80,0.15)',
+                      borderRadius: 10,
+                      padding: '13px',
+                      fontSize: 14,
+                      fontWeight: 500,
+                      cursor: otpLoading ? 'not-allowed' : 'pointer',
+                    }}
+                  >
+                    Back
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={otpLoading}
+                    style={{
+                      flex: 1,
+                      background: otpLoading ? 'rgba(249,115,22,0.5)' : 'linear-gradient(135deg, #f97316, #fb923c)',
+                      color: '#fff',
+                      border: 'none',
+                      borderRadius: 10,
+                      padding: '13px',
+                      fontSize: 14,
+                      fontWeight: 600,
+                      cursor: otpLoading ? 'not-allowed' : 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                    }}
                   >
                     {otpLoading ? (
                       <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Sending...
+                        <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
+                        Verifying...
                       </>
                     ) : (
-                      'Send OTP'
+                      'Verify'
                     )}
-                  </Button>
-                </form>
-              ) : (
-                <form onSubmit={handleVerifyOtp} className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Enter OTP</label>
-                    <Input
-                      type="text"
-                      placeholder="000000"
-                      value={otpCode}
-                      onChange={(e) => setOtpCode(e.target.value)}
-                      disabled={otpLoading}
-                      maxLength={6}
-                      required
-                    />
-                  </div>
+                  </button>
+                </div>
+              </form>
+            )}
 
-                  <div className="flex gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      className="flex-1"
-                      onClick={() => setOtpSent(false)}
-                      disabled={otpLoading}
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      type="submit"
-                      className="flex-1"
-                      disabled={otpLoading}
-                    >
-                      {otpLoading ? (
-                        <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          Verifying...
-                        </>
-                      ) : (
-                        'Verify'
-                      )}
-                    </Button>
-                  </div>
-                </form>
-              )}
-
-              <div className="text-center text-sm">
-                Don't have an account?{' '}
-                <Link to="/signup" className="text-blue-600 hover:underline">
-                  Sign up
-                </Link>
-              </div>
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
+            <div style={{ textAlign: 'center', fontSize: 13, color: '#64748b' }}>
+              Don't have an account?{' '}
+              <Link to="/signup" style={{ color: '#f97316', textDecoration: 'none', fontWeight: 500 }}>
+                Sign up
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Password Reset Modal */}
       {showResetModal && (
@@ -580,6 +818,13 @@ export function LoginPage({ onSuccess }: LoginFormProps) {
           }}
         />
       )}
+
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }

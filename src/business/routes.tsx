@@ -31,6 +31,7 @@ import { LeadsPage } from './components/LeadsPage';
 import { OutreachPage } from './components/OutreachPage';
 import { TeamPage } from './components/TeamPage';
 import { RBACProvider } from './context/RBACContext';
+import { StartPage } from './pages/StartPage';
 
 // ── Landing Page Root ────────────────────────────────────────────────────────
 function LandingPageRoot() {
@@ -130,6 +131,18 @@ function BusinessWebsiteRoot() {
   );
 }
 
+function StartPageRoot() {
+  return (
+    <ThemeProvider>
+      <BusinessProvider>
+        <ErrorBoundary>
+          <StartPage />
+        </ErrorBoundary>
+      </BusinessProvider>
+    </ThemeProvider>
+  );
+}
+
 export const router = createBrowserRouter(
   [
   {
@@ -160,6 +173,11 @@ export const router = createBrowserRouter(
   {
     path: '/onboarding',
     element: <OnboardingRoot />,
+    errorElement: <ErrorElement />,
+  },
+  {
+    path: '/start',
+    element: <StartPageRoot />,
     errorElement: <ErrorElement />,
   },
   {
