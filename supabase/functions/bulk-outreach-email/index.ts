@@ -117,6 +117,42 @@ async function sendBatchViaResend(
   return { accepted, rejected };
 }
 
+async function filterSuppressedEmails(
+  recipients: Recipient[],
+  supabase: ReturnType<typeof createClient>,
+): Promise<{ active: Recipient[]; suppressed: string[] }> {
+  try {
+    const emails = recipients.map(r => r.email.toLowerCase());
+
+    const { data: suppressedEmails, error } = await supabase
+      .from('email_suppressions')
+      .select('email')
+      .in('email', emails);
+
+    if (error) {
+      console.warn('[bulk-outreach-email] Could not fetch suppressed emails:', error);
+      return { active: recipients, suppressed: [] };
+    }
+
+    const suppressedSet = new Set((suppressedEmails || []).map(s => s.email));
+    const active = recipients.filter(r => !suppressedSet.has(r.email.toLowerCase()));
+    const suppressed = recipients
+      .filter(r => suppressedSet.has(r.email.toLowerCase()))
+      .map(r => r.email);
+
+    if (suppressed.length > 0) {
+      console.log(
+        `[bulk-outreach-email] Filtered out ${suppressed.length} suppressed emails`,
+      );
+    }
+
+    return { active, suppressed };
+  } catch (err) {
+    console.warn('[bulk-outreach-email] Suppression filter error:', err);
+    return { active: recipients, suppressed: [] };
+  }
+}
+
 async function createOutreachCampaign(
   campaignName: string,
   businessId: string,
@@ -222,10 +258,30 @@ Deno.serve(async (req) => {
       ? createClient(SUPABASE_URL, SERVICE_ROLE_KEY)
       : null;
 
+    // Filter out suppressed emails
+    let activeRecipients = recipients;
+    let suppressedCount = 0;
+    if (supabase) {
+      const { active, suppressed } = await filterSuppressedEmails(recipients, supabase);
+      activeRecipients = active;
+      suppressedCount = suppressed.length;
+
+      if (suppressedCount > 0) {
+        console.log(
+          `[bulk-outreach-email] Suppressed emails filtered: ${suppressedCount}/${recipients.length}`,
+        );
+      }
+    }
+
     // Create campaign record
     let campaignId: string | null = null;
     if (supabase) {
-      campaignId = await createOutreachCampaign(campaignName, businessId, recipients.length, supabase);
+      campaignId = await createOutreachCampaign(
+        campaignName,
+        businessId,
+        activeRecipients.length,
+        supabase,
+      );
     }
 
     let totalAccepted = 0;
@@ -233,10 +289,10 @@ Deno.serve(async (req) => {
     const allAccepted: string[] = [];
 
     // Process in batches with delays
-    for (let i = 0; i < recipients.length; i += batchSize) {
-      const batch = recipients.slice(i, i + batchSize);
+    for (let i = 0; i < activeRecipients.length; i += batchSize) {
+      const batch = activeRecipients.slice(i, i + batchSize);
       const batchNum = Math.floor(i / batchSize) + 1;
-      const totalBatches = Math.ceil(recipients.length / batchSize);
+      const totalBatches = Math.ceil(activeRecipients.length / batchSize);
 
       console.log(`[bulk-outreach-email] Processing batch ${batchNum}/${totalBatches}`);
 
@@ -247,7 +303,7 @@ Deno.serve(async (req) => {
       allAccepted.push(...result.accepted);
 
       // Wait before next batch (except for last batch)
-      if (i + batchSize < recipients.length) {
+      if (i + batchSize < activeRecipients.length) {
         await sleep(delayMs);
       }
     }
@@ -258,7 +314,7 @@ Deno.serve(async (req) => {
     }
 
     console.log(
-      `[bulk-outreach-email] Completed: ${totalAccepted} accepted, ${totalRejected} rejected`,
+      `[bulk-outreach-email] Completed: ${totalAccepted} accepted, ${totalRejected} rejected${suppressedCount > 0 ? `, ${suppressedCount} suppressed` : ''}`,
     );
 
     return json({
@@ -266,8 +322,9 @@ Deno.serve(async (req) => {
       campaignId,
       successCount: totalAccepted,
       failedCount: totalRejected,
+      suppressedCount,
       accepted: allAccepted,
-      message: `Sent to ${totalAccepted} recipients ${totalRejected > 0 ? `(${totalRejected} failed)` : ''}`,
+      message: `Sent to ${totalAccepted} recipients ${totalRejected > 0 ? `(${totalRejected} failed)` : ''}${suppressedCount > 0 ? ` (${suppressedCount} suppressed)` : ''}`,
     });
   } catch (err) {
     console.error('[bulk-outreach-email]', err);
