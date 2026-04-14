@@ -18,6 +18,10 @@ import { CampaignWizardModal } from './CampaignWizardModal';
 import { SenderIdentityModal } from './SenderIdentityModal';
 import { MarketingAutomationPanel } from './MarketingAutomationPanel';
 import { HintTooltip } from './HintTooltip';
+import { SendSingleEmailModal } from './SendSingleEmailModal';
+import { CampaignProgressTracker } from './CampaignProgressTracker';
+import { FeatureGuideOverlay, useFeatureGuide } from './FeatureGuideOverlay';
+import { featureGuides } from '@/business/utils/helpContent';
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -370,17 +374,21 @@ export function OutreachPage() {
     } catch { /* ignore */ }
   }, []);
 
-  const [campaigns,       setCampaigns]       = useState<any>([]);
-  const [usingMock,       setUsingMock]       = useState(true);
-  const [senders,         setSenders]         = useState<SenderIdentity[]>([]);
-  const [loading,         setLoading]         = useState(false);
-  const [sendingId,       setSendingId]       = useState<string | null>(null);
-  const [sendError,       setSendError]       = useState<string | null>(null);
-  const [tab,             setTab]             = useState<'campaigns' | 'settings' | 'automation'>('campaigns');
-  const [showWizard,      setShowWizard]      = useState(false);
-  const [showSender,      setShowSender]      = useState(false);
-  const [viewCampaign,    setViewCampaign]    = useState<OutreachCampaign | null>(null);
-  const [campaignPrefill, setCampaignPrefill] = useState<{ phones: string; names: string; count: number } | null>(null);
+  const [campaigns,           setCampaigns]           = useState<any>([]);
+  const [usingMock,           setUsingMock]           = useState(true);
+  const [senders,             setSenders]             = useState<SenderIdentity[]>([]);
+  const [loading,             setLoading]             = useState(false);
+  const [sendingId,           setSendingId]           = useState<string | null>(null);
+  const [sendError,           setSendError]           = useState<string | null>(null);
+  const [tab,                 setTab]                 = useState<'campaigns' | 'settings' | 'automation'>('campaigns');
+  const [showWizard,          setShowWizard]          = useState(false);
+  const [showSender,          setShowSender]          = useState(false);
+  const [showSingleEmail,     setShowSingleEmail]     = useState(false);
+  const [viewCampaign,        setViewCampaign]        = useState<OutreachCampaign | null>(null);
+  const [campaignPrefill,     setCampaignPrefill]     = useState<{ phones: string; names: string; count: number } | null>(null);
+
+  // Feature guide
+  const { shouldShow: showGuide, resetGuide } = useFeatureGuide('outreach_page');
 
   const bg     = isDark ? '#080d20' : '#faf7f3';
   const card   = isDark ? '#0e1530' : '#ffffff';
@@ -602,6 +610,18 @@ export function OutreachPage() {
           )}
           {tab === 'campaigns' && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ position: 'relative' }}>
+                <button onClick={() => setShowSingleEmail(true)} style={{
+                  padding: '8px 14px',
+                  background: `${border}66`,
+                  border: `1px solid ${border}`,
+                  borderRadius: 8, color: text,
+                  fontSize: 12, fontWeight: 600, cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', gap: 6,
+                }}>
+                  <Mail size={13} /> Send Email
+                </button>
+              </div>
               <button onClick={() => setShowWizard(true)} style={{
                 padding: '8px 18px',
                 background: `linear-gradient(135deg, ${accent}, #fb923c)`,
@@ -854,6 +874,33 @@ export function OutreachPage() {
           campaign={viewCampaign}
           border={border} card={card} text={text} muted={muted}
           onClose={() => setViewCampaign(null)}
+        />
+      )}
+
+      {/* Send Single Email Modal */}
+      {showSingleEmail && bizUser?.businessId && (
+        <SendSingleEmailModal
+          businessId={bizUser.businessId}
+          onClose={() => setShowSingleEmail(false)}
+          onSuccess={(email) => {
+            // Refresh campaigns list
+            if (bizUser.businessId) {
+              fetchOutreachCampaigns(bizUser.businessId).then(camps => {
+                if (camps) setCampaigns(camps);
+              });
+            }
+          }}
+        />
+      )}
+
+      {/* Feature Guide Overlay */}
+      {showGuide && tab === 'campaigns' && (
+        <FeatureGuideOverlay
+          steps={featureGuides.outreach}
+          featureName="outreach_page"
+          onComplete={() => {
+            // Optional: track that guide was completed
+          }}
         />
       )}
     </div>
