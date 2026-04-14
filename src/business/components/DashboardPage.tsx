@@ -83,9 +83,7 @@ function ProfileCompletenessBanner({ bizUser, isDark, isMobile }: { bizUser: { n
   const pct = Math.round((filledCount / fields.length) * 100);
   const missing = fields.filter(f => !f.filled);
 
-  // If complete, don't show banner
   if (pct === 100) return null;
-  // If dismissed recently, don't show
   if (dismissed) return null;
 
   function handleDismiss() {
@@ -101,7 +99,6 @@ function ProfileCompletenessBanner({ bizUser, isDark, isMobile }: { bizUser: { n
 
   return (
     <div style={{ background: card, borderRadius: 16, border: `1.5px solid ${accent}55`, padding: isMobile ? 16 : 20, position: 'relative' }}>
-      {/* Dismiss button */}
       <button
         onClick={handleDismiss}
         style={{ position: 'absolute', top: 12, right: 12, background: 'none', border: 'none', cursor: 'pointer', color: muted, display: 'flex', alignItems: 'center', padding: 4 }}
@@ -137,12 +134,10 @@ function ProfileCompletenessBanner({ bizUser, isDark, isMobile }: { bizUser: { n
         )}
       </div>
 
-      {/* Progress bar */}
       <div style={{ height: 6, borderRadius: 6, background: isDark ? '#1c2a55' : '#f3f0ec', marginBottom: 12, overflow: 'hidden' }}>
         <div style={{ height: '100%', width: `${pct}%`, borderRadius: 6, background: `linear-gradient(90deg, ${accent}, #fb923c)`, transition: 'width 0.4s ease' }} />
       </div>
 
-      {/* Missing chips */}
       {missing.length > 0 && (
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           {missing.map(f => (
@@ -264,7 +259,6 @@ function FirstLoginPasswordModal({ isDark }: { isDark: boolean }) {
               </button>
             </div>
 
-            {/* Strength indicator */}
             {newPw && (
               <div style={{ marginTop: 8 }}>
                 <div style={{ height: 4, borderRadius: 4, background: isDark ? '#1c2a55' : '#f3f0ec', overflow: 'hidden' }}>
@@ -308,7 +302,6 @@ function BusinessWebsiteCard({ bizUser, isDark, isMobile }: { bizUser: { busines
 
   const [showPreview, setShowPreview] = useState(false);
 
-  // In production basename is '/' so route is /biz/:id; in dev basename is /business.html
   const bizUrl = import.meta.env.PROD
     ? `${window.location.origin}/biz/${bizUser.businessId}`
     : `${window.location.origin}/business.html/biz/${bizUser.businessId}`;
@@ -342,7 +335,6 @@ function BusinessWebsiteCard({ bizUser, isDark, isMobile }: { bizUser: { busines
       </div>
 
       <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start', flexWrap: isMobile ? 'wrap' : 'nowrap' }}>
-        {/* QR Code */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, flexShrink: 0 }}>
           <div style={{ padding: 12, borderRadius: 12, background: '#ffffff', border: `1px solid ${border}` }}>
             <QRCodeSVG value={bizUrl} size={160} fgColor="#0d0d18" bgColor="#ffffff" />
@@ -350,7 +342,6 @@ function BusinessWebsiteCard({ bizUser, isDark, isMobile }: { bizUser: { busines
           <div style={{ fontSize: 10, color: muted, textAlign: 'center' }}>Scan to open business page</div>
         </div>
 
-        {/* URL + Buttons */}
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
           <div>
             <div style={{ fontSize: 11, fontWeight: 600, color: muted, marginBottom: 6 }}>Business URL</div>
@@ -381,11 +372,9 @@ function BusinessWebsiteCard({ bizUser, isDark, isMobile }: { bizUser: { busines
         </div>
       </div>
 
-      {/* Customer View Preview Modal */}
       {showPreview && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', zIndex: 9999, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
           <div style={{ width: '100%', maxWidth: 420, background: isDark ? '#0e1530' : '#f3f4f6', borderRadius: 20, overflow: 'hidden', boxShadow: '0 24px 64px rgba(0,0,0,0.5)', display: 'flex', flexDirection: 'column', maxHeight: '90vh' }}>
-            {/* Phone-style header bar */}
             <div style={{ background: isDark ? '#162040' : '#e5e7eb', padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ef4444' }} />
@@ -400,7 +389,6 @@ function BusinessWebsiteCard({ bizUser, isDark, isMobile }: { bizUser: { busines
                 style={{ background: 'none', border: 'none', cursor: 'pointer', color: isDark ? '#94a3b8' : '#6b7280', fontSize: 18, lineHeight: 1, padding: 2 }}
               >✕</button>
             </div>
-            {/* Iframe preview */}
             <div style={{ flex: 1, overflow: 'hidden', minHeight: 500 }}>
               <iframe
                 src={bizUrl}
@@ -424,16 +412,15 @@ export function DashboardPage() {
   const { isMobile } = useViewport();
   const navigate = useNavigate();
 
-  // First-login password modal for team members
-  const [showPasswordModal, setShowPasswordModal] = useState(
+  const [showPasswordModal] = useState(
     () => localStorage.getItem('team_member_first_login') === 'true'
   );
 
+  const accent  = '#f97316';
   const card    = isDark ? '#0e1530' : '#ffffff';
-  const border  = isDark ? '#1c2a55' : '#e8d8cc';
+  const border  = isDark ? 'rgba(255,140,80,0.1)' : '#e8d8cc';
   const text    = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
-  const accent  = '#f97316';
 
   const [kpis, setKpis] = useState<DashboardKPIs>({
     totalRevenue: 147600,
@@ -464,7 +451,6 @@ export function DashboardPage() {
     if (!supabase || !bizId) return;
     setLoading(true);
     try {
-      // ── Leads ──────────────────────────────────────────────────────────────
       const { data: leadsData } = await supabase
         .from('leads')
         .select('stage, deal_value, won_at, updated_at')
@@ -479,7 +465,6 @@ export function DashboardPage() {
         monthStart.setDate(1); monthStart.setHours(0, 0, 0, 0);
         const wonThisMonth = leadsData.filter(l => l.stage === 'won' && l.won_at && new Date(l.won_at) >= monthStart).length;
 
-        // Stage breakdown for pipeline mini-summary
         const stageMap: Record<string, { count: number; value: number }> = {};
         for (const l of leadsData) {
           if (!stageMap[l.stage]) stageMap[l.stage] = { count: 0, value: 0 };
@@ -509,7 +494,6 @@ export function DashboardPage() {
         }));
       }
 
-      // ── Overdue follow-ups ──────────────────────────────────────────────────
       const { count: overdueCount } = await supabase
         .from('lead_follow_ups')
         .select('id', { count: 'exact', head: true })
@@ -520,7 +504,6 @@ export function DashboardPage() {
         setKpis(prev => ({ ...prev, overdueFollowUps: overdueCount }));
       }
 
-      // ── Active offers ───────────────────────────────────────────────────────
       const { count: offersCount } = await supabase
         .from('offers')
         .select('id', { count: 'exact', head: true })
@@ -530,7 +513,6 @@ export function DashboardPage() {
         setKpis(prev => ({ ...prev, activeOffers: offersCount }));
       }
 
-      // ── Revenue from payment_submissions ─────────────────────────────────
       const { data: payments } = await supabase
         .from('payment_submissions')
         .select('amount, created_at')
@@ -545,7 +527,6 @@ export function DashboardPage() {
         if (monthRevenue > 0) setKpis(prev => ({ ...prev, totalRevenue: monthRevenue }));
       }
 
-      // ── Recent notifications ────────────────────────────────────────────────
       const { data: notifData } = await supabase
         .from('in_app_notifications')
         .select('id, event_type, title, body, created_at')
@@ -591,225 +572,616 @@ export function DashboardPage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bizId]);
 
-  interface KPI {
-    label: string;
-    value: string;
-    sub: string;
-    trend: number;
-    icon: React.ReactNode;
-    color: string;
-    path?: string;
-  }
-
-  const rrKPIs: KPI[] = [
-    { label: 'Total Revenue', value: `₹${(kpis.totalRevenue / 1000).toFixed(0)}K`, sub: 'This month (approved)', trend: 18.4, icon: <TrendingUp size={20} />, color: '#22c55e' },
-    { label: "Today's Orders", value: String(kpis.todayOrders), sub: 'From payment submissions', trend: 12.0, icon: <ShoppingBag size={20} />, color: '#3b82f6', path: '/orders' },
-    { label: 'Active Offers', value: String(kpis.activeOffers), sub: `Live & approved`, trend: -5.2, icon: <Tag size={20} />, color: '#f59e0b', path: '/offers' },
-  ];
-
-  const lmsKPIs: KPI[] = [
-    { label: 'Open Leads', value: String(kpis.openLeads), sub: kpis.overdueFollowUps > 0 ? `${kpis.overdueFollowUps} overdue follow-up` : `₹${(kpis.pipelineValue / 1000).toFixed(0)}K pipeline`, trend: 33.3, icon: <UserCheck size={20} />, color: '#fb923c', path: '/leads' },
-    { label: 'Won This Month', value: String(kpis.wonThisMonth), sub: 'Deals closed', trend: 10.0, icon: <TrendingUp size={20} />, color: '#22c55e' },
-    { label: 'Pipeline Value', value: `₹${(kpis.pipelineValue / 1000).toFixed(0)}K`, sub: 'Open deals total', trend: 5.0, icon: <Wallet size={20} />, color: '#3b82f6' },
-  ];
-
-  const KPIs: KPI[] = productSelection === 'rr'
-    ? rrKPIs
-    : productSelection === 'lms'
-      ? lmsKPIs
-      : [...rrKPIs, { label: 'Open Leads', value: String(kpis.openLeads), sub: kpis.overdueFollowUps > 0 ? `${kpis.overdueFollowUps} overdue follow-up` : `₹${(kpis.pipelineValue / 1000).toFixed(0)}K pipeline`, trend: 33.3, icon: <UserCheck size={20} />, color: '#fb923c', path: '/leads' }];
-
-  const allQuickActions = [
-    { label: 'Add Product', icon: <Plus size={18} />, color: accent, path: '/products', module: 'rr' },
-    { label: 'Create Offer', icon: <Tag size={18} />, color: '#f59e0b', path: '/offers', module: 'rr' },
-    { label: 'View Wallet', icon: <Wallet size={18} />, color: '#22c55e', path: '/wallet', module: 'rr' },
-    { label: 'View Leads', icon: <UserCheck size={18} />, color: '#fb923c', path: '/leads', module: 'lms' },
-  ];
-
-  const QUICK_ACTIONS = allQuickActions.filter(a =>
-    productSelection === 'both' || a.module === productSelection
+  // ── Sparkline SVGs ──────────────────────────────────────────────────────────
+  const sparklineGreen = (
+    <svg width="80" height="32" viewBox="0 0 80 32" fill="none">
+      <path d="M0,28 C15,22 25,18 35,20 C45,22 55,10 65,7 C72,5 76,4 80,2" stroke="#22c55e" strokeWidth="2" fill="none" />
+    </svg>
+  );
+  const sparklineRed = (
+    <svg width="80" height="32" viewBox="0 0 80 32" fill="none">
+      <path d="M0,4 C10,6 20,8 30,12 C42,16 55,22 65,24 C72,26 76,27 80,29" stroke="#ef4444" strokeWidth="2" fill="none" />
+    </svg>
+  );
+  const sparklineBlue = (
+    <svg width="80" height="32" viewBox="0 0 80 32" fill="none">
+      <path d="M0,24 C10,20 20,22 30,16 C42,10 52,14 64,8 C72,4 76,3 80,5" stroke="#3b82f6" strokeWidth="2" fill="none" />
+    </svg>
+  );
+  const sparklineOrange = (
+    <svg width="80" height="32" viewBox="0 0 80 32" fill="none">
+      <path d="M0,26 C12,20 22,24 34,18 C46,12 56,8 68,6 C74,5 77,4 80,3" stroke="#f97316" strokeWidth="2" fill="none" />
+    </svg>
   );
 
+  // ── 4 KPI metric cards data ─────────────────────────────────────────────────
+  const metricCards = [
+    {
+      icon: '💰',
+      iconColor: '#22c55e',
+      value: `₹${(kpis.totalRevenue / 1000).toFixed(0)}K`,
+      trend: '+18%',
+      trendUp: true,
+      label: 'Revenue',
+      desc: 'Weekend offers boosted sales',
+      sparkline: sparklineGreen,
+      actionLabel: 'Improve',
+      actionPath: '/offers',
+    },
+    {
+      icon: '🛍️',
+      iconColor: '#3b82f6',
+      value: String(kpis.todayOrders),
+      trend: '+12%',
+      trendUp: true,
+      label: 'Orders',
+      desc: 'Push combo offer to increase AOV',
+      sparkline: sparklineBlue,
+      actionLabel: 'View Details',
+      actionPath: '/orders',
+    },
+    {
+      icon: '🏷️',
+      iconColor: '#f59e0b',
+      value: String(kpis.activeOffers),
+      trend: '-5.2%',
+      trendUp: false,
+      label: 'Offers',
+      desc: 'Alert: Competitors running higher discounts',
+      sparkline: sparklineRed,
+      actionLabel: 'Act Now',
+      actionPath: '/offers',
+    },
+    {
+      icon: '👥',
+      iconColor: '#f97316',
+      value: String(kpis.openLeads),
+      trend: '+33.3%',
+      trendUp: true,
+      label: 'Leads',
+      desc: 'Follow up with 3 hot leads now',
+      sparkline: sparklineOrange,
+      actionLabel: 'View Leads',
+      actionPath: '/leads',
+    },
+  ];
+
+  // ── Trending Near You data ──────────────────────────────────────────────────
+  const trendingItems = [
+    { emoji: '☕', title: 'Buy 1 Get 1 Coffee', detail: '3 nearby cafes', time: '2h ago' },
+    { emoji: '💆', title: 'Hair Spa ₹299 Flat', detail: '5 salons near you', time: '4h ago' },
+    { emoji: '🍕', title: 'Family Meal @ ₹499', detail: '2 restaurants', time: '6h ago' },
+  ];
+
+  // ── Notification dot colors ─────────────────────────────────────────────────
+  const notifDotColors: Record<string, string> = {
+    order: '#22c55e',
+    bid: '#3b82f6',
+    lead: '#f97316',
+    payment_received: '#a855f7',
+  };
+
+  const heroBg = 'linear-gradient(135deg, #0d0621 0%, #1a0a4d 30%, #2d1080 50%, #1a0a4d 70%, #0d0621 100%)';
+
+  const bizUrl = bizUser?.businessId
+    ? (import.meta.env.PROD
+        ? `${window.location.origin}/biz/${bizUser.businessId}`
+        : `${window.location.origin}/business.html/biz/${bizUser.businessId}`)
+    : null;
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-      {/* First-login password change modal for team members */}
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+      {/* First-login modal */}
       {showPasswordModal && <FirstLoginPasswordModal isDark={isDark} />}
 
-      {/* Welcome */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div>
-          <h1 style={{ fontSize: isMobile ? 18 : 22, fontWeight: 700, color: text, marginBottom: 4 }}>
-            Good morning, {bizUser?.name?.split(' ')[0]} 👋
-          </h1>
-          <p style={{ fontSize: 13, color: textMuted }}>
-            {bizUser?.businessName} — Here's what's happening today
-          </p>
-        </div>
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          {!isMobile && productSelection !== 'lms' && (
-            <button onClick={() => navigate('/products')} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 18px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
-              <Plus size={16} /> Add Product
-            </button>
-          )}
-          <button onClick={loadDashboardData} title="Refresh" style={{ background: 'none', border: `1px solid ${border}`, borderRadius: 8, padding: 8, cursor: 'pointer', color: textMuted, display: 'flex', alignItems: 'center' }}>
-            <RefreshCw size={15} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
-          </button>
-        </div>
-      </div>
-
-      {/* Profile Completeness Banner */}
+      {/* Profile completeness banner */}
       <ProfileCompletenessBanner bizUser={bizUser} isDark={isDark} isMobile={isMobile} />
 
       {/* Getting Started guide */}
       <GettingStartedCard />
 
-      {/* KPI cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${isMobile ? 2 : 4}, 1fr)`, gap: isMobile ? 12 : 16 }}>
-        {KPIs.map(kpi => (
-          <div
-            key={kpi.label}
-            onClick={() => kpi.path && navigate(kpi.path)}
-            style={{ background: card, borderRadius: 16, border: `1px solid ${kpi.path ? `${kpi.color}44` : border}`, padding: 20, cursor: kpi.path ? 'pointer' : 'default', transition: 'all 0.15s' }}
-            onMouseEnter={e => { if (kpi.path) (e.currentTarget as HTMLElement).style.borderColor = kpi.color; }}
-            onMouseLeave={e => { if (kpi.path) (e.currentTarget as HTMLElement).style.borderColor = `${kpi.color}44`; }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-              <div style={{ width: 40, height: 40, borderRadius: 10, background: `${kpi.color}22`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: kpi.color }}>
-                {kpi.icon}
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 12, fontWeight: 600, color: kpi.trend > 0 ? '#22c55e' : '#ef4444' }}>
-                {kpi.trend > 0 ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
-                {Math.abs(kpi.trend)}%
-              </div>
+      {/* ── HERO BANNER ─────────────────────────────────────────────────────── */}
+      <div style={{
+        position: 'relative',
+        borderRadius: 20,
+        overflow: 'hidden',
+        background: heroBg,
+        minHeight: 220,
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: isMobile ? '28px 24px' : '32px 40px',
+      }}>
+        {/* Radial glow overlay */}
+        <div style={{
+          position: 'absolute',
+          right: 0,
+          top: 0,
+          width: '50%',
+          height: '100%',
+          background: 'radial-gradient(ellipse at 80% 50%, rgba(255,100,30,0.25) 0%, rgba(120,40,200,0.35) 40%, transparent 70%)',
+          pointerEvents: 'none',
+        }} />
+
+        {/* Stars decoration */}
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+          {[
+            { top: '15%', left: '60%', size: 2 }, { top: '30%', left: '75%', size: 1.5 },
+            { top: '55%', left: '82%', size: 2 }, { top: '70%', left: '65%', size: 1 },
+            { top: '20%', left: '88%', size: 2.5 }, { top: '45%', left: '92%', size: 1.5 },
+            { top: '80%', left: '78%', size: 1 }, { top: '10%', left: '95%', size: 2 },
+          ].map((s, i) => (
+            <div key={i} style={{
+              position: 'absolute',
+              top: s.top,
+              left: s.left,
+              width: s.size,
+              height: s.size,
+              borderRadius: '50%',
+              background: 'rgba(255,255,255,0.6)',
+            }} />
+          ))}
+        </div>
+
+        {/* Main content */}
+        <div style={{ position: 'relative', zIndex: 1, maxWidth: isMobile ? '100%' : '65%' }}>
+          {/* Headline */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
+            <span style={{ fontSize: isMobile ? 22 : 26 }}>🚀</span>
+            <span style={{ fontSize: isMobile ? 16 : 20, fontWeight: 700, color: '#ffffff' }}>
+              Your Business is Growing
+            </span>
+            <span style={{
+              padding: '3px 10px',
+              borderRadius: 20,
+              background: 'rgba(34,197,94,0.2)',
+              border: '1px solid rgba(34,197,94,0.5)',
+              color: '#22c55e',
+              fontSize: 13,
+              fontWeight: 700,
+            }}>
+              +18% this week
+            </span>
+          </div>
+
+          {/* AI Suggestion card */}
+          <div style={{
+            background: 'rgba(0,0,0,0.45)',
+            backdropFilter: 'blur(8px)',
+            borderRadius: 12,
+            border: '1px solid rgba(255,140,80,0.2)',
+            padding: '12px 16px',
+            marginBottom: 12,
+          }}>
+            <div style={{ fontSize: 11, fontWeight: 600, color: '#f97316', marginBottom: 6, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+              ✨ AI Suggestion
             </div>
-            <div style={{ fontSize: 26, fontWeight: 800, color: text, marginBottom: 4 }}>{kpi.value}</div>
-            <div style={{ fontSize: 12, fontWeight: 600, color: textMuted }}>{kpi.label}</div>
-            <div style={{ fontSize: 11, color: kpi.label === 'Open Leads' && kpis.overdueFollowUps > 0 ? '#ef4444' : textMuted, marginTop: 2, display: 'flex', alignItems: 'center', gap: 3 }}>
-              {kpi.label === 'Open Leads' && kpis.overdueFollowUps > 0 && <AlertCircle size={10} color="#ef4444" />}
-              {kpi.sub}
+            <div style={{ fontSize: isMobile ? 13 : 15, fontWeight: 600, color: '#ffffff', marginBottom: 4 }}>
+              Run a ₹200 OFF above ₹999 offer this weekend
+            </div>
+            <div style={{ fontSize: 12, color: '#22c55e', fontWeight: 600 }}>
+              +32% conversions expected
+            </div>
+          </div>
+
+          {/* Competitor alert */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
+            <span style={{ fontSize: 14 }}>⚠️</span>
+            <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>
+              <span style={{ color: '#fbbf24', fontWeight: 600 }}>Competitor Alert:</span> 2 nearby businesses launched new offers
+            </span>
+          </div>
+
+          {/* Buttons */}
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <button
+              onClick={() => navigate('/offers')}
+              style={{
+                padding: '10px 20px',
+                borderRadius: 10,
+                border: 'none',
+                background: `linear-gradient(135deg, ${accent}, #fb923c)`,
+                color: '#ffffff',
+                fontSize: 13,
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(249,115,22,0.4)',
+              }}
+            >
+              Apply Suggestion
+            </button>
+            <button
+              onClick={() => navigate('/ai-insights')}
+              style={{
+                padding: '10px 20px',
+                borderRadius: 10,
+                border: '1px solid rgba(255,255,255,0.25)',
+                background: 'rgba(255,255,255,0.08)',
+                color: '#ffffff',
+                fontSize: 13,
+                fontWeight: 600,
+                cursor: 'pointer',
+                backdropFilter: 'blur(4px)',
+              }}
+            >
+              View Insights
+            </button>
+            <button
+              onClick={loadDashboardData}
+              title="Refresh"
+              style={{
+                padding: '10px 12px',
+                borderRadius: 10,
+                border: '1px solid rgba(255,255,255,0.15)',
+                background: 'rgba(255,255,255,0.05)',
+                color: 'rgba(255,255,255,0.6)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <RefreshCw size={14} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* ── 4 METRIC CARDS ──────────────────────────────────────────────────── */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+        gap: 16,
+      }}>
+        {metricCards.map((mc) => (
+          <div
+            key={mc.label}
+            onClick={() => navigate(mc.actionPath)}
+            style={{
+              background: card,
+              borderRadius: 16,
+              border: `1px solid ${border}`,
+              padding: '20px',
+              cursor: 'pointer',
+              position: 'relative',
+              overflow: 'hidden',
+              transition: 'border-color 0.15s, transform 0.15s',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLElement).style.borderColor = mc.iconColor;
+              (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLElement).style.borderColor = border;
+              (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+            }}
+          >
+            {/* Top row: icon badge + trend badge */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+              <div style={{
+                width: 40,
+                height: 40,
+                borderRadius: 10,
+                background: `${mc.iconColor}22`,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 20,
+              }}>
+                {mc.icon}
+              </div>
+              <span style={{
+                padding: '3px 8px',
+                borderRadius: 20,
+                background: mc.trendUp ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)',
+                color: mc.trendUp ? '#22c55e' : '#ef4444',
+                fontSize: 11,
+                fontWeight: 700,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+              }}>
+                {mc.trendUp ? <ArrowUpRight size={11} /> : <ArrowDownRight size={11} />}
+                {mc.trend}
+              </span>
+            </div>
+
+            {/* Value */}
+            <div style={{ fontSize: isMobile ? 22 : 28, fontWeight: 800, color: text, marginBottom: 2, lineHeight: 1 }}>
+              {mc.value}
+            </div>
+
+            {/* Label */}
+            <div style={{ fontSize: 13, fontWeight: 700, color: text, marginBottom: 4 }}>
+              {mc.label}
+            </div>
+
+            {/* Description */}
+            <div style={{ fontSize: 11, color: textMuted, lineHeight: 1.4, marginBottom: 12, minHeight: 30 }}>
+              {mc.label === 'Offers' && kpis.activeOffers < 5 ? (
+                <span style={{ color: '#ef4444', display: 'flex', alignItems: 'center', gap: 3 }}>
+                  <AlertCircle size={10} color="#ef4444" /> {mc.desc}
+                </span>
+              ) : mc.desc}
+            </div>
+
+            {/* Sparkline + action button row */}
+            <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between' }}>
+              <div style={{ opacity: 0.7 }}>
+                {mc.sparkline}
+              </div>
+              <button
+                onClick={e => { e.stopPropagation(); navigate(mc.actionPath); }}
+                style={{
+                  padding: '5px 12px',
+                  borderRadius: 8,
+                  border: `1px solid ${mc.iconColor}44`,
+                  background: `${mc.iconColor}11`,
+                  color: mc.iconColor,
+                  fontSize: 11,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {mc.actionLabel}
+              </button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Business Website QR Card */}
-      <BusinessWebsiteCard bizUser={bizUser} isDark={isDark} isMobile={isMobile} />
+      {/* ── BOTTOM 3-COLUMN ROW ──────────────────────────────────────────────── */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr',
+        gap: 16,
+      }}>
 
-      {/* Revenue chart + Quick actions */}
-      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 280px', gap: 16 }}>
-        {/* Revenue chart — hidden for LMS-only users */}
-        {productSelection !== 'lms' && <div style={{ background: card, borderRadius: 16, border: `1px solid ${border}`, padding: 20 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: text }}>Revenue — Last 7 Days</h3>
-            <span style={{ fontSize: 22, fontWeight: 800, color: '#22c55e' }}>₹{0}K</span>
+        {/* AI Command Center */}
+        <div style={{
+          background: card,
+          borderRadius: 16,
+          border: `1px solid ${border}`,
+          padding: 20,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 14,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+            <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#a855f7', boxShadow: '0 0 6px #a855f7' }} />
+            <span style={{ fontSize: 13, fontWeight: 700, color: text }}>AI Command Center</span>
           </div>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={[]} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke={border} vertical={false} />
-              <XAxis dataKey="day" tick={{ fontSize: 11, fill: textMuted }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 10, fill: textMuted }} axisLine={false} tickLine={false} tickFormatter={v => `₹${(v / 1000).toFixed(0)}k`} />
-              <Tooltip
-                contentStyle={{ background: isDark ? '#162040' : '#fff', border: `1px solid ${border}`, borderRadius: 8, fontSize: 12 }}
-                formatter={(v: number) => [`₹${v.toLocaleString('en-IN')}`, 'Revenue']}
-              />
-              <Bar dataKey="revenue" fill={accent} radius={[6, 6, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>}
 
-        {/* Quick actions + Notifications */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <div style={{ background: card, borderRadius: 16, border: `1px solid ${border}`, padding: 20 }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: text, marginBottom: 12 }}>Quick Actions</h3>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-              {QUICK_ACTIONS.map(a => (
-                <button key={a.label} onClick={() => navigate(a.path)} style={{ padding: '12px 8px', borderRadius: 10, border: `1px solid ${border}`, background: `${a.color}11`, cursor: 'pointer', textAlign: 'center', transition: 'all 0.15s', color: a.color, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
-                  {a.icon}
-                  <span style={{ fontSize: 11, fontWeight: 600 }}>{a.label}</span>
-                </button>
-              ))}
+          {/* QR code mini */}
+          <div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>
+            <div style={{ padding: 8, borderRadius: 10, background: '#ffffff', flexShrink: 0 }}>
+              {bizUrl
+                ? <QRCodeSVG value={bizUrl} size={56} fgColor="#0d0d18" bgColor="#ffffff" />
+                : <div style={{ width: 56, height: 56, background: '#e5e7eb', borderRadius: 6 }} />
+              }
+            </div>
+            <div>
+              <div style={{ fontSize: 12, fontWeight: 700, color: text }}>Profile Views</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: '#22c55e' }}>+12%</div>
+              <div style={{ fontSize: 11, color: textMuted }}>vs last week</div>
             </div>
           </div>
 
-          <div style={{ background: card, borderRadius: 16, border: `1px solid ${border}`, padding: 20, flex: 1 }}>
-            <h3 style={{ fontSize: 14, fontWeight: 700, color: text, marginBottom: 12 }}>Latest Activity</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {recentNotifs.map(n => (
-                <div
-                  key={n.id}
-                  onClick={() => navigate(n.path)}
-                  style={{ display: 'flex', gap: 10, padding: '8px', borderRadius: 8, background: n.type.includes('lead') ? (isDark ? '#f97316' + '11' : '#fff7f0') : (isDark ? '#0f1838' : '#fdf6f0'), cursor: 'pointer', transition: 'opacity 0.1s', border: n.type.includes('lead') ? `1px solid #f9731622` : '1px solid transparent' }}
-                  onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.8'}
-                  onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '1'}
-                >
-                  <span style={{ fontSize: 18, flexShrink: 0 }}>{n.icon}</span>
-                  <div>
-                    <p style={{ fontSize: 11, color: text, lineHeight: 1.4, marginBottom: 2 }}>{n.message}</p>
-                    <span style={{ fontSize: 10, color: textMuted }}>{n.time}</span>
+          {/* Top service */}
+          <div style={{
+            padding: '10px 12px',
+            borderRadius: 10,
+            background: isDark ? '#162040' : '#fdf6f0',
+            border: `1px solid ${accent}22`,
+          }}>
+            <div style={{ fontSize: 11, color: textMuted, marginBottom: 3 }}>Top Service</div>
+            <div style={{ fontSize: 14, fontWeight: 700, color: text }}>Hair Spa</div>
+            <div style={{ fontSize: 13, color: '#22c55e', fontWeight: 700 }}>₹2,220 earned</div>
+          </div>
+
+          {/* AI suggestion */}
+          <div style={{ fontSize: 12, color: textMuted, lineHeight: 1.5 }}>
+            💡 <span style={{ color: text }}>Create a "Weekend Special" bundle</span> to boost Saturday footfall by ~24%
+          </div>
+
+          <button
+            onClick={() => navigate('/offers')}
+            style={{
+              padding: '10px',
+              borderRadius: 10,
+              border: 'none',
+              background: `linear-gradient(135deg, ${accent}, #fb923c)`,
+              color: '#ffffff',
+              fontSize: 12,
+              fontWeight: 700,
+              cursor: 'pointer',
+              marginTop: 'auto',
+            }}
+          >
+            Apply Suggestion
+          </button>
+        </div>
+
+        {/* Trending Near You */}
+        <div style={{
+          background: card,
+          borderRadius: 16,
+          border: `1px solid ${border}`,
+          padding: 20,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 14,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+            <span style={{ fontSize: 16 }}>🔥</span>
+            <span style={{ fontSize: 13, fontWeight: 700, color: text }}>Trending Near You</span>
+            <span style={{
+              marginLeft: 'auto',
+              padding: '2px 8px',
+              borderRadius: 20,
+              background: 'rgba(239,68,68,0.15)',
+              color: '#ef4444',
+              fontSize: 10,
+              fontWeight: 700,
+            }}>
+              LIVE
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {trendingItems.map((item, idx) => (
+              <div
+                key={idx}
+                style={{
+                  display: 'flex',
+                  gap: 10,
+                  alignItems: 'flex-start',
+                  padding: '10px 12px',
+                  borderRadius: 10,
+                  background: isDark ? '#162040' : '#fdf6f0',
+                  border: `1px solid ${border}`,
+                  cursor: 'pointer',
+                }}
+              >
+                <span style={{ fontSize: 20, flexShrink: 0 }}>{item.emoji}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: accent, marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {item.title}
                   </div>
+                  <div style={{ fontSize: 11, color: textMuted }}>{item.detail}</div>
                 </div>
-              ))}
-            </div>
+                <div style={{ fontSize: 10, color: textMuted, flexShrink: 0, marginTop: 2 }}>{item.time}</div>
+              </div>
+            ))}
           </div>
+
+          <button
+            onClick={() => navigate('/competitors')}
+            style={{
+              padding: '8px',
+              borderRadius: 10,
+              border: `1px solid ${border}`,
+              background: 'transparent',
+              color: textMuted,
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: 'pointer',
+              marginTop: 'auto',
+            }}
+          >
+            See All Trends →
+          </button>
+        </div>
+
+        {/* Live Activity */}
+        <div style={{
+          background: card,
+          borderRadius: 16,
+          border: `1px solid ${border}`,
+          padding: 20,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 14,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: text }}>Live Activity</span>
+            <span style={{
+              padding: '2px 8px',
+              borderRadius: 20,
+              background: 'rgba(34,197,94,0.15)',
+              color: '#22c55e',
+              fontSize: 10,
+              fontWeight: 700,
+              border: '1px solid rgba(34,197,94,0.3)',
+            }}>
+              New
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {recentNotifs.slice(0, 3).map((n) => (
+              <div
+                key={n.id}
+                onClick={() => navigate(n.path)}
+                style={{
+                  display: 'flex',
+                  gap: 10,
+                  alignItems: 'flex-start',
+                  padding: '10px 12px',
+                  borderRadius: 10,
+                  background: isDark ? '#162040' : '#fdf6f0',
+                  border: `1px solid ${border}`,
+                  cursor: 'pointer',
+                  transition: 'opacity 0.15s',
+                }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.8'}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '1'}
+              >
+                {/* Colored dot */}
+                <div style={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: '50%',
+                  background: notifDotColors[n.type] ?? '#64748b',
+                  flexShrink: 0,
+                  marginTop: 4,
+                  boxShadow: `0 0 6px ${notifDotColors[n.type] ?? '#64748b'}`,
+                }} />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 11, color: text, lineHeight: 1.4, marginBottom: 3 }}>
+                    {n.icon} {n.message}
+                  </div>
+                  <div style={{ fontSize: 10, color: textMuted }}>{n.time}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button
+            onClick={() => navigate('/notifications')}
+            style={{
+              padding: '8px',
+              borderRadius: 10,
+              border: `1px solid ${border}`,
+              background: 'transparent',
+              color: textMuted,
+              fontSize: 12,
+              fontWeight: 600,
+              cursor: 'pointer',
+              marginTop: 'auto',
+            }}
+          >
+            View All Activity →
+          </button>
         </div>
       </div>
 
-      {/* Lead Pipeline mini-summary (real data) — hidden for RR-only users */}
-      {productSelection !== 'rr' && <div style={{ background: card, borderRadius: 16, border: `1px solid ${border}`, padding: 20 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-          <h3 style={{ fontSize: 14, fontWeight: 700, color: text, display: 'flex', alignItems: 'center', gap: 7 }}>
-            <UserCheck size={15} color={accent} /> Lead Pipeline
-          </h3>
-          <button onClick={() => navigate('/leads')} style={{ fontSize: 12, color: accent, background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Manage →</button>
+      {/* ── Lead Pipeline mini-summary (LMS / both) ──────────────────────────── */}
+      {productSelection !== 'rr' && (
+        <div style={{ background: card, borderRadius: 16, border: `1px solid ${border}`, padding: 20 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+            <h3 style={{ fontSize: 14, fontWeight: 700, color: text, display: 'flex', alignItems: 'center', gap: 7 }}>
+              <UserCheck size={15} color={accent} /> Lead Pipeline
+            </h3>
+            <button onClick={() => navigate('/leads')} style={{ fontSize: 12, color: accent, background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Manage →</button>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${isMobile ? 2 : 4}, 1fr)`, gap: 10 }}>
+            {leadPipeline.map(stage => (
+              <div
+                key={stage.label}
+                onClick={() => navigate('/leads')}
+                style={{ padding: '10px 14px', borderRadius: 10, border: `1px solid ${stage.color}33`, background: `${stage.color}0d`, cursor: 'pointer', transition: 'all 0.15s' }}
+                onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = `${stage.color}18`}
+                onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = `${stage.color}0d`}
+              >
+                <div style={{ fontSize: 11, fontWeight: 600, color: stage.color, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{stage.label}</div>
+                <div style={{ fontSize: 18, fontWeight: 800, color: text }}>{stage.count}</div>
+                <div style={{ fontSize: 10, color: textMuted }}>{stage.value > 0 ? `₹${(stage.value / 1000).toFixed(0)}K` : '—'}</div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: `repeat(${isMobile ? 2 : 4}, 1fr)`, gap: 10 }}>
-          {leadPipeline.map(stage => (
-            <div key={stage.label} onClick={() => navigate('/leads')} style={{ padding: '10px 14px', borderRadius: 10, border: `1px solid ${stage.color}33`, background: `${stage.color}0d`, cursor: 'pointer', transition: 'all 0.15s' }}
-              onMouseEnter={e => (e.currentTarget as HTMLElement).style.background = `${stage.color}18`}
-              onMouseLeave={e => (e.currentTarget as HTMLElement).style.background = `${stage.color}0d`}>
-              <div style={{ fontSize: 11, fontWeight: 600, color: stage.color, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{stage.label}</div>
-              <div style={{ fontSize: 18, fontWeight: 800, color: text }}>{stage.count}</div>
-              <div style={{ fontSize: 10, color: textMuted }}>{stage.value > 0 ? `₹${(stage.value / 1000).toFixed(0)}K` : '—'}</div>
-            </div>
-          ))}
-        </div>
-      </div>}
-
-      {/* Recent Orders — hidden for LMS-only users */}
-      {productSelection !== 'lms' && <div style={{ background: card, borderRadius: 16, border: `1px solid ${border}`, padding: 20 }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-          <h3 style={{ fontSize: 14, fontWeight: 700, color: text }}>Recent Orders</h3>
-          <button onClick={() => navigate('/orders')} style={{ fontSize: 12, color: accent, background: 'none', border: 'none', cursor: 'pointer', fontWeight: 600 }}>View all →</button>
-        </div>
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 13 }}>
-            <thead>
-              <tr>
-                {['Order ID', 'Customer', 'Items', 'Total', 'Status', 'Time'].map(h => (
-                  <th key={h} style={{ textAlign: 'left', padding: '8px 12px', fontSize: 11, fontWeight: 600, color: textMuted, borderBottom: `1px solid ${border}` }}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              { [].map((o, i) => {
-                const st = STATUS_COLORS[o.status];
-                return (
-                  <tr key={o.id} style={{ borderBottom: i < 0 - 1 ? `1px solid ${border}` : 'none' }}>
-                    <td style={{ padding: '10px 12px', color: accent, fontWeight: 600 }}>{o.id}</td>
-                    <td style={{ padding: '10px 12px', color: text }}>{o.customer}</td>
-                    <td style={{ padding: '10px 12px', color: textMuted, maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{o.items}</td>
-                    <td style={{ padding: '10px 12px', color: text, fontWeight: 600 }}>₹{o.total}</td>
-                    <td style={{ padding: '10px 12px' }}>
-                      <span style={{ padding: '3px 10px', borderRadius: 20, background: st.bg, color: st.color, fontSize: 11, fontWeight: 600 }}>{st.label}</span>
-                    </td>
-                    <td style={{ padding: '10px 12px', color: textMuted, fontSize: 11 }}>{o.time}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>}
+      )}
     </div>
   );
 }
