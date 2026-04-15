@@ -8,7 +8,9 @@
       "Bash(node -e \":*)",
       "Bash(npx tsc:*)",
       "Read(//Users/adityatiwari/**)",
-      "Read(//Users/adityatiwari/.config/**)"
+      "Read(//Users/adityatiwari/.config/**)",
+      "Bash(supabase db:*)",
+      "Bash(npm run:*)"
     ]
   }
 }

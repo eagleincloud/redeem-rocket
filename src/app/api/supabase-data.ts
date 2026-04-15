@@ -3093,3 +3093,450 @@ export async function updatePaymentSubmissionStatus(
     return false;
   }
 }
+
+/** ─────── EMAIL PROVIDER CONFIGS ─────── */
+export async function fetchEmailProviderConfigs(businessId: string) {
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from('email_provider_configs')
+      .select('*')
+      .eq('business_id', businessId)
+      .order('created_at', { ascending: false });
+    return data || [];
+  } catch (err) {
+    console.error('Fetch email provider configs failed:', err);
+    return [];
+  }
+}
+
+export async function createEmailProviderConfig(
+  businessId: string,
+  config: {
+    provider_type: string;
+    provider_name: string;
+    config_data: Record<string, any>;
+  },
+) {
+  if (!supabase) return null;
+  try {
+    const { data } = await supabase
+      .from('email_provider_configs')
+      .insert([{ business_id: businessId, ...config }])
+      .select()
+      .single();
+    return data;
+  } catch (err) {
+    console.error('Create email provider config failed:', err);
+    return null;
+  }
+}
+
+export async function updateEmailProviderConfig(
+  configId: string,
+  updates: Record<string, any>,
+) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('email_provider_configs')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', configId);
+    return !error;
+  } catch (err) {
+    console.error('Update email provider config failed:', err);
+    return false;
+  }
+}
+
+export async function deleteEmailProviderConfig(configId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('email_provider_configs')
+      .delete()
+      .eq('id', configId);
+    return !error;
+  } catch (err) {
+    console.error('Delete email provider config failed:', err);
+    return false;
+  }
+}
+
+/** ─────── EMAIL SEQUENCES ─────── */
+export async function fetchEmailSequences(businessId: string) {
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from('email_sequences')
+      .select('*')
+      .eq('business_id', businessId)
+      .order('step_number', { ascending: true });
+    return data || [];
+  } catch (err) {
+    console.error('Fetch email sequences failed:', err);
+    return [];
+  }
+}
+
+export async function createEmailSequence(
+  businessId: string,
+  sequence: {
+    campaign_id?: string;
+    sequence_name: string;
+    trigger_type: string;
+    step_number: number;
+    step_delay_days: number;
+    email_subject: string;
+    email_body: string;
+  },
+) {
+  if (!supabase) return null;
+  try {
+    const { data } = await supabase
+      .from('email_sequences')
+      .insert([{ business_id: businessId, ...sequence }])
+      .select()
+      .single();
+    return data;
+  } catch (err) {
+    console.error('Create email sequence failed:', err);
+    return null;
+  }
+}
+
+export async function updateEmailSequence(
+  sequenceId: string,
+  updates: Record<string, any>,
+) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('email_sequences')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', sequenceId);
+    return !error;
+  } catch (err) {
+    console.error('Update email sequence failed:', err);
+    return false;
+  }
+}
+
+export async function deleteEmailSequence(sequenceId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('email_sequences')
+      .delete()
+      .eq('id', sequenceId);
+    return !error;
+  } catch (err) {
+    console.error('Delete email sequence failed:', err);
+    return false;
+  }
+}
+
+/** ─────── SOCIAL ACCOUNTS ─────── */
+export async function fetchSocialAccounts(businessId: string) {
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from('social_accounts')
+      .select('*')
+      .eq('business_id', businessId)
+      .order('platform', { ascending: true });
+    return data || [];
+  } catch (err) {
+    console.error('Fetch social accounts failed:', err);
+    return [];
+  }
+}
+
+export async function createSocialAccount(
+  businessId: string,
+  account: {
+    platform: string;
+    account_name: string;
+    account_id: string;
+    access_token: string;
+    refresh_token?: string;
+  },
+) {
+  if (!supabase) return null;
+  try {
+    const { data } = await supabase
+      .from('social_accounts')
+      .insert([{ business_id: businessId, ...account }])
+      .select()
+      .single();
+    return data;
+  } catch (err) {
+    console.error('Create social account failed:', err);
+    return null;
+  }
+}
+
+export async function updateSocialAccount(
+  accountId: string,
+  updates: Record<string, any>,
+) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('social_accounts')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', accountId);
+    return !error;
+  } catch (err) {
+    console.error('Update social account failed:', err);
+    return false;
+  }
+}
+
+export async function deleteSocialAccount(accountId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('social_accounts')
+      .delete()
+      .eq('id', accountId);
+    return !error;
+  } catch (err) {
+    console.error('Delete social account failed:', err);
+    return false;
+  }
+}
+
+/** ─────── SOCIAL POSTS ─────── */
+export async function fetchSocialPosts(businessId: string) {
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from('social_posts')
+      .select('*')
+      .eq('business_id', businessId)
+      .order('scheduled_at', { ascending: false });
+    return data || [];
+  } catch (err) {
+    console.error('Fetch social posts failed:', err);
+    return [];
+  }
+}
+
+export async function createSocialPost(
+  businessId: string,
+  post: {
+    social_account_id: string;
+    platform: string;
+    post_content: string;
+    post_type?: string;
+    media_urls?: string[];
+    scheduled_at?: string;
+  },
+) {
+  if (!supabase) return null;
+  try {
+    const { data } = await supabase
+      .from('social_posts')
+      .insert([{ business_id: businessId, ...post }])
+      .select()
+      .single();
+    return data;
+  } catch (err) {
+    console.error('Create social post failed:', err);
+    return null;
+  }
+}
+
+export async function updateSocialPost(
+  postId: string,
+  updates: Record<string, any>,
+) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('social_posts')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', postId);
+    return !error;
+  } catch (err) {
+    console.error('Update social post failed:', err);
+    return false;
+  }
+}
+
+export async function publishSocialPost(postId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('social_posts')
+      .update({
+        status: 'published',
+        published_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', postId);
+    return !error;
+  } catch (err) {
+    console.error('Publish social post failed:', err);
+    return false;
+  }
+}
+
+export async function deleteSocialPost(postId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('social_posts')
+      .delete()
+      .eq('id', postId);
+    return !error;
+  } catch (err) {
+    console.error('Delete social post failed:', err);
+    return false;
+  }
+}
+
+/** ─────── AUTOMATION RULES ─────── */
+export async function fetchAutomationRules(businessId: string) {
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from('automation_rules')
+      .select('*')
+      .eq('business_id', businessId)
+      .order('created_at', { ascending: false });
+    return data || [];
+  } catch (err) {
+    console.error('Fetch automation rules failed:', err);
+    return [];
+  }
+}
+
+export async function createAutomationRule(
+  businessId: string,
+  rule: {
+    rule_name: string;
+    trigger_type: string;
+    trigger_conditions: Record<string, any>;
+    action_type: string;
+    action_config: Record<string, any>;
+  },
+) {
+  if (!supabase) return null;
+  try {
+    const { data } = await supabase
+      .from('automation_rules')
+      .insert([{ business_id: businessId, ...rule }])
+      .select()
+      .single();
+    return data;
+  } catch (err) {
+    console.error('Create automation rule failed:', err);
+    return null;
+  }
+}
+
+export async function updateAutomationRule(
+  ruleId: string,
+  updates: Record<string, any>,
+) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('automation_rules')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', ruleId);
+    return !error;
+  } catch (err) {
+    console.error('Update automation rule failed:', err);
+    return false;
+  }
+}
+
+export async function deleteAutomationRule(ruleId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('automation_rules')
+      .delete()
+      .eq('id', ruleId);
+    return !error;
+  } catch (err) {
+    console.error('Delete automation rule failed:', err);
+    return false;
+  }
+}
+
+/** ─────── LEAD CONNECTORS ─────── */
+export async function fetchLeadConnectors(businessId: string) {
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from('lead_connectors')
+      .select('*')
+      .eq('business_id', businessId)
+      .order('created_at', { ascending: false });
+    return data || [];
+  } catch (err) {
+    console.error('Fetch lead connectors failed:', err);
+    return [];
+  }
+}
+
+export async function createLeadConnector(
+  businessId: string,
+  connector: {
+    connector_name: string;
+    connector_type: string;
+    source_name?: string;
+    webhook_url?: string;
+    api_key?: string;
+    form_embed_code?: string;
+    field_mapping?: Record<string, any>;
+  },
+) {
+  if (!supabase) return null;
+  try {
+    const { data } = await supabase
+      .from('lead_connectors')
+      .insert([{ business_id: businessId, ...connector }])
+      .select()
+      .single();
+    return data;
+  } catch (err) {
+    console.error('Create lead connector failed:', err);
+    return null;
+  }
+}
+
+export async function updateLeadConnector(
+  connectorId: string,
+  updates: Record<string, any>,
+) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('lead_connectors')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', connectorId);
+    return !error;
+  } catch (err) {
+    console.error('Update lead connector failed:', err);
+    return false;
+  }
+}
+
+export async function deleteLeadConnector(connectorId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('lead_connectors')
+      .delete()
+      .eq('id', connectorId);
+    return !error;
+  } catch (err) {
+    console.error('Delete lead connector failed:', err);
+    return false;
+  }
+}

@@ -32,6 +32,10 @@ import { OutreachPage } from './components/OutreachPage';
 import { TeamPage } from './components/TeamPage';
 import { RBACProvider } from './context/RBACContext';
 import { StartPage } from './pages/StartPage';
+import { EmailSetupPage } from './components/EmailSetupPage';
+import { ConnectorsPage } from './components/ConnectorsPage';
+import { AutomationPage } from './components/AutomationPage';
+import { SocialPage } from './components/SocialPage';
 
 // ── Landing Page Root ────────────────────────────────────────────────────────
 function LandingPageRoot() {
@@ -204,6 +208,10 @@ export const router = createBrowserRouter(
       { path: 'leads',         element: <LeadsPage />, errorElement: <ErrorElement /> },
       { path: 'outreach',      element: <OutreachPage />, errorElement: <ErrorElement /> },
       { path: 'team',          element: <TeamPage />, errorElement: <ErrorElement /> },
+      { path: 'email-setup',   element: <EmailSetupPage />, errorElement: <ErrorElement /> },
+      { path: 'connectors',    element: <ConnectorsPage />, errorElement: <ErrorElement /> },
+      { path: 'automation',    element: <AutomationPage />, errorElement: <ErrorElement /> },
+      { path: 'social',        element: <SocialPage />, errorElement: <ErrorElement /> },
     ],
   },
   // Public business website page

@@ -11,6 +11,7 @@ import {
   Wallet, BarChart3, Image, User, Bell, CreditCard, Menu, X, Sun, Moon,
   LogOut, ChevronRight, TrendingUp, AlertCircle, Lock, Zap,
   Megaphone, Users, Receipt, UserCheck, RadioTower, Search,
+  Mail, Link2, Workflow, Share2,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -67,10 +68,14 @@ const NAV_GROUPS: NavGroup[] = [
     label: 'MARKETING',
     isPremium: true,
     items: [
-      { label: 'Campaigns',  path: '/app/campaigns',  icon: Users },
-      { label: 'Outreach',   path: '/app/outreach',   icon: RadioTower, planRequired: 'basic' },
-      { label: 'Analytics',  path: '/app/analytics',  icon: BarChart3,  planRequired: 'basic' },
-      { label: 'Grow & Ads', path: '/app/grow',       icon: TrendingUp, planRequired: 'basic' },
+      { label: 'Campaigns',     path: '/app/campaigns',     icon: Users },
+      { label: 'Email Setup',   path: '/app/email-setup',   icon: Mail,       planRequired: 'basic' },
+      { label: 'Connectors',    path: '/app/connectors',    icon: Link2,      planRequired: 'basic' },
+      { label: 'Automation',    path: '/app/automation',    icon: Workflow,   planRequired: 'basic' },
+      { label: 'Social Media',  path: '/app/social',        icon: Share2,     planRequired: 'basic' },
+      { label: 'Outreach',      path: '/app/outreach',      icon: RadioTower, planRequired: 'basic' },
+      { label: 'Analytics',     path: '/app/analytics',     icon: BarChart3,  planRequired: 'basic' },
+      { label: 'Grow & Ads',    path: '/app/grow',          icon: TrendingUp, planRequired: 'basic' },
     ],
   },
 
