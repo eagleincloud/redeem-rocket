@@ -107,7 +107,7 @@ DROP POLICY IF EXISTS "Service role can manage suppressions"              ON ema
 CREATE POLICY "Users can view their campaign tracking" ON email_tracking
   FOR SELECT USING (
     campaign_id IN (
-      SELECT id FROM outreach_campaigns WHERE business_id = auth.uid()::text
+      SELECT id::text FROM outreach_campaigns WHERE business_id = auth.uid()::text
     )
   );
 
@@ -119,7 +119,7 @@ CREATE POLICY "Users can view suppressed emails for their business" ON email_sup
     email IN (
       SELECT recipient_email FROM email_tracking
       WHERE campaign_id IN (
-        SELECT id FROM outreach_campaigns WHERE business_id = auth.uid()::text
+        SELECT id::text FROM outreach_campaigns WHERE business_id = auth.uid()::text
       )
     )
   );
