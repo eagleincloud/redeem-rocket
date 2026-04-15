@@ -1,201 +1,110 @@
 /**
  * supabase/functions/resend-webhook/index.ts
- *
- * Handles Resend API webhooks for email events:
- * - email.sent: Successfully sent
- * - email.delivered: Successfully delivered
- * - email.complained: Marked as spam/complaint
- * - email.bounced: Hard/soft bounce
- * - email.opened: Email was opened (tracking pixel)
- * - email.clicked: Email link was clicked (tracking)
- *
- * Setup:
- * 1. Go to Resend Dashboard → Webhooks
- * 2. Add webhook URL: https://eomqkeoozxnttqizstzk.supabase.co/functions/v1/resend-webhook
- * 3. Select events: email.sent, email.delivered, email.complained, email.bounced, email.opened, email.clicked
- * 4. Copy webhook signing secret and set as Supabase secret: supabase secrets set RESEND_WEBHOOK_SECRET=...
+ * Handles Resend email event webhooks and records them in email_tracking.
  */
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
-import { json } from 'https://deno.land/std@0.195.0/http/mod.ts';
-import { hmacSha256 } from 'https://deno.land/std@0.195.0/crypto/mod.ts';
 
-// ── Types ─────────────────────────────────────────────────────────────────────
-
-interface ResendWebhookEvent {
-  id: string;
-  type: string;
-  created_at: string;
-  data: {
-    email_id?: string;
-    from?: string;
-    to?: string;
-    subject?: string;
-    reason?: string;
-    timestamp?: string;
-  };
-}
-
-interface EmailEventRecord {
-  id?: string;
-  email_id: string;
-  recipient_email: string;
-  event_type: string;
-  event_reason?: string;
-  event_time: string;
-  created_at?: string;
-  updated_at?: string;
-}
-
-// ── Environment ───────────────────────────────────────────────────────────────
-
-const SUPABASE_URL = Deno.env.get('SUPABASE_URL') ?? '';
-const SERVICE_ROLE_KEY = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
+const SUPABASE_URL         = Deno.env.get('SUPABASE_URL') ?? '';
+const SERVICE_ROLE_KEY     = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
 const RESEND_WEBHOOK_SECRET = Deno.env.get('RESEND_WEBHOOK_SECRET') ?? '';
 
-// ── Webhook Verification ───────────────────────────────────────────────────────
+// ── Signature verification (Resend uses svix-style headers) ──────────────────
 
-async function verifyWebhookSignature(
-  payload: string,
-  signature: string,
-): Promise<boolean> {
+async function verifySignature(body: string, svixId: string, svixTs: string, svixSig: string): Promise<boolean> {
   if (!RESEND_WEBHOOK_SECRET) {
-    console.warn('[resend-webhook] No webhook secret configured - skipping verification');
-    return true; // Allow in development
+    console.warn('[resend-webhook] No secret set — skipping verification');
+    return true;
   }
-
   try {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(payload);
-    const secret = encoder.encode(RESEND_WEBHOOK_SECRET);
+    const secret = RESEND_WEBHOOK_SECRET.startsWith('whsec_')
+      ? RESEND_WEBHOOK_SECRET.slice('whsec_'.length)
+      : RESEND_WEBHOOK_SECRET;
 
-    const hashBuffer = await crypto.subtle.sign('HMAC',
-      await crypto.subtle.importKey('raw', secret, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']),
-      data,
-    );
+    const secretBytes = Uint8Array.from(atob(secret), c => c.charCodeAt(0));
+    const toSign = `${svixId}.${svixTs}.${body}`;
+    const key = await crypto.subtle.importKey('raw', secretBytes, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+    const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(toSign));
+    const computed = btoa(String.fromCharCode(...new Uint8Array(sig)));
 
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    const expectedSignature = `sha256=${hashHex}`;
-
-    return signature === expectedSignature;
-  } catch (err) {
-    console.error('[resend-webhook] Signature verification error:', err);
+    // svix-signature may contain multiple sigs separated by spaces
+    return svixSig.split(' ').some(s => s.startsWith('v1,') && s.slice(3) === computed);
+  } catch (e) {
+    console.error('[resend-webhook] Signature error:', e);
     return false;
   }
 }
 
-// ── Event Processing ───────────────────────────────────────────────────────────
+// ── Map Resend event types ────────────────────────────────────────────────────
 
-async function processEvent(event: ResendWebhookEvent, supabase: any): Promise<void> {
-  const { type, data } = event;
-  const emailId = data.email_id || '';
-  const recipientEmail = data.to || '';
+function mapEventType(type: string): string {
+  const map: Record<string, string> = {
+    'email.sent':      'sent',
+    'email.delivered': 'delivered',
+    'email.opened':    'opened',
+    'email.clicked':   'clicked',
+    'email.bounced':   'bounced',
+    'email.complained':'complaint',
+  };
+  return map[type] ?? type;
+}
 
-  if (!emailId || !recipientEmail) {
-    console.warn('[resend-webhook] Skipping event - missing email_id or recipient');
-    return;
-  }
+// ── Main handler ─────────────────────────────────────────────────────────────
 
-  let eventType = '';
-  let eventReason = '';
-
-  switch (type) {
-    case 'email.sent':
-      eventType = 'sent';
-      break;
-    case 'email.delivered':
-      eventType = 'delivered';
-      break;
-    case 'email.opened':
-      eventType = 'open';
-      break;
-    case 'email.clicked':
-      eventType = 'click';
-      break;
-    case 'email.bounced':
-      eventType = 'bounce';
-      eventReason = data.reason || 'unknown';
-      break;
-    case 'email.complained':
-      eventType = 'complaint';
-      eventReason = data.reason || 'spam_report';
-      break;
-    default:
-      console.log(`[resend-webhook] Unknown event type: ${type}`);
-      return;
+Deno.serve(async (req: Request) => {
+  if (req.method !== 'POST') {
+    return new Response(JSON.stringify({ ok: true }), { status: 200 });
   }
 
   try {
-    // Try to insert into email_tracking table
+    const body      = await req.text();
+    const svixId    = req.headers.get('svix-id') ?? '';
+    const svixTs    = req.headers.get('svix-timestamp') ?? '';
+    const svixSig   = req.headers.get('svix-signature') ?? '';
+
+    const valid = await verifySignature(body, svixId, svixTs, svixSig);
+    if (!valid) {
+      console.warn('[resend-webhook] Invalid signature');
+      return new Response(JSON.stringify({ error: 'Invalid signature' }), { status: 401 });
+    }
+
+    const event = JSON.parse(body);
+    const { type, data } = event;
+
+    console.log(`[resend-webhook] Event: ${type}`);
+
+    const emailId        = data?.email_id ?? '';
+    const recipientRaw   = data?.to ?? '';
+    const recipientEmail = Array.isArray(recipientRaw) ? recipientRaw[0] : recipientRaw;
+    const eventReason    = data?.reason ?? null;
+    const eventType      = mapEventType(type);
+
+    if (!recipientEmail) {
+      console.warn('[resend-webhook] Missing recipient — skipping');
+      return new Response(JSON.stringify({ ok: true, skipped: true }), { status: 200 });
+    }
+
+    const supabase = createClient(SUPABASE_URL, SERVICE_ROLE_KEY);
+
     const { error } = await supabase.from('email_tracking').insert({
-      email_id: emailId,
+      email_id:        emailId || null,
       recipient_email: recipientEmail,
-      event_type: eventType,
-      event_reason: eventReason || null,
-      event_time: new Date().toISOString(),
+      event_type:      eventType,
+      event_reason:    eventReason,
+      event_time:      new Date().toISOString(),
+      campaign_id:     null,
     });
 
     if (error) {
-      console.error(`[resend-webhook] Failed to insert ${eventType} event:`, error);
-      // If table doesn't exist, log but continue
-      if (error.code === 'PGRST116') {
-        console.warn('[resend-webhook] email_tracking table does not exist - create it first');
-      }
-    } else {
-      console.log(`[resend-webhook] Recorded ${eventType} event for ${recipientEmail}`);
+      console.error('[resend-webhook] DB insert error:', error);
+      return new Response(JSON.stringify({ ok: false, error: error.message }), { status: 500 });
     }
+
+    console.log(`[resend-webhook] ✅ Recorded ${eventType} for ${recipientEmail}`);
+    return new Response(JSON.stringify({ ok: true, eventType }), { status: 200 });
+
   } catch (err) {
-    console.error('[resend-webhook] Error processing event:', err);
-  }
-}
-
-// ── Main Handler ───────────────────────────────────────────────────────────────
-
-Deno.serve(async (req: Request) => {
-  // Only POST requests
-  if (req.method !== 'POST') {
-    return json({ ok: true }, 200);
-  }
-
-  try {
-    const signature = req.headers.get('x-resend-signature') || '';
-    const body = await req.text();
-
-    // Verify webhook signature
-    const isValid = await verifyWebhookSignature(body, signature);
-    if (!isValid) {
-      console.warn('[resend-webhook] Invalid signature - rejecting webhook');
-      return json({ error: 'Invalid signature' }, 401);
-    }
-
-    const event: ResendWebhookEvent = JSON.parse(body);
-
-    console.log(`[resend-webhook] Received event: ${event.type} at ${event.created_at}`);
-
-    // Initialize Supabase client
-    const supabase = SUPABASE_URL && SERVICE_ROLE_KEY
-      ? createClient(SUPABASE_URL, SERVICE_ROLE_KEY)
-      : null;
-
-    if (!supabase) {
-      console.error('[resend-webhook] Supabase not configured');
-      return json({ error: 'Supabase not configured' }, 500);
-    }
-
-    // Process the event
-    await processEvent(event, supabase);
-
-    return json({
-      ok: true,
-      eventType: event.type,
-      message: `Processed ${event.type} event`,
-    }, 200);
-  } catch (error) {
-    console.error('[resend-webhook] Unexpected error:', error);
-    return json({
-      ok: false,
-      error: String(error),
-    }, 500);
+    console.error('[resend-webhook] Unexpected error:', err);
+    return new Response(JSON.stringify({ ok: false, error: String(err) }), { status: 500 });
   }
 });
