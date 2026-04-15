@@ -3,7 +3,7 @@ import { Mail, Loader2, AlertCircle, CheckCircle, X, FileText } from 'lucide-rea
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { supabase } from '@/app/lib/supabase';
-import { sendBulkOutreach } from '@/app/lib/resendService';
+import { sendDirectMessage } from '@/app/lib/resendService';
 import { HintTooltip } from './HintTooltip';
 
 interface EmailDraft {
@@ -140,13 +140,13 @@ export function SendSingleEmailModal({
     setLoading(true);
     setError('');
     try {
-      const result = await sendBulkOutreach({
-        recipients: [{ email: recipientEmail }],
+      const result = await sendDirectMessage({
+        to: { email: recipientEmail, name: recipientName || undefined },
         subject,
-        htmlContent,
-        content: htmlContent.replace(/<[^>]*>/g, ''),
-        campaignName: `Single Email to ${recipientEmail}`,
+        body: htmlContent.replace(/<[^>]*>/g, ''),
+        htmlBody: htmlContent,
         businessId,
+        channel: 'email',
       });
 
       if (!result.ok) {
@@ -170,13 +170,13 @@ export function SendSingleEmailModal({
   async function handleSendDraft(draft: EmailDraft) {
     setSendingDraft(draft.id);
     try {
-      const result = await sendBulkOutreach({
-        recipients: [{ email: draft.recipient_email }],
+      const result = await sendDirectMessage({
+        to: { email: draft.recipient_email },
         subject: draft.subject,
-        htmlContent: draft.html_content,
-        content: draft.html_content.replace(/<[^>]*>/g, ''),
-        campaignName: `Single Email to ${draft.recipient_email}`,
+        body: draft.html_content.replace(/<[^>]*>/g, ''),
+        htmlBody: draft.html_content,
         businessId,
+        channel: 'email',
       });
 
       if (!result.ok) {

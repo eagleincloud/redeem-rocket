@@ -89,13 +89,26 @@ html, body {
 }
 
 body {
-  background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+  background: #0b1220;
   color: var(--text-primary);
   font-family: var(--font-sans);
   font-size: 1rem;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Global cosmic nebula ambient glow ─────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 90% 50% at 80% 10%, rgba(99,102,241,0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 60% at 10% 80%, rgba(139,92,246,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(249,115,22,0.03) 0%, transparent 60%);
 }
 
 #root, #app {

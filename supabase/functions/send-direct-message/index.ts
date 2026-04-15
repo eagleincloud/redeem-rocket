@@ -16,7 +16,7 @@ serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: cors });
 
   try {
-    const { channel, to_phone, to_email, to_name, subject, body } = await req.json();
+    const { channel, to_phone, to_email, to_name, subject, body, htmlBody } = await req.json();
 
     if (!body) return new Response(JSON.stringify({ ok: false, error: 'body required' }), { status: 400, headers: { ...cors, 'Content-Type': 'application/json' } });
 
@@ -90,7 +90,7 @@ serve(async (req) => {
           to:   [to_email],
           subject: subject || 'Message from us',
           text: body,
-          html: `<div style="font-family:sans-serif">${body.replace(/\n/g, '<br>')}</div>`,
+          html: htmlBody || `<div style="font-family:sans-serif;color:#111;">${body.replace(/\n/g, '<br>')}</div>`,
         }),
       });
       const json = await res.json();

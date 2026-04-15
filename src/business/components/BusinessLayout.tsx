@@ -496,7 +496,12 @@ export function BusinessLayout() {
         </header>
 
         {/* Page content */}
-        <main style={{ flex: 1, overflowY: 'auto', padding: '16px 16px 80px', background: bg }}>
+        <main style={{
+          flex: 1, overflowY: 'auto', padding: '16px 16px 80px',
+          background: isDark
+            ? 'radial-gradient(ellipse 80% 60% at 70% 20%, rgba(99,102,241,0.08) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 30% 80%, rgba(124,58,237,0.06) 0%, transparent 60%), #0b1220'
+            : bg,
+        }}>
           <Outlet />
         </main>
 
@@ -671,7 +676,7 @@ export function BusinessLayout() {
 
   // ── Desktop layout ─────────────────────────────────────────────────────────
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: bg, color: text, fontFamily: 'system-ui, sans-serif' }}>
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: isDark ? '#0b1220' : bg, color: text, fontFamily: 'system-ui, sans-serif', position: 'relative' }}>
 
       {/* Sidebar */}
       <aside style={{
@@ -920,7 +925,13 @@ export function BusinessLayout() {
         </header>
 
         {/* Page content */}
-        <main style={{ flex: 1, overflowY: 'auto', padding: 24, background: bg }}>
+        <main style={{
+          flex: 1, overflowY: 'auto', padding: 24,
+          background: isDark
+            ? 'radial-gradient(ellipse 80% 60% at 70% 20%, rgba(99,102,241,0.08) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 30% 80%, rgba(124,58,237,0.06) 0%, transparent 60%), #0b1220'
+            : bg,
+          position: 'relative',
+        }}>
           <Outlet />
         </main>
       </div>
