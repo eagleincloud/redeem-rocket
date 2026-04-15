@@ -670,6 +670,162 @@ export function DashboardPage() {
         : `${window.location.origin}/business.html/biz/${bizUser.businessId}`)
     : null;
 
+  // ── Mobile-first layout ─────────────────────────────────────────────────────
+  if (isMobile) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16, paddingBottom: 8 }}>
+        {showPasswordModal && <FirstLoginPasswordModal isDark={isDark} />}
+
+        {/* MOBILE HERO */}
+        <div style={{
+          position: 'relative', borderRadius: 16, overflow: 'hidden', padding: '20px 16px',
+          background: 'linear-gradient(135deg, #0d0a2e 0%, #1e1b4b 40%, #312e81 70%, #1e1b4b 100%)',
+          minHeight: 200,
+        }}>
+          {/* glow */}
+          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none',
+            background: 'radial-gradient(ellipse 60% 80% at 100% 50%, rgba(249,115,22,0.2), rgba(99,102,241,0.25), transparent)' }} />
+          {/* stars */}
+          <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}>
+            {[{top:'10%',left:'70%',s:2},{top:'25%',left:'85%',s:1.5},{top:'50%',left:'78%',s:2},
+              {top:'70%',left:'90%',s:1},{top:'15%',left:'92%',s:1.5},{top:'60%',left:'95%',s:2}]
+              .map((star,i) => (
+              <div key={i} style={{ position:'absolute', top:star.top, left:star.left,
+                width:star.s, height:star.s, borderRadius:'50%', background:'#fff', opacity:0.7 }} />
+            ))}
+          </div>
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+              <span style={{ fontSize: 20 }}>🚀</span>
+              <span style={{ fontSize: 15, fontWeight: 700, color: '#fff' }}>Your Business is Growing</span>
+              <span style={{ padding: '2px 8px', borderRadius: 20, background: 'rgba(34,197,94,0.2)',
+                border: '1px solid rgba(34,197,94,0.4)', color: '#22c55e', fontSize: 11, fontWeight: 700 }}>+18%</span>
+            </div>
+            <div style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)',
+              borderRadius: 12, border: '1px solid rgba(249,115,22,0.2)', padding: '10px 14px', marginBottom: 10 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, color: '#f97316', marginBottom: 4, letterSpacing: '0.05em' }}>✨ AI SUGGESTION</div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: '#fff', marginBottom: 3 }}>Run a ₹200 OFF above ₹999 offer this weekend</div>
+              <div style={{ fontSize: 11, color: '#22c55e', fontWeight: 600 }}>+32% conversions expected</div>
+            </div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.65)', marginBottom: 14 }}>
+              <span style={{ color: '#fbbf24', fontWeight: 600 }}>⚠️ Competitor Alert:</span> 2 nearby businesses launched new offers
+            </div>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button onClick={() => navigate('/app/offers')} style={{
+                padding: '9px 16px', borderRadius: 10, border: 'none',
+                background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff',
+                fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>Apply Suggestion</button>
+              <button onClick={() => navigate('/app/analytics')} style={{
+                padding: '9px 14px', borderRadius: 10,
+                border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.07)',
+                color: '#fff', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>View Insights</button>
+            </div>
+          </div>
+        </div>
+
+        {/* HORIZONTAL STAT CARDS */}
+        <div style={{ overflowX: 'auto', display: 'flex', gap: 12, paddingBottom: 4,
+          WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
+          scrollbarWidth: 'none' as React.CSSProperties['scrollbarWidth'],
+          msOverflowStyle: 'none' as React.CSSProperties['msOverflowStyle'] }}>
+          {metricCards.map(mc => (
+            <div key={mc.label} onClick={() => navigate(mc.actionPath)} style={{
+              minWidth: 140, background: '#111827', borderRadius: 16,
+              border: '1px solid rgba(255,255,255,0.07)', padding: 16, cursor: 'pointer', flexShrink: 0,
+              position: 'relative', overflow: 'hidden',
+            }}>
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3,
+                background: `linear-gradient(90deg, ${mc.iconColor}, ${mc.iconColor}55)` }} />
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <div style={{ width: 32, height: 32, borderRadius: 8, background: `${mc.iconColor}22`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>{mc.icon}</div>
+                <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 6px', borderRadius: 20,
+                  background: mc.trendUp ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)',
+                  color: mc.trendUp ? '#22c55e' : '#ef4444' }}>{mc.trend}</span>
+              </div>
+              <div style={{ fontSize: 22, fontWeight: 800, color: '#f1f5f9', lineHeight: 1 }}>{mc.value}</div>
+              <div style={{ fontSize: 11, fontWeight: 600, color: '#6b7280', marginTop: 3 }}>{mc.label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* QUICK ACTIONS */}
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: '#6b7280', letterSpacing: '0.08em', marginBottom: 10, textTransform: 'uppercase' }}>Quick Actions</div>
+          <div style={{ overflowX: 'auto', display: 'flex', gap: 10, paddingBottom: 4,
+            WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
+            scrollbarWidth: 'none' as React.CSSProperties['scrollbarWidth'] }}>
+            {[
+              { label: 'New Offer', icon: '🎯', path: '/app/offers' },
+              { label: 'Orders',    icon: '📦', path: '/app/orders' },
+              { label: 'Leads',     icon: '👥', path: '/app/leads' },
+              { label: 'Analytics', icon: '📊', path: '/app/analytics' },
+              { label: 'Outreach',  icon: '💬', path: '/app/outreach' },
+              { label: 'Wallet',    icon: '💰', path: '/app/wallet' },
+            ].map(action => (
+              <button key={action.label} onClick={() => navigate(action.path)} style={{
+                minWidth: 72, display: 'flex', flexDirection: 'column', alignItems: 'center',
+                gap: 6, padding: '12px 8px', borderRadius: 14,
+                background: '#111827', border: '1px solid rgba(255,255,255,0.07)',
+                cursor: 'pointer', flexShrink: 0,
+              }}>
+                <span style={{ fontSize: 22 }}>{action.icon}</span>
+                <span style={{ fontSize: 10, fontWeight: 600, color: '#94a3b8', whiteSpace: 'nowrap' }}>{action.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* LIVE ACTIVITY */}
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#f1f5f9' }}>⚡ Live Activity</span>
+            <span style={{ padding: '2px 8px', borderRadius: 20, background: 'rgba(34,197,94,0.15)',
+              color: '#22c55e', fontSize: 10, fontWeight: 700, border: '1px solid rgba(34,197,94,0.3)' }}>New</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {recentNotifs.slice(0, 3).map(n => (
+              <div key={n.id} onClick={() => navigate(n.path)} style={{
+                display: 'flex', gap: 12, alignItems: 'flex-start', padding: '12px 14px',
+                borderRadius: 14, background: '#111827',
+                borderLeft: `3px solid ${notifDotColors[n.type] ?? '#6b7280'}`,
+                cursor: 'pointer',
+              }}>
+                <span style={{ fontSize: 18, flexShrink: 0 }}>{n.icon}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 12, color: '#f1f5f9', lineHeight: 1.4, marginBottom: 2 }}>{n.message}</div>
+                  <div style={{ fontSize: 10, color: '#6b7280' }}>{n.time}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* TRENDING NEAR YOU */}
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: '#f1f5f9' }}>🔥 Trending Near You</span>
+            <span style={{ marginLeft: 'auto', padding: '2px 8px', borderRadius: 20,
+              background: 'rgba(239,68,68,0.15)', color: '#ef4444', fontSize: 10, fontWeight: 700 }}>LIVE</span>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {trendingItems.map((item, i) => (
+              <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '12px 14px',
+                borderRadius: 14, background: '#111827' }}>
+                <span style={{ fontSize: 22, flexShrink: 0 }}>{item.emoji}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#f97316' }}>{item.title}</div>
+                  <div style={{ fontSize: 11, color: '#6b7280' }}>{item.detail}</div>
+                </div>
+                <div style={{ fontSize: 10, color: '#6b7280', flexShrink: 0 }}>{item.time}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       {/* First-login modal */}

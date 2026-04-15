@@ -89,11 +89,11 @@ const NAV_GROUPS: NavGroup[] = [
 
 // Bottom nav items (mobile) — 5 most-used daily features
 const BOTTOM_NAV: NavItem[] = [
-  { label: 'Home',      path: '/app',             icon: LayoutDashboard },
-  { label: 'Orders',    path: '/app/orders',    icon: ShoppingBag },
-  { label: 'Leads',     path: '/app/leads',     icon: UserCheck, planRequired: 'basic' },
-  { label: 'Campaigns', path: '/app/campaigns', icon: Megaphone },
-  { label: 'Profile',   path: '/app/profile',   icon: User },
+  { label: 'Home',   path: '/app',          icon: LayoutDashboard },
+  { label: 'Orders', path: '/app/orders',   icon: ShoppingBag },
+  { label: 'Offers', path: '/app/offers',   icon: Tag },
+  { label: 'Leads',  path: '/app/leads',    icon: UserCheck, planRequired: 'basic' },
+  { label: 'More',   path: '/app/profile',  icon: User },
 ];
 
 // Flat list for header title lookup
@@ -459,22 +459,35 @@ export function BusinessLayout() {
 
         {/* Mobile header */}
         <header style={{
-          height: 56, background: sidebar, borderBottom: `1px solid ${border}`,
+          height: 56, background: '#0f172a', borderBottom: '1px solid rgba(255,255,255,0.06)',
           display: 'flex', alignItems: 'center', padding: '0 16px', gap: 12, flexShrink: 0,
           position: 'sticky', top: 0, zIndex: 50,
         }}>
+          {/* Business name - left */}
           <button
             onClick={() => setDrawerOpen(true)}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: textMuted, padding: 6, borderRadius: 6, display: 'flex' }}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', gap: 8 }}
           >
-            <Menu size={20} />
+            <div style={{
+              width: 32, height: 32, borderRadius: 8,
+              background: 'linear-gradient(135deg, #f97316, #fb923c)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 16, flexShrink: 0,
+            }}>
+              🚀
+            </div>
+            <span style={{
+              fontSize: 14, fontWeight: 700, color: '#f1f5f9',
+              maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+            }}>
+              {bizUser?.businessName || bizUser?.name || 'My Business'}
+            </span>
           </button>
 
-          <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-            <img src="/logo.png" alt="Redeem Rocket" style={{ height: 36, width: 'auto', objectFit: 'contain' }} />
-          </div>
+          <div style={{ flex: 1 }} />
 
-          <button onClick={() => { navigate('/app/notifications'); setUnreadCount(0); }} style={{ background: 'none', border: 'none', cursor: 'pointer', color: textMuted, padding: 6, borderRadius: 6, display: 'flex', position: 'relative' }}>
+          {/* Bell icon */}
+          <button onClick={() => { navigate('/app/notifications'); setUnreadCount(0); }} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8', padding: 6, borderRadius: 6, display: 'flex', position: 'relative' }}>
             <Bell size={20} />
             {unreadCount > 0 && (
               <span style={{
@@ -490,8 +503,19 @@ export function BusinessLayout() {
             )}
           </button>
 
-          <button onClick={toggleTheme} style={{ background: 'none', border: 'none', cursor: 'pointer', color: textMuted, padding: 6, borderRadius: 6, display: 'flex' }}>
-            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          {/* Avatar circle */}
+          <button
+            onClick={() => navigate('/app/profile')}
+            style={{
+              width: 34, height: 34, borderRadius: '50%',
+              background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+              border: '2px solid rgba(99,102,241,0.4)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer', flexShrink: 0, padding: 0,
+              color: '#fff', fontSize: 13, fontWeight: 700,
+            }}
+          >
+            {(bizUser?.name ?? bizUser?.businessName ?? 'B').charAt(0).toUpperCase()}
           </button>
         </header>
 
@@ -508,7 +532,7 @@ export function BusinessLayout() {
         {/* Bottom nav */}
         <nav style={{
           position: 'fixed', bottom: 0, left: 0, right: 0, height: 64,
-          background: sidebar, borderTop: `1px solid ${border}`,
+          background: '#0f172a', borderTop: '1px solid rgba(255,255,255,0.06)',
           display: 'flex', alignItems: 'stretch', zIndex: 100,
         }}>
           {BOTTOM_NAV.map((item) => {
@@ -522,29 +546,31 @@ export function BusinessLayout() {
                 style={{
                   flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
                   justifyContent: 'center', gap: 3, background: 'transparent', border: 'none',
-                  cursor: 'pointer', color: active ? accent : textMuted,
+                  cursor: 'pointer', color: active ? '#f97316' : '#6b7280',
                   fontSize: 10, fontWeight: active ? 700 : 400,
-                  position: 'relative',
+                  position: 'relative', paddingTop: 8,
                 }}
               >
+                {/* Orange dot above active icon */}
+                {active && (
+                  <span style={{
+                    position: 'absolute', top: 6, left: '50%', transform: 'translateX(-50%)',
+                    width: 6, height: 6, borderRadius: '50%',
+                    background: '#f97316',
+                    boxShadow: '0 0 6px rgba(249,115,22,0.8)',
+                  }} />
+                )}
                 <Icon size={20} />
-                <span>{item.label}</span>
+                <span style={{ fontSize: 10 }}>{item.label}</span>
                 {locked && (
                   <span style={{
-                    position: 'absolute', top: 8, right: '25%',
+                    position: 'absolute', top: 10, right: '25%',
                     width: 10, height: 10, borderRadius: '50%',
-                    background: sidebar, border: `1px solid ${border}`,
+                    background: '#0f172a', border: '1px solid rgba(255,255,255,0.06)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
                     <Lock size={6} color="#ef4444" />
                   </span>
-                )}
-                {active && (
-                  <span style={{
-                    position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)',
-                    width: 20, height: 3, borderRadius: '2px 2px 0 0',
-                    background: accent,
-                  }} />
                 )}
               </button>
             );
