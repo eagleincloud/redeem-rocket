@@ -3,13 +3,13 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 
 const supabaseUrl = Deno.env.get('SUPABASE_URL');
-const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY');
+const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing required environment variables: SUPABASE_URL and SUPABASE_ANON_KEY');
+if (!supabaseUrl || !supabaseServiceKey) {
+  throw new Error('Missing required environment variables: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY');
 }
 
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 // Test helpers
 interface TestResult {
@@ -28,13 +28,14 @@ async function runTest(name: string, testFn: () => Promise<void>): Promise<void>
     results.push({ name, passed: true, duration: performance.now() - startTime });
     console.log(`✓ ${name}`);
   } catch (err) {
+    const errorMsg = err instanceof Error ? err.message : JSON.stringify(err);
     results.push({
       name,
       passed: false,
       duration: performance.now() - startTime,
-      error: String(err),
+      error: errorMsg,
     });
-    console.log(`✗ ${name}: ${err}`);
+    console.log(`✗ ${name}: ${errorMsg}`);
   }
 }
 
@@ -59,7 +60,7 @@ async function testEmailSequences() {
       is_active: true,
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Verify sequence in database', async () => {
@@ -68,7 +69,8 @@ async function testEmailSequences() {
       .select('*')
       .eq('business_id', TEST_BUSINESS_ID);
 
-    if (error || !data || data.length === 0) throw new Error('Sequence not found');
+    if (error) throw new Error(error.message);
+    if (!data || data.length === 0) throw new Error('Sequence not found');
   });
 
   await runTest('Create lead for sequence trigger', async () => {
@@ -82,7 +84,7 @@ async function testEmailSequences() {
       priority: 'medium',
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Verify email tracking table exists', async () => {
@@ -92,7 +94,7 @@ async function testEmailSequences() {
       .limit(1);
 
     if (error && !error.message.includes('does not exist')) {
-      // Table exists
+      throw new Error(error.message);
     }
   });
 }
@@ -114,7 +116,7 @@ async function testLeadImport() {
       priority: 'high',
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Import CSV lead', async () => {
@@ -129,7 +131,7 @@ async function testLeadImport() {
       priority: 'medium',
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Create lead connector for tracking', async () => {
@@ -141,7 +143,7 @@ async function testLeadImport() {
       is_active: true,
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Verify multiple leads created', async () => {
@@ -150,7 +152,8 @@ async function testLeadImport() {
       .select('*')
       .eq('business_id', TEST_BUSINESS_ID);
 
-    if (error || !data || data.length < 3) throw new Error('Expected at least 3 leads');
+    if (error) throw new Error(error.message);
+    if (!data || data.length < 3) throw new Error(`Expected at least 3 leads, got ${data?.length || 0}`);
   });
 }
 
@@ -171,7 +174,7 @@ async function testEmailProviders() {
       },
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Create SMTP provider config', async () => {
@@ -188,7 +191,7 @@ async function testEmailProviders() {
       },
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Verify provider configs stored', async () => {
@@ -197,7 +200,8 @@ async function testEmailProviders() {
       .select('*')
       .eq('business_id', TEST_BUSINESS_ID);
 
-    if (error || !data || data.length < 2) throw new Error('Providers not stored');
+    if (error) throw new Error(error.message);
+    if (!data || data.length < 2) throw new Error(`Expected 2 providers, got ${data?.length || 0}`);
   });
 
   await runTest('Mark provider as verified', async () => {
@@ -207,7 +211,7 @@ async function testEmailProviders() {
       .eq('business_id', TEST_BUSINESS_ID)
       .eq('provider_type', 'resend');
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 }
 
@@ -230,7 +234,7 @@ async function testAutomationRules() {
       is_active: true,
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Create "add tag on high priority" automation', async () => {
@@ -244,7 +248,7 @@ async function testAutomationRules() {
       is_active: true,
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Verify automation rules created', async () => {
@@ -253,7 +257,8 @@ async function testAutomationRules() {
       .select('*')
       .eq('business_id', TEST_BUSINESS_ID);
 
-    if (error || !data || data.length < 2) throw new Error('Rules not created');
+    if (error) throw new Error(error.message);
+    if (!data || data.length < 2) throw new Error(`Expected 2 rules, got ${data?.length || 0}`);
   });
 }
 
@@ -272,7 +277,7 @@ async function testSocialMedia() {
       is_connected: true,
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Create LinkedIn account config', async () => {
@@ -285,7 +290,7 @@ async function testSocialMedia() {
       is_connected: true,
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Create social post', async () => {
@@ -306,7 +311,7 @@ async function testSocialMedia() {
       status: 'draft',
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Schedule social post', async () => {
@@ -321,12 +326,12 @@ async function testSocialMedia() {
     const { error } = await supabase
       .from('social_posts')
       .update({
-        scheduled_at: new Date(Date.now() + 86400000).toISOString(), // Tomorrow
+        scheduled_at: new Date(Date.now() + 86400000).toISOString(),
         status: 'scheduled',
       })
       .eq('id', posts[0].id);
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Verify social accounts connected', async () => {
@@ -335,7 +340,8 @@ async function testSocialMedia() {
       .select('*')
       .eq('business_id', TEST_BUSINESS_ID);
 
-    if (error || !data || data.length < 2) throw new Error('Social accounts not connected');
+    if (error) throw new Error(error.message);
+    if (!data || data.length < 2) throw new Error(`Expected 2 accounts, got ${data?.length || 0}`);
   });
 }
 
@@ -353,7 +359,7 @@ async function testAdvancedLeadSources() {
       lead_intent: 'sales',
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Create web portal submission', async () => {
@@ -369,7 +375,7 @@ async function testAdvancedLeadSources() {
       submitter_ip: '192.168.1.1',
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Create scraped lead record', async () => {
@@ -385,24 +391,30 @@ async function testAdvancedLeadSources() {
       scrape_quality: 'high',
     });
 
-    if (error) throw error;
+    if (error) throw new Error(error.message);
   });
 
   await runTest('Verify advanced lead sources tables', async () => {
-    const { data: ivrData } = await supabase
+    const { data: ivrData, error: ivrError } = await supabase
       .from('ivr_leads')
       .select('*')
       .eq('business_id', TEST_BUSINESS_ID);
 
-    const { data: portalData } = await supabase
+    if (ivrError) throw new Error(`IVR Error: ${ivrError.message}`);
+
+    const { data: portalData, error: portalError } = await supabase
       .from('web_portal_submissions')
       .select('*')
       .eq('business_id', TEST_BUSINESS_ID);
 
-    const { data: scrapedData } = await supabase
+    if (portalError) throw new Error(`Portal Error: ${portalError.message}`);
+
+    const { data: scrapedData, error: scrapedError } = await supabase
       .from('scraped_leads')
       .select('*')
       .eq('business_id', TEST_BUSINESS_ID);
+
+    if (scrapedError) throw new Error(`Scraped Error: ${scrapedError.message}`);
 
     if (!ivrData || !portalData || !scrapedData) throw new Error('Advanced sources not created');
   });

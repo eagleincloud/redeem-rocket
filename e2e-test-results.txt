@@ -1,1 +1,85 @@
-(eval):1: command not found: timeout
+
+╔════════════════════════════════════════════════════════════════╗
+║    GROWTH PLATFORM E2E TEST SUITE                           ║
+╚════════════════════════════════════════════════════════════════╝
+
+=== TEST 1: EMAIL SEQUENCES EXECUTION ===
+
+✗ Create email sequence: Invalid API key
+✗ Verify sequence in database: Invalid API key
+✗ Create lead for sequence trigger: Invalid API key
+✗ Verify email tracking table exists: Invalid API key
+
+=== TEST 2: LEAD WEBHOOKS & CSV IMPORT ===
+
+✗ Import lead via webhook format: Invalid API key
+✗ Import CSV lead: Invalid API key
+✗ Create lead connector for tracking: Invalid API key
+✗ Verify multiple leads created: Invalid API key
+
+=== TEST 3: EMAIL PROVIDER TESTING ===
+
+✗ Create Resend provider config: Invalid API key
+✗ Create SMTP provider config: Invalid API key
+✗ Verify provider configs stored: Invalid API key
+✗ Mark provider as verified: Invalid API key
+
+=== TEST 4: AUTOMATION RULE EXECUTION ===
+
+✗ Create "send email on lead add" automation: Invalid API key
+✗ Create "add tag on high priority" automation: Invalid API key
+✗ Verify automation rules created: Invalid API key
+
+=== TEST 5: SOCIAL MEDIA POSTING ===
+
+✗ Create Twitter account config: Invalid API key
+✗ Create LinkedIn account config: Invalid API key
+✗ Create social post: No social account found
+✗ Schedule social post: No post found
+✗ Verify social accounts connected: Invalid API key
+
+=== TEST 6: ADVANCED LEAD SOURCES ===
+
+✗ Create IVR lead: Invalid API key
+✗ Create web portal submission: Invalid API key
+✗ Create scraped lead record: Invalid API key
+✗ Verify advanced lead sources tables: IVR Error: Invalid API key
+
+
+╔════════════════════════════════════════════════════════════════╗
+║    TEST SUMMARY                                              ║
+╚════════════════════════════════════════════════════════════════╝
+
+Total Tests: 24
+✓ Passed: 0
+✗ Failed: 24
+Total Time: 1297.14ms
+
+Failed Tests:
+  - Create email sequence: Invalid API key
+  - Verify sequence in database: Invalid API key
+  - Create lead for sequence trigger: Invalid API key
+  - Verify email tracking table exists: Invalid API key
+  - Import lead via webhook format: Invalid API key
+  - Import CSV lead: Invalid API key
+  - Create lead connector for tracking: Invalid API key
+  - Verify multiple leads created: Invalid API key
+  - Create Resend provider config: Invalid API key
+  - Create SMTP provider config: Invalid API key
+  - Verify provider configs stored: Invalid API key
+  - Mark provider as verified: Invalid API key
+  - Create "send email on lead add" automation: Invalid API key
+  - Create "add tag on high priority" automation: Invalid API key
+  - Verify automation rules created: Invalid API key
+  - Create Twitter account config: Invalid API key
+  - Create LinkedIn account config: Invalid API key
+  - Create social post: No social account found
+  - Schedule social post: No post found
+  - Verify social accounts connected: Invalid API key
+  - Create IVR lead: Invalid API key
+  - Create web portal submission: Invalid API key
+  - Create scraped lead record: Invalid API key
+  - Verify advanced lead sources tables: IVR Error: Invalid API key
+
+═══════════════════════════════════════════════════════════════════
+
