@@ -165,3 +165,114 @@ export interface AuthTokens {
   access: string
   refresh: string
 }
+
+// Feature Marketplace Types
+export type BusinessType = 'ecommerce' | 'services' | 'marketplace' | 'b2b'
+export type FeatureStatus = 'active' | 'beta' | 'deprecated' | 'coming_soon' | 'development'
+export type FeatureRequestStatus = 'submitted' | 'in_review' | 'ai_development' | 'admin_testing' | 'approved' | 'deployed'
+
+export interface Feature {
+  id: string
+  slug: string
+  name: string
+  description: string
+  long_description?: string
+  category: string
+  icon?: string
+  status: FeatureStatus
+  base_price_monthly: number
+  additional_seats_price?: number
+  relevant_for: Record<BusinessType, number> // relevance score 0-100
+  components: string[] // list of React component names included
+  dependencies?: string[] // feature slugs this depends on
+  metadata?: Record<string, any>
+  created_at: string
+  updated_at: string
+}
+
+export interface FeatureCategory {
+  id: string
+  name: string
+  description?: string
+  icon?: string
+  order: number
+  created_at: string
+}
+
+export interface FeatureTemplate {
+  id: string
+  name: string
+  description: string
+  for_business_type: BusinessType
+  feature_ids: string[]
+  icon?: string
+  monthly_price: number
+  is_popular: boolean
+  metadata?: Record<string, any>
+  created_at: string
+}
+
+export interface BusinessOwnerFeature {
+  id: string
+  business_id: string
+  feature_id: string
+  enabled_at: string
+  custom_config?: Record<string, any>
+  feature?: Feature // populated when doing joins
+}
+
+export interface FeatureRequest {
+  id: string
+  business_id: string
+  requester_id: string
+  feature_name: string
+  description: string
+  business_type_relevance: BusinessType[]
+  status: FeatureRequestStatus
+  ai_generated_code?: {
+    components?: string
+    migration?: string
+    types?: string
+    hooks?: string
+  }
+  admin_notes?: string
+  admin_testing_status?: 'passed' | 'failed' | 'in_progress'
+  admin_tested_by?: string
+  admin_approval_at?: string
+  make_available_to_all_businesses: boolean
+  rollout_percentage?: number
+  created_at: string
+  updated_at: string
+}
+
+export interface BusinessOwnerProfile {
+  id: string
+  user_id: string
+  business_type: BusinessType
+  selected_template_id?: string
+  theme_config?: {
+    primary_color?: string
+    secondary_color?: string
+    logo_url?: string
+    business_name?: string
+    tagline?: string
+  }
+  onboarding_answers?: Record<string, any>
+  custom_pricing_override?: number
+  monthly_billing_amount?: number
+  onboarding_status: 'pending' | 'in_progress' | 'completed'
+  onboarding_completed_at?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface FeatureBrowseFilters {
+  category?: string
+  status?: FeatureStatus
+  businessType?: BusinessType
+  priceRange?: {
+    min: number
+    max: number
+  }
+  searchQuery?: string
+}

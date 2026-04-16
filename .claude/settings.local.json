@@ -19,7 +19,10 @@
       "Bash(npm install:*)",
       "Bash(node /tmp/run_migration.js)",
       "Bash(node run-migration.js)",
-      "Bash(gh --version)"
+      "Bash(gh --version)",
+      "Bash(cat)",
+      "Bash(chmod +x /tmp/deploy_migrations.sh)",
+      "Bash(/tmp/deploy_migrations.sh)"
     ]
   }
 }

@@ -39,6 +39,9 @@ export default function Navigation() {
           <Link to="/documents" className="text-gray-600 hover:text-gray-900">
             Documents
           </Link>
+          <Link to="/features" className="text-blue-600 hover:text-blue-700 font-bold">
+            🎯 Features
+          </Link>
         </>
       )
     }
@@ -62,6 +65,9 @@ export default function Navigation() {
           </Link>
           <Link to="/lead-connectors" className="text-gray-600 hover:text-gray-900">
             Connectors
+          </Link>
+          <Link to="/features" className="text-blue-600 hover:text-blue-700 font-bold">
+            🎯 Features
           </Link>
         </>
       )
