@@ -18,29 +18,43 @@ import { FeatureRequestQueue } from './admin/FeatureRequestQueue'
 import { FeatureUsageStats } from './admin/FeatureUsageStats'
 
 export default function App() {
-  const { isAuthenticated } = useAuthStore()
+  const { isAuthenticated, user } = useAuthStore()
   const { activeCategory } = useCategoryStore()
+
+  // Show login if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="*" element={<Login />} />
+        </Routes>
+      </Router>
+    )
+  }
+
+  // Show category selection if no category selected
+  if (!activeCategory) {
+    return (
+      <Router>
+        <Routes>
+          <Route path="/category-select" element={<CategorySelection />} />
+          <Route path="*" element={<CategorySelection />} />
+        </Routes>
+      </Router>
+    )
+  }
 
   return (
     <Router>
       <Routes>
-        {!isAuthenticated ? (
-          <>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="*" element={<Login />} />
-          </>
-        ) : !activeCategory ? (
-          <>
-            <Route path="/category-select" element={<CategorySelection />} />
-            <Route path="*" element={<CategorySelection />} />
-          </>
-        ) : activeCategory === 'redeem-rocket' ? (
+        {activeCategory === 'redeem-rocket' ? (
           <Route element={<Layout />}>
             <Route path="/" element={<RedeeemRocketDashboard />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/documents" element={<Documents />} />
-            <Route path="/features" element={<FeatureMarketplacePage businessId={useAuthStore().user?.id || ''} businessType="ecommerce" userId={useAuthStore().user?.id || ''} />} />
+            <Route path="/features" element={<FeatureMarketplacePage businessId={user?.id || ''} businessType="ecommerce" userId={user?.id || ''} />} />
             <Route path="/profile" element={<Profile />} />
             {/* Admin Routes */}
             <Route path="/admin/features" element={<AdminFeatureManagement />} />
@@ -58,7 +72,7 @@ export default function App() {
             {/* <Route path="/automation-rules" element={<AutomationRules />} /> */}
             {/* <Route path="/social-accounts" element={<SocialAccounts />} /> */}
             {/* <Route path="/lead-connectors" element={<LeadConnectors />} /> */}
-            <Route path="/features" element={<FeatureMarketplacePage businessId={useAuthStore().user?.id || ''} businessType="b2b" userId={useAuthStore().user?.id || ''} />} />
+            <Route path="/features" element={<FeatureMarketplacePage businessId={user?.id || ''} businessType="b2b" userId={user?.id || ''} />} />
             <Route path="/profile" element={<Profile />} />
             {/* Admin Routes */}
             <Route path="/admin/features" element={<AdminFeatureManagement />} />
