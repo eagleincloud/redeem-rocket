@@ -79,7 +79,7 @@ async function testEmailSequences() {
       name: 'Test Lead',
       email: TEST_EMAIL,
       phone: '919876543210',
-      source: 'test',
+      source: 'campaign',
       stage: 'new',
       priority: 'medium',
     });
@@ -111,7 +111,7 @@ async function testLeadImport() {
       email: 'webhook@example.com',
       phone: '919876543210',
       company: 'Tech Corp',
-      source: 'webhook',
+      source: 'campaign',
       stage: 'new',
       priority: 'high',
     });
