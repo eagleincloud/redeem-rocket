@@ -2,8 +2,13 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 
-const supabaseUrl = 'https://eomqkeoozxnttqizstzk.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVvbXFrZW9venhudHRxaXpzdHprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1MzMyODgsImV4cCI6MjA4ODEwOTI4OH0.awCBjq0gvjLEgRXJ3OGnTGRJOfevjIgzi8Hd14Nya6M';
+const supabaseUrl = Deno.env.get('SUPABASE_URL');
+const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY');
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing required environment variables: SUPABASE_URL and SUPABASE_ANON_KEY');
+}
+
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Test helpers

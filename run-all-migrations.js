@@ -5,8 +5,16 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  console.error('✗ Error: Missing DATABASE_URL environment variable');
+  console.error('Please set DATABASE_URL in your .env.local file');
+  process.exit(1);
+}
+
 const client = new Client({
-  connectionString: 'postgresql://postgres:417BajrangNagar%401@db.eomqkeoozxnttqizstzk.supabase.co:5432/postgres',
+  connectionString: connectionString,
 });
 
 async function runAllMigrations() {
