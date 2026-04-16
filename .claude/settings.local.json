@@ -10,7 +10,16 @@
       "Read(//Users/adityatiwari/**)",
       "Read(//Users/adityatiwari/.config/**)",
       "Bash(supabase db:*)",
-      "Bash(npm run:*)"
+      "Bash(npm run:*)",
+      "Bash(ls -la .env*)",
+      "Bash(psql \"postgresql://postgres:417BajrangNagar%401@db.eomqkeoozxnttqizstzk.supabase.co:5432/postgres\" -f supabase/migrations/20260416_growth_platform.sql)",
+      "Bash(supabase --version)",
+      "Bash(supabase projects:*)",
+      "Bash(npm list:*)",
+      "Bash(npm install:*)",
+      "Bash(node /tmp/run_migration.js)",
+      "Bash(node run-migration.js)",
+      "Bash(gh --version)"
     ]
   }
 }
