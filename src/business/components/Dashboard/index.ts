@@ -8,13 +8,12 @@ export { InsightPanel } from './InsightPanel';
 export type { InsightPanelProps } from './InsightPanel';
 export type { DashboardHomeProps } from './DashboardHome';
 
-// Component placeholders for future implementation
-// These are simple stub components that will be replaced with full implementations
-export const BottleneckDetector = () => null; // Placeholder: To be implemented
-export const RecommendationEngine = () => null; // Placeholder: To be implemented
-export const AnomalyAlerts = () => null; // Placeholder: To be implemented
-export const ForecastingPanel = () => null; // Placeholder: To be implemented
-export const TrendAnalysis = () => null; // Placeholder: To be implemented
-export const PerformanceMetrics = () => null; // Placeholder: To be implemented
-export const GoalTracking = () => null; // Placeholder: To be implemented
-export const DashboardMetricsCard = () => null; // Placeholder: To be implemented
+// Placeholder exports for remaining components (to be implemented)
+export const BottleneckDetector = () => <div>Bottleneck Detector Component</div>;
+export const RecommendationEngine = () => <div>Recommendation Engine Component</div>;
+export const AnomalyAlerts = () => <div>Anomaly Alerts Component</div>;
+export const ForecastingPanel = () => <div>Forecasting Panel Component</div>;
+export const TrendAnalysis = () => <div>Trend Analysis Component</div>;
+export const PerformanceMetrics = () => <div>Performance Metrics Component</div>;
+export const GoalTracking = () => <div>Goal Tracking Component</div>;
+export const DashboardMetricsCard = () => <div>Dashboard Metrics Card Component</div>;
