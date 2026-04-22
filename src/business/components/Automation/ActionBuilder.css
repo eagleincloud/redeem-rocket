@@ -1,0 +1,541 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   ActionBuilder Styles
+   Configure automation actions with expandable sections for each action type
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.action-builder-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Action Types Grid
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.action-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.action-type-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  font-family: inherit;
+}
+
+.action-type-button:hover {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.action-type-button.selected {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+.action-type-button .action-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+}
+
+.action-type-button.selected .action-icon {
+  color: #ffffff;
+}
+
+.action-type-button .action-label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #1f2937;
+}
+
+.action-type-button.selected .action-label {
+  color: #ffffff;
+}
+
+.action-type-button .action-description {
+  font-size: 12px;
+  color: #9ca3af;
+  line-height: 1.3;
+}
+
+.action-type-button.selected .action-description {
+  color: #dbeafe;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Action Sections
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.action-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-section {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.action-section .section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.action-section .section-header:hover {
+  background: #f3f4f6;
+}
+
+.action-section .section-header h3 {
+  flex: 1;
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.action-section .section-header svg {
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.action-section .section-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Form Elements
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  padding: 10px 12px;
+  font-size: 13px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #1f2937;
+  font-family: inherit;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-input:hover,
+.form-select:hover,
+.form-textarea:hover {
+  border-color: #9ca3af;
+}
+
+.form-input.error,
+.form-select.error,
+.form-textarea.error {
+  border-color: #ef4444;
+  background: #fef2f2;
+}
+
+.form-input.error:focus,
+.form-select.error:focus,
+.form-textarea.error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.field-hint {
+  margin: 0;
+  font-size: 12px;
+  color: #9ca3af;
+  font-style: italic;
+}
+
+.error-message {
+  font-size: 12px;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Buttons
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.btn-add,
+.btn-preview,
+.btn-test-webhook {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #3b82f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-add:hover,
+.btn-preview:hover,
+.btn-test-webhook:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.btn-add:active,
+.btn-preview:active,
+.btn-test-webhook:active {
+  transform: scale(0.98);
+}
+
+.btn-add:disabled,
+.btn-test-webhook:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.btn-remove:hover {
+  color: #ef4444;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Email Configuration
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.email-list-input {
+  display: flex;
+  gap: 8px;
+}
+
+.email-list-input .form-input {
+  flex: 1;
+}
+
+.email-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.email-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #dbeafe;
+  border: 1px solid #bfdbfe;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #1e40af;
+}
+
+.template-preview {
+  padding: 12px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+}
+
+.template-preview h4 {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e40af;
+}
+
+.preview-content {
+  font-size: 12px;
+  color: #1e40af;
+  line-height: 1.5;
+}
+
+.preview-content p {
+  margin: 4px 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Tag Configuration
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.tag-input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.tag-input-group .form-input {
+  flex: 1;
+}
+
+.tag-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-suggestion {
+  padding: 6px 12px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.tag-suggestion:hover {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: #ffffff;
+}
+
+.tag-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #fbbf24;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #78350f;
+}
+
+.color-picker-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.color-option {
+  width: 32px;
+  height: 32px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  background-size: cover;
+}
+
+.color-option.color-red {
+  background-color: #ef4444;
+}
+
+.color-option.color-orange {
+  background-color: #f97316;
+}
+
+.color-option.color-yellow {
+  background-color: #eab308;
+}
+
+.color-option.color-green {
+  background-color: #22c55e;
+}
+
+.color-option.color-blue {
+  background-color: #3b82f6;
+}
+
+.color-option.color-purple {
+  background-color: #a855f7;
+}
+
+.color-option.color-pink {
+  background-color: #ec4899;
+}
+
+.color-option.color-gray {
+  background-color: #6b7280;
+}
+
+.color-option:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #d1d5db;
+}
+
+.color-option.selected {
+  border-color: #1f2937;
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px #1f2937;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Action Errors
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.action-errors {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #fef2f2;
+  border-left: 4px solid #ef4444;
+  border-radius: 4px;
+  color: #991b1b;
+  font-size: 13px;
+}
+
+.action-errors svg {
+  flex-shrink: 0;
+  color: #ef4444;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Responsive Design
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .action-types-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  .action-type-button {
+    padding: 12px;
+    gap: 6px;
+  }
+
+  .action-type-button .action-label {
+    font-size: 12px;
+  }
+
+  .action-type-button .action-description {
+    font-size: 11px;
+  }
+
+  .section-content {
+    padding: 16px;
+  }
+
+  .email-list-input {
+    flex-direction: column;
+  }
+
+  .email-list-input .btn-add {
+    width: 100%;
+  }
+
+  .tag-input-group {
+    flex-direction: column;
+  }
+
+  .tag-input-group .btn-add {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .action-builder-container {
+    padding: 12px;
+    gap: 16px;
+  }
+
+  .action-types-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .section-header {
+    padding: 12px;
+  }
+
+  .section-content {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  .btn-add,
+  .btn-preview,
+  .btn-test-webhook {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,326 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   ConditionBuilder Styles
+   Build AND/OR condition logic with field/operator/value rows
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.condition-builder-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Empty State
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.empty-conditions {
+  padding: 32px 20px;
+  background: #f9fafb;
+  border: 2px dashed #e5e7eb;
+  border-radius: 8px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.empty-conditions p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.empty-conditions p:first-child {
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 4px;
+}
+
+.empty-hint {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Conditions List
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.conditions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.condition-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.condition-row:hover {
+  background: #ffffff;
+  border-color: #d1d5db;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Logic Operator (AND/OR)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.logic-operator-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  min-width: 50px;
+}
+
+.logic-operator-select {
+  padding: 6px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1f2937;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logic-operator-select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.logic-operator-select:hover {
+  border-color: #3b82f6;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Condition Cells (Field, Operator, Value)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.condition-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.field-cell {
+  flex: 1.2;
+  min-width: 150px;
+}
+
+.operator-cell {
+  flex: 1;
+  min-width: 140px;
+}
+
+.value-cell {
+  flex: 1.2;
+  min-width: 150px;
+}
+
+.action-cell {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+}
+
+.condition-select,
+.condition-input {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 13px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1f2937;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.condition-select:focus,
+.condition-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+.condition-select:hover,
+.condition-input:hover {
+  border-color: #9ca3af;
+}
+
+.field-type {
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Delete Button
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.btn-delete {
+  padding: 6px 8px;
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+  border-radius: 4px;
+  color: #991b1b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.btn-delete:hover {
+  background: #fca5a5;
+  border-color: #f87171;
+}
+
+.btn-delete:active {
+  transform: scale(0.95);
+}
+
+.btn-delete svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Add Condition Button
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.btn-add-condition {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: #3b82f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: flex-start;
+}
+
+.btn-add-condition:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+}
+
+.btn-add-condition:active {
+  transform: scale(0.98);
+}
+
+.btn-add-condition svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Conditions Info
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.conditions-info {
+  padding: 12px 14px;
+  background: #eff6ff;
+  border-left: 4px solid #3b82f6;
+  border-radius: 4px;
+  color: #1e40af;
+  font-size: 13px;
+}
+
+.conditions-info p {
+  margin: 0;
+  line-height: 1.4;
+}
+
+.logic-summary {
+  font-weight: 600;
+  color: #1e3a8a;
+  background: rgba(255, 255, 255, 0.4);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Responsive Design
+   ───────────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .condition-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .condition-cell {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .field-cell,
+  .operator-cell,
+  .value-cell {
+    min-width: auto;
+  }
+
+  .logic-operator-group {
+    min-width: auto;
+    padding: 8px 0;
+  }
+
+  .action-cell {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .btn-delete {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .conditions-list {
+    padding: 8px;
+  }
+
+  .condition-row {
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .condition-select,
+  .condition-input {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .logic-operator-select {
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+
+  .conditions-info {
+    font-size: 12px;
+  }
+}

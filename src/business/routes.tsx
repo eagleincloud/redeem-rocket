@@ -1,5 +1,6 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { createBrowserRouter, Navigate, useParams } from 'react-router-dom';
+import { lazy, Suspense, ComponentType } from 'react';
+import React from 'react';
 import { BusinessProvider } from './context/BusinessContext';
 import { ThemeProvider } from '@/app/context/ThemeContext';
 import { BusinessLayout } from './components/BusinessLayout';
@@ -40,8 +41,9 @@ import { ConnectorsPage } from './components/ConnectorsPage';
 import { AutomationPage } from './components/AutomationPage';
 import { SocialPage } from './components/SocialPage';
 import PipelineBoard from './components/Pipeline/PipelineBoard';
+import { FeatureGuard, AuthGuard } from './guards/FeatureGuards';
 
-// ── Loading Fallback ─────────────────────────────────────────────────────────
+// ── Loading Fallback Components ─────────────────────────────────────────────
 function OnboardingFallback() {
   return (
     <div style={{
@@ -67,10 +69,76 @@ function OnboardingFallback() {
   );
 }
 
-// ── Lazy-loaded Onboarding Component ─────────────────────────────────────────
+function RouteLoadingFallback() {
+  return (
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '400px',
+      color: '#888',
+      fontSize: '14px',
+    }}>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: '24px', marginBottom: '12px', animation: 'spin 1s linear infinite' }}>⚙️</div>
+        <p>Loading...</p>
+      </div>
+    </div>
+  );
+}
+
+// ── Lazy-loaded Components ──────────────────────────────────────────────────
 const LazySmartOnboarding = lazy(() =>
   import('./components/SmartOnboarding').then(mod => ({
     default: mod.SmartOnboarding,
+  }))
+);
+
+// Automation feature routes - lazy loaded for performance
+const LazyRuleList = lazy(() =>
+  import('./components/Automation/RuleList').then(mod => ({
+    default: mod.RuleList,
+  }))
+);
+
+const LazyRuleBuilder = lazy(() =>
+  import('./components/Automation/RuleBuilder').then(mod => ({
+    default: mod.RuleBuilder,
+  }))
+);
+
+// Wrapper component for rule creation
+function RuleBuilderCreateWrapper() {
+  return <LazyRuleBuilder mode="create" />;
+}
+
+// Wrapper component for rule editing
+function RuleBuilderEditWrapper() {
+  const { ruleId } = useParams<{ ruleId: string }>();
+  return <LazyRuleBuilder mode="edit" ruleId={ruleId} />;
+}
+
+// Wrapper component for execution logs
+function ExecutionLogsWrapper() {
+  const { ruleId } = useParams<{ ruleId: string }>();
+  return <LazyExecutionLogs ruleId={ruleId} />;
+}
+
+const LazyExecutionLogs = lazy(() =>
+  import('./components/Automation/ExecutionLogs').then(mod => ({
+    default: mod.ExecutionLogs,
+  }))
+);
+
+const LazyTemplateManager = lazy(() =>
+  import('./components/Automation/TemplateManager').then(mod => ({
+    default: mod.TemplateManager,
+  }))
+);
+
+const LazyRuleDebugger = lazy(() =>
+  import('./components/Automation/RuleDebugger').then(mod => ({
+    default: mod.RuleDebugger,
   }))
 );
 
@@ -264,10 +332,81 @@ export const router = createBrowserRouter(
       { path: 'team',          element: <TeamPage />, errorElement: <ErrorElement /> },
       { path: 'email-setup',   element: <EmailSetupPage />, errorElement: <ErrorElement /> },
       { path: 'connectors',    element: <ConnectorsPage />, errorElement: <ErrorElement /> },
-      { path: 'automation',    element: <AutomationPage />, errorElement: <ErrorElement /> },
       { path: 'social',        element: <SocialPage />, errorElement: <ErrorElement /> },
       { path: 'pipelines',     element: <PipelineBoard pipelineId="" />, errorElement: <ErrorElement /> },
       { path: 'pipelines/:id', element: <PipelineBoard pipelineId="" />, errorElement: <ErrorElement /> },
+
+      // ─── AUTOMATION FEATURE ROUTES ──────────────────────────────────────
+      {
+        path: 'automation',
+        element: (
+          <FeatureGuard feature="automation" fallback={<Navigate to="/app" replace />}>
+            <AutomationPage />
+          </FeatureGuard>
+        ),
+        errorElement: <ErrorElement />,
+        children: [
+          // Rules Management
+          {
+            path: 'rules',
+            element: (
+              <Suspense fallback={<RouteLoadingFallback />}>
+                <LazyRuleList />
+              </Suspense>
+            ),
+            errorElement: <ErrorElement />,
+          },
+          {
+            path: 'rules/new',
+            element: (
+              <Suspense fallback={<RouteLoadingFallback />}>
+                <RuleBuilderCreateWrapper />
+              </Suspense>
+            ),
+            errorElement: <ErrorElement />,
+          },
+          {
+            path: 'rules/:ruleId',
+            element: (
+              <Suspense fallback={<RouteLoadingFallback />}>
+                <RuleBuilderEditWrapper />
+              </Suspense>
+            ),
+            errorElement: <ErrorElement />,
+          },
+          {
+            path: 'rules/:ruleId/logs',
+            element: (
+              <Suspense fallback={<RouteLoadingFallback />}>
+                <ExecutionLogsWrapper />
+              </Suspense>
+            ),
+            errorElement: <ErrorElement />,
+          },
+
+          // Template Management
+          {
+            path: 'templates',
+            element: (
+              <Suspense fallback={<RouteLoadingFallback />}>
+                <LazyTemplateManager />
+              </Suspense>
+            ),
+            errorElement: <ErrorElement />,
+          },
+
+          // Debugging Tools
+          {
+            path: 'debug',
+            element: (
+              <Suspense fallback={<RouteLoadingFallback />}>
+                <LazyRuleDebugger />
+              </Suspense>
+            ),
+            errorElement: <ErrorElement />,
+          },
+        ],
+      },
     ],
   },
   // Public business website page
