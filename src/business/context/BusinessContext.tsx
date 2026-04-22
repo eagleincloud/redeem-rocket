@@ -391,14 +391,14 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo<BusinessContextValue>(() => ({
     bizUser,
-    setBizUser,
+    setBizUser: setBizUserState,
     isAuthenticated: Boolean(bizUser),
     isLoading,
     logout,
     updatePlan,
     canAccessFeature,
     productSelection: (bizUser?.product_selection as 'rr' | 'lms' | 'both') || 'both',
-  }), [bizUser, setBizUser, isLoading, logout, updatePlan, canAccessFeature]);
+  }), [bizUser, isLoading, logout, updatePlan, canAccessFeature]);
 
   return <BusinessContext.Provider value={value}>{children}</BusinessContext.Provider>;
 }
