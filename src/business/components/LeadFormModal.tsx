@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { X, Plus } from 'lucide-react';
 import { useTheme } from '@/app/context/ThemeContext';
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { useBusinessContext } from '../context/BusinessContext';
 import type { Lead, LeadStage, LeadPriority, LeadSource, LeadMatchResult } from '@/app/api/supabase-data';
 import { fetchLeads } from '@/app/api/supabase-data';

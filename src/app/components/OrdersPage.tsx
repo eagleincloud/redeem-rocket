@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { format } from 'date-fns';
 import { Receipt, ArrowLeft, CheckCircle, Clock, Gift, IndianRupee } from 'lucide-react';
 import { motion } from 'motion/react';

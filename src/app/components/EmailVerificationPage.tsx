@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams }  from 'react-router-dom';
 import { motion } from 'motion/react';
 import { CheckCircle, XCircle, Loader } from 'lucide-react';
 import { verifyEmailToken } from '@/app/lib/emailVerificationService';

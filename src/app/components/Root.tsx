@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from 'react-router';
+import { Outlet, useNavigate }  from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import { GOOGLE_MAPS_API_KEY } from '../constants';

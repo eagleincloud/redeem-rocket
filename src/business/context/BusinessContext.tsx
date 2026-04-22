@@ -66,12 +66,14 @@ export interface BizUser {
   // Product Selection
   product_selection?: string; // 'rr' | 'lms' | 'both'
 
-  // Smart Onboarding: Feature & Theme Management
-  featurePreferences?: FeaturePreferences; // which features are enabled
-  themePreference?: ThemePreference; // business theme/branding settings
-  onboardingStatus?: OnboardingStatus; // current onboarding status
-  onboardingPhase?: number; // 0-6 phase indicator
-
+  // Feature Preferences (Smart Onboarding)
+  feature_preferences?: {
+    product_catalog: boolean;
+    lead_management: boolean;
+    email_campaigns: boolean;
+    automation: boolean;
+    social_media: boolean;
+  };
   // Team member support
   isTeamMember?: boolean;
   teamMemberData?: {
@@ -91,44 +93,7 @@ interface BusinessContextValue {
   logout: () => void;
   updatePlan: (plan: SubscriptionPlan, expiry?: string | null) => void;
   productSelection: 'rr' | 'lms' | 'both';
-
-  // Smart Onboarding: Feature & Theme Management
-  /**
-   * Check if a specific feature is enabled for this business
-   */
-  canAccessFeature: (featureName: string) => boolean;
-  /**
-   * Get list of all enabled features
-   */
-  getEnabledFeatures: () => string[];
-  /**
-   * Update feature preferences in context and persist to database
-   */
-  updateFeaturePreferences: (prefs: FeaturePreferences) => Promise<void>;
-  /**
-   * Update theme preference in context and persist to database
-   */
-  updateThemePreference: (theme: ThemePreference) => Promise<void>;
-  /**
-   * Update onboarding status and persist to database
-   */
-  updateOnboardingStatus: (status: OnboardingStatus, phase?: number) => Promise<void>;
-  /**
-   * Apply theme colors to DOM via CSS custom properties
-   */
-  applyThemeToDOM: (theme?: ThemePreference) => void;
-  /**
-   * Get total count of enabled features
-   */
-  getEnabledFeatureCount: () => number;
-  /**
-   * Check if onboarding is required (status !== 'completed')
-   */
-  isOnboardingRequired: () => boolean;
-  /**
-   * Get current onboarding phase (0-6)
-   */
-  getCurrentOnboardingPhase: () => number;
+  canAccessFeature: (feature: keyof BizUser['feature_preferences']) => boolean;
 }
 
 // ── Dev bypass ───────────────────────────────────────────────────────────────
@@ -419,221 +384,10 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  // ── Smart Onboarding: Feature & Theme Management ──────────────────────────────────
-
-  /**
-   * Apply theme colors to DOM via CSS custom properties
-   * MUST be defined before setBizUser to avoid temporal dead zone
-   */
-  /**
-   * Apply theme colors to DOM via CSS custom properties
-   */
-  const applyThemeToDOM = useCallback((theme?: ThemePreference) => {
-    const themeToApply = theme || bizUser?.themePreference || getDefaultThemePreference();
-    if (!themeToApply) return;
-
-    const root = document.documentElement;
-
-    // Set CSS custom properties for theme colors
-    if (themeToApply.primaryColor) {
-      root.style.setProperty(`${THEME_CSS_PREFIX}-primary`, themeToApply.primaryColor);
-    }
-    if (themeToApply.secondaryColor) {
-      root.style.setProperty(`${THEME_CSS_PREFIX}-secondary`, themeToApply.secondaryColor);
-    }
-    if (themeToApply.layout) {
-      root.style.setProperty(`${THEME_CSS_PREFIX}-layout`, themeToApply.layout);
-    }
-    if (themeToApply.fontStyle) {
-      root.style.setProperty(`${THEME_CSS_PREFIX}-font`, themeToApply.fontStyle);
-    }
-
-    console.log('[BusinessContext] Theme applied to DOM:', { primary: themeToApply.primaryColor, secondary: themeToApply.secondaryColor });
-  }, [bizUser?.themePreference]);
-
-  const setBizUser = useCallback((user: BizUser | null) => {
-    if (user) {
-      // Parse JSONB columns from Supabase if they come as strings
-      const parsed: BizUser = {
-        ...user,
-        featurePreferences: typeof user.featurePreferences === 'string'
-          ? JSON.parse(user.featurePreferences as unknown as string)
-          : (user.featurePreferences || getDefaultFeaturePreferences(user.plan)),
-        themePreference: typeof user.themePreference === 'string'
-          ? JSON.parse(user.themePreference as unknown as string)
-          : (user.themePreference || getDefaultThemePreference()),
-        onboardingStatus: (user.onboardingStatus || 'pending') as OnboardingStatus,
-        onboardingPhase: user.onboardingPhase ?? 0,
-      };
-      saveBizUser(parsed);
-      setBizUserState(parsed);
-      // Apply theme to DOM when user is set
-      applyThemeToDOM(parsed.themePreference);
-    } else {
-      saveBizUser(null);
-      setBizUserState(null);
-    }
-  }, [applyThemeToDOM]);
-
-  
-  // ── Smart Onboarding: Feature & Theme Management ──────────────────────────────────
-
-
-
-  /**
-   * Check if a specific feature is enabled
-   */
-  const canAccessFeature = useCallback((featureName: string): boolean => {
-    if (!bizUser?.featurePreferences) {
-      return getDefaultFeaturePreferences(bizUser?.plan || 'free')[featureName as keyof typeof getDefaultFeaturePreferences] || false;
-    }
-    return bizUser.featurePreferences[featureName] ?? false;
-  }, [bizUser?.featurePreferences, bizUser?.plan]);
-
-  /**
-   * Get list of all enabled features
-   */
-  const getEnabledFeatures = useCallback((): string[] => {
-    const prefs = bizUser?.featurePreferences || getDefaultFeaturePreferences(bizUser?.plan || 'free');
-    return Object.entries(prefs)
-      .filter(([, enabled]) => enabled)
-      .map(([name]) => name);
-  }, [bizUser?.featurePreferences, bizUser?.plan]);
-
-  /**
-   * Get count of enabled features
-   */
-  const getEnabledFeatureCount = useCallback((): number => {
-    return getEnabledFeatures().length;
-  }, [getEnabledFeatures]);
-
-  /**
-   * Update feature preferences in context and persist to database
-   */
-  const updateFeaturePreferences = useCallback(async (prefs: FeaturePreferences): Promise<void> => {
-    if (!bizUser?.businessId || !supabase) {
-      console.error('[BusinessContext] Cannot update feature preferences: no business ID or supabase');
-      throw new Error('No business ID found');
-    }
-
-    try {
-      // Update in database
-      const { error } = await supabase
-        .from('biz_users')
-        .update({ feature_preferences: prefs })
-        .eq('id', bizUser.id);
-
-      if (error) throw error;
-
-      // Update in context
-      setBizUserState(prev => {
-        if (!prev) return prev;
-        const updated = { ...prev, featurePreferences: prefs };
-        saveBizUser(updated);
-        return updated;
-      });
-
-      console.log('[BusinessContext] Feature preferences updated:', prefs);
-    } catch (err) {
-      console.error('[BusinessContext] Failed to update feature preferences:', err);
-      throw err;
-    }
-  }, [bizUser?.id, bizUser?.businessId]);
-
-  /**
-   * Update theme preference in context and persist to database
-   */
-  const updateThemePreference = useCallback(async (theme: ThemePreference): Promise<void> => {
-    if (!bizUser?.businessId || !supabase) {
-      console.error('[BusinessContext] Cannot update theme preference: no business ID or supabase');
-      throw new Error('No business ID found');
-    }
-
-    try {
-      // Update in database
-      const { error } = await supabase
-        .from('biz_users')
-        .update({ theme_preference: theme })
-        .eq('id', bizUser.id);
-
-      if (error) throw error;
-
-      // Update in context and apply to DOM
-      setBizUserState(prev => {
-        if (!prev) return prev;
-        const updated = { ...prev, themePreference: theme };
-        saveBizUser(updated);
-        return updated;
-      });
-
-      // Apply theme to DOM immediately
-      applyThemeToDOM(theme);
-
-      console.log('[BusinessContext] Theme preference updated:', theme);
-    } catch (err) {
-      console.error('[BusinessContext] Failed to update theme preference:', err);
-      throw err;
-    }
-  }, [bizUser?.id, bizUser?.businessId, applyThemeToDOM]);
-
-  /**
-   * Update onboarding status and persist to database
-   */
-  const updateOnboardingStatus = useCallback(async (status: OnboardingStatus, phase?: number): Promise<void> => {
-    if (!bizUser?.businessId || !supabase) {
-      console.error('[BusinessContext] Cannot update onboarding status: no business ID or supabase');
-      throw new Error('No business ID found');
-    }
-
-    try {
-      const phaseValue = phase !== undefined ? phase : (bizUser.onboardingPhase || 0);
-
-      // Update in database
-      const { error } = await supabase
-        .from('biz_users')
-        .update({
-          onboarding_status: status,
-          onboarding_phase: phaseValue
-        })
-        .eq('id', bizUser.id);
-
-      if (error) throw error;
-
-      // Update in context
-      setBizUserState(prev => {
-        if (!prev) return prev;
-        const updated = { ...prev, onboardingStatus: status, onboardingPhase: phaseValue };
-        saveBizUser(updated);
-        return updated;
-      });
-
-      console.log('[BusinessContext] Onboarding status updated:', { status, phase: phaseValue });
-    } catch (err) {
-      console.error('[BusinessContext] Failed to update onboarding status:', err);
-      throw err;
-    }
-  }, [bizUser?.id, bizUser?.businessId, bizUser?.onboardingPhase]);
-
-  /**
-   * Check if onboarding is required (status !== 'completed')
-   */
-  const isOnboardingRequired = useCallback((): boolean => {
-    return bizUser?.onboardingStatus !== 'completed';
-  }, [bizUser?.onboardingStatus]);
-
-  /**
-   * Get current onboarding phase (0-6)
-   */
-  const getCurrentOnboardingPhase = useCallback((): number => {
-    return bizUser?.onboardingPhase ?? 0;
-  }, [bizUser?.onboardingPhase]);
-
-  // Apply theme on mount or when theme preference changes
-  useEffect(() => {
-    if (bizUser?.themePreference) {
-      applyThemeToDOM(bizUser.themePreference);
-    }
-  }, [bizUser?.themePreference, applyThemeToDOM]);
+  const canAccessFeature = useCallback((feature: keyof BizUser['feature_preferences']) => {
+    if (!bizUser?.feature_preferences) return true; // Default to true if not set
+    return bizUser.feature_preferences[feature] ?? true;
+  }, [bizUser]);
 
   const value = useMemo<BusinessContextValue>(() => ({
     bizUser,
@@ -642,33 +396,9 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
     isLoading,
     logout,
     updatePlan,
+    canAccessFeature,
     productSelection: (bizUser?.product_selection as 'rr' | 'lms' | 'both') || 'both',
-    // Smart Onboarding methods
-    canAccessFeature,
-    getEnabledFeatures,
-    updateFeaturePreferences,
-    updateThemePreference,
-    updateOnboardingStatus,
-    applyThemeToDOM,
-    getEnabledFeatureCount,
-    isOnboardingRequired,
-    getCurrentOnboardingPhase,
-  }), [
-    bizUser,
-    setBizUser,
-    isLoading,
-    logout,
-    updatePlan,
-    canAccessFeature,
-    getEnabledFeatures,
-    updateFeaturePreferences,
-    updateThemePreference,
-    updateOnboardingStatus,
-    applyThemeToDOM,
-    getEnabledFeatureCount,
-    isOnboardingRequired,
-    getCurrentOnboardingPhase,
-  ]);
+  }), [bizUser, setBizUser, isLoading, logout, updatePlan, canAccessFeature]);
 
   return <BusinessContext.Provider value={value}>{children}</BusinessContext.Provider>;
 }

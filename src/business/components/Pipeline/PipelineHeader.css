@@ -1,0 +1,194 @@
+/**
+ * PipelineHeader Styles
+ */
+
+.pipeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  padding: 20px;
+  border-bottom: 1px solid #e5e7eb;
+  background: white;
+  flex-wrap: wrap;
+}
+
+/* Left Side */
+.header-left {
+  flex: 1;
+  min-width: 250px;
+}
+
+.pipeline-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.pipeline-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.pipeline-title h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.pipeline-description {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+/* Right Side - Metrics */
+.header-right {
+  flex: 1;
+  min-width: 300px;
+}
+
+.metrics-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s;
+}
+
+.metric-card:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.metric-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.metric-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Health States */
+.metric-card.health {
+  border: 2px solid #e5e7eb;
+}
+
+.metric-card.health.excellent {
+  background: #f0fdf4;
+  border-color: #86efac;
+}
+
+.metric-card.health.excellent .metric-value {
+  color: #16a34a;
+}
+
+.metric-card.health.good {
+  background: #f0f9ff;
+  border-color: #7dd3fc;
+}
+
+.metric-card.health.good .metric-value {
+  color: #0284c7;
+}
+
+.metric-card.health.fair {
+  background: #fffbeb;
+  border-color: #fde047;
+}
+
+.metric-card.health.fair .metric-value {
+  color: #ca8a04;
+}
+
+.metric-card.health.poor {
+  background: #fef2f2;
+  border-color: #fca5a5;
+}
+
+.metric-card.health.poor .metric-value {
+  color: #dc2626;
+}
+
+/* Loading State */
+.metrics-loading {
+  padding: 16px;
+  color: #9ca3af;
+  font-size: 13px;
+  text-align: center;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .pipeline-header {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .header-right {
+    width: 100%;
+  }
+
+  .metrics-summary {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .pipeline-header {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .pipeline-title h1 {
+    font-size: 20px;
+  }
+
+  .metrics-summary {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .metric-card {
+    padding: 12px;
+  }
+
+  .metric-value {
+    font-size: 18px;
+  }
+
+  .metric-label {
+    font-size: 11px;
+  }
+}

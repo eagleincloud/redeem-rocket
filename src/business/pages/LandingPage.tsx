@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { ArrowRight, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
 

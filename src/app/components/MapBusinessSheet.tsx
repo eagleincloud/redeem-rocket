@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import type { Business } from '../types';
 import {

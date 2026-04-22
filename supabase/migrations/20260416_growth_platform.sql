@@ -1,388 +1,239 @@
--- ============================================================
--- Migration: 20260416_growth_platform.sql
--- Growth platform tables: email sequences, automation rules,
--- social accounts/posts, lead connectors, email provider configs
--- Fully idempotent — safe to run multiple times
--- business_id is TEXT; RLS uses auth.uid()::text
--- ============================================================
+-- Growth Platform Tables: Email Sequences, Automation, Social, Lead Connectors, Providers
+-- All tables follow the pattern: UUID PK, TEXT business_id, timestamps, RLS policies
 
--- ----------------------------------------------------------------
--- Reusable updated_at trigger function
--- ----------------------------------------------------------------
-CREATE OR REPLACE FUNCTION set_updated_at()
-RETURNS TRIGGER AS $$
-BEGIN
-  NEW.updated_at = now();
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-
--- ================================================================
--- 1. email_sequences
--- ================================================================
-CREATE TABLE IF NOT EXISTS email_sequences (
-  id            UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
-  business_id   TEXT        NOT NULL,
-  name          TEXT        NOT NULL,
-  description   TEXT,
-  trigger_type  TEXT        DEFAULT 'manual',   -- manual, signup, purchase, tag_added
-  is_active     BOOLEAN     DEFAULT true,
-  created_at    TIMESTAMPTZ DEFAULT now(),
-  updated_at    TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE INDEX IF NOT EXISTS idx_email_sequences_business_id
-  ON email_sequences (business_id);
-
-ALTER TABLE email_sequences ENABLE ROW LEVEL SECURITY;
-
-DROP POLICY IF EXISTS "email_sequences_select" ON email_sequences;
-CREATE POLICY "email_sequences_select"
-  ON email_sequences FOR SELECT
-  USING (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "email_sequences_insert" ON email_sequences;
-CREATE POLICY "email_sequences_insert"
-  ON email_sequences FOR INSERT
-  WITH CHECK (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "email_sequences_update" ON email_sequences;
-CREATE POLICY "email_sequences_update"
-  ON email_sequences FOR UPDATE
-  USING (business_id = auth.uid()::text)
-  WITH CHECK (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "email_sequences_delete" ON email_sequences;
-CREATE POLICY "email_sequences_delete"
-  ON email_sequences FOR DELETE
-  USING (business_id = auth.uid()::text);
-
-DO $$ BEGIN
-  CREATE TRIGGER trg_email_sequences_updated_at
-    BEFORE UPDATE ON email_sequences
-    FOR EACH ROW EXECUTE FUNCTION set_updated_at();
-EXCEPTION WHEN others THEN NULL; END $$;
-
-
--- ================================================================
--- 2. email_sequence_steps
--- ================================================================
-CREATE TABLE IF NOT EXISTS email_sequence_steps (
-  id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
-  sequence_id  UUID        NOT NULL,
-  step_number  INTEGER     NOT NULL,
-  delay_days   INTEGER     DEFAULT 0,
-  delay_hours  INTEGER     DEFAULT 0,
-  subject      TEXT        NOT NULL,
-  body_html    TEXT,
-  body_text    TEXT,
-  created_at   TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE INDEX IF NOT EXISTS idx_email_sequence_steps_sequence_id
-  ON email_sequence_steps (sequence_id);
-
--- FK to email_sequences with CASCADE delete
-DO $$ BEGIN
-  ALTER TABLE email_sequence_steps
-    ADD CONSTRAINT fk_email_sequence_steps_sequence_id
-    FOREIGN KEY (sequence_id) REFERENCES email_sequences(id) ON DELETE CASCADE;
-EXCEPTION WHEN others THEN NULL; END $$;
-
-ALTER TABLE email_sequence_steps ENABLE ROW LEVEL SECURITY;
-
--- RLS joins back to email_sequences to check business_id
-DROP POLICY IF EXISTS "email_sequence_steps_select" ON email_sequence_steps;
-CREATE POLICY "email_sequence_steps_select"
-  ON email_sequence_steps FOR SELECT
-  USING (
-    EXISTS (
-      SELECT 1 FROM email_sequences
-      WHERE id = email_sequence_steps.sequence_id
-        AND business_id = auth.uid()::text
-    )
-  );
-
-DROP POLICY IF EXISTS "email_sequence_steps_insert" ON email_sequence_steps;
-CREATE POLICY "email_sequence_steps_insert"
-  ON email_sequence_steps FOR INSERT
-  WITH CHECK (
-    EXISTS (
-      SELECT 1 FROM email_sequences
-      WHERE id = email_sequence_steps.sequence_id
-        AND business_id = auth.uid()::text
-    )
-  );
-
-DROP POLICY IF EXISTS "email_sequence_steps_update" ON email_sequence_steps;
-CREATE POLICY "email_sequence_steps_update"
-  ON email_sequence_steps FOR UPDATE
-  USING (
-    EXISTS (
-      SELECT 1 FROM email_sequences
-      WHERE id = email_sequence_steps.sequence_id
-        AND business_id = auth.uid()::text
-    )
-  );
-
-DROP POLICY IF EXISTS "email_sequence_steps_delete" ON email_sequence_steps;
-CREATE POLICY "email_sequence_steps_delete"
-  ON email_sequence_steps FOR DELETE
-  USING (
-    EXISTS (
-      SELECT 1 FROM email_sequences
-      WHERE id = email_sequence_steps.sequence_id
-        AND business_id = auth.uid()::text
-    )
-  );
-
-
--- ================================================================
--- 3. automation_rules
--- ================================================================
-CREATE TABLE IF NOT EXISTS automation_rules (
-  id             UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
-  business_id    TEXT        NOT NULL,
-  name           TEXT        NOT NULL,
-  trigger_type   TEXT        NOT NULL,  -- new_lead, stage_change, score_reached, no_activity,
-                                        -- order_placed, form_submitted, campaign_sent
-  trigger_config JSONB       DEFAULT '{}',
-  conditions     JSONB       DEFAULT '[]',
-  actions        JSONB       DEFAULT '[]',
-  is_active      BOOLEAN     DEFAULT true,
-  run_count      INTEGER     DEFAULT 0,
-  last_run_at    TIMESTAMPTZ,
-  created_at     TIMESTAMPTZ DEFAULT now(),
-  updated_at     TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE INDEX IF NOT EXISTS idx_automation_rules_business_id
-  ON automation_rules (business_id);
-
-ALTER TABLE automation_rules ENABLE ROW LEVEL SECURITY;
-
-DROP POLICY IF EXISTS "automation_rules_select" ON automation_rules;
-CREATE POLICY "automation_rules_select"
-  ON automation_rules FOR SELECT
-  USING (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "automation_rules_insert" ON automation_rules;
-CREATE POLICY "automation_rules_insert"
-  ON automation_rules FOR INSERT
-  WITH CHECK (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "automation_rules_update" ON automation_rules;
-CREATE POLICY "automation_rules_update"
-  ON automation_rules FOR UPDATE
-  USING (business_id = auth.uid()::text)
-  WITH CHECK (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "automation_rules_delete" ON automation_rules;
-CREATE POLICY "automation_rules_delete"
-  ON automation_rules FOR DELETE
-  USING (business_id = auth.uid()::text);
-
-DO $$ BEGIN
-  CREATE TRIGGER trg_automation_rules_updated_at
-    BEFORE UPDATE ON automation_rules
-    FOR EACH ROW EXECUTE FUNCTION set_updated_at();
-EXCEPTION WHEN others THEN NULL; END $$;
-
-
--- ================================================================
--- 4. social_accounts
--- ================================================================
-CREATE TABLE IF NOT EXISTS social_accounts (
-  id            UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
-  business_id   TEXT        NOT NULL,
-  platform      TEXT        NOT NULL,   -- instagram, facebook, twitter, whatsapp
-  username      TEXT,
-  access_token  TEXT,
-  page_id       TEXT,
-  status        TEXT        DEFAULT 'pending',  -- pending, connected, disconnected, error
-  connected_at  TIMESTAMPTZ,
-  created_at    TIMESTAMPTZ DEFAULT now(),
-  UNIQUE (business_id, platform)
-);
-
-CREATE INDEX IF NOT EXISTS idx_social_accounts_business_id
-  ON social_accounts (business_id);
-
-ALTER TABLE social_accounts ENABLE ROW LEVEL SECURITY;
-
-DROP POLICY IF EXISTS "social_accounts_select" ON social_accounts;
-CREATE POLICY "social_accounts_select"
-  ON social_accounts FOR SELECT
-  USING (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "social_accounts_insert" ON social_accounts;
-CREATE POLICY "social_accounts_insert"
-  ON social_accounts FOR INSERT
-  WITH CHECK (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "social_accounts_update" ON social_accounts;
-CREATE POLICY "social_accounts_update"
-  ON social_accounts FOR UPDATE
-  USING (business_id = auth.uid()::text)
-  WITH CHECK (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "social_accounts_delete" ON social_accounts;
-CREATE POLICY "social_accounts_delete"
-  ON social_accounts FOR DELETE
-  USING (business_id = auth.uid()::text);
-
-
--- ================================================================
--- 5. social_posts
--- ================================================================
-CREATE TABLE IF NOT EXISTS social_posts (
-  id            UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
-  business_id   TEXT        NOT NULL,
-  content       TEXT        NOT NULL,
-  platforms     TEXT[]      DEFAULT '{}',
-  scheduled_at  TIMESTAMPTZ,
-  published_at  TIMESTAMPTZ,
-  status        TEXT        DEFAULT 'draft',  -- draft, scheduled, published, failed
-  media_urls    TEXT[]      DEFAULT '{}',
-  created_at    TIMESTAMPTZ DEFAULT now(),
-  updated_at    TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE INDEX IF NOT EXISTS idx_social_posts_business_id
-  ON social_posts (business_id);
-
-ALTER TABLE social_posts ENABLE ROW LEVEL SECURITY;
-
-DROP POLICY IF EXISTS "social_posts_select" ON social_posts;
-CREATE POLICY "social_posts_select"
-  ON social_posts FOR SELECT
-  USING (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "social_posts_insert" ON social_posts;
-CREATE POLICY "social_posts_insert"
-  ON social_posts FOR INSERT
-  WITH CHECK (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "social_posts_update" ON social_posts;
-CREATE POLICY "social_posts_update"
-  ON social_posts FOR UPDATE
-  USING (business_id = auth.uid()::text)
-  WITH CHECK (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "social_posts_delete" ON social_posts;
-CREATE POLICY "social_posts_delete"
-  ON social_posts FOR DELETE
-  USING (business_id = auth.uid()::text);
-
-DO $$ BEGIN
-  CREATE TRIGGER trg_social_posts_updated_at
-    BEFORE UPDATE ON social_posts
-    FOR EACH ROW EXECUTE FUNCTION set_updated_at();
-EXCEPTION WHEN others THEN NULL; END $$;
-
-
--- ================================================================
--- 6. lead_connectors
--- ================================================================
-CREATE TABLE IF NOT EXISTS lead_connectors (
-  id               UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
-  business_id      TEXT        NOT NULL,
-  connector_type   TEXT        NOT NULL,   -- csv, webhook, embed_form, api_key
-  api_key          TEXT        UNIQUE,
-  webhook_url      TEXT,
-  config           JSONB       DEFAULT '{}',
-  is_active        BOOLEAN     DEFAULT true,
-  leads_imported   INTEGER     DEFAULT 0,
-  created_at       TIMESTAMPTZ DEFAULT now(),
-  updated_at       TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE INDEX IF NOT EXISTS idx_lead_connectors_business_id
-  ON lead_connectors (business_id);
-
-ALTER TABLE lead_connectors ENABLE ROW LEVEL SECURITY;
-
-DROP POLICY IF EXISTS "lead_connectors_select" ON lead_connectors;
-CREATE POLICY "lead_connectors_select"
-  ON lead_connectors FOR SELECT
-  USING (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "lead_connectors_insert" ON lead_connectors;
-CREATE POLICY "lead_connectors_insert"
-  ON lead_connectors FOR INSERT
-  WITH CHECK (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "lead_connectors_update" ON lead_connectors;
-CREATE POLICY "lead_connectors_update"
-  ON lead_connectors FOR UPDATE
-  USING (business_id = auth.uid()::text)
-  WITH CHECK (business_id = auth.uid()::text);
-
-DROP POLICY IF EXISTS "lead_connectors_delete" ON lead_connectors;
-CREATE POLICY "lead_connectors_delete"
-  ON lead_connectors FOR DELETE
-  USING (business_id = auth.uid()::text);
-
-DO $$ BEGIN
-  CREATE TRIGGER trg_lead_connectors_updated_at
-    BEFORE UPDATE ON lead_connectors
-    FOR EACH ROW EXECUTE FUNCTION set_updated_at();
-EXCEPTION WHEN others THEN NULL; END $$;
-
-
--- ================================================================
--- 7. email_provider_configs
--- ================================================================
+-- 1. EMAIL PROVIDER CONFIG (SMTP/SES/Resend configuration per business)
 CREATE TABLE IF NOT EXISTS email_provider_configs (
-  id               UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
-  business_id      TEXT        NOT NULL UNIQUE,
-  provider         TEXT        DEFAULT 'resend',   -- resend, smtp, ses
-  api_key          TEXT,
-  from_address     TEXT,
-  reply_to         TEXT,
-  smtp_host        TEXT,
-  smtp_port        INTEGER     DEFAULT 587,
-  smtp_username    TEXT,
-  smtp_password    TEXT,
-  ses_region       TEXT,
-  ses_access_key   TEXT,
-  ses_secret_key   TEXT,
-  custom_domain    TEXT,
-  domain_verified  BOOLEAN     DEFAULT false,
-  dns_records      JSONB       DEFAULT '[]',
-  created_at       TIMESTAMPTZ DEFAULT now(),
-  updated_at       TIMESTAMPTZ DEFAULT now()
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  business_id TEXT NOT NULL,
+  provider_type VARCHAR(50) NOT NULL, -- 'smtp', 'ses', 'resend'
+  provider_name VARCHAR(100),
+  is_verified BOOLEAN DEFAULT FALSE,
+  is_primary BOOLEAN DEFAULT FALSE,
+  config_data JSONB, -- {smtp_host, smtp_port, smtp_user, smtp_pass} or {aws_access_key, aws_secret} or {resend_api_key}
+  verified_domain VARCHAR(255),
+  dkim_record VARCHAR(1024),
+  spf_record VARCHAR(1024),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX IF NOT EXISTS idx_email_provider_configs_business_id
-  ON email_provider_configs (business_id);
+CREATE INDEX IF NOT EXISTS idx_email_provider_configs_business_id ON email_provider_configs(business_id);
+CREATE INDEX IF NOT EXISTS idx_email_provider_configs_primary ON email_provider_configs(business_id, is_primary);
+
+DROP POLICY IF EXISTS email_provider_configs_select ON email_provider_configs;
+DROP POLICY IF EXISTS email_provider_configs_insert ON email_provider_configs;
+DROP POLICY IF EXISTS email_provider_configs_update ON email_provider_configs;
+DROP POLICY IF EXISTS email_provider_configs_delete ON email_provider_configs;
 
 ALTER TABLE email_provider_configs ENABLE ROW LEVEL SECURITY;
 
-DROP POLICY IF EXISTS "email_provider_configs_select" ON email_provider_configs;
-CREATE POLICY "email_provider_configs_select"
-  ON email_provider_configs FOR SELECT
-  USING (business_id = auth.uid()::text);
+CREATE POLICY email_provider_configs_select ON email_provider_configs
+  FOR SELECT USING (business_id = auth.uid()::text);
 
-DROP POLICY IF EXISTS "email_provider_configs_insert" ON email_provider_configs;
-CREATE POLICY "email_provider_configs_insert"
-  ON email_provider_configs FOR INSERT
-  WITH CHECK (business_id = auth.uid()::text);
+CREATE POLICY email_provider_configs_insert ON email_provider_configs
+  FOR INSERT WITH CHECK (business_id = auth.uid()::text);
 
-DROP POLICY IF EXISTS "email_provider_configs_update" ON email_provider_configs;
-CREATE POLICY "email_provider_configs_update"
-  ON email_provider_configs FOR UPDATE
-  USING (business_id = auth.uid()::text)
-  WITH CHECK (business_id = auth.uid()::text);
+CREATE POLICY email_provider_configs_update ON email_provider_configs
+  FOR UPDATE USING (business_id = auth.uid()::text);
 
-DROP POLICY IF EXISTS "email_provider_configs_delete" ON email_provider_configs;
-CREATE POLICY "email_provider_configs_delete"
-  ON email_provider_configs FOR DELETE
-  USING (business_id = auth.uid()::text);
+CREATE POLICY email_provider_configs_delete ON email_provider_configs
+  FOR DELETE USING (business_id = auth.uid()::text);
 
-DO $$ BEGIN
-  CREATE TRIGGER trg_email_provider_configs_updated_at
-    BEFORE UPDATE ON email_provider_configs
-    FOR EACH ROW EXECUTE FUNCTION set_updated_at();
-EXCEPTION WHEN others THEN NULL; END $$;
+-- 2. EMAIL SEQUENCES (Drip campaigns with Day 1, 3, 7 steps)
+CREATE TABLE IF NOT EXISTS email_sequences (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  business_id TEXT NOT NULL,
+  campaign_id UUID,
+  sequence_name VARCHAR(255) NOT NULL,
+  trigger_type VARCHAR(50) NOT NULL, -- 'signup', 'purchase', 'manual', 'abandoned_cart'
+  step_number INT NOT NULL,
+  step_delay_days INT NOT NULL, -- 0, 3, 7, 14 etc
+  email_subject VARCHAR(255) NOT NULL,
+  email_body TEXT,
+  is_active BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_email_sequences_business_id ON email_sequences(business_id);
+CREATE INDEX IF NOT EXISTS idx_email_sequences_campaign_id ON email_sequences(campaign_id);
+CREATE INDEX IF NOT EXISTS idx_email_sequences_trigger_type ON email_sequences(trigger_type);
+
+DROP POLICY IF EXISTS email_sequences_select ON email_sequences;
+DROP POLICY IF EXISTS email_sequences_insert ON email_sequences;
+DROP POLICY IF EXISTS email_sequences_update ON email_sequences;
+DROP POLICY IF EXISTS email_sequences_delete ON email_sequences;
+
+ALTER TABLE email_sequences ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY email_sequences_select ON email_sequences
+  FOR SELECT USING (business_id = auth.uid()::text);
+
+CREATE POLICY email_sequences_insert ON email_sequences
+  FOR INSERT WITH CHECK (business_id = auth.uid()::text);
+
+CREATE POLICY email_sequences_update ON email_sequences
+  FOR UPDATE USING (business_id = auth.uid()::text);
+
+CREATE POLICY email_sequences_delete ON email_sequences
+  FOR DELETE USING (business_id = auth.uid()::text);
+
+-- 3. SOCIAL ACCOUNTS (Connected Twitter, Facebook, LinkedIn, Instagram accounts)
+CREATE TABLE IF NOT EXISTS social_accounts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  business_id TEXT NOT NULL,
+  platform VARCHAR(50) NOT NULL, -- 'twitter', 'facebook', 'linkedin', 'instagram', 'tiktok'
+  account_name VARCHAR(255) NOT NULL,
+  account_id VARCHAR(255) NOT NULL,
+  access_token TEXT,
+  refresh_token TEXT,
+  token_expires_at TIMESTAMP WITH TIME ZONE,
+  is_connected BOOLEAN DEFAULT TRUE,
+  followers_count INT DEFAULT 0,
+  last_synced_at TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_social_accounts_business_id ON social_accounts(business_id);
+CREATE INDEX IF NOT EXISTS idx_social_accounts_platform ON social_accounts(business_id, platform);
+
+DROP POLICY IF EXISTS social_accounts_select ON social_accounts;
+DROP POLICY IF EXISTS social_accounts_insert ON social_accounts;
+DROP POLICY IF EXISTS social_accounts_update ON social_accounts;
+DROP POLICY IF EXISTS social_accounts_delete ON social_accounts;
+
+ALTER TABLE social_accounts ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY social_accounts_select ON social_accounts
+  FOR SELECT USING (business_id = auth.uid()::text);
+
+CREATE POLICY social_accounts_insert ON social_accounts
+  FOR INSERT WITH CHECK (business_id = auth.uid()::text);
+
+CREATE POLICY social_accounts_update ON social_accounts
+  FOR UPDATE USING (business_id = auth.uid()::text);
+
+CREATE POLICY social_accounts_delete ON social_accounts
+  FOR DELETE USING (business_id = auth.uid()::text);
+
+-- 4. SOCIAL POSTS (Scheduled posts to social platforms)
+CREATE TABLE IF NOT EXISTS social_posts (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  business_id TEXT NOT NULL,
+  social_account_id UUID NOT NULL,
+  platform VARCHAR(50) NOT NULL,
+  post_content TEXT NOT NULL,
+  post_type VARCHAR(50) DEFAULT 'text', -- 'text', 'image', 'video', 'carousel'
+  media_urls TEXT[], -- Array of image/video URLs
+  scheduled_at TIMESTAMP WITH TIME ZONE,
+  published_at TIMESTAMP WITH TIME ZONE,
+  status VARCHAR(50) DEFAULT 'draft', -- 'draft', 'scheduled', 'published', 'failed'
+  likes_count INT DEFAULT 0,
+  shares_count INT DEFAULT 0,
+  comments_count INT DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_social_posts_business_id ON social_posts(business_id);
+CREATE INDEX IF NOT EXISTS idx_social_posts_account_id ON social_posts(social_account_id);
+CREATE INDEX IF NOT EXISTS idx_social_posts_status ON social_posts(business_id, status);
+CREATE INDEX IF NOT EXISTS idx_social_posts_scheduled_at ON social_posts(scheduled_at);
+
+DROP POLICY IF EXISTS social_posts_select ON social_posts;
+DROP POLICY IF EXISTS social_posts_insert ON social_posts;
+DROP POLICY IF EXISTS social_posts_update ON social_posts;
+DROP POLICY IF EXISTS social_posts_delete ON social_posts;
+
+ALTER TABLE social_posts ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY social_posts_select ON social_posts
+  FOR SELECT USING (business_id = auth.uid()::text);
+
+CREATE POLICY social_posts_insert ON social_posts
+  FOR INSERT WITH CHECK (business_id = auth.uid()::text);
+
+CREATE POLICY social_posts_update ON social_posts
+  FOR UPDATE USING (business_id = auth.uid()::text);
+
+CREATE POLICY social_posts_delete ON social_posts
+  FOR DELETE USING (business_id = auth.uid()::text);
+
+-- 5. AUTOMATION RULES (If/Then automation workflows)
+CREATE TABLE IF NOT EXISTS automation_rules (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  business_id TEXT NOT NULL,
+  rule_name VARCHAR(255) NOT NULL,
+  trigger_type VARCHAR(100) NOT NULL, -- 'lead_added', 'email_opened', 'email_clicked', 'lead_qualified', 'inactivity_30d'
+  trigger_conditions JSONB, -- {field: 'status', operator: 'equals', value: 'hot'}
+  action_type VARCHAR(100) NOT NULL, -- 'send_email', 'send_sms', 'create_task', 'add_tag', 'update_field', 'webhook'
+  action_config JSONB, -- {email_template_id: '...', sms_body: '...', webhook_url: '...'}
+  is_active BOOLEAN DEFAULT TRUE,
+  run_count INT DEFAULT 0,
+  last_run_at TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_automation_rules_business_id ON automation_rules(business_id);
+CREATE INDEX IF NOT EXISTS idx_automation_rules_trigger_type ON automation_rules(business_id, trigger_type);
+
+DROP POLICY IF EXISTS automation_rules_select ON automation_rules;
+DROP POLICY IF EXISTS automation_rules_insert ON automation_rules;
+DROP POLICY IF EXISTS automation_rules_update ON automation_rules;
+DROP POLICY IF EXISTS automation_rules_delete ON automation_rules;
+
+ALTER TABLE automation_rules ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY automation_rules_select ON automation_rules
+  FOR SELECT USING (business_id = auth.uid()::text);
+
+CREATE POLICY automation_rules_insert ON automation_rules
+  FOR INSERT WITH CHECK (business_id = auth.uid()::text);
+
+CREATE POLICY automation_rules_update ON automation_rules
+  FOR UPDATE USING (business_id = auth.uid()::text);
+
+CREATE POLICY automation_rules_delete ON automation_rules
+  FOR DELETE USING (business_id = auth.uid()::text);
+
+-- 6. LEAD CONNECTORS (CSV uploads, webhook URLs, form embeds, API keys)
+CREATE TABLE IF NOT EXISTS lead_connectors (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  business_id TEXT NOT NULL,
+  connector_name VARCHAR(255) NOT NULL,
+  connector_type VARCHAR(50) NOT NULL, -- 'csv_upload', 'webhook', 'form_embed', 'api_key', 'zapier'
+  source_name VARCHAR(255), -- e.g., 'Shopify', 'WooCommerce', 'Typeform', 'Calendly'
+  webhook_url VARCHAR(1024),
+  api_key VARCHAR(255),
+  form_embed_code TEXT,
+  field_mapping JSONB, -- {remote_field: 'local_field', ...}
+  is_active BOOLEAN DEFAULT TRUE,
+  last_sync_at TIMESTAMP WITH TIME ZONE,
+  sync_count INT DEFAULT 0,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_lead_connectors_business_id ON lead_connectors(business_id);
+CREATE INDEX IF NOT EXISTS idx_lead_connectors_type ON lead_connectors(business_id, connector_type);
+
+DROP POLICY IF EXISTS lead_connectors_select ON lead_connectors;
+DROP POLICY IF EXISTS lead_connectors_insert ON lead_connectors;
+DROP POLICY IF EXISTS lead_connectors_update ON lead_connectors;
+DROP POLICY IF EXISTS lead_connectors_delete ON lead_connectors;
+
+ALTER TABLE lead_connectors ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY lead_connectors_select ON lead_connectors
+  FOR SELECT USING (business_id = auth.uid()::text);
+
+CREATE POLICY lead_connectors_insert ON lead_connectors
+  FOR INSERT WITH CHECK (business_id = auth.uid()::text);
+
+CREATE POLICY lead_connectors_update ON lead_connectors
+  FOR UPDATE USING (business_id = auth.uid()::text);
+
+CREATE POLICY lead_connectors_delete ON lead_connectors
+  FOR DELETE USING (business_id = auth.uid()::text);

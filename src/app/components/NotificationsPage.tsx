@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import type { Business, Offer } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import {
   Bell, BellOff, ArrowLeft, Tag, CreditCard,
   Gavel, ShoppingBag, MapPin, Trash2, CheckCheck,

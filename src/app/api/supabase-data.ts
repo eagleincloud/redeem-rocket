@@ -3094,15 +3094,84 @@ export async function updatePaymentSubmissionStatus(
   }
 }
 
-/** ─────── Growth Platform: Email Sequences ─────── */
+/** ─────── EMAIL PROVIDER CONFIGS ─────── */
+export async function fetchEmailProviderConfigs(businessId: string) {
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from('email_provider_configs')
+      .select('*')
+      .eq('business_id', businessId)
+      .order('created_at', { ascending: false });
+    return data || [];
+  } catch (err) {
+    console.error('Fetch email provider configs failed:', err);
+    return [];
+  }
+}
+
+export async function createEmailProviderConfig(
+  businessId: string,
+  config: {
+    provider_type: string;
+    provider_name: string;
+    config_data: Record<string, any>;
+  },
+) {
+  if (!supabase) return null;
+  try {
+    const { data } = await supabase
+      .from('email_provider_configs')
+      .insert([{ business_id: businessId, ...config }])
+      .select()
+      .single();
+    return data;
+  } catch (err) {
+    console.error('Create email provider config failed:', err);
+    return null;
+  }
+}
+
+export async function updateEmailProviderConfig(
+  configId: string,
+  updates: Record<string, any>,
+) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('email_provider_configs')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', configId);
+    return !error;
+  } catch (err) {
+    console.error('Update email provider config failed:', err);
+    return false;
+  }
+}
+
+export async function deleteEmailProviderConfig(configId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('email_provider_configs')
+      .delete()
+      .eq('id', configId);
+    return !error;
+  } catch (err) {
+    console.error('Delete email provider config failed:', err);
+    return false;
+  }
+}
+
+/** ─────── EMAIL SEQUENCES ─────── */
 export async function fetchEmailSequences(businessId: string) {
   if (!supabase) return [];
   try {
     const { data } = await supabase
       .from('email_sequences')
-      .select('*, email_sequence_steps(*)')
+      .select('*')
       .eq('business_id', businessId)
-      .order('created_at', { ascending: false });
+      .order('step_number', { ascending: true });
     return data || [];
   } catch (err) {
     console.error('Fetch email sequences failed:', err);
@@ -3110,15 +3179,25 @@ export async function fetchEmailSequences(businessId: string) {
   }
 }
 
-export async function createEmailSequence(businessId: string, payload: { name: string; description?: string; trigger_type?: string }) {
+export async function createEmailSequence(
+  businessId: string,
+  sequence: {
+    campaign_id?: string;
+    sequence_name: string;
+    trigger_type: string;
+    step_number: number;
+    step_delay_days: number;
+    email_subject: string;
+    email_body: string;
+  },
+) {
   if (!supabase) return null;
   try {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('email_sequences')
-      .insert({ business_id: businessId, ...payload })
+      .insert([{ business_id: businessId, ...sequence }])
       .select()
       .single();
-    if (error) throw error;
     return data;
   } catch (err) {
     console.error('Create email sequence failed:', err);
@@ -3126,26 +3205,199 @@ export async function createEmailSequence(businessId: string, payload: { name: s
   }
 }
 
-export async function createEmailSequenceStep(sequenceId: string, payload: {
-  step_number: number; delay_days?: number; delay_hours?: number;
-  subject: string; body_html?: string; body_text?: string;
-}) {
+export async function updateEmailSequence(
+  sequenceId: string,
+  updates: Record<string, any>,
+) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('email_sequences')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', sequenceId);
+    return !error;
+  } catch (err) {
+    console.error('Update email sequence failed:', err);
+    return false;
+  }
+}
+
+export async function deleteEmailSequence(sequenceId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('email_sequences')
+      .delete()
+      .eq('id', sequenceId);
+    return !error;
+  } catch (err) {
+    console.error('Delete email sequence failed:', err);
+    return false;
+  }
+}
+
+/** ─────── SOCIAL ACCOUNTS ─────── */
+export async function fetchSocialAccounts(businessId: string) {
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from('social_accounts')
+      .select('*')
+      .eq('business_id', businessId)
+      .order('platform', { ascending: true });
+    return data || [];
+  } catch (err) {
+    console.error('Fetch social accounts failed:', err);
+    return [];
+  }
+}
+
+export async function createSocialAccount(
+  businessId: string,
+  account: {
+    platform: string;
+    account_name: string;
+    account_id: string;
+    access_token: string;
+    refresh_token?: string;
+  },
+) {
   if (!supabase) return null;
   try {
-    const { data, error } = await supabase
-      .from('email_sequence_steps')
-      .insert({ sequence_id: sequenceId, ...payload })
+    const { data } = await supabase
+      .from('social_accounts')
+      .insert([{ business_id: businessId, ...account }])
       .select()
       .single();
-    if (error) throw error;
     return data;
   } catch (err) {
-    console.error('Create email sequence step failed:', err);
+    console.error('Create social account failed:', err);
     return null;
   }
 }
 
-/** ─────── Growth Platform: Automation Rules ─────── */
+export async function updateSocialAccount(
+  accountId: string,
+  updates: Record<string, any>,
+) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('social_accounts')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', accountId);
+    return !error;
+  } catch (err) {
+    console.error('Update social account failed:', err);
+    return false;
+  }
+}
+
+export async function deleteSocialAccount(accountId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('social_accounts')
+      .delete()
+      .eq('id', accountId);
+    return !error;
+  } catch (err) {
+    console.error('Delete social account failed:', err);
+    return false;
+  }
+}
+
+/** ─────── SOCIAL POSTS ─────── */
+export async function fetchSocialPosts(businessId: string) {
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from('social_posts')
+      .select('*')
+      .eq('business_id', businessId)
+      .order('scheduled_at', { ascending: false });
+    return data || [];
+  } catch (err) {
+    console.error('Fetch social posts failed:', err);
+    return [];
+  }
+}
+
+export async function createSocialPost(
+  businessId: string,
+  post: {
+    social_account_id: string;
+    platform: string;
+    post_content: string;
+    post_type?: string;
+    media_urls?: string[];
+    scheduled_at?: string;
+  },
+) {
+  if (!supabase) return null;
+  try {
+    const { data } = await supabase
+      .from('social_posts')
+      .insert([{ business_id: businessId, ...post }])
+      .select()
+      .single();
+    return data;
+  } catch (err) {
+    console.error('Create social post failed:', err);
+    return null;
+  }
+}
+
+export async function updateSocialPost(
+  postId: string,
+  updates: Record<string, any>,
+) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('social_posts')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', postId);
+    return !error;
+  } catch (err) {
+    console.error('Update social post failed:', err);
+    return false;
+  }
+}
+
+export async function publishSocialPost(postId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('social_posts')
+      .update({
+        status: 'published',
+        published_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', postId);
+    return !error;
+  } catch (err) {
+    console.error('Publish social post failed:', err);
+    return false;
+  }
+}
+
+export async function deleteSocialPost(postId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('social_posts')
+      .delete()
+      .eq('id', postId);
+    return !error;
+  } catch (err) {
+    console.error('Delete social post failed:', err);
+    return false;
+  }
+}
+
+/** ─────── AUTOMATION RULES ─────── */
 export async function fetchAutomationRules(businessId: string) {
   if (!supabase) return [];
   try {
@@ -3161,18 +3413,23 @@ export async function fetchAutomationRules(businessId: string) {
   }
 }
 
-export async function createAutomationRule(businessId: string, payload: {
-  name: string; trigger_type: string; trigger_config?: object;
-  conditions?: object[]; actions?: object[]; is_active?: boolean;
-}) {
+export async function createAutomationRule(
+  businessId: string,
+  rule: {
+    rule_name: string;
+    trigger_type: string;
+    trigger_conditions: Record<string, any>;
+    action_type: string;
+    action_config: Record<string, any>;
+  },
+) {
   if (!supabase) return null;
   try {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('automation_rules')
-      .insert({ business_id: businessId, ...payload })
+      .insert([{ business_id: businessId, ...rule }])
       .select()
       .single();
-    if (error) throw error;
     return data;
   } catch (err) {
     console.error('Create automation rule failed:', err);
@@ -3180,7 +3437,10 @@ export async function createAutomationRule(businessId: string, payload: {
   }
 }
 
-export async function updateAutomationRule(ruleId: string, updates: Partial<{ name: string; is_active: boolean; trigger_type: string; trigger_config: object; conditions: object[]; actions: object[] }>) {
+export async function updateAutomationRule(
+  ruleId: string,
+  updates: Record<string, any>,
+) {
   if (!supabase) return false;
   try {
     const { error } = await supabase
@@ -3208,105 +3468,15 @@ export async function deleteAutomationRule(ruleId: string) {
   }
 }
 
-/** ─────── Growth Platform: Social Accounts ─────── */
-export async function fetchSocialAccounts(businessId: string) {
-  if (!supabase) return [];
-  try {
-    const { data } = await supabase
-      .from('social_accounts')
-      .select('*')
-      .eq('business_id', businessId);
-    return data || [];
-  } catch (err) {
-    console.error('Fetch social accounts failed:', err);
-    return [];
-  }
-}
-
-export async function upsertSocialAccount(businessId: string, platform: string, payload: { username?: string; access_token?: string; status?: string; page_id?: string }) {
-  if (!supabase) return null;
-  try {
-    const { data, error } = await supabase
-      .from('social_accounts')
-      .upsert({ business_id: businessId, platform, ...payload }, { onConflict: 'business_id,platform' })
-      .select()
-      .single();
-    if (error) throw error;
-    return data;
-  } catch (err) {
-    console.error('Upsert social account failed:', err);
-    return null;
-  }
-}
-
-export async function deleteSocialAccount(businessId: string, platform: string) {
-  if (!supabase) return false;
-  try {
-    const { error } = await supabase
-      .from('social_accounts')
-      .delete()
-      .eq('business_id', businessId)
-      .eq('platform', platform);
-    return !error;
-  } catch (err) {
-    console.error('Delete social account failed:', err);
-    return false;
-  }
-}
-
-/** ─────── Growth Platform: Social Posts ─────── */
-export async function fetchSocialPosts(businessId: string) {
-  if (!supabase) return [];
-  try {
-    const { data } = await supabase
-      .from('social_posts')
-      .select('*')
-      .eq('business_id', businessId)
-      .order('created_at', { ascending: false });
-    return data || [];
-  } catch (err) {
-    console.error('Fetch social posts failed:', err);
-    return [];
-  }
-}
-
-export async function createSocialPost(businessId: string, payload: {
-  content: string; platforms?: string[]; scheduled_at?: string; status?: string; media_urls?: string[];
-}) {
-  if (!supabase) return null;
-  try {
-    const { data, error } = await supabase
-      .from('social_posts')
-      .insert({ business_id: businessId, ...payload })
-      .select()
-      .single();
-    if (error) throw error;
-    return data;
-  } catch (err) {
-    console.error('Create social post failed:', err);
-    return null;
-  }
-}
-
-export async function deleteSocialPost(postId: string) {
-  if (!supabase) return false;
-  try {
-    const { error } = await supabase.from('social_posts').delete().eq('id', postId);
-    return !error;
-  } catch (err) {
-    console.error('Delete social post failed:', err);
-    return false;
-  }
-}
-
-/** ─────── Growth Platform: Lead Connectors ─────── */
+/** ─────── LEAD CONNECTORS ─────── */
 export async function fetchLeadConnectors(businessId: string) {
   if (!supabase) return [];
   try {
     const { data } = await supabase
       .from('lead_connectors')
       .select('*')
-      .eq('business_id', businessId);
+      .eq('business_id', businessId)
+      .order('created_at', { ascending: false });
     return data || [];
   } catch (err) {
     console.error('Fetch lead connectors failed:', err);
@@ -3314,200 +3484,322 @@ export async function fetchLeadConnectors(businessId: string) {
   }
 }
 
-export async function upsertLeadConnector(businessId: string, connectorType: string, payload: { api_key?: string; webhook_url?: string; config?: object; is_active?: boolean }) {
-  if (!supabase) return null;
-  try {
-    const { data, error } = await supabase
-      .from('lead_connectors')
-      .upsert({ business_id: businessId, connector_type: connectorType, ...payload })
-      .select()
-      .single();
-    if (error) throw error;
-    return data;
-  } catch (err) {
-    console.error('Upsert lead connector failed:', err);
-    return null;
-  }
-}
-
-/** ─────── Growth Platform: Email Provider Config ─────── */
-export async function fetchEmailProviderConfig(businessId: string) {
+export async function createLeadConnector(
+  businessId: string,
+  connector: {
+    connector_name: string;
+    connector_type: string;
+    source_name?: string;
+    webhook_url?: string;
+    api_key?: string;
+    form_embed_code?: string;
+    field_mapping?: Record<string, any>;
+  },
+) {
   if (!supabase) return null;
   try {
     const { data } = await supabase
-      .from('email_provider_configs')
-      .select('*')
-      .eq('business_id', businessId)
+      .from('lead_connectors')
+      .insert([{ business_id: businessId, ...connector }])
+      .select()
       .single();
     return data;
-  } catch {
+  } catch (err) {
+    console.error('Create lead connector failed:', err);
     return null;
   }
 }
 
-export async function upsertEmailProviderConfig(businessId: string, payload: {
-  provider?: string; api_key?: string; from_address?: string; reply_to?: string;
-  smtp_host?: string; smtp_port?: number; smtp_username?: string; smtp_password?: string;
-  ses_region?: string; ses_access_key?: string; ses_secret_key?: string;
-  custom_domain?: string; domain_verified?: boolean; dns_records?: object[];
-}) {
-  if (!supabase) return null;
+export async function updateLeadConnector(
+  connectorId: string,
+  updates: Record<string, any>,
+) {
+  if (!supabase) return false;
   try {
-    const { data, error } = await supabase
-      .from('email_provider_configs')
-      .upsert({ business_id: businessId, ...payload, updated_at: new Date().toISOString() }, { onConflict: 'business_id' })
-      .select()
-      .single();
-    if (error) throw error;
-    return data;
+    const { error } = await supabase
+      .from('lead_connectors')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', connectorId);
+    return !error;
   } catch (err) {
-    console.error('Upsert email provider config failed:', err);
-    return null;
+    console.error('Update lead connector failed:', err);
+    return false;
   }
 }
 
-/** ─────── Smart Onboarding: Feature & Theme Management ─────── */
+export async function deleteLeadConnector(connectorId: string) {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('lead_connectors')
+      .delete()
+      .eq('id', connectorId);
+    return !error;
+  } catch (err) {
+    console.error('Delete lead connector failed:', err);
+    return false;
+  }
+}
+
+// ── Smart Onboarding Data Persistence ──────────────────────────────────────
+
+export interface FeaturePreferences {
+  product_catalog: boolean;
+  lead_management: boolean;
+  email_campaigns: boolean;
+  automation: boolean;
+  social_media: boolean;
+}
+
+export interface OnboardingProduct {
+  name: string;
+  description: string;
+  category: string;
+  price?: number;
+  created_from_ai: boolean;
+}
 
 /**
- * Update feature preferences for a business user
+ * Save feature preferences for a business user
  */
-export async function updateBizUserFeaturePreferences(
-  bizUserId: string,
-  featurePreferences: Record<string, boolean>
-) {
+export async function saveFeaturePreferences(
+  userId: string,
+  preferences: FeaturePreferences
+): Promise<boolean> {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('biz_users')
+      .update({ feature_preferences: preferences })
+      .eq('id', userId);
+
+    return !error;
+  } catch (err) {
+    console.error('[saveFeaturePreferences] Error:', err);
+    return false;
+  }
+}
+
+/**
+ * Bulk create products for a business
+ */
+export async function createBusinessProducts(
+  businessId: string,
+  products: OnboardingProduct[]
+): Promise<boolean> {
+  if (!supabase || !products.length) return true;
+
+  try {
+    const productsData = products.map(p => ({
+      business_id: businessId,
+      name: p.name,
+      description: p.description,
+      category: p.category,
+      price: p.price || 0,
+      created_from_ai: p.created_from_ai,
+    }));
+
+    const { error } = await supabase.from('business_products').insert(productsData);
+
+    return !error;
+  } catch (err) {
+    console.error('[createBusinessProducts] Error:', err);
+    return false;
+  }
+}
+
+/**
+ * Complete onboarding for a user
+ */
+export async function completeOnboarding(
+  userId: string,
+  preferences: FeaturePreferences
+): Promise<boolean> {
+  if (!supabase) return false;
+
+  try {
+    const { error } = await supabase
+      .from('biz_users')
+      .update({
+        feature_preferences: preferences,
+        onboarding_done: true,
+      })
+      .eq('id', userId);
+
+    return !error;
+  } catch (err) {
+    console.error('[completeOnboarding] Error:', err);
+    return false;
+  }
+}
+
+/**
+ * Fetch existing onboarding data for a user
+ */
+export async function fetchOnboardingData(userId: string): Promise<Record<string, unknown> | null> {
   if (!supabase) return null;
+
   try {
     const { data, error } = await supabase
       .from('biz_users')
-      .update({ feature_preferences: featurePreferences })
-      .eq('id', bizUserId)
-      .select()
+      .select('feature_preferences, theme_preference, onboarding_done, onboarding_completed_at')
+      .eq('id', userId)
       .single();
-    if (error) throw error;
-    console.log('[supabase-data] Updated feature preferences for user:', bizUserId);
-    return data;
-  } catch (err) {
-    console.error('[supabase-data] Failed to update feature preferences:', err);
-    throw err;
-  }
-}
 
-/**
- * Update theme preference for a business user
- */
-export async function updateBizUserThemePreference(
-  bizUserId: string,
-  themePreference: {
-    layout?: string;
-    primaryColor?: string;
-    secondaryColor?: string;
-    logoUrl?: string;
-    fontStyle?: string;
-  }
-) {
-  if (!supabase) return null;
-  try {
-    const { data, error } = await supabase
-      .from('biz_users')
-      .update({ theme_preference: themePreference })
-      .eq('id', bizUserId)
-      .select()
-      .single();
-    if (error) throw error;
-    console.log('[supabase-data] Updated theme preference for user:', bizUserId);
-    return data;
-  } catch (err) {
-    console.error('[supabase-data] Failed to update theme preference:', err);
-    throw err;
-  }
-}
-
-/**
- * Update onboarding status and phase for a business user
- */
-export async function updateBizUserOnboardingStatus(
-  bizUserId: string,
-  status: 'pending' | 'in_progress' | 'completed',
-  phase?: number
-) {
-  if (!supabase) return null;
-  try {
-    const updatePayload: Record<string, unknown> = { onboarding_status: status };
-    if (phase !== undefined) {
-      updatePayload.onboarding_phase = Math.max(0, Math.min(6, phase)); // Clamp 0-6
+    if (error || !data) {
+      console.warn('[fetchOnboardingData] Error:', error);
+      return null;
     }
 
-    const { data, error } = await supabase
-      .from('biz_users')
-      .update(updatePayload)
-      .eq('id', bizUserId)
-      .select()
-      .single();
-    if (error) throw error;
-    console.log('[supabase-data] Updated onboarding status for user:', { bizUserId, status, phase });
     return data;
   } catch (err) {
-    console.error('[supabase-data] Failed to update onboarding status:', err);
-    throw err;
-  }
-}
-
-/**
- * Fetch feature preferences for a business user
- */
-export async function fetchBizUserFeaturePreferences(bizUserId: string) {
-  if (!supabase) return null;
-  try {
-    const { data, error } = await supabase
-      .from('biz_users')
-      .select('feature_preferences')
-      .eq('id', bizUserId)
-      .single();
-    if (error) throw error;
-    return data?.feature_preferences || {};
-  } catch (err) {
-    console.error('[supabase-data] Failed to fetch feature preferences:', err);
+    console.error('[fetchOnboardingData] Error:', err);
     return null;
   }
 }
 
 /**
- * Fetch theme preference for a business user
+ * Update onboarding preferences (partial update)
  */
-export async function fetchBizUserThemePreference(bizUserId: string) {
-  if (!supabase) return null;
+export async function updateOnboardingPreferences(
+  userId: string,
+  updates: Record<string, unknown>
+): Promise<boolean> {
+  if (!supabase) return false;
+
   try {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from('biz_users')
-      .select('theme_preference')
-      .eq('id', bizUserId)
-      .single();
-    if (error) throw error;
-    return data?.theme_preference || null;
+      .update({
+        ...updates,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', userId);
+
+    return !error;
   } catch (err) {
-    console.error('[supabase-data] Failed to fetch theme preference:', err);
-    return null;
+    console.error('[updateOnboardingPreferences] Error:', err);
+    return false;
   }
 }
 
 /**
- * Fetch onboarding status for a business user
+ * Complete onboarding with full data persistence
+ * Saves feature preferences, theme, pipelines, and automation rules
  */
-export async function fetchBizUserOnboardingStatus(bizUserId: string) {
+export async function completeOnboardingFull(
+  userId: string,
+  onboardingData: {
+    featurePreferences: FeaturePreferences;
+    themePreference?: Record<string, unknown>;
+    selectedPipelines?: Array<Record<string, unknown>>;
+    automationRules?: Array<Record<string, unknown>>;
+    dynamicAnswers?: Record<string, unknown>;
+  }
+): Promise<boolean> {
+  if (!supabase) return false;
+
+  try {
+    // Update biz_users with feature preferences and theme
+    const { error: userError } = await supabase
+      .from('biz_users')
+      .update({
+        feature_preferences: onboardingData.featurePreferences,
+        theme_preference: onboardingData.themePreference || null,
+        onboarding_done: true,
+        onboarding_completed_at: new Date().toISOString(),
+        onboarding_status: 'completed',
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', userId);
+
+    if (userError) {
+      console.error('[completeOnboardingFull] User update error:', userError);
+      return false;
+    }
+
+    // Create pipelines if provided
+    if (
+      onboardingData.selectedPipelines &&
+      Array.isArray(onboardingData.selectedPipelines) &&
+      onboardingData.selectedPipelines.length > 0
+    ) {
+      const pipelinesData = onboardingData.selectedPipelines.map((p) => ({
+        ...p,
+        user_id: userId,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }));
+
+      const { error: pipelineError } = await supabase
+        .from('business_pipelines')
+        .insert(pipelinesData);
+
+      if (pipelineError) {
+        console.warn('[completeOnboardingFull] Pipeline insert warning:', pipelineError);
+        // Don't return false - pipelines are optional
+      }
+    }
+
+    // Create automation rules if provided
+    if (
+      onboardingData.automationRules &&
+      Array.isArray(onboardingData.automationRules) &&
+      onboardingData.automationRules.length > 0
+    ) {
+      const automationData = onboardingData.automationRules.map((r) => ({
+        ...r,
+        user_id: userId,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }));
+
+      const { error: automationError } = await supabase
+        .from('automation_rules')
+        .insert(automationData);
+
+      if (automationError) {
+        console.warn('[completeOnboardingFull] Automation insert warning:', automationError);
+        // Don't return false - automations are optional
+      }
+    }
+
+    return true;
+  } catch (err) {
+    console.error('[completeOnboardingFull] Error:', err);
+    return false;
+  }
+}
+
+/**
+ * Check if user has completed onboarding
+ */
+export async function checkOnboardingStatus(userId: string): Promise<{
+  completed: boolean;
+  completedAt?: string;
+  status?: string;
+} | null> {
   if (!supabase) return null;
+
   try {
     const { data, error } = await supabase
       .from('biz_users')
-      .select('onboarding_status, onboarding_phase')
-      .eq('id', bizUserId)
+      .select('onboarding_done, onboarding_completed_at, onboarding_status')
+      .eq('id', userId)
       .single();
-    if (error) throw error;
+
+    if (error || !data) {
+      console.warn('[checkOnboardingStatus] Error:', error);
+      return null;
+    }
+
     return {
-      status: data?.onboarding_status || 'pending',
-      phase: data?.onboarding_phase || 0,
+      completed: data.onboarding_done === true,
+      completedAt: data.onboarding_completed_at,
+      status: data.onboarding_status,
     };
   } catch (err) {
-    console.error('[supabase-data] Failed to fetch onboarding status:', err);
+    console.error('[checkOnboardingStatus] Error:', err);
     return null;
   }
 }

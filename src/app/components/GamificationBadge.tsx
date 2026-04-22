@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { Flame, Gift, Trophy, X, Tag, MapPin, Sparkles, Gavel, Building2 } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { mockAuctions, mockRequirements } from '../mockData';
 import { useSearchCategory } from '../context/SearchCategoryContext';
 

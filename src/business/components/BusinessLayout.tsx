@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Outlet, useNavigate, useLocation, Navigate } from 'react-router';
+import { Outlet, useNavigate, useLocation, Navigate }  from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTheme } from '@/app/context/ThemeContext';
 import { useBusinessContext } from '../context/BusinessContext';
@@ -11,7 +11,7 @@ import {
   Wallet, BarChart3, Image, User, Bell, CreditCard, Menu, X, Sun, Moon,
   LogOut, ChevronRight, TrendingUp, AlertCircle, Lock, Zap,
   Megaphone, Users, Receipt, UserCheck, RadioTower, Search,
-  Mail, Link2, Bot, Share2,
+  Mail, Link2, Workflow, Share2,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -68,22 +68,14 @@ const NAV_GROUPS: NavGroup[] = [
     label: 'MARKETING',
     isPremium: true,
     items: [
-      { label: 'Campaigns',  path: '/app/campaigns',  icon: Users },
-      { label: 'Outreach',   path: '/app/outreach',   icon: RadioTower, planRequired: 'basic' },
-      { label: 'Analytics',  path: '/app/analytics',  icon: BarChart3,  planRequired: 'basic' },
-      { label: 'Grow & Ads', path: '/app/grow',       icon: TrendingUp, planRequired: 'basic' },
-      { label: 'Social',     path: '/app/social',     icon: Share2,     planRequired: 'basic' },
-    ],
-  },
-
-  // ── 5. Growth Platform — automation, connectors, email ────────────────────────
-  {
-    label: 'GROWTH PLATFORM',
-    isPremium: true,
-    items: [
-      { label: 'Automation',   path: '/app/automation',  icon: Bot,     planRequired: 'basic' },
-      { label: 'Connectors',   path: '/app/connectors',  icon: Link2,   planRequired: 'basic' },
-      { label: 'Email Setup',  path: '/app/email-setup', icon: Mail,    planRequired: 'basic' },
+      { label: 'Campaigns',     path: '/app/campaigns',     icon: Users },
+      { label: 'Email Setup',   path: '/app/email-setup',   icon: Mail,       planRequired: 'basic' },
+      { label: 'Connectors',    path: '/app/connectors',    icon: Link2,      planRequired: 'basic' },
+      { label: 'Automation',    path: '/app/automation',    icon: Workflow,   planRequired: 'basic' },
+      { label: 'Social Media',  path: '/app/social',        icon: Share2,     planRequired: 'basic' },
+      { label: 'Outreach',      path: '/app/outreach',      icon: RadioTower, planRequired: 'basic' },
+      { label: 'Analytics',     path: '/app/analytics',     icon: BarChart3,  planRequired: 'basic' },
+      { label: 'Grow & Ads',    path: '/app/grow',          icon: TrendingUp, planRequired: 'basic' },
     ],
   },
 

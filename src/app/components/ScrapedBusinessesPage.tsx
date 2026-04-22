@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { MapPin, List, Map as MapIcon } from 'lucide-react';
 import { useSearchCategory } from '../context/SearchCategoryContext';
 

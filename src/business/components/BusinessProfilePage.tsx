@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { useSearchParams } from 'react-router';
+import { useSearchParams, useNavigate }  from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useTheme } from '@/app/context/ThemeContext';
@@ -64,6 +64,7 @@ const BUSINESS_CATEGORIES = [
 
 export function BusinessProfilePage() {
   const { bizUser, setBizUser } = useBusinessContext();
+  const navigate = useNavigate();
   const { isOwner } = useRBAC();
   const { isDark } = useTheme();
   const { isMobile } = useViewport();
@@ -752,6 +753,103 @@ export function BusinessProfilePage() {
           ))}
         </div>
       </div>
+      )}
+
+      {/* Customize Features Section */}
+      {isOwner && (
+        <div style={{ background: card, borderRadius: 16, border: `1px solid ${border}`, padding: 24, marginTop: 24 }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, flexWrap: 'wrap', gap: 12 }}>
+            <div>
+              <h3 style={{ fontSize: 15, fontWeight: 700, color: text, marginBottom: 2 }}>Customize Features</h3>
+              <p style={{ fontSize: 12, color: textMuted }}>Re-run Smart Onboarding to select which features you want to use</p>
+            </div>
+          </div>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+            gap: 14,
+          }}>
+            <button
+              onClick={() => {
+                // Set onboarding status back to pending and navigate to onboarding
+                setBizUser({
+                  ...bizUser!,
+                  onboarding_done: false,
+                });
+                localStorage.setItem('biz_user', JSON.stringify({
+                  ...bizUser!,
+                  onboarding_done: false,
+                }));
+                navigate('/business/onboarding');
+              }}
+              style={{
+                padding: '16px 14px',
+                borderRadius: 12,
+                cursor: 'pointer',
+                textAlign: 'left',
+                border: `1.5px solid ${border}`,
+                background: inputBg,
+                transition: 'all 0.2s',
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.background = isDark ? '#1f3a5f22' : '#e0e7ff22';
+                (e.currentTarget as HTMLElement).style.borderColor = accent;
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.background = inputBg;
+                (e.currentTarget as HTMLElement).style.borderColor = border;
+              }}
+            >
+              <div style={{ fontSize: 28, marginBottom: 8 }}>✨</div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: accent, marginBottom: 4 }}>
+                Re-run Onboarding
+              </div>
+              <div style={{ fontSize: 11, color: textMuted, lineHeight: 1.5 }}>
+                Select features again and customize your dashboard
+              </div>
+            </button>
+
+            <div
+              style={{
+                padding: '16px 14px',
+                borderRadius: 12,
+                border: `1.5px solid ${border}`,
+                background: inputBg,
+              }}
+            >
+              <div style={{ fontSize: 28, marginBottom: 8 }}>📋</div>
+              <div style={{ fontSize: 14, fontWeight: 700, color: text, marginBottom: 8 }}>
+                Active Features
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {[
+                  { key: 'product_catalog', label: 'Product Catalog' },
+                  { key: 'lead_management', label: 'Lead Management' },
+                  { key: 'email_campaigns', label: 'Email Campaigns' },
+                  { key: 'automation', label: 'Automation' },
+                  { key: 'social_media', label: 'Social Media' },
+                ].map(feature => (
+                  <div
+                    key={feature.key}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 6,
+                      fontSize: 12,
+                      color: (bizUser?.feature_preferences?.[feature.key as keyof typeof bizUser.feature_preferences] ?? true) ? accent : textMuted,
+                    }}
+                  >
+                    <span style={{ fontSize: 14 }}>
+                      {(bizUser?.feature_preferences?.[feature.key as keyof typeof bizUser.feature_preferences] ?? true) ? '✓' : '○'}
+                    </span>
+                    {feature.label}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

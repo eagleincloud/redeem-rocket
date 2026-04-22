@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router';
+import { useParams, useNavigate }  from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   ShoppingCart, Minus, Plus, Check, X, Star, MapPin, ArrowLeft,

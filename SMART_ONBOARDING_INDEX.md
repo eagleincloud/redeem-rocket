@@ -1,396 +1,243 @@
-# Smart Onboarding Context - Documentation Index
+# Smart Onboarding Hook - Implementation Index
 
-## Overview
+## Quick Reference
 
-This directory contains the complete Smart Onboarding Context enhancement for BusinessContext, enabling feature preferences, theme management, and onboarding status tracking.
+### Files Created
 
-## Documentation Files
+| File | Location | Size | Purpose |
+|------|----------|------|---------|
+| Main Hook | `src/business/hooks/useSmartOnboarding.ts` | 677 lines | Core implementation |
+| Examples | `src/business/hooks/useSmartOnboarding.example.tsx` | 455 lines | 7 example components |
+| API Docs | `src/business/hooks/USESMARTBOARDING.md` | 516 lines | Complete reference |
+| Summary | `SMART_ONBOARDING_HOOK_SUMMARY.md` | 9.2KB | Implementation overview |
 
-### 1. Quick Start (Start Here!)
-**File**: `SMART_ONBOARDING_QUICK_START.md`
+### Quick Start
 
-Best for: Getting started quickly with basic examples
-
-Contains:
-- What was added (high-level overview)
-- Installation steps
-- Basic usage examples
-- Real-world code examples
-- Common patterns
-- Quick troubleshooting
-
-**Read time**: 10-15 minutes
-
-### 2. Complete API Reference
-**File**: `SMART_ONBOARDING_CONTEXT.md`
-
-Best for: Understanding all features and APIs in detail
-
-Contains:
-- Complete type definitions
-- All context methods with documentation
-- Usage examples for each feature
-- Database schema reference
-- CSS variables reference
-- Error handling patterns
-- Migration guide for existing code
-- Testing guidance
-
-**Read time**: 30-45 minutes
-
-### 3. Implementation Details
-**File**: `SMART_ONBOARDING_IMPLEMENTATION.md`
-
-Best for: Understanding architecture and design decisions
-
-Contains:
-- Files modified and created
-- Architecture decisions explained
-- Integration points with existing code
-- Testing approach and strategy
-- Performance considerations
-- Future enhancement ideas
-- Backward compatibility notes
-- Deployment checklist
-- Troubleshooting guide
-
-**Read time**: 25-35 minutes
-
-### 4. Pre-Deployment Checklist
-**File**: `IMPLEMENTATION_CHECKLIST.md`
-
-Best for: Preparing for production deployment
-
-Contains:
-- Pre-deployment verification checklist
-- Code changes verification
-- Database changes verification
-- Testing checklist (unit, integration, edge cases)
-- Staging environment steps
-- Production deployment steps
-- Rollback plan
-- Adoption timeline
-- Success metrics
-- Sign-off requirements
-
-**Read time**: 5-10 minutes (reference during deployment)
-
-## Code Files
-
-### Modified Files
-
-#### `src/business/context/BusinessContext.tsx`
-**Lines**: 24KB (significantly enhanced)
-
-Changes:
-- 3 new type definitions
-- 4 new BizUser fields
-- 9 new context methods
-- JSONB parsing in setBizUser()
-- Theme application effects
-- Team member loading updates
-- Default feature/theme helpers
-
-Key methods added:
-- `canAccessFeature()`
-- `getEnabledFeatures()`
-- `updateFeaturePreferences()`
-- `updateThemePreference()`
-- `updateOnboardingStatus()`
-- `applyThemeToDOM()`
-- `isOnboardingRequired()`
-- `getCurrentOnboardingPhase()`
-- `getEnabledFeatureCount()`
-
-#### `src/app/api/supabase-data.ts`
-**Additions**: 6 new functions appended
-
-New functions:
-- `updateBizUserFeaturePreferences()`
-- `fetchBizUserFeaturePreferences()`
-- `updateBizUserThemePreference()`
-- `fetchBizUserThemePreference()`
-- `updateBizUserOnboardingStatus()`
-- `fetchBizUserOnboardingStatus()`
-
-### Created Files
-
-#### `supabase/migrations/20260422_smart_onboarding_context.sql`
-**Size**: 2KB
-
-Database changes:
-- 4 new columns for biz_users table
-- 2 new indexes
-- CHECK constraints
-- SQL documentation comments
-
-## Reading Guide
-
-### For Developers (First Time)
-1. Start: `SMART_ONBOARDING_QUICK_START.md` (10 min)
-2. Deep dive: `SMART_ONBOARDING_CONTEXT.md` (30 min)
-3. Reference: Keep API docs bookmarked
-
-### For Architects
-1. Start: `SMART_ONBOARDING_IMPLEMENTATION.md` (25 min)
-2. Review: Architecture decisions section
-3. Reference: Integration points section
-
-### For DevOps/Deployment
-1. Start: `IMPLEMENTATION_CHECKLIST.md`
-2. Follow: Deployment steps section
-3. Reference: Rollback plan section
-
-### For QA/Testing
-1. Review: `IMPLEMENTATION_CHECKLIST.md` - Testing section
-2. Reference: `SMART_ONBOARDING_CONTEXT.md` - Error handling
-3. Execute: Test cases from checklist
-
-## Feature Overview
-
-### Feature Management
 ```typescript
-// Check if feature enabled
-canAccessFeature('advancedAnalytics'): boolean
+import { useSmartOnboarding } from '@/business/hooks/useSmartOnboarding';
 
-// Get all enabled features
-getEnabledFeatures(): string[]
-
-// Count enabled features
-getEnabledFeatureCount(): number
-
-// Update features (persists to DB)
-updateFeaturePreferences(prefs): Promise<void>
-```
-
-Features are automatically enabled based on plan:
-- **Free**: Basic features
-- **Basic**: + Priority listing, Full analytics
-- **Pro**: + Advanced analytics, Auction access
-- **Enterprise**: + API access, Dedicated manager
-
-### Theme Management
-```typescript
-// Update theme (persists to DB)
-updateThemePreference(theme): Promise<void>
-
-// Apply theme to DOM
-applyThemeToDOM(theme?): void
-```
-
-Theme properties:
-- primaryColor: hex color
-- secondaryColor: hex color
-- layout: grid|list|compact
-- fontStyle: sans|serif|modern
-- logoUrl: custom logo
-
-Applied as CSS variables:
-- `--biz-theme-primary`
-- `--biz-theme-secondary`
-- `--biz-theme-layout`
-- `--biz-theme-font`
-
-### Onboarding Management
-```typescript
-// Check if onboarding required
-isOnboardingRequired(): boolean
-
-// Get current phase
-getCurrentOnboardingPhase(): number
-
-// Update status and phase
-updateOnboardingStatus(status, phase?): Promise<void>
-```
-
-Phases: 0-6
-- 0: Business Description
-- 1: Product Selection
-- 2: Location
-- 3: Service Area
-- 4: Business Hours
-- 5: Photos & Documents
-- 6: Website & Team
-
-Status: pending | in_progress | completed
-
-## Database Schema
-
-### New biz_users Columns
-
-```sql
-feature_preferences jsonb DEFAULT NULL
-  -- Example: {"advancedAnalytics": true, "apiAccess": false}
-
-theme_preference jsonb DEFAULT NULL
-  -- Example: {"primaryColor": "#f97316", "layout": "grid"}
-
-onboarding_status text DEFAULT 'pending'
-  -- Values: 'pending', 'in_progress', 'completed'
-  -- CHECK constraint enforced
-
-onboarding_phase integer DEFAULT 0
-  -- Range: 0-6
-  -- CHECK constraint enforced
-```
-
-### Indexes
-
-```sql
-biz_users_onboarding_status_idx    -- For filtered queries
-biz_users_onboarding_phase_idx     -- For phase lookups
-```
-
-## Integration Points
-
-### With Existing Systems
-
-1. **Auth Flow**
-   - Works with owner login
-   - Works with team member loading
-   - Preserves all existing auth logic
-
-2. **Subscription System**
-   - Reads plan from bizUser.plan
-   - Auto-enables features by plan
-   - Can be overridden by admin
-
-3. **Theme Context**
-   - Complements existing ThemeContext
-   - Provides business-specific theming
-   - Sets CSS variables for reuse
-
-4. **Supabase**
-   - Uses existing connection
-   - Helper functions in supabase-data.ts
-   - JSONB storage in database
-
-## CSS Variables
-
-Use in your stylesheets:
-
-```css
-.primary-button {
-  background-color: var(--biz-theme-primary, #f97316);
-}
-
-.secondary-accent {
-  color: var(--biz-theme-secondary, #6366f1);
+function MyComponent() {
+  const onboarding = useSmartOnboarding('user-123');
+  
+  // Use state and methods
+  const { state, updateFeaturePreferences, goNext } = onboarding;
 }
 ```
 
-Defaults provided if not customized.
+## API Overview
 
-## Error Handling
+### State Properties
+- `currentPhase` - Current OnboardingPhase
+- `isLoading` - Async operation status
+- `error` - Error message or null
+- `featurePreferences` - Selected features
+- `featuredFeatures` - Featured feature list
+- `themePreference` - Brand customization
+- `selectedPipelineTemplates` - Pipeline templates
+- `journeyAnswers` - Questionnaire answers
+- `generatedPipelines` - AI-generated pipelines
+- `generatedAutomations` - AI-generated automations
 
-All async methods throw errors. Always use try-catch:
+### Update Methods (10)
+- `updateFeaturePreferences(prefs)`
+- `updateThemePreference(theme)`
+- `updateSelectedPipelines(pipelines)`
+- `updateJourneyAnswers(answers)`
+- `setGeneratedPipelines(pipelines)`
+- `setGeneratedAutomations(automations)`
+- `setFeaturedFeatures(features)`
+- `setCurrentPhase(phase)`
+- `setIsLoading(loading)`
+- `setError(error)`
+
+### Navigation Methods (4)
+- `goNext()` - Move to next phase
+- `goBack()` - Move to previous phase
+- `canProceed()` - Validate current phase
+- `reset()` - Reset all state
+
+### Validation Methods (7)
+- `validateDiscoveryPhase()`
+- `validateShowcasePhase()`
+- `validateThemePhase()`
+- `validateJourneyPhase()`
+- `validateSetupPhase()`
+- `validatePreviewPhase()`
+- `canProceed()`
+
+### Getter Methods (3)
+- `getPhaseProgress()` - Returns 0-100%
+- `getSelectedFeatureCount()` - Returns count
+- `hasErrors()` - Returns boolean
+
+### API Methods (2 async)
+- `generateSmartSetup(businessType, businessName)` - Generate setup
+- `saveOnboarding(userId)` - Save to database
+
+### Utility Methods (2)
+- `restoreFromStorage()` - Load saved state
+- `reset()` - Reset all state
+
+## Phases
+
+```
+discovery → showcase → theme → journey → setup → preview
+```
+
+1. **discovery** - Select features (1+ required)
+2. **showcase** - View featured features
+3. **theme** - Customize brand + select templates (1+ required)
+4. **journey** - Answer questionnaire (1+ required)
+5. **setup** - Generate AI setup (requires generation)
+6. **preview** - Review and save
+
+## Key Features
+
+### State Management
+- ✓ React hooks (useState, useCallback)
+- ✓ Memoized functions (25+ callbacks)
+- ✓ localStorage persistence
+- ✓ Error state tracking
+
+### Validation
+- ✓ Phase-specific validators
+- ✓ Pre-flight checks before transitions
+- ✓ User-friendly error messages
+- ✓ State transition protection
+
+### Performance
+- ✓ useCallback memoization
+- ✓ Efficient re-renders
+- ✓ Proper dependency arrays
+- ✓ localStorage batching
+
+### Error Handling
+- ✓ Validation errors
+- ✓ API errors
+- ✓ Storage errors
+- ✓ Network errors
+
+## Complete Example
 
 ```typescript
-try {
-  await updateFeaturePreferences(prefs);
-} catch (error) {
-  console.error('Failed:', error);
-  // Show error to user
+import { useSmartOnboarding } from '@/business/hooks/useSmartOnboarding';
+
+function SmartOnboardingFlow() {
+  const onboarding = useSmartOnboarding('user-123');
+  const { state, updateFeaturePreferences, goNext, canProceed } = onboarding;
+
+  // Discovery Phase
+  const handleSelectFeature = (feature: string) => {
+    updateFeaturePreferences({
+      [feature]: !state.featurePreferences[feature]
+    });
+  };
+
+  const handleNext = () => {
+    if (canProceed()) {
+      goNext();
+    }
+  };
+
+  return (
+    <div>
+      <h2>Select Features</h2>
+      {Object.keys(state.featurePreferences).map(feature => (
+        <input
+          key={feature}
+          type="checkbox"
+          checked={state.featurePreferences[feature]}
+          onChange={() => handleSelectFeature(feature)}
+        />
+      ))}
+      {state.error && <div className="error">{state.error}</div>}
+      <button onClick={handleNext} disabled={!canProceed()}>
+        Continue
+      </button>
+    </div>
+  );
 }
 ```
 
-Errors are logged to console with context.
+## Integration with Existing Code
 
-## Performance
-
-- Feature checks: O(1)
-- Feature list: O(n)
-- Methods: useCallback memoized
-- Value: useMemo optimized
-- DOM updates: Only on theme change
-- Database: Indexed queries
-
-## Backward Compatibility
-
-✓ All changes are additive
-✓ Existing code continues to work
-✓ Defaults provided for all new fields
-✓ No breaking API changes
-✓ Gradual adoption possible
-
-## Deployment Checklist
-
-1. Review documentation
-2. Run database migration
-3. Deploy code changes
-4. Monitor for errors
-5. Update components to use new methods
-6. Build UI for features/theme
-
-See `IMPLEMENTATION_CHECKLIST.md` for detailed steps.
-
-## Support
-
-### Common Questions
-
-**Q: How do I check feature access?**
-A: Use `canAccessFeature('featureName')`
-
-**Q: How do I apply custom colors?**
-A: Use `updateThemePreference({primaryColor: '#...'})`
-
-**Q: How do I track onboarding progress?**
-A: Use `updateOnboardingStatus('in_progress', phaseNumber)`
-
-**Q: Will my existing code break?**
-A: No, all changes are backward compatible.
-
-### Troubleshooting
-
-See `SMART_ONBOARDING_CONTEXT.md` Error Handling section or
-`SMART_ONBOARDING_IMPLEMENTATION.md` Troubleshooting guide
-
-## Key Files Location
-
-```
-/Users/adityatiwari/Downloads/App Creation Request-2/
-├── src/
-│   ├── business/
-│   │   └── context/
-│   │       └── BusinessContext.tsx        [MODIFIED]
-│   └── app/
-│       └── api/
-│           └── supabase-data.ts           [MODIFIED]
-├── supabase/
-│   └── migrations/
-│       └── 20260422_smart_onboarding_context.sql [NEW]
-├── SMART_ONBOARDING_QUICK_START.md        [NEW]
-├── SMART_ONBOARDING_CONTEXT.md            [NEW]
-├── SMART_ONBOARDING_IMPLEMENTATION.md     [NEW]
-└── IMPLEMENTATION_CHECKLIST.md            [NEW]
+### With useBusinessContext
+```typescript
+const { bizUser } = useBusinessContext();
+const onboarding = useSmartOnboarding(bizUser?.id);
 ```
 
-## Version Information
+### With React Router
+```typescript
+const navigate = useNavigate();
 
-- Created: 2026-04-22
-- Status: Ready for deployment
-- TypeScript: Full support
-- React: Hooks-based (useCallback, useMemo, useEffect)
-- Database: Supabase PostgreSQL
+async function handleComplete() {
+  const saved = await onboarding.saveOnboarding('user-123');
+  if (saved) {
+    navigate('/app/dashboard');
+  }
+}
+```
+
+## Documentation Links
+
+- **Main Documentation**: See `src/business/hooks/USESMARTBOARDING.md`
+- **Usage Examples**: See `src/business/hooks/useSmartOnboarding.example.tsx`
+- **Implementation Summary**: See `SMART_ONBOARDING_HOOK_SUMMARY.md`
+
+## API Endpoints Required
+
+1. **POST /api/smart-onboarding**
+   - Generate pipelines and automations
+   - Input: businessType, businessName, selectedFeatures, etc.
+   - Output: { pipelines, automations }
+
+2. **POST /api/complete-onboarding**
+   - Save all onboarding data
+   - Input: userId, all onboarding state
+   - Output: { success: boolean }
+
+## Requirements Coverage
+
+| Requirement | Status | Location |
+|------------|--------|----------|
+| OnboardingState interface | ✓ | Line 22-33 |
+| Default state initialization | ✓ | Line 35-59 |
+| Update methods (10) | ✓ | Lines 104-262 |
+| Navigation methods (4) | ✓ | Lines 282-380 |
+| Validation logic (7) | ✓ | Lines 389-491 |
+| Getter methods (3) | ✓ | Lines 511-535 |
+| API handlers (2) | ✓ | Lines 548-633 |
+| useCallback memoization | ✓ | Throughout |
+| Error handling | ✓ | All methods |
+| TypeScript types | ✓ | Full coverage |
+| JSDoc comments | ✓ | All functions |
+| localStorage persistence | ✓ | Lines 97-101 |
+
+## Testing Checklist
+
+- [ ] Unit test validators
+- [ ] Test state updates
+- [ ] Test phase navigation
+- [ ] Test localStorage persistence
+- [ ] Test API integration
+- [ ] Test error handling
+- [ ] Test with useBusinessContext
+- [ ] Test with React Router
+- [ ] E2E test complete flow
+- [ ] Performance profiling
 
 ## Next Steps
 
-1. Read `SMART_ONBOARDING_QUICK_START.md`
-2. Review code in BusinessContext.tsx
-3. Run migration on Supabase
-4. Update components to use new methods
-5. Monitor deployment
+1. Create backend API endpoints
+2. Create phase-specific components
+3. Integrate with login/signup flow
+4. Add unit and E2E tests
+5. Deploy to production
 
 ## Support & Questions
 
-All documentation is self-contained in the markdown files above.
-All code has JSDoc comments for IDE support.
-
-For troubleshooting, see the Troubleshooting section in:
-- `SMART_ONBOARDING_CONTEXT.md` (API issues)
-- `SMART_ONBOARDING_IMPLEMENTATION.md` (Architecture issues)
-- `IMPLEMENTATION_CHECKLIST.md` (Deployment issues)
-
----
-
-Status: COMPLETE AND READY FOR PRODUCTION DEPLOYMENT ✓
+For detailed documentation, see:
+- `USESMARTBOARDING.md` - Complete API reference
+- `useSmartOnboarding.example.tsx` - 7 complete examples
+- `SMART_ONBOARDING_HOOK_SUMMARY.md` - Implementation overview

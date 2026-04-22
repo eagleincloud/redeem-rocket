@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { useTheme } from '@/app/context/ThemeContext';
 import { useBusinessContext } from '../context/BusinessContext';
 import { supabase } from '@/app/lib/supabase';
@@ -100,6 +100,23 @@ export function AnalyticsPage() {
   ]);
   const [leadKPIs, setLeadKPIs] = useState<LeadKPIs>({ total: 5, pipelineValue: 240000, wonThisMonth: 1, conversionRate: 20 });
   const [loadingLeads, setLoadingLeads] = useState(false);
+
+  // ── Email metrics state ────────────────────────────────────────────────────
+  const [emailMetrics, setEmailMetrics] = useState({
+    sent: 0,
+    delivered: 0,
+    opened: 0,
+    clicked: 0,
+    bounced: 0,
+    unsubscribed: 0,
+  });
+  const emailStats = [
+    { label: 'Sent', value: emailMetrics.sent, color: '#6366f1' },
+    { label: 'Delivered', value: emailMetrics.delivered, color: '#22c55e' },
+    { label: 'Opened', value: emailMetrics.opened, color: '#3b82f6', rate: emailMetrics.delivered > 0 ? Math.round((emailMetrics.opened / emailMetrics.delivered) * 100) : 0 },
+    { label: 'Clicked', value: emailMetrics.clicked, color: '#f59e0b', rate: emailMetrics.delivered > 0 ? Math.round((emailMetrics.clicked / emailMetrics.delivered) * 100) : 0 },
+    { label: 'Bounced', value: emailMetrics.bounced, color: '#ef4444', rate: emailMetrics.sent > 0 ? Math.round((emailMetrics.bounced / emailMetrics.sent) * 100) : 0 },
+  ];
 
   const bizId = bizUser?.businessId;
 
@@ -287,6 +304,49 @@ export function AnalyticsPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Email Metrics ───────────────────────────────────────────────────────── */}
+      <div style={{ background: card, borderRadius: 16, border: `1px solid ${border}`, padding: 20, marginBottom: 20 }}>
+        <h3 style={{ fontSize: 14, fontWeight: 700, color: text, marginBottom: 16 }}>Email Performance</h3>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 12, marginBottom: 16 }}>
+          {emailStats.map((stat) => (
+            <div key={stat.label} style={{
+              background: isDark ? '#0f1838' : '#fdf6f0',
+              border: `1px solid ${border}`,
+              borderRadius: 12,
+              padding: 12,
+              textAlign: 'center',
+            }}>
+              <p style={{ fontSize: 11, color: textMuted, margin: '0 0 6px 0' }}>{stat.label}</p>
+              <p style={{ fontSize: 18, fontWeight: 700, color: stat.color, margin: '0 0 4px 0' }}>
+                {stat.value.toLocaleString()}
+              </p>
+              {'rate' in stat && <p style={{ fontSize: 10, color: textMuted, margin: 0 }}>{stat.rate}% rate</p>}
+            </div>
+          ))}
+        </div>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 12,
+          padding: 12,
+          background: isDark ? '#0f1838' : '#fdf6f0',
+          borderRadius: 8,
+        }}>
+          <div>
+            <p style={{ fontSize: 11, color: textMuted, margin: 0 }}>Open Rate</p>
+            <p style={{ fontSize: 16, fontWeight: 700, color: '#3b82f6', margin: '4px 0 0 0' }}>
+              {emailMetrics.delivered > 0 ? Math.round((emailMetrics.opened / emailMetrics.delivered) * 100) : 0}%
+            </p>
+          </div>
+          <div>
+            <p style={{ fontSize: 11, color: textMuted, margin: 0 }}>Click Rate</p>
+            <p style={{ fontSize: 16, fontWeight: 700, color: '#f59e0b', margin: '4px 0 0 0' }}>
+              {emailMetrics.delivered > 0 ? Math.round((emailMetrics.clicked / emailMetrics.delivered) * 100) : 0}%
+            </p>
           </div>
         </div>
       </div>

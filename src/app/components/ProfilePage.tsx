@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { motion } from 'motion/react';
 import { User, Heart, Gavel, ClipboardList, ShoppingBag, Bell, CreditCard, Settings, LogOut, ChevronRight, Camera, Phone, Mail, Save } from 'lucide-react';
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { LOCATION_PIN_ICONS, DEFAULT_LOCATION_PIN_ICON } from '../constants';
 import { supabase } from '../lib/supabase';
 import { toast } from 'sonner';

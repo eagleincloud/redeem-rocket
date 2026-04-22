@@ -4,14 +4,14 @@ import { useBusinessContext } from '../context/BusinessContext';
 import { useViewport } from '../hooks/useViewport';
 import {
   Users, Upload, Plus, Send, Clock, CheckCircle,
-  MessageSquare, X, ChevronDown, Lock, UserCheck,
+  MessageSquare, X, ChevronDown, Lock, UserCheck, Zap,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { supabase } from '@/app/lib/supabase';
-import { fetchCampaignsForBusiness, createCampaignForBusiness, updateCampaignForBusiness, deleteCampaignForBusiness, logActivity } from '@/app/api/supabase-data';
+import { fetchCampaignsForBusiness, createCampaignForBusiness, updateCampaignForBusiness, deleteCampaignForBusiness, logActivity, fetchEmailSequences } from '@/app/api/supabase-data';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
-type SubTab = 'contacts' | 'create' | 'history';
+type SubTab = 'contacts' | 'create' | 'history' | 'sequences';
 type Channel = 'whatsapp' | 'sms' | 'push';
 type SendChannel = 'whatsapp' | 'sms';
 
@@ -1181,6 +1181,121 @@ function HistoryTab({ isDark, businessId }: { isDark: boolean; businessId: strin
   );
 }
 
+// ─── Sequences Tab ────────────────────────────────────────────────────────────
+interface SequencesTabProps {
+  isDark: boolean;
+  businessId: string | null;
+}
+
+function SequencesTab({ isDark, businessId }: SequencesTabProps) {
+  const [sequences, setSequences] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const text = isDark ? '#e2e8f0' : '#18100a';
+  const textMuted = isDark ? '#64748b' : '#9a7860';
+  const card = isDark ? '#0e1530' : '#ffffff';
+  const border = isDark ? '#1c2a55' : '#e8d8cc';
+
+  useEffect(() => {
+    loadSequences();
+  }, [businessId]);
+
+  const loadSequences = async () => {
+    if (!businessId) return;
+    setLoading(true);
+    try {
+      const data = await fetchEmailSequences(businessId);
+      setSequences(data || []);
+    } catch (err) {
+      console.error('Load sequences failed:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <div style={{ textAlign: 'center', padding: '40px 0', color: textMuted }}>Loading sequences...</div>;
+  }
+
+  return (
+    <div>
+      <div style={{ marginBottom: 24 }}>
+        <a
+          href="/app/email-setup"
+          style={{
+            display: 'inline-block',
+            padding: '8px 16px',
+            background: '#6366f1',
+            color: 'white',
+            borderRadius: 8,
+            textDecoration: 'none',
+            fontSize: 13,
+            fontWeight: 600,
+          }}
+        >
+          + Create Sequence
+        </a>
+      </div>
+
+      {sequences.length === 0 ? (
+        <div style={{
+          background: card,
+          border: `1px solid ${border}`,
+          borderRadius: 12,
+          padding: '40px',
+          textAlign: 'center',
+        }}>
+          <Zap size={32} style={{ opacity: 0.3, marginBottom: 8, color: text }} />
+          <p style={{ fontSize: 13, color: text, fontWeight: 600, margin: '0 0 4px 0' }}>No email sequences yet</p>
+          <p style={{ fontSize: 12, color: textMuted, margin: 0 }}>
+            Create drip campaigns with Day 1, 3, and 7 emails in Email Setup
+          </p>
+        </div>
+      ) : (
+        <div style={{ display: 'grid', gap: 12 }}>
+          {sequences.map((seq) => (
+            <div
+              key={seq.id}
+              style={{
+                background: card,
+                border: `1px solid ${border}`,
+                borderRadius: 12,
+                padding: '16px',
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                <div>
+                  <h4 style={{ fontSize: 14, fontWeight: 600, color: text, margin: '0 0 4px 0' }}>
+                    {seq.sequence_name}
+                  </h4>
+                  <p style={{ fontSize: 12, color: textMuted, margin: '0 0 8px 0' }}>
+                    {seq.trigger_type ? seq.trigger_type.replace(/_/g, ' ').toUpperCase() : 'Manual'}
+                    {' • '}
+                    Day {seq.step_delay_days}
+                  </p>
+                  <p style={{ fontSize: 12, color: textMuted, margin: 0 }}>
+                    {seq.email_subject}
+                  </p>
+                </div>
+                <span style={{
+                  padding: '4px 8px',
+                  background: seq.is_active ? '#22c55e22' : '#64748b22',
+                  color: seq.is_active ? '#22c55e' : '#64748b',
+                  borderRadius: 4,
+                  fontSize: 11,
+                  fontWeight: 600,
+                }}>
+                  {seq.is_active ? 'Active' : 'Inactive'}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export function CampaignsPage() {
   const { isDark } = useTheme();
@@ -1208,6 +1323,7 @@ export function CampaignsPage() {
   const TABS: { key: SubTab; label: string; icon: React.ReactNode }[] = [
     { key: 'contacts', label: 'Contacts',        icon: <Users size={14} /> },
     { key: 'create',   label: 'Create Campaign', icon: <Plus size={14} /> },
+    { key: 'sequences', label: 'Sequences',      icon: <Zap size={14} /> },
     { key: 'history',  label: 'History',         icon: <Clock size={14} /> },
   ];
 
@@ -1266,6 +1382,9 @@ export function CampaignsPage() {
       )}
       {activeTab === 'create' && (
         <CreateCampaignTab bizId={bizId} bizName={bizName} isDark={isDark} />
+      )}
+      {activeTab === 'sequences' && (
+        <SequencesTab isDark={isDark} businessId={businessId} />
       )}
       {activeTab === 'history' && (
         <HistoryTab isDark={isDark} businessId={businessId} />

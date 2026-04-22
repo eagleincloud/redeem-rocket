@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import {
   X, Phone, Mail, MessageCircle, MessageSquare, Building2, Tag, DollarSign,
   FileText, CheckCircle, Clock, Plus, ChevronRight, AlertCircle, GitBranch,

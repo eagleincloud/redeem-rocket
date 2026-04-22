@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { useNavigate, Link } from 'react-router';
+import { useNavigate, Link }  from 'react-router-dom';
 import { registerBusinessWithPassword, validatePassword } from '@/app/lib/authService';
 import { useAuthBusiness } from '@/business/context/BusinessContext';
 import { Loader2, Eye, EyeOff, CheckCircle2, AlertTriangle, Upload, X } from 'lucide-react';

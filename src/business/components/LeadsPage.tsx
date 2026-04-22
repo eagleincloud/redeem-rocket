@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { Plus, Search, LayoutGrid, List, Upload, Clock, TrendingUp, Users, Trophy, Filter } from 'lucide-react';
 import { useTheme } from '@/app/context/ThemeContext';
 import { useBusinessContext } from '../context/BusinessContext';
@@ -73,6 +73,7 @@ export function LeadsPage() {
   const [view,         setView]         = useState<'kanban' | 'list'>('kanban');
   const [search,       setSearch]       = useState('');
   const [priorityFilter, setPriorityFilter] = useState<LeadPriority | 'all'>('all');
+  const [sourceFilter, setSourceFilter] = useState<string | 'all'>('all');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [showImport,   setShowImport]   = useState(false);
   const [showAddLead,  setShowAddLead]  = useState(false);
@@ -156,8 +157,25 @@ export function LeadsPage() {
       (l.product_interest ?? '').toLowerCase().includes(q);
     const matchPriority = priorityFilter === 'all' || l.priority === priorityFilter;
     const matchStage    = stageFilter === 'all' || l.stage === stageFilter;
-    return matchSearch && matchPriority && matchStage;
+    const matchSource   = sourceFilter === 'all' || l.source === sourceFilter;
+    return matchSearch && matchPriority && matchStage && matchSource;
   });
+
+  // ── Lead segmentation by temperature ──────────────────────────────────────
+  const leadTemperature = (lead: Lead) => {
+    const isRecent = daysAgo(lead.created_at) <= 7;
+    const stageScore = ['new', 'contacted', 'qualified'].includes(lead.stage) ? 1 : 2;
+    const priorityScore = lead.priority === 'high' || lead.priority === 'urgent' ? 2 : 1;
+
+    const score = (isRecent ? 1 : 0) + stageScore + priorityScore;
+    return score >= 4 ? 'hot' : score >= 2 ? 'warm' : 'cold';
+  };
+
+  const segmentStats = {
+    hot: filtered.filter(l => leadTemperature(l) === 'hot').length,
+    warm: filtered.filter(l => leadTemperature(l) === 'warm').length,
+    cold: filtered.filter(l => leadTemperature(l) === 'cold').length,
+  };
 
   // ── Stats ─────────────────────────────────────────────────────────────────
 
@@ -408,6 +426,28 @@ export function LeadsPage() {
           </select>
         </div>
 
+        {/* Source filter */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+          <select
+            value={sourceFilter}
+            onChange={e => setSourceFilter(e.target.value)}
+            style={{
+              padding: '7px 10px', background: isDark ? '#0a1020' : '#fdf6f0',
+              border: `1px solid ${border}`, borderRadius: 8,
+              color: text, fontSize: 12, outline: 'none', cursor: 'pointer',
+            }}
+          >
+            <option value="all">All Sources</option>
+            <option value="manual">Manual</option>
+            <option value="csv">CSV</option>
+            <option value="scrape">Scrape</option>
+            <option value="campaign">Campaign</option>
+            <option value="referral">Referral</option>
+            <option value="walk_in">Walk-in</option>
+            <option value="website">Website</option>
+          </select>
+        </div>
+
         {/* Buttons */}
         {/* Export CSV */}
         <button
@@ -474,6 +514,28 @@ export function LeadsPage() {
           </div>
         )}
       </div>
+
+      {/* ── Lead Segmentation Cards ───────────────────────────────────────── */}
+      {leads.length > 0 && filtered.length > 0 && (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 10, marginBottom: 16 }}>
+          {[
+            { label: 'Hot', count: segmentStats.hot, color: '#ef4444' },
+            { label: 'Warm', count: segmentStats.warm, color: '#f59e0b' },
+            { label: 'Cold', count: segmentStats.cold, color: '#64748b' },
+          ].map(seg => (
+            <div key={seg.label} style={{
+              background: card,
+              border: `1px solid ${border}`,
+              borderRadius: 12,
+              padding: 12,
+              textAlign: 'center',
+            }}>
+              <p style={{ fontSize: 10, color: muted, margin: '0 0 4px 0' }}>{seg.label} Leads</p>
+              <p style={{ fontSize: 18, fontWeight: 700, color: seg.color, margin: 0 }}>{seg.count}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* ── Stage quick-filter chips ──────────────────────────────────────── */}
       {leads.length > 0 && (
