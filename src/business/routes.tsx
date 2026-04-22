@@ -39,6 +39,7 @@ import { EmailSetupPage } from './components/EmailSetupPage';
 import { ConnectorsPage } from './components/ConnectorsPage';
 import { AutomationPage } from './components/AutomationPage';
 import { SocialPage } from './components/SocialPage';
+import PipelineBoard from './components/Pipeline/PipelineBoard';
 
 // ── Loading Fallback ─────────────────────────────────────────────────────────
 function OnboardingFallback() {
@@ -265,6 +266,8 @@ export const router = createBrowserRouter(
       { path: 'connectors',    element: <ConnectorsPage />, errorElement: <ErrorElement /> },
       { path: 'automation',    element: <AutomationPage />, errorElement: <ErrorElement /> },
       { path: 'social',        element: <SocialPage />, errorElement: <ErrorElement /> },
+      { path: 'pipelines',     element: <PipelineBoard pipelineId="" />, errorElement: <ErrorElement /> },
+      { path: 'pipelines/:id', element: <PipelineBoard pipelineId="" />, errorElement: <ErrorElement /> },
     ],
   },
   // Public business website page
