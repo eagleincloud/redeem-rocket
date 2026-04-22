@@ -8,3 +8,12 @@ export * from './onboarding';
 
 // ── Pipeline Types ──────────────────────────────────────────────────────────
 export * from './pipeline';
+
+// ── Dashboard Types ─────────────────────────────────────────────────────────
+export * from './dashboard';
+
+// ── Automation Types ────────────────────────────────────────────────────────
+export * from './automation';
+
+// ── Marketplace Types ───────────────────────────────────────────────────────
+export * from './marketplace';
