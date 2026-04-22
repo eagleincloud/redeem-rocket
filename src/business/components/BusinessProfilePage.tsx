@@ -754,8 +754,6 @@ export function BusinessProfilePage() {
         </div>
       </div>
       )}
-    </div>
-  );
 
       {/* Customize Features Section */}
       {isOwner && (
