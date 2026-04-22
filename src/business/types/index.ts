@@ -5,3 +5,6 @@
 
 // ── Onboarding Types ────────────────────────────────────────────────────────
 export * from './onboarding';
+
+// ── Pipeline Types ──────────────────────────────────────────────────────────
+export * from './pipeline';

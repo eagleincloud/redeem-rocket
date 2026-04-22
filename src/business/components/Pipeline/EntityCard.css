@@ -1,0 +1,156 @@
+/**
+ * EntityCard Styles
+ */
+
+.entity-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+  -webkit-user-drag: element;
+}
+
+.entity-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-color: #d1d5db;
+  transform: translateY(-2px);
+}
+
+.entity-card:active {
+  opacity: 0.7;
+}
+
+/* Card Header */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.priority-indicator {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Card Body */
+.card-body {
+  flex: 1;
+}
+
+.card-title {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.card-value {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.card-value strong {
+  font-size: 13px;
+  color: #10b981;
+  font-weight: 600;
+}
+
+.card-value .currency {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+/* Card Tags */
+.card-tags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.tag {
+  display: inline-block;
+  background: #f3f4f6;
+  color: #6b7280;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.tag-more {
+  color: #9ca3af;
+  font-size: 11px;
+  padding: 2px 4px;
+}
+
+/* Card Date */
+.card-date {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card-date small {
+  color: #9ca3af;
+  font-size: 11px;
+}
+
+/* Card Footer */
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.assigned-icon {
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+/* Drag States */
+.entity-card[draggable='true'] {
+  cursor: grab;
+}
+
+.entity-card[draggable='true']:active {
+  cursor: grabbing;
+  opacity: 0.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .entity-card {
+    padding: 8px;
+  }
+
+  .card-title {
+    font-size: 12px;
+  }
+
+  .card-value strong {
+    font-size: 12px;
+  }
+}
