@@ -1,8 +1,10 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import { BusinessProvider } from './context/BusinessContext';
 import { ThemeProvider } from '@/app/context/ThemeContext';
 import { BusinessLayout } from './components/BusinessLayout';
 import { SmartOnboarding } from "./components/SmartOnboarding";
+import { DashboardGuard, OnboardingGuard } from './components/RouteGuards';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ErrorElement } from './components/ErrorElement';
 import { LandingPage } from './pages/LandingPage';
@@ -38,6 +40,39 @@ import { ConnectorsPage } from './components/ConnectorsPage';
 import { AutomationPage } from './components/AutomationPage';
 import { SocialPage } from './components/SocialPage';
 
+// ── Loading Fallback ─────────────────────────────────────────────────────────
+function OnboardingFallback() {
+  return (
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '100vh',
+      background: '#0a0e27',
+      color: '#ffffff',
+      fontSize: '16px',
+    }}>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: '32px', marginBottom: '16px', animation: 'spin 1s linear infinite' }}>⚙️</div>
+        <p>Loading onboarding...</p>
+      </div>
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
+    </div>
+  );
+}
+
+// ── Lazy-loaded Onboarding Component ─────────────────────────────────────────
+const LazySmartOnboarding = lazy(() =>
+  import('./components/SmartOnboarding').then(mod => ({
+    default: mod.SmartOnboarding,
+  }))
+);
+
 // ── Landing Page Root ────────────────────────────────────────────────────────
 function LandingPageRoot() {
   return (
@@ -66,12 +101,17 @@ function Root() {
   );
 }
 
+// ── Onboarding Root with Lazy Loading ────────────────────────────────────────
 function OnboardingRoot() {
   return (
     <ThemeProvider>
       <BusinessProvider>
         <ErrorBoundary>
-          <SmartOnboarding />
+          <OnboardingGuard>
+            <Suspense fallback={<OnboardingFallback />}>
+              <LazySmartOnboarding />
+            </Suspense>
+          </OnboardingGuard>
         </ErrorBoundary>
       </BusinessProvider>
     </ThemeProvider>
@@ -175,8 +215,10 @@ export const router = createBrowserRouter(
     element: <ForgotPasswordRoot />,
     errorElement: <ErrorElement />,
   },
+  // Smart Onboarding route (protected, lazy-loaded)
+  // Supports query params: ?skipOnboarding=true, ?onboardingPhase=N (for development)
   {
-    path: '/onboarding',
+    path: '/business/onboarding',
     element: <OnboardingRoot />,
     errorElement: <ErrorElement />,
   },
@@ -190,7 +232,16 @@ export const router = createBrowserRouter(
     element: <Root />,
     errorElement: <ErrorElement />,
     children: [
-      { index: true, element: <DashboardPage />, errorElement: <ErrorElement /> },
+      // Dashboard with onboarding guard
+      {
+        index: true,
+        element: (
+          <DashboardGuard>
+            <DashboardPage />
+          </DashboardGuard>
+        ),
+        errorElement: <ErrorElement />,
+      },
       { path: 'products',      element: <ProductsPage />, errorElement: <ErrorElement /> },
       { path: 'offers',        element: <OffersPage />, errorElement: <ErrorElement /> },
       { path: 'auctions',      element: <AuctionsManagePage />, errorElement: <ErrorElement /> },

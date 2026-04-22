@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate }  from 'react-router-dom';
+import { useNavigate, useSearchParams }  from 'react-router-dom';
 import { useBusinessContext } from '../context/BusinessContext';
 import { ChevronRight, ChevronLeft, Loader, Check } from 'lucide-react';
 import { completeOnboarding } from '@/app/api/supabase-data';
@@ -65,9 +65,16 @@ const FEATURE_QUESTIONS = [
 export function SmartOnboarding() {
   const navigate = useNavigate();
   const { bizUser, setBizUser } = useBusinessContext();
+  const [searchParams] = useSearchParams();
+
+  // Support ?onboardingPhase=N for development/testing (0-4)
+  const phaseParam = searchParams.get('onboardingPhase');
+  const initialPhase = phaseParam && !isNaN(Number(phaseParam))
+    ? Math.max(0, Math.min(4, Number(phaseParam)))
+    : 0;
 
   const [stage, setStage] = useState<'questions' | 'complete'>('questions');
-  const [questionIndex, setQuestionIndex] = useState(0);
+  const [questionIndex, setQuestionIndex] = useState(initialPhase);
   const [featurePreferences, setFeaturePreferences] = useState<FeaturePreferences>({
     product_catalog: true,
     lead_management: false,

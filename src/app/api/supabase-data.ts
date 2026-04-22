@@ -3632,3 +3632,174 @@ export async function completeOnboarding(
     return false;
   }
 }
+
+/**
+ * Fetch existing onboarding data for a user
+ */
+export async function fetchOnboardingData(userId: string): Promise<Record<string, unknown> | null> {
+  if (!supabase) return null;
+
+  try {
+    const { data, error } = await supabase
+      .from('biz_users')
+      .select('feature_preferences, theme_preference, onboarding_done, onboarding_completed_at')
+      .eq('id', userId)
+      .single();
+
+    if (error || !data) {
+      console.warn('[fetchOnboardingData] Error:', error);
+      return null;
+    }
+
+    return data;
+  } catch (err) {
+    console.error('[fetchOnboardingData] Error:', err);
+    return null;
+  }
+}
+
+/**
+ * Update onboarding preferences (partial update)
+ */
+export async function updateOnboardingPreferences(
+  userId: string,
+  updates: Record<string, unknown>
+): Promise<boolean> {
+  if (!supabase) return false;
+
+  try {
+    const { error } = await supabase
+      .from('biz_users')
+      .update({
+        ...updates,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', userId);
+
+    return !error;
+  } catch (err) {
+    console.error('[updateOnboardingPreferences] Error:', err);
+    return false;
+  }
+}
+
+/**
+ * Complete onboarding with full data persistence
+ * Saves feature preferences, theme, pipelines, and automation rules
+ */
+export async function completeOnboardingFull(
+  userId: string,
+  onboardingData: {
+    featurePreferences: FeaturePreferences;
+    themePreference?: Record<string, unknown>;
+    selectedPipelines?: Array<Record<string, unknown>>;
+    automationRules?: Array<Record<string, unknown>>;
+    dynamicAnswers?: Record<string, unknown>;
+  }
+): Promise<boolean> {
+  if (!supabase) return false;
+
+  try {
+    // Update biz_users with feature preferences and theme
+    const { error: userError } = await supabase
+      .from('biz_users')
+      .update({
+        feature_preferences: onboardingData.featurePreferences,
+        theme_preference: onboardingData.themePreference || null,
+        onboarding_done: true,
+        onboarding_completed_at: new Date().toISOString(),
+        onboarding_status: 'completed',
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', userId);
+
+    if (userError) {
+      console.error('[completeOnboardingFull] User update error:', userError);
+      return false;
+    }
+
+    // Create pipelines if provided
+    if (
+      onboardingData.selectedPipelines &&
+      Array.isArray(onboardingData.selectedPipelines) &&
+      onboardingData.selectedPipelines.length > 0
+    ) {
+      const pipelinesData = onboardingData.selectedPipelines.map((p) => ({
+        ...p,
+        user_id: userId,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }));
+
+      const { error: pipelineError } = await supabase
+        .from('business_pipelines')
+        .insert(pipelinesData);
+
+      if (pipelineError) {
+        console.warn('[completeOnboardingFull] Pipeline insert warning:', pipelineError);
+        // Don't return false - pipelines are optional
+      }
+    }
+
+    // Create automation rules if provided
+    if (
+      onboardingData.automationRules &&
+      Array.isArray(onboardingData.automationRules) &&
+      onboardingData.automationRules.length > 0
+    ) {
+      const automationData = onboardingData.automationRules.map((r) => ({
+        ...r,
+        user_id: userId,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      }));
+
+      const { error: automationError } = await supabase
+        .from('automation_rules')
+        .insert(automationData);
+
+      if (automationError) {
+        console.warn('[completeOnboardingFull] Automation insert warning:', automationError);
+        // Don't return false - automations are optional
+      }
+    }
+
+    return true;
+  } catch (err) {
+    console.error('[completeOnboardingFull] Error:', err);
+    return false;
+  }
+}
+
+/**
+ * Check if user has completed onboarding
+ */
+export async function checkOnboardingStatus(userId: string): Promise<{
+  completed: boolean;
+  completedAt?: string;
+  status?: string;
+} | null> {
+  if (!supabase) return null;
+
+  try {
+    const { data, error } = await supabase
+      .from('biz_users')
+      .select('onboarding_done, onboarding_completed_at, onboarding_status')
+      .eq('id', userId)
+      .single();
+
+    if (error || !data) {
+      console.warn('[checkOnboardingStatus] Error:', error);
+      return null;
+    }
+
+    return {
+      completed: data.onboarding_done === true,
+      completedAt: data.onboarding_completed_at,
+      status: data.onboarding_status,
+    };
+  } catch (err) {
+    console.error('[checkOnboardingStatus] Error:', err);
+    return null;
+  }
+}
