@@ -45,6 +45,14 @@ export interface BizUser {
   // Product Selection
   product_selection?: string; // 'rr' | 'lms' | 'both'
 
+  // Feature Preferences (Smart Onboarding)
+  feature_preferences?: {
+    product_catalog: boolean;
+    lead_management: boolean;
+    email_campaigns: boolean;
+    automation: boolean;
+    social_media: boolean;
+  };
   // Team member support
   isTeamMember?: boolean;
   teamMemberData?: {
@@ -64,6 +72,7 @@ interface BusinessContextValue {
   logout: () => void;
   updatePlan: (plan: SubscriptionPlan, expiry?: string | null) => void;
   productSelection: 'rr' | 'lms' | 'both';
+  canAccessFeature: (feature: keyof BizUser['feature_preferences']) => boolean;
 }
 
 // ── Dev bypass ───────────────────────────────────────────────────────────────
@@ -293,6 +302,11 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
+  const canAccessFeature = useCallback((feature: keyof BizUser['feature_preferences']) => {
+    if (!bizUser?.feature_preferences) return true; // Default to true if not set
+    return bizUser.feature_preferences[feature] ?? true;
+  }, [bizUser]);
+
   const value = useMemo<BusinessContextValue>(() => ({
     bizUser,
     setBizUser,
@@ -300,8 +314,9 @@ export function BusinessProvider({ children }: { children: React.ReactNode }) {
     isLoading,
     logout,
     updatePlan,
+    canAccessFeature,
     productSelection: (bizUser?.product_selection as 'rr' | 'lms' | 'both') || 'both',
-  }), [bizUser, setBizUser, isLoading, logout, updatePlan]);
+  }), [bizUser, setBizUser, isLoading, logout, updatePlan, canAccessFeature]);
 
   return <BusinessContext.Provider value={value}>{children}</BusinessContext.Provider>;
 }

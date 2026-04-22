@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import {
   MapPin, Tag, CreditCard, Navigation, ChevronRight,
   Star, Bell, Zap, Check, X,

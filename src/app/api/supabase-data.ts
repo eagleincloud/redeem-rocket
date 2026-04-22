@@ -3540,3 +3540,95 @@ export async function deleteLeadConnector(connectorId: string) {
     return false;
   }
 }
+
+// ── Smart Onboarding Data Persistence ──────────────────────────────────────
+
+export interface FeaturePreferences {
+  product_catalog: boolean;
+  lead_management: boolean;
+  email_campaigns: boolean;
+  automation: boolean;
+  social_media: boolean;
+}
+
+export interface OnboardingProduct {
+  name: string;
+  description: string;
+  category: string;
+  price?: number;
+  created_from_ai: boolean;
+}
+
+/**
+ * Save feature preferences for a business user
+ */
+export async function saveFeaturePreferences(
+  userId: string,
+  preferences: FeaturePreferences
+): Promise<boolean> {
+  if (!supabase) return false;
+  try {
+    const { error } = await supabase
+      .from('biz_users')
+      .update({ feature_preferences: preferences })
+      .eq('id', userId);
+
+    return !error;
+  } catch (err) {
+    console.error('[saveFeaturePreferences] Error:', err);
+    return false;
+  }
+}
+
+/**
+ * Bulk create products for a business
+ */
+export async function createBusinessProducts(
+  businessId: string,
+  products: OnboardingProduct[]
+): Promise<boolean> {
+  if (!supabase || !products.length) return true;
+
+  try {
+    const productsData = products.map(p => ({
+      business_id: businessId,
+      name: p.name,
+      description: p.description,
+      category: p.category,
+      price: p.price || 0,
+      created_from_ai: p.created_from_ai,
+    }));
+
+    const { error } = await supabase.from('business_products').insert(productsData);
+
+    return !error;
+  } catch (err) {
+    console.error('[createBusinessProducts] Error:', err);
+    return false;
+  }
+}
+
+/**
+ * Complete onboarding for a user
+ */
+export async function completeOnboarding(
+  userId: string,
+  preferences: FeaturePreferences
+): Promise<boolean> {
+  if (!supabase) return false;
+
+  try {
+    const { error } = await supabase
+      .from('biz_users')
+      .update({
+        feature_preferences: preferences,
+        onboarding_done: true,
+      })
+      .eq('id', userId);
+
+    return !error;
+  } catch (err) {
+    console.error('[completeOnboarding] Error:', err);
+    return false;
+  }
+}

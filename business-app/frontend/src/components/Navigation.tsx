@@ -1,13 +1,40 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
 import { useCategoryStore } from '../stores/categoryStore'
+
+interface FeaturePreferences {
+  product_catalog?: boolean;
+  lead_management?: boolean;
+  email_campaigns?: boolean;
+  automation?: boolean;
+  social_media?: boolean;
+}
 
 export default function Navigation() {
   const { user, logout } = useAuthStore()
   const { activeCategory, setActiveCategory } = useCategoryStore()
   const navigate = useNavigate()
   const [showCategoryMenu, setShowCategoryMenu] = useState(false)
+
+  // Get feature preferences from user data or localStorage
+  const featurePreferences = useMemo<FeaturePreferences>(() => {
+    try {
+      const bizUserStr = localStorage.getItem('biz_user')
+      if (bizUserStr) {
+        const bizUser = JSON.parse(bizUserStr)
+        return bizUser.feature_preferences || {}
+      }
+    } catch (e) {
+      console.error('Failed to parse biz_user from localStorage:', e)
+    }
+    return {}
+  }, [])
+
+  const canAccessFeature = (feature: keyof FeaturePreferences): boolean => {
+    if (featurePreferences[feature] === undefined) return true // Default to true if not set
+    return featurePreferences[feature] === true
+  }
 
   const handleLogout = () => {
     logout()
@@ -33,12 +60,16 @@ export default function Navigation() {
           <Link to="/" className="text-gray-600 hover:text-gray-900">
             Dashboard
           </Link>
-          <Link to="/orders" className="text-gray-600 hover:text-gray-900">
-            Orders
-          </Link>
-          <Link to="/documents" className="text-gray-600 hover:text-gray-900">
-            Documents
-          </Link>
+          {canAccessFeature('product_catalog') && (
+            <>
+              <Link to="/orders" className="text-gray-600 hover:text-gray-900">
+                Orders
+              </Link>
+              <Link to="/documents" className="text-gray-600 hover:text-gray-900">
+                Documents
+              </Link>
+            </>
+          )}
           <Link to="/features" className="text-blue-600 hover:text-blue-700 font-bold">
             🎯 Features
           </Link>
@@ -51,21 +82,31 @@ export default function Navigation() {
           <Link to="/" className="text-gray-600 hover:text-gray-900">
             Dashboard
           </Link>
-          <Link to="/leads" className="text-gray-600 hover:text-gray-900">
-            Leads
-          </Link>
-          <Link to="/email-campaigns" className="text-gray-600 hover:text-gray-900">
-            Campaigns
-          </Link>
-          <Link to="/automation-rules" className="text-gray-600 hover:text-gray-900">
-            Automation
-          </Link>
-          <Link to="/social-accounts" className="text-gray-600 hover:text-gray-900">
-            Social
-          </Link>
-          <Link to="/lead-connectors" className="text-gray-600 hover:text-gray-900">
-            Connectors
-          </Link>
+          {canAccessFeature('lead_management') && (
+            <Link to="/leads" className="text-gray-600 hover:text-gray-900">
+              Leads
+            </Link>
+          )}
+          {canAccessFeature('email_campaigns') && (
+            <Link to="/email-campaigns" className="text-gray-600 hover:text-gray-900">
+              Campaigns
+            </Link>
+          )}
+          {canAccessFeature('automation') && (
+            <Link to="/automation-rules" className="text-gray-600 hover:text-gray-900">
+              Automation
+            </Link>
+          )}
+          {canAccessFeature('social_media') && (
+            <>
+              <Link to="/social-accounts" className="text-gray-600 hover:text-gray-900">
+                Social
+              </Link>
+              <Link to="/lead-connectors" className="text-gray-600 hover:text-gray-900">
+                Connectors
+              </Link>
+            </>
+          )}
           <Link to="/features" className="text-blue-600 hover:text-blue-700 font-bold">
             🎯 Features
           </Link>

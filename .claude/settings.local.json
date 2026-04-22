@@ -22,7 +22,15 @@
       "Bash(gh --version)",
       "Bash(cat)",
       "Bash(chmod +x /tmp/deploy_migrations.sh)",
-      "Bash(/tmp/deploy_migrations.sh)"
+      "Bash(/tmp/deploy_migrations.sh)",
+      "Bash(curl -s -o /dev/null -w \"HTTP Status: %{http_code}\\\\n\" https://redeemrocket.in/features)",
+      "Bash(curl -s https://redeemrocket.in/features)",
+      "Bash(curl -s https://redeemrocket.in)",
+      "Bash(curl -s https://api.vercel.com/v1/deployments)",
+      "Bash(curl -I https://redeemrocket.in)",
+      "Bash(bash /tmp/test_routes.sh)",
+      "Bash(bash /tmp/verify_features.sh)",
+      "Bash(bash /tmp/check_deployment.sh)"
     ]
   }
 }

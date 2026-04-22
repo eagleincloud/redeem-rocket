@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Outlet, useNavigate, useLocation, Navigate } from 'react-router';
+import { Outlet, useNavigate, useLocation, Navigate }  from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTheme } from '@/app/context/ThemeContext';
 import { useBusinessContext } from '../context/BusinessContext';

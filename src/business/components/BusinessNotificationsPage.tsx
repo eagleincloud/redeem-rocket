@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { useTheme } from '@/app/context/ThemeContext';
 import { Bell, ShoppingBag, Gavel, ClipboardList, Star, AlertCircle, CheckCheck, X, IndianRupee, UserCheck, ArrowRight } from 'lucide-react';
 import { supabase } from '@/app/lib/supabase';

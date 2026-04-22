@@ -1,8 +1,8 @@
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter } from 'react-router-dom';
 import { BusinessProvider } from './context/BusinessContext';
 import { ThemeProvider } from '@/app/context/ThemeContext';
 import { BusinessLayout } from './components/BusinessLayout';
-import { BusinessOnboarding } from './components/BusinessOnboarding';
+import { SmartOnboarding } from "./components/SmartOnboarding";
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ErrorElement } from './components/ErrorElement';
 import { LandingPage } from './pages/LandingPage';
@@ -22,6 +22,7 @@ import { AnalyticsPage } from './components/AnalyticsPage';
 import { GrowthPage } from './components/GrowthPage';
 import { PhotosPage } from './components/PhotosPage';
 import { BusinessProfilePage } from './components/BusinessProfilePage';
+import { FeatureSettings } from './components/FeatureSettings';
 import { BusinessNotificationsPage } from './components/BusinessNotificationsPage';
 import { SubscriptionPage } from './components/SubscriptionPage';
 import { MarketingPage } from './components/MarketingPage';
@@ -70,7 +71,7 @@ function OnboardingRoot() {
     <ThemeProvider>
       <BusinessProvider>
         <ErrorBoundary>
-          <BusinessOnboarding />
+          <SmartOnboarding />
         </ErrorBoundary>
       </BusinessProvider>
     </ThemeProvider>
@@ -200,6 +201,7 @@ export const router = createBrowserRouter(
       { path: 'grow',          element: <GrowthPage />, errorElement: <ErrorElement /> },
       { path: 'photos',        element: <PhotosPage />, errorElement: <ErrorElement /> },
       { path: 'profile',       element: <BusinessProfilePage />, errorElement: <ErrorElement /> },
+      { path: 'features-settings', element: <FeatureSettings />, errorElement: <ErrorElement /> },
       { path: 'notifications', element: <BusinessNotificationsPage />, errorElement: <ErrorElement /> },
       { path: 'subscription',  element: <SubscriptionPage />, errorElement: <ErrorElement /> },
       { path: 'marketing',     element: <MarketingPage />, errorElement: <ErrorElement /> },

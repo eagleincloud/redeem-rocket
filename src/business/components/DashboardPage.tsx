@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router';
+import { useNavigate, Link }  from 'react-router-dom';
 import { useTheme } from '@/app/context/ThemeContext';
 import { GettingStartedCard } from './GettingStartedCard';
 import { useBusinessContext } from '../context/BusinessContext';

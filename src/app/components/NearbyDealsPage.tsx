@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { motion } from 'motion/react';
 import { MapPin, Star, Clock, List, Map as MapIcon } from 'lucide-react';
 import { useSearchCategory } from '../context/SearchCategoryContext';

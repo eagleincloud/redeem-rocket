@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Wallet } from 'lucide-react';
 import { useWallet } from '../context/WalletContext';

@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { useSearchCategory } from '../context/SearchCategoryContext';
 import { useTheme } from '../context/ThemeContext';
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { getBusinessTypeKey } from '../utils/businessType';
 import { distanceKm } from '../utils/geo';
 import type { Business } from '../types';

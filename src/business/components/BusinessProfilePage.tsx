@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { useSearchParams } from 'react-router';
+import { useSearchParams }  from 'react-router-dom';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { useTheme } from '@/app/context/ThemeContext';

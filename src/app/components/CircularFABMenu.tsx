@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router';
+import { useNavigate, useLocation }  from 'react-router-dom';
 
 // ── Navigation items (5 routes + 1 action) ───────────────────────────────────
 const TABS = [

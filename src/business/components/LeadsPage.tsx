@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { Plus, Search, LayoutGrid, List, Upload, Clock, TrendingUp, Users, Trophy, Filter } from 'lucide-react';
 import { useTheme } from '@/app/context/ThemeContext';
 import { useBusinessContext } from '../context/BusinessContext';

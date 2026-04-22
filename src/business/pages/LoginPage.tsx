@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router';
+import { useNavigate, Link }  from 'react-router-dom';
 import { loginBusinessWithPassword, sendOtp, verifyOtp, getOrCreateBizUser, signInWithGoogle } from '@/app/lib/authService';
 import { logActivity } from '@/app/api/supabase-data';
 import { useAuthBusiness } from '@/business/context/BusinessContext';

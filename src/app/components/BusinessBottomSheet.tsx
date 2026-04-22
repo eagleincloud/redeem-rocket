@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Business } from '../types';
 import { Navigation, Heart, Star, Clock, MapPin, X, Flame, ShoppingCart, ExternalLink } from 'lucide-react';

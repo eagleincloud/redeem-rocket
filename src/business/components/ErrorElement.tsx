@@ -1,4 +1,4 @@
-import { useRouteError } from 'react-router';
+import { useRouteError }  from 'react-router-dom';
 import { AlertCircle, RefreshCw, Home } from 'lucide-react';
 
 export function ErrorElement() {

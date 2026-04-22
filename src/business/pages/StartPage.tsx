@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { useNavigate }  from 'react-router-dom';
 import { CheckCircle, ArrowRight, Copy, Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';

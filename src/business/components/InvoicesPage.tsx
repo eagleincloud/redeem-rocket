@@ -6,7 +6,7 @@ import { Receipt, CheckCircle, Clock, XCircle, Eye, X, RefreshCw, Plus, FileText
 import { supabase } from '@/app/lib/supabase';
 import { toast } from 'sonner';
 import { notifyPaymentStatusChange } from '../../services/notificationService';
-import { useLocation } from 'react-router';
+import { useLocation }  from 'react-router-dom';
 import { fetchPaymentSubmissionsForBusiness, updatePaymentSubmissionStatus, logActivity } from '@/app/api/supabase-data';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
