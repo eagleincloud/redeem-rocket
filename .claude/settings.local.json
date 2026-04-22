@@ -30,7 +30,19 @@
       "Bash(curl -I https://redeemrocket.in)",
       "Bash(bash /tmp/test_routes.sh)",
       "Bash(bash /tmp/verify_features.sh)",
-      "Bash(bash /tmp/check_deployment.sh)"
+      "Bash(bash /tmp/check_deployment.sh)",
+      "Bash(gh secret:*)",
+      "Bash(brew install:*)",
+      "Bash(gh auth:*)",
+      "mcp__Claude_in_Chrome__navigate",
+      "mcp__Claude_in_Chrome__computer",
+      "WebFetch(domain:github.com)",
+      "mcp__Claude_in_Chrome__read_network_requests",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "mcp__Claude_in_Chrome__form_input",
+      "mcp__Claude_in_Chrome__read_page",
+      "mcp__Claude_in_Chrome__javascript_tool",
+      "mcp__Claude_in_Chrome__read_console_messages"
     ]
   }
 }
