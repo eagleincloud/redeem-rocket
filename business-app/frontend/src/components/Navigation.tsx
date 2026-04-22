@@ -20,10 +20,22 @@ export default function Navigation() {
 
           <div className="flex items-center space-x-8">
             <Link to="/" className="text-gray-600 hover:text-gray-900">
-              Home
+              Dashboard
             </Link>
-            <Link to="/explore" className="text-gray-600 hover:text-gray-900">
-              Explore
+            <Link to="/leads" className="text-gray-600 hover:text-gray-900">
+              Leads
+            </Link>
+            <Link to="/email-campaigns" className="text-gray-600 hover:text-gray-900">
+              Email
+            </Link>
+            <Link to="/automation-rules" className="text-gray-600 hover:text-gray-900">
+              Automation
+            </Link>
+            <Link to="/social-accounts" className="text-gray-600 hover:text-gray-900">
+              Social
+            </Link>
+            <Link to="/lead-connectors" className="text-gray-600 hover:text-gray-900">
+              Connectors
             </Link>
             <Link to="/orders" className="text-gray-600 hover:text-gray-900">
               Orders

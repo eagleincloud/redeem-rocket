@@ -11,6 +11,7 @@ import {
   Wallet, BarChart3, Image, User, Bell, CreditCard, Menu, X, Sun, Moon,
   LogOut, ChevronRight, TrendingUp, AlertCircle, Lock, Zap,
   Megaphone, Users, Receipt, UserCheck, RadioTower, Search,
+  Mail, Link2, Bot, Share2,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -71,6 +72,18 @@ const NAV_GROUPS: NavGroup[] = [
       { label: 'Outreach',   path: '/app/outreach',   icon: RadioTower, planRequired: 'basic' },
       { label: 'Analytics',  path: '/app/analytics',  icon: BarChart3,  planRequired: 'basic' },
       { label: 'Grow & Ads', path: '/app/grow',       icon: TrendingUp, planRequired: 'basic' },
+      { label: 'Social',     path: '/app/social',     icon: Share2,     planRequired: 'basic' },
+    ],
+  },
+
+  // ── 5. Growth Platform — automation, connectors, email ────────────────────────
+  {
+    label: 'GROWTH PLATFORM',
+    isPremium: true,
+    items: [
+      { label: 'Automation',   path: '/app/automation',  icon: Bot,     planRequired: 'basic' },
+      { label: 'Connectors',   path: '/app/connectors',  icon: Link2,   planRequired: 'basic' },
+      { label: 'Email Setup',  path: '/app/email-setup', icon: Mail,    planRequired: 'basic' },
     ],
   },
 
