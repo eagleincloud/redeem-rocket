@@ -3,6 +3,12 @@ import { useNavigate, useSearchParams }  from 'react-router-dom';
 import { useBusinessContext } from '../context/BusinessContext';
 import { ChevronRight, ChevronLeft, Loader, Check } from 'lucide-react';
 import { completeOnboarding } from '@/app/api/supabase-data';
+import { FeatureShowcasePhase } from './onboarding/FeatureShowcasePhase';
+import { ThemeSelectionPhase } from './onboarding/ThemeSelectionPhase';
+import { DynamicJourneyPhase } from './onboarding/DynamicJourneyPhase';
+import { DashboardPreviewPhase } from './onboarding/DashboardPreviewPhase';
+import { FirstDataSetup } from './onboarding/FirstDataSetup';
+import type { JourneyAnswersRecord } from '@/app/api/onboarding-questions';
 
 export type FeaturePreference = 'product_catalog' | 'lead_management' | 'email_campaigns' | 'automation' | 'social_media';
 
@@ -67,14 +73,31 @@ export function SmartOnboarding() {
   const { bizUser, setBizUser } = useBusinessContext();
   const [searchParams] = useSearchParams();
 
-  // Support ?onboardingPhase=N for development/testing (0-4)
+  // Support ?onboardingPhase=N for development/testing (0-4 for Phase 1, 5 for Phase 2, 6 for Phase 3, 7 for Phase 4, 8 for Phase 5, 9 for Phase 6)
   const phaseParam = searchParams.get('onboardingPhase');
   const initialPhase = phaseParam && !isNaN(Number(phaseParam))
-    ? Math.max(0, Math.min(4, Number(phaseParam)))
+    ? Math.max(0, Math.min(9, Number(phaseParam)))
     : 0;
 
-  const [stage, setStage] = useState<'questions' | 'complete'>('questions');
-  const [questionIndex, setQuestionIndex] = useState(initialPhase);
+  const [stage, setStage] = useState<'phase_1' | 'phase_2' | 'phase_3' | 'phase_4' | 'phase_5' | 'phase_6' | 'complete'>('phase_1');
+  const [questionIndex, setQuestionIndex] = useState(initialPhase % 5);
+
+  // Determine initial stage based on phaseParam
+  const determineInitialStage = () => {
+    if (initialPhase <= 4) return 'phase_1';
+    if (initialPhase === 5) return 'phase_2';
+    if (initialPhase === 6) return 'phase_3';
+    if (initialPhase === 7) return 'phase_4';
+    if (initialPhase === 8) return 'phase_5';
+    if (initialPhase === 9) return 'phase_6';
+    return 'phase_1';
+  };
+
+  // Set initial stage if phaseParam is provided
+  const [stage_internal, setStageInternal] = useState<'phase_1' | 'phase_2' | 'phase_3' | 'phase_4' | 'phase_5' | 'phase_6' | 'complete'>(() => {
+    return determineInitialStage();
+  });
+
   const [featurePreferences, setFeaturePreferences] = useState<FeaturePreferences>({
     product_catalog: true,
     lead_management: false,
@@ -82,8 +105,31 @@ export function SmartOnboarding() {
     automation: false,
     social_media: false,
   });
+
+  // Phase 2 state
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+
+  // Phase 3 state
+  const [selectedTheme, setSelectedTheme] = useState<string>('minimalist');
+  const [primaryColor, setPrimaryColor] = useState<string>('#ffffff');
+  const [secondaryColor, setSecondaryColor] = useState<string>('#f3f4f6');
+  const [logoUrl, setLogoUrl] = useState<string>('');
+  const [selectedPipelines, setSelectedPipelines] = useState<string[]>([]);
+
+  // Phase 4 state
+  const [journeyAnswers, setJourneyAnswers] = useState<JourneyAnswersRecord>({});
+
+  // Phase 5 state (Smart Setup - unused placeholder)
+  const [phase5Completed, setPhase5Completed] = useState(false);
+
+  // Phase 6 state (Dashboard Preview)
+  const [dashboardCustomizations, setDashboardCustomizations] = useState<any>({});
+
   const [animatingOut, setAnimatingOut] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // Use stage_internal as the real stage
+  const stage = stage_internal;
 
   const colors = {
     bg: '#0a0e27',
@@ -103,7 +149,7 @@ export function SmartOnboarding() {
     const featureId = currentQuestion.id as FeaturePreference;
     setFeaturePreferences(prev => ({ ...prev, [featureId]: answer }));
 
-    // Move to next question or complete
+    // Move to next question or Phase 2
     if (questionIndex < totalQuestions - 1) {
       setAnimatingOut(true);
       setTimeout(() => {
@@ -111,10 +157,10 @@ export function SmartOnboarding() {
         setAnimatingOut(false);
       }, 300);
     } else {
-      // All questions done, move to complete
+      // All Phase 1 questions done, move to Phase 2
       setAnimatingOut(true);
       setTimeout(() => {
-        setStage('complete');
+        setStageInternal('phase_2');
         setAnimatingOut(false);
       }, 300);
     }
@@ -128,6 +174,95 @@ export function SmartOnboarding() {
         setAnimatingOut(false);
       }, 300);
     }
+  }
+
+  function goToPhase2() {
+    setAnimatingOut(true);
+    setTimeout(() => {
+      setStageInternal('phase_2');
+      setAnimatingOut(false);
+    }, 300);
+  }
+
+  function goToPhase3() {
+    setAnimatingOut(true);
+    setTimeout(() => {
+      setStageInternal('phase_3');
+      setAnimatingOut(false);
+    }, 300);
+  }
+
+  function goBackToPhase1() {
+    setAnimatingOut(true);
+    setTimeout(() => {
+      setStageInternal('phase_1');
+      setQuestionIndex(totalQuestions - 1);
+      setAnimatingOut(false);
+    }, 300);
+  }
+
+  function goBackToPhase2() {
+    setAnimatingOut(true);
+    setTimeout(() => {
+      setStageInternal('phase_2');
+      setAnimatingOut(false);
+    }, 300);
+  }
+
+  function goToPhase4() {
+    setAnimatingOut(true);
+    setTimeout(() => {
+      setStageInternal('phase_4');
+      setAnimatingOut(false);
+    }, 300);
+  }
+
+  function goBackToPhase3() {
+    setAnimatingOut(true);
+    setTimeout(() => {
+      setStageInternal('phase_3');
+      setAnimatingOut(false);
+    }, 300);
+  }
+
+  function goToPhase5() {
+    setAnimatingOut(true);
+    setTimeout(() => {
+      setStageInternal('phase_5');
+      setAnimatingOut(false);
+    }, 300);
+  }
+
+  function goBackToPhase4() {
+    setAnimatingOut(true);
+    setTimeout(() => {
+      setStageInternal('phase_4');
+      setAnimatingOut(false);
+    }, 300);
+  }
+
+  function goToPhase6() {
+    setAnimatingOut(true);
+    setTimeout(() => {
+      setStageInternal('phase_6');
+      setAnimatingOut(false);
+    }, 300);
+  }
+
+  function goBackToPhase5() {
+    setAnimatingOut(true);
+    setTimeout(() => {
+      setStageInternal('phase_5');
+      setAnimatingOut(false);
+    }, 300);
+  }
+
+  function toggleFeature(featureId: string) {
+    setSelectedFeatures(prev =>
+      prev.includes(featureId)
+        ? prev.filter(id => id !== featureId)
+        : [...prev, featureId]
+    );
   }
 
   async function finishOnboarding() {
@@ -180,11 +315,11 @@ export function SmartOnboarding() {
       <div
         style={{
           width: '100%',
-          maxWidth: '500px',
+          maxWidth: '600px',
         }}
       >
-        {/* QUESTIONS STAGE */}
-        {stage === 'questions' && (
+        {/* PHASE 1 - QUESTIONS STAGE */}
+        {stage === 'phase_1' && (
           <div>
             {/* Progress Bar */}
             <div style={{ marginBottom: '48px' }}>
@@ -337,6 +472,126 @@ export function SmartOnboarding() {
                 </button>
               )}
             </div>
+          </div>
+        )}
+
+        {/* PHASE 2 - FEATURE SHOWCASE */}
+        {stage === 'phase_2' && (
+          <div
+            style={{
+              opacity: animatingOut ? 0 : 1,
+              transform: animatingOut ? 'translateY(20px)' : 'translateY(0)',
+              transition: 'all 0.3s ease-out',
+            }}
+          >
+            <FeatureShowcasePhase
+              onNext={goToPhase3}
+              onPrevious={goBackToPhase1}
+              selectedFeatures={selectedFeatures}
+              onFeatureToggle={toggleFeature}
+            />
+          </div>
+        )}
+
+        {/* PHASE 3 - THEME SELECTION */}
+        {stage === 'phase_3' && (
+          <div
+            style={{
+              opacity: animatingOut ? 0 : 1,
+              transform: animatingOut ? 'translateY(20px)' : 'translateY(0)',
+              transition: 'all 0.3s ease-out',
+              overflowY: 'auto',
+              maxHeight: '90vh',
+            }}
+          >
+            <ThemeSelectionPhase
+              onNext={goToPhase4}
+              onPrevious={goBackToPhase2}
+              selectedTheme={selectedTheme}
+              onThemeChange={setSelectedTheme}
+              primaryColor={primaryColor}
+              onPrimaryColorChange={setPrimaryColor}
+              secondaryColor={secondaryColor}
+              onSecondaryColorChange={setSecondaryColor}
+              logoUrl={logoUrl}
+              onLogoUpload={setLogoUrl}
+              selectedPipelines={selectedPipelines}
+              onPipelinesChange={setSelectedPipelines}
+            />
+          </div>
+        )}
+
+        {/* PHASE 4 - DYNAMIC JOURNEY */}
+        {stage === 'phase_4' && (
+          <div
+            style={{
+              opacity: animatingOut ? 0 : 1,
+              transform: animatingOut ? 'translateY(20px)' : 'translateY(0)',
+              transition: 'all 0.3s ease-out',
+              overflowY: 'auto',
+              maxHeight: '90vh',
+            }}
+          >
+            <DynamicJourneyPhase
+              onNext={(answers) => {
+                setJourneyAnswers(answers);
+                goToPhase5();
+              }}
+              onPrevious={goBackToPhase3}
+              selectedFeatures={selectedFeatures}
+              initialAnswers={journeyAnswers}
+            />
+          </div>
+        )}
+
+        {/* PHASE 5 - SMART SETUP (First Data Setup) */}
+        {stage === 'phase_5' && (
+          <div
+            style={{
+              opacity: animatingOut ? 0 : 1,
+              transform: animatingOut ? 'translateY(20px)' : 'translateY(0)',
+              transition: 'all 0.3s ease-out',
+              overflowY: 'auto',
+              maxHeight: '90vh',
+            }}
+          >
+            <FirstDataSetup
+              onNext={goToPhase6}
+              onPrevious={goBackToPhase4}
+              businessType={bizUser?.businessCategory || 'retail'}
+            />
+          </div>
+        )}
+
+        {/* PHASE 6 - DASHBOARD PREVIEW & CUSTOMIZE */}
+        {stage === 'phase_6' && (
+          <div
+            style={{
+              opacity: animatingOut ? 0 : 1,
+              transform: animatingOut ? 'translateY(20px)' : 'translateY(0)',
+              transition: 'all 0.3s ease-out',
+              overflowY: 'auto',
+              maxHeight: '90vh',
+            }}
+          >
+            <DashboardPreviewPhase
+              onNext={() => {
+                setAnimatingOut(true);
+                setTimeout(() => {
+                  setStageInternal('complete');
+                  setAnimatingOut(false);
+                }, 300);
+              }}
+              onPrevious={goBackToPhase5}
+              selectedFeatures={selectedFeatures}
+              primaryColor={primaryColor}
+              secondaryColor={secondaryColor}
+              logoUrl={logoUrl}
+              businessName={bizUser?.businessName || 'My Business'}
+              businessType={bizUser?.businessCategory || 'retail'}
+              selectedPipelines={selectedPipelines}
+              onCustomizationsChange={setDashboardCustomizations}
+            />
           </div>
         )}
 
