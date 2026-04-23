@@ -78,6 +78,8 @@ export function SmartOnboarding() {
   const initialPhase = phaseParam && !isNaN(Number(phaseParam))
     ? Math.max(0, Math.min(9, Number(phaseParam)))
     : 0;
+
+  const [stage, setStage] = useState<'phase_1' | 'phase_2' | 'phase_3' | 'phase_4' | 'phase_5' | 'phase_6' | 'complete'>('phase_1');
   const [questionIndex, setQuestionIndex] = useState(initialPhase % 5);
 
   // Determine initial stage based on phaseParam

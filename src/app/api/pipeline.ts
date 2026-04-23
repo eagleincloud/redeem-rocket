@@ -6,7 +6,7 @@
  * Dependencies: Supabase client, Pipeline types
  */
 
-import { supabase } from '../../lib/supabase';
+import { supabase } from '../lib/supabase';
 import {
   Pipeline,
   PipelineStage,

@@ -6,7 +6,7 @@
  * Note: This is a scaffolding module. Full implementation requires Stripe account setup.
  */
 
-import { supabase } from '../../lib/supabase';
+import { supabase } from '../lib/supabase';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
