@@ -64,6 +64,12 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Clean Vercel credentials
+        run: |
+          rm -rf .vercel
+          rm -rf node_modules/.vite
+          npm cache clean --force
+
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25
         with:
