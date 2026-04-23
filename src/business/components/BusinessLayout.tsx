@@ -11,7 +11,7 @@ import {
   Wallet, BarChart3, Image, User, Bell, CreditCard, Menu, X, Sun, Moon,
   LogOut, ChevronRight, TrendingUp, AlertCircle, Lock, Zap,
   Megaphone, Users, Receipt, UserCheck, RadioTower, Search,
-  Mail, Link2, Workflow, Share2,
+  Mail, Link2, Workflow, Share2, Boxes, Truck, FileText,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -51,6 +51,18 @@ const NAV_GROUPS: NavGroup[] = [
       { label: 'Invoices', path: '/app/invoices', icon: Receipt },
       { label: 'Wallet',   path: '/app/wallet',   icon: Wallet },
       { label: 'Auctions', path: '/app/auctions', icon: Gavel, planRequired: 'pro' },
+    ],
+  },
+
+  // ── 2A. Inventory — stock management (Phase 2) ───────────────────────────────
+  {
+    label: 'INVENTORY',
+    items: [
+      { label: 'Dashboard',        path: '/app/inventory',             icon: Boxes },
+      { label: 'Products Stock',   path: '/app/inventory/products',    icon: Package },
+      { label: 'Stock Movements',  path: '/app/inventory/movements',   icon: Truck },
+      { label: 'Purchase Orders',  path: '/app/inventory/orders',      icon: Receipt },
+      { label: 'Reports',          path: '/app/inventory/reports',     icon: FileText },
     ],
   },
 
