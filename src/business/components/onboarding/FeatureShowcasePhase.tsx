@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronRight, ChevronLeft, Zap, TrendingUp, Users, Smartphone, Megaphone, Lock } from 'lucide-react';
-import { useBusinessContext } from '../context/BusinessContext';
+import { useBusinessContext } from '../../context/BusinessContext';
 import { FeatureDetailModal } from './FeatureDetailModal';
 
 export interface Feature {

@@ -34,7 +34,7 @@ import {
   deleteStage as deleteStageApi,
   reorderStages as reorderStagesApi,
 } from '../../app/api/pipeline';
-import { supabase } from '../../lib/supabase';
+import { supabase } from '@/app/lib/supabase';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // usePipeline Hook
