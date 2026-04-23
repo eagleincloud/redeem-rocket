@@ -6,6 +6,9 @@
 // ── Onboarding Types ────────────────────────────────────────────────────────
 export * from './onboarding';
 
+// ── Inventory Management Types ─────────────────────────────────────────────
+export * from './inventory';
+
 // ── Pipeline Types ──────────────────────────────────────────────────────────
 export * from './pipeline';
 
