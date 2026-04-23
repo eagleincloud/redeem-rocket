@@ -10,6 +10,7 @@ import Signup from './pages/Signup'
 import CategorySelection from './pages/CategorySelection'
 import RedeeemRocketDashboard from './pages/RedeeemRocketDashboard'
 import LeadManagementDashboard from './pages/LeadManagementDashboard'
+import ManagerDashboard from './pages/ManagerDashboard'
 // Feature Marketplace Pages
 import { FeatureMarketplacePage } from './pages/FeatureMarketplace'
 // Admin Pages
@@ -49,11 +50,48 @@ export default function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/app">
+          {activeCategory === 'redeem-rocket' ? (
+            <Route element={<Layout />}>
+              <Route path="/" element={<RedeeemRocketDashboard />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/documents" element={<Documents />} />
+              <Route path="/manager-dashboard" element={<ManagerDashboard />} />
+              <Route path="/features" element={<FeatureMarketplacePage businessId={user?.id || ''} businessType="ecommerce" userId={user?.id || ''} />} />
+              <Route path="/profile" element={<Profile />} />
+              {/* Admin Routes */}
+              <Route path="/admin/features" element={<AdminFeatureManagement />} />
+              <Route path="/admin/feature-requests" element={<FeatureRequestQueue />} />
+              <Route path="/admin/analytics" element={<FeatureUsageStats features={[]} businessFeatureMap={new Map()} />} />
+            </Route>
+          ) : (
+            <Route element={<Layout />}>
+              <Route path="/" element={<LeadManagementDashboard />} />
+              <Route path="/manager-dashboard" element={<ManagerDashboard />} />
+              {/* Growth Platform routes coming soon */}
+              {/* <Route path="/leads" element={<Leads />} /> */}
+              {/* <Route path="/leads/:id" element={<LeadDetail />} /> */}
+              {/* <Route path="/leads/import" element={<LeadImport />} /> */}
+              {/* <Route path="/email-campaigns" element={<EmailCampaigns />} /> */}
+              {/* <Route path="/automation-rules" element={<AutomationRules />} /> */}
+              {/* <Route path="/social-accounts" element={<SocialAccounts />} /> */}
+              {/* <Route path="/lead-connectors" element={<LeadConnectors />} /> */}
+              <Route path="/features" element={<FeatureMarketplacePage businessId={user?.id || ''} businessType="b2b" userId={user?.id || ''} />} />
+              <Route path="/profile" element={<Profile />} />
+              {/* Admin Routes */}
+              <Route path="/admin/features" element={<AdminFeatureManagement />} />
+              <Route path="/admin/feature-requests" element={<FeatureRequestQueue />} />
+              <Route path="/admin/analytics" element={<FeatureUsageStats features={[]} businessFeatureMap={new Map()} />} />
+            </Route>
+          )}
+        </Route>
+        {/* Keep old routes for backwards compatibility */}
         {activeCategory === 'redeem-rocket' ? (
           <Route element={<Layout />}>
             <Route path="/" element={<RedeeemRocketDashboard />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/documents" element={<Documents />} />
+            <Route path="/manager-dashboard" element={<ManagerDashboard />} />
             <Route path="/features" element={<FeatureMarketplacePage businessId={user?.id || ''} businessType="ecommerce" userId={user?.id || ''} />} />
             <Route path="/profile" element={<Profile />} />
             {/* Admin Routes */}
@@ -64,6 +102,7 @@ export default function App() {
         ) : (
           <Route element={<Layout />}>
             <Route path="/" element={<LeadManagementDashboard />} />
+            <Route path="/manager-dashboard" element={<ManagerDashboard />} />
             {/* Growth Platform routes coming soon */}
             {/* <Route path="/leads" element={<Leads />} /> */}
             {/* <Route path="/leads/:id" element={<LeadDetail />} /> */}
