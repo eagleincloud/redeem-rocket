@@ -48,8 +48,6 @@ const NAV_GROUPS: NavGroup[] = [
       { label: 'Orders',   path: '/app/orders',   icon: ShoppingBag },
       { label: 'Products', path: '/app/products', icon: Package },
       { label: 'Offers',   path: '/app/offers',   icon: Tag },
-      { label: 'Invoices', path: '/app/invoices', icon: Receipt },
-      { label: 'Wallet',   path: '/app/wallet',   icon: Wallet },
       { label: 'Auctions', path: '/app/auctions', icon: Gavel, planRequired: 'pro' },
     ],
   },
@@ -63,6 +61,26 @@ const NAV_GROUPS: NavGroup[] = [
       { label: 'Stock Movements',  path: '/app/inventory/movements',   icon: Truck },
       { label: 'Purchase Orders',  path: '/app/inventory/orders',      icon: Receipt },
       { label: 'Reports',          path: '/app/inventory/reports',     icon: FileText },
+    ],
+  },
+
+
+  // ── 2B. Finance & Accounting (Phase 2) ───────────────────────────────────────
+  {
+    label: 'FINANCE',
+    items: [
+      { label: 'Dashboard',     path: '/app/finance',       icon: DollarSign },
+      { label: 'Expenses',      path: '/app/expenses',      icon: CreditCard },
+      { label: 'Reports',       path: '/app/financial-reports', icon: FileText },
+    ],
+  },
+
+  // ── 2C. Payments & Invoicing (Phase 2) ─────────────────────────────────────────
+  {
+    label: 'PAYMENTS',
+    items: [
+      { label: 'Payment Links', path: '/app/payment-links', icon: Wallet },
+      { label: 'Dashboard',     path: '/app/payments',      icon: DollarSign },
     ],
   },
 
