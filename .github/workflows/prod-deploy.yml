@@ -64,24 +64,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install Vercel CLI
-        run: npm install -g vercel
-
-      - name: Clean .vercel directory
-        run: rm -rf .vercel
-
-      - name: Deploy to Vercel (Production)
-        run: |
-          # Use Vercel environment variables for authentication
-          # VERCEL_ORG_ID and VERCEL_PROJECT_ID from env will auto-link to project
-          vercel deploy \
-            --prod \
-            --build-env VITE_SUPABASE_URL=${{ secrets.VITE_SUPABASE_URL }} \
-            --build-env VITE_SUPABASE_ANON_KEY=${{ secrets.VITE_SUPABASE_ANON_KEY }} \
-            --yes
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+          working-directory: ./
+          env: VITE_SUPABASE_URL=${{ secrets.VITE_SUPABASE_URL }},VITE_SUPABASE_ANON_KEY=${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - name: Comment on PR
         if: github.event_name == 'pull_request'
