@@ -172,7 +172,7 @@ export function LoginPage() {
       setStep('success');
       setTimeout(() => {
         if (isNew && !localStorage.getItem('geo:onboarding_done')) {
-          navigate('/onboarding', { replace: true });
+          navigate('/business/onboarding', { replace: true });
         } else {
           navigate('/', { replace: true });
         }
@@ -228,7 +228,7 @@ export function LoginPage() {
       setStep('success');
       setTimeout(() => {
         if (isNew && !localStorage.getItem('geo:onboarding_done')) {
-          navigate('/onboarding', { replace: true });
+          navigate('/business/onboarding', { replace: true });
         } else {
           navigate('/', { replace: true });
         }
@@ -246,7 +246,7 @@ export function LoginPage() {
       setStep('success');
       setTimeout(() => {
         if (newUser && !localStorage.getItem('geo:onboarding_done')) {
-          navigate('/onboarding', { replace: true });
+          navigate('/business/onboarding', { replace: true });
         } else {
           navigate('/', { replace: true });
         }
