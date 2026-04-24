@@ -120,7 +120,7 @@ export function Root() {
       const onboardingDone = localStorage.getItem('geo:onboarding_done');
       const parsedUser = JSON.parse(user);
       if (!onboardingDone && parsedUser.role !== 'business') {
-        navigate('/onboarding');
+        navigate('/business/onboarding');
       } else {
         setIsLoggedIn(true);
         // Show feature guide if triggered by onboarding completion

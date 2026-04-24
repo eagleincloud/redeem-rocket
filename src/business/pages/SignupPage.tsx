@@ -335,7 +335,7 @@ export function SignupPage() {
       setStep(5);
 
       setTimeout(() => {
-        navigate('/onboarding');
+        navigate('/business/onboarding');
       }, 2000);
     } catch (err) {
       console.error('Signup error:', err);
