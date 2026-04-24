@@ -1,4 +1,4 @@
-import { createBrowserRouter }  from 'react-router-dom';
+import { createBrowserRouter, Navigate }  from 'react-router-dom';
 import { Root } from "./components/Root";
 import { Home } from "./components/Home";
 import { ExplorePage } from "./components/ExplorePage";
@@ -23,7 +23,6 @@ const withErrorBoundary = (Component: any) => () => (
 );
 import { AdminPanel } from "./components/AdminPanel";
 import { NotificationsPage } from "./components/NotificationsPage";
-import { OnboardingPage } from "./components/OnboardingPage";
 import { EmailVerificationPage } from "./components/EmailVerificationPage";
 
 export const router = createBrowserRouter([
@@ -37,7 +36,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/onboarding",
-    Component: OnboardingPage,
+    Component: () => <Navigate to="/business/onboarding" replace />,
   },
   {
     path: "/",
