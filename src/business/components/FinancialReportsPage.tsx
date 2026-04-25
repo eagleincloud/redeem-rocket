@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Download, AlertCircle } from 'lucide-react';
-import { FinancialSummary } from '../types/finance';
-import { getFinancialSummary, FinanceError } from '../../app/api/finance';
+import { getFinancialSummary, FinancialSummary } from '../../app/api/finance';
+import { useBusinessContext } from '../context/BusinessContext';
 
-interface FinancialReportsPageProps {
-  businessId: string;
-}
-
-const FinancialReportsPage: React.FC<FinancialReportsPageProps> = ({ businessId }) => {
+const FinancialReportsPage: React.FC = () => {
+  const { bizUser } = useBusinessContext();
+  const businessId = bizUser?.businessId || '';
   const [summary, setSummary] = useState<FinancialSummary | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -41,11 +39,14 @@ const FinancialReportsPage: React.FC<FinancialReportsPageProps> = ({ businessId 
     try {
       setLoading(true);
       setError(null);
-      const { dateFrom, dateTo } = getDateRange();
-      const data = await getFinancialSummary(businessId, dateFrom, dateTo);
-      setSummary(data);
+      const result = await getFinancialSummary(businessId, period);
+      if (result.data) {
+        setSummary(result.data);
+      } else {
+        setError(result.error || 'Failed to load report data');
+      }
     } catch (err) {
-      setError(err instanceof FinanceError ? err.message : 'Failed to load report data');
+      setError(err instanceof Error ? err.message : 'Failed to load report data');
     } finally {
       setLoading(false);
     }
@@ -55,7 +56,7 @@ const FinancialReportsPage: React.FC<FinancialReportsPageProps> = ({ businessId 
     if (!summary) return;
     const { dateFrom, dateTo } = getDateRange();
     const content = `Financial Report\n${dateFrom} to ${dateTo}\n\nMetric,Value\n` +
-      `Total Revenue,${summary.total_revenue}\n` +
+      `Total Invoiced,${summary.total_invoiced}\n` +
       `Total Expenses,${summary.total_expenses}\n` +
       `Net Income,${summary.net_income}`;
     const blob = new Blob([content], { type: 'text/csv' });
@@ -93,12 +94,12 @@ const FinancialReportsPage: React.FC<FinancialReportsPageProps> = ({ businessId 
           <h2 className="text-2xl font-bold text-white mb-6">Profit & Loss Statement</h2>
           <div className="space-y-4">
             <div className="flex justify-between py-2 text-gray-300">
-              <span>Total Revenue</span>
-              <span className="font-medium text-white">${summary.total_revenue.toLocaleString('en-US', { maximumFractionDigits: 2 })}</span>
+              <span>Total Invoiced</span>
+              <span className="font-medium text-white">${summary.total_invoiced.toLocaleString('en-US', { maximumFractionDigits: 2 })}</span>
             </div>
             <div className="flex justify-between py-2 text-gray-300 border-t border-gray-700 pt-4">
-              <span>Operating Expenses</span>
-              <span className="font-medium text-white">${summary.operating_expenses.toLocaleString('en-US', { maximumFractionDigits: 2 })}</span>
+              <span>Total Expenses</span>
+              <span className="font-medium text-white">${summary.total_expenses.toLocaleString('en-US', { maximumFractionDigits: 2 })}</span>
             </div>
             <div className="flex justify-between py-2 border-t-2 border-orange-500 pt-4">
               <span className="text-lg font-bold text-white">Net Income</span>

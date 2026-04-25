@@ -40,6 +40,18 @@ import { ConnectorsPage } from './components/ConnectorsPage';
 import { AutomationPage } from './components/AutomationPage';
 import { SocialPage } from './components/SocialPage';
 import PipelineBoard from './components/Pipeline/PipelineBoard';
+import { FinancePage } from './components/FinancePage';
+import ExpensesPage from './components/ExpensesPage';
+import FinancialReportsPage from './components/FinancialReportsPage';
+import InvoiceBuilder from './components/InvoiceBuilder';
+import PaymentDashboard from './components/PaymentDashboard';
+import PaymentLinkGenerator from './components/PaymentLinkGenerator';
+import StripeCheckout from './components/StripeCheckout';
+import { InventoryPage } from './components/InventoryPage';
+import { ProductsInventoryPage } from './components/ProductsInventoryPage';
+import { StockMovementsPage } from './components/StockMovementsPage';
+import { PurchaseOrderPage } from './components/PurchaseOrderPage';
+import { InventoryReportsPage } from './components/InventoryReportsPage';
 
 // ── Loading Fallback ─────────────────────────────────────────────────────────
 function OnboardingFallback() {
@@ -216,6 +228,12 @@ export const router = createBrowserRouter(
     element: <ForgotPasswordRoot />,
     errorElement: <ErrorElement />,
   },
+  // Redirect /onboarding to /business/onboarding
+  {
+    path: '/onboarding',
+    element: <Navigate to="/business/onboarding" replace />,
+    errorElement: <ErrorElement />,
+  },
   // Smart Onboarding route (protected, lazy-loaded)
   // Supports query params: ?skipOnboarding=true, ?onboardingPhase=N (for development)
   {
@@ -266,6 +284,11 @@ export const router = createBrowserRouter(
       { path: 'payments',      element: <PaymentDashboard />, errorElement: <ErrorElement /> },
       { path: 'payment-links', element: <PaymentLinkGenerator />, errorElement: <ErrorElement /> },
       { path: 'checkout',      element: <StripeCheckout />, errorElement: <ErrorElement /> },
+      { path: 'inventory',     element: <InventoryPage />, errorElement: <ErrorElement /> },
+      { path: 'inventory/products', element: <ProductsInventoryPage />, errorElement: <ErrorElement /> },
+      { path: 'inventory/movements', element: <StockMovementsPage />, errorElement: <ErrorElement /> },
+      { path: 'inventory/orders', element: <PurchaseOrderPage />, errorElement: <ErrorElement /> },
+      { path: 'inventory/reports', element: <InventoryReportsPage />, errorElement: <ErrorElement /> },
       { path: 'leads',         element: <LeadsPage />, errorElement: <ErrorElement /> },
       { path: 'outreach',      element: <OutreachPage />, errorElement: <ErrorElement /> },
       { path: 'team',          element: <TeamPage />, errorElement: <ErrorElement /> },
@@ -283,10 +306,10 @@ export const router = createBrowserRouter(
     element: <BusinessWebsiteRoot />,
     errorElement: <ErrorElement />,
   },
-  // Catch-all route for undefined paths - shows 404
+  // Catch-all route for undefined paths - redirect to app
   {
     path: '*',
-    element: <ErrorElement />,
+    element: <Navigate to="/app" replace />,
     errorElement: <ErrorElement />,
   },
   ],

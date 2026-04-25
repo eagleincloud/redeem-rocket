@@ -4,82 +4,37 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import {
-  BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
-} from 'recharts';
 import { DollarSign, TrendingUp, TrendingDown, AlertCircle } from 'lucide-react';
-import { FinancialSummary, CashFlowMetric } from '../types/finance';
-import {
-  getFinancialSummary,
-  getCashFlowMetrics,
-  getExpenseBreakdown,
-  FinanceError
-} from '../../app/api/finance';
+import { FinancialSummary } from '../../app/api/finance';
+import { getFinancialSummary } from '../../app/api/finance';
+import { useBusinessContext } from '../context/BusinessContext';
 
-interface FinancePageProps {
-  businessId: string;
-}
-
-const FinancePage: React.FC<FinancePageProps> = ({ businessId }) => {
+const FinancePage: React.FC = () => {
+  const { businessId } = useBusinessContext();
   const [summary, setSummary] = useState<FinancialSummary | null>(null);
-  const [cashFlow, setCashFlow] = useState<CashFlowMetric[]>([]);
-  const [expenseBreakdown, setExpenseBreakdown] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [dateRange, setDateRange] = useState<'month' | 'quarter' | 'year'>('year');
+  const [dateRange, setDateRange] = useState<'month' | 'quarter' | 'year'>('month');
 
   useEffect(() => {
     loadFinancialData();
   }, [businessId, dateRange]);
-
-  const getDateRange = () => {
-    const today = new Date();
-    let dateFrom: string;
-
-    switch (dateRange) {
-      case 'month':
-        dateFrom = new Date(today.getFullYear(), today.getMonth(), 1)
-          .toISOString()
-          .split('T')[0];
-        break;
-      case 'quarter':
-        const quarter = Math.floor(today.getMonth() / 3);
-        dateFrom = new Date(today.getFullYear(), quarter * 3, 1)
-          .toISOString()
-          .split('T')[0];
-        break;
-      case 'year':
-        dateFrom = new Date(today.getFullYear(), 0, 1)
-          .toISOString()
-          .split('T')[0];
-        break;
-    }
-
-    return {
-      dateFrom,
-      dateTo: today.toISOString().split('T')[0],
-    };
-  };
 
   const loadFinancialData = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const { dateFrom, dateTo } = getDateRange();
+      const result = await getFinancialSummary(businessId, dateRange);
 
-      const [summaryData, cashFlowData, expenseData] = await Promise.all([
-        getFinancialSummary(businessId, dateFrom, dateTo),
-        getCashFlowMetrics(businessId, dateRange === 'month' ? 1 : dateRange === 'quarter' ? 3 : 12),
-        getExpenseBreakdown(businessId, dateFrom, dateTo),
-      ]);
-
-      setSummary(summaryData);
-      setCashFlow(cashFlowData);
-      setExpenseBreakdown(expenseData);
+      if (result.error) {
+        setError(result.error);
+        setSummary(null);
+      } else {
+        setSummary(result.data || null);
+      }
     } catch (err) {
-      const message = err instanceof FinanceError ? err.message : 'Failed to load financial data';
+      const message = err instanceof Error ? err.message : 'Failed to load financial data';
       setError(message);
       console.error('Error loading financial data:', err);
     } finally {
@@ -140,8 +95,6 @@ const FinancePage: React.FC<FinancePageProps> = ({ businessId }) => {
     );
   }
 
-  const COLORS = ['#ff4400', '#ffa040', '#ffb366', '#ffc266', '#ffd280'];
-
   return (
     <div className="p-6">
       {/* Header */}
@@ -170,8 +123,8 @@ const FinancePage: React.FC<FinancePageProps> = ({ businessId }) => {
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <KPICard
-          title="Total Revenue"
-          value={summary?.total_revenue || 0}
+          title="Total Invoiced"
+          value={summary?.total_invoiced || 0}
           icon={<DollarSign className="text-green-400" size={24} />}
           color="bg-green-900"
         />
@@ -188,51 +141,35 @@ const FinancePage: React.FC<FinancePageProps> = ({ businessId }) => {
           color="bg-blue-900"
         />
         <KPICard
-          title="Gross Margin"
-          value={`${(summary?.gross_margin_percentage || 0).toFixed(1)}%`}
-          icon={<DollarSign className="text-orange-400" size={24} />}
+          title="Outstanding"
+          value={summary?.outstanding_amount || 0}
+          icon={<AlertCircle className="text-orange-400" size={24} />}
           color="bg-orange-900"
         />
       </div>
 
-      {/* Outstanding & Overdue */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-          <p className="text-gray-400 text-sm">Outstanding Invoices</p>
-          <p className="text-2xl font-bold text-white mt-1">{summary?.outstanding_invoices || 0}</p>
-        </div>
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-          <p className="text-gray-400 text-sm">Overdue Invoices</p>
-          <p className="text-2xl font-bold text-red-400 mt-1">{summary?.overdue_invoices || 0}</p>
-        </div>
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-4">
-          <p className="text-gray-400 text-sm">Avg Invoice Value</p>
-          <p className="text-2xl font-bold text-white mt-1">
-            ${(summary?.average_invoice_value || 0).toLocaleString('en-US', { maximumFractionDigits: 2 })}
-          </p>
-        </div>
-      </div>
-
       {/* Summary Stats */}
       <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
-        <h2 className="text-lg font-semibold text-white mb-4">Summary</h2>
+        <h2 className="text-lg font-semibold text-white mb-4">Financial Summary</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div>
-            <p className="text-gray-400 text-sm">Total Invoices</p>
+            <p className="text-gray-400 text-sm">Invoices</p>
             <p className="text-xl font-bold text-white mt-1">{summary?.invoice_count || 0}</p>
           </div>
           <div>
-            <p className="text-gray-400 text-sm">Total Expenses</p>
+            <p className="text-gray-400 text-sm">Paid Amount</p>
+            <p className="text-xl font-bold text-green-400 mt-1">
+              ${(summary?.total_paid || 0).toLocaleString('en-US', { maximumFractionDigits: 2 })}
+            </p>
+          </div>
+          <div>
+            <p className="text-gray-400 text-sm">Expenses</p>
             <p className="text-xl font-bold text-white mt-1">{summary?.expense_count || 0}</p>
           </div>
           <div>
-            <p className="text-gray-400 text-sm">Paid Invoices</p>
-            <p className="text-xl font-bold text-green-400 mt-1">{summary?.paid_invoices || 0}</p>
-          </div>
-          <div>
-            <p className="text-gray-400 text-sm">Est. Tax Liability</p>
-            <p className="text-xl font-bold text-white mt-1">
-              ${(summary?.tax_estimated || 0).toLocaleString('en-US', { maximumFractionDigits: 2 })}
+            <p className="text-gray-400 text-sm">Payment Rate</p>
+            <p className="text-xl font-bold text-orange-400 mt-1">
+              {((summary?.payment_rate || 0) * 100).toFixed(1)}%
             </p>
           </div>
         </div>
@@ -241,4 +178,4 @@ const FinancePage: React.FC<FinancePageProps> = ({ businessId }) => {
   );
 };
 
-export default FinancePage;
+export { FinancePage };
