@@ -10,7 +10,7 @@ import type { LeadConnector } from '../types'
 
 type ConnectorType = 'webhook' | 'ivr' | 'database' | 'twitter' | 'linkedin' | 'facebook' | 'instagram' | 'tiktok'
 
-export default function ConnectorsPage() {
+export function ConnectorsPage() {
   const navigate = useNavigate()
   const { type, id } = useParams<{ type?: string; id?: string }>()
   const { connectors, loading, error, fetchConnectors, createConnector, updateConnector } = useConnectors()
