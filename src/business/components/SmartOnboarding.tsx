@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useSearchParams }  from 'react-router-dom';
 import { useBusinessContext } from '../context/BusinessContext';
 import { ChevronRight, ChevronLeft, Loader, Check } from 'lucide-react';
-import { completeOnboarding } from '@/app/api/supabase-data';
+import { completeOnboarding, completeOnboardingFull } from '@/app/api/supabase-data';
 import { FeatureShowcasePhase } from './onboarding/FeatureShowcasePhase';
 import { ThemeSelectionPhase } from './onboarding/ThemeSelectionPhase';
 import { DynamicJourneyPhase } from './onboarding/DynamicJourneyPhase';
@@ -272,8 +272,21 @@ export function SmartOnboarding() {
         return;
       }
 
-      // Save to Supabase
-      const saved = await completeOnboarding(bizUser.id, featurePreferences);
+      // Prepare comprehensive onboarding data
+      const onboardingData = {
+        featurePreferences,
+        themePreference: {
+          primaryColor,
+          secondaryColor,
+          layout: selectedTheme,
+          logoUrl,
+        },
+        selectedPipelines: selectedPipelines.length > 0 ? selectedPipelines : [],
+        dynamicAnswers: journeyAnswers,
+      };
+
+      // Save comprehensive data to Supabase
+      const saved = await completeOnboardingFull(bizUser.id, onboardingData);
 
       if (!saved) {
         console.warn('Failed to save to Supabase, continuing with local save');
@@ -283,7 +296,10 @@ export function SmartOnboarding() {
       const updatedUser = {
         ...bizUser,
         feature_preferences: featurePreferences,
+        theme_preference: onboardingData.themePreference,
+        onboarding_answers: journeyAnswers,
         onboarding_done: true,
+        onboarding_completed_at: new Date().toISOString(),
       };
 
       setBizUser(updatedUser);
@@ -298,18 +314,62 @@ export function SmartOnboarding() {
     }
   }
 
+  // Calculate overall phase progress
+  const phaseMap = { phase_1: 1, phase_2: 2, phase_3: 3, phase_4: 4, phase_5: 5, phase_6: 6, complete: 6 };
+  const currentPhaseNum = phaseMap[stage] || 1;
+  const phaseProgress = (currentPhaseNum / 6) * 100;
+
   return (
     <div
       style={{
         background: colors.bg,
         minHeight: '100vh',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '20px',
         fontFamily: "'Inter', sans-serif",
       }}
     >
+      {/* Overall Phase Progress Indicator (shown at top) */}
+      {stage !== 'complete' && (
+        <div
+          style={{
+            width: '100%',
+            maxWidth: '600px',
+            marginBottom: '32px',
+            paddingTop: '16px',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+            <span style={{ fontSize: '12px', color: colors.textMuted, fontWeight: 500 }}>
+              Phase {currentPhaseNum} of 6
+            </span>
+            <span style={{ fontSize: '12px', color: colors.accent, fontWeight: 600 }}>
+              {Math.round(phaseProgress)}%
+            </span>
+          </div>
+          <div
+            style={{
+              height: '2px',
+              background: colors.border,
+              borderRadius: '1px',
+              overflow: 'hidden',
+            }}
+          >
+            <div
+              style={{
+                height: '100%',
+                background: colors.accent,
+                width: `${phaseProgress}%`,
+                transition: 'width 0.3s ease-out',
+              }}
+            />
+          </div>
+        </div>
+      )}
+
       <div
         style={{
           width: '100%',
@@ -538,6 +598,7 @@ export function SmartOnboarding() {
               onPrevious={goBackToPhase3}
               selectedFeatures={selectedFeatures}
               initialAnswers={journeyAnswers}
+              businessType={bizUser?.businessCategory || 'restaurant'}
             />
           </div>
         )}

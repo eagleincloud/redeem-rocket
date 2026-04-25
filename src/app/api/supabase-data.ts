@@ -3803,3 +3803,65 @@ export async function checkOnboardingStatus(userId: string): Promise<{
     return null;
   }
 }
+
+/**
+ * Fetch feature sets for a specific business category
+ */
+export async function fetchFeatureSetsByCategory(businessCategory: string): Promise<{
+  id: string;
+  business_category: string;
+  features: Record<string, any>;
+  pipeline_templates: Record<string, any>;
+  dynamic_questions: Record<string, any>;
+  ai_setup_hints: Record<string, any>;
+} | null> {
+  if (!supabase) return null;
+
+  try {
+    const { data, error } = await supabase
+      .from('feature_sets_by_industry')
+      .select('id, business_category, features, pipeline_templates, dynamic_questions, ai_setup_hints')
+      .eq('business_category', businessCategory)
+      .single();
+
+    if (error) {
+      console.warn('[fetchFeatureSetsByCategory] Error:', error);
+      return null;
+    }
+
+    return data;
+  } catch (err) {
+    console.error('[fetchFeatureSetsByCategory] Error:', err);
+    return null;
+  }
+}
+
+/**
+ * Fetch all feature sets for all industries
+ */
+export async function fetchAllFeatureSets(): Promise<Array<{
+  id: string;
+  business_category: string;
+  features: Record<string, any>;
+  pipeline_templates: Record<string, any>;
+  dynamic_questions: Record<string, any>;
+  ai_setup_hints: Record<string, any>;
+}> | null> {
+  if (!supabase) return null;
+
+  try {
+    const { data, error } = await supabase
+      .from('feature_sets_by_industry')
+      .select('id, business_category, features, pipeline_templates, dynamic_questions, ai_setup_hints');
+
+    if (error) {
+      console.warn('[fetchAllFeatureSets] Error:', error);
+      return null;
+    }
+
+    return data || [];
+  } catch (err) {
+    console.error('[fetchAllFeatureSets] Error:', err);
+    return null;
+  }
+}

@@ -1,5 +1,6 @@
-import { useState, useMemo } from 'react';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { useState, useMemo, useEffect } from 'react';
+import { ChevronRight, ChevronLeft, Loader } from 'lucide-react';
+import { supabase } from '../../../../app/lib/supabase';
 
 interface Question {
   id: string;
@@ -16,6 +17,9 @@ interface DynamicJourneyPhaseProps {
   selectedFeatures?: string[];
   answers?: Record<string, any>;
   onChange?: (answers: Record<string, any>) => void;
+  onNext?: () => void;
+  onPrevious?: () => void;
+  initialAnswers?: Record<string, any>;
 }
 
 export function DynamicJourneyPhase({
@@ -23,8 +27,46 @@ export function DynamicJourneyPhase({
   selectedFeatures = [],
   answers = {},
   onChange,
+  onNext,
+  onPrevious,
+  initialAnswers = {},
 }: DynamicJourneyPhaseProps) {
-  const [localAnswers, setLocalAnswers] = useState(answers);
+  const [localAnswers, setLocalAnswers] = useState(initialAnswers || answers);
+  const [loadingQuestions, setLoadingQuestions] = useState(false);
+  const [databaseQuestions, setDatabaseQuestions] = useState<Question[]>([]);
+
+  // Fetch questions from database on mount
+  useEffect(() => {
+    const fetchDynamicQuestions = async () => {
+      if (!businessType || !supabase) return;
+
+      setLoadingQuestions(true);
+      try {
+        const { data, error } = await supabase
+          .from('feature_sets_by_industry')
+          .select('dynamic_questions')
+          .eq('business_category', businessType)
+          .single();
+
+        if (error || !data?.dynamic_questions) {
+          console.warn('Failed to load dynamic questions from database:', error);
+          setLoadingQuestions(false);
+          return;
+        }
+
+        const questionsData = data.dynamic_questions as any;
+        if (questionsData.questions && Array.isArray(questionsData.questions)) {
+          setDatabaseQuestions(questionsData.questions);
+        }
+      } catch (err) {
+        console.error('[DynamicJourneyPhase] Error fetching questions:', err);
+      } finally {
+        setLoadingQuestions(false);
+      }
+    };
+
+    fetchDynamicQuestions();
+  }, [businessType]);
 
   // Define questions based on business type and selected features
   const baseQuestions: Question[] = [
@@ -121,7 +163,12 @@ export function DynamicJourneyPhase({
   };
 
   // Combine questions based on selected features
+  // Prefer database questions if available, fall back to hardcoded questions
   const questions = useMemo(() => {
+    if (databaseQuestions.length > 0) {
+      return databaseQuestions;
+    }
+
     let combined = [...baseQuestions];
     selectedFeatures.forEach((feature) => {
       const featureQuestions = featureSpecificQuestions[feature];
@@ -130,7 +177,7 @@ export function DynamicJourneyPhase({
       }
     });
     return combined;
-  }, [selectedFeatures]);
+  }, [selectedFeatures, databaseQuestions]);
 
   const handleAnswerChange = (fieldId: string, value: any) => {
     const updatedAnswers = { ...localAnswers, [fieldId]: value };
@@ -153,6 +200,21 @@ export function DynamicJourneyPhase({
     success: '#10b981',
     hover: '#1a1f3a',
   };
+
+  // Show loading state
+  if (loadingQuestions) {
+    return (
+      <div style={{ width: '100%', textAlign: 'center', padding: '60px 20px' }}>
+        <Loader size={40} style={{
+          animation: 'spin 1s linear infinite',
+          margin: '0 auto 20px',
+          color: colors.accent
+        }} />
+        <h2 style={{ color: colors.text, marginBottom: '8px' }}>Loading questions...</h2>
+        <p style={{ color: colors.textMuted }}>Customizing questions for your business type</p>
+      </div>
+    );
+  }
 
   return (
     <div style={{ width: '100%' }}>
@@ -472,6 +534,7 @@ export function DynamicJourneyPhase({
           fontSize: '13px',
           color: colors.textMuted,
           textAlign: 'center',
+          marginBottom: '24px',
         }}
       >
         <p style={{ margin: 0 }}>
@@ -479,6 +542,86 @@ export function DynamicJourneyPhase({
           these settings later.
         </p>
       </div>
+
+      {/* Navigation Buttons */}
+      <div style={{ display: 'flex', gap: '12px' }}>
+        {onPrevious && (
+          <button
+            onClick={onPrevious}
+            style={{
+              flex: 1,
+              padding: '16px',
+              background: 'transparent',
+              border: `1.5px solid ${colors.border}`,
+              color: colors.textMuted,
+              borderRadius: '10px',
+              fontSize: '14px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+            }}
+            onMouseEnter={(e) => {
+              const el = e.target as HTMLElement;
+              el.style.borderColor = colors.text;
+              el.style.color = colors.text;
+            }}
+            onMouseLeave={(e) => {
+              const el = e.target as HTMLElement;
+              el.style.borderColor = colors.border;
+              el.style.color = colors.textMuted;
+            }}
+          >
+            <ChevronLeft size={16} />
+            Back
+          </button>
+        )}
+        {onNext && (
+          <button
+            onClick={() => {
+              onChange?.(localAnswers);
+              onNext?.();
+            }}
+            style={{
+              flex: 1,
+              padding: '16px',
+              background: colors.accent,
+              border: 'none',
+              color: 'white',
+              borderRadius: '10px',
+              fontSize: '14px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '6px',
+            }}
+            onMouseEnter={(e) => {
+              const el = e.target as HTMLElement;
+              el.style.opacity = '0.9';
+            }}
+            onMouseLeave={(e) => {
+              const el = e.target as HTMLElement;
+              el.style.opacity = '1';
+            }}
+          >
+            Continue
+            <ChevronRight size={16} />
+          </button>
+        )}
+      </div>
+
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }
