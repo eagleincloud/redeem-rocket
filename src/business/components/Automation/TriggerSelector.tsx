@@ -326,4 +326,3 @@ const TriggerSelector: React.FC<TriggerSelectorProps> = ({
   );
 };
 
-export const TriggerSelector = React.memo(TriggerSelector);

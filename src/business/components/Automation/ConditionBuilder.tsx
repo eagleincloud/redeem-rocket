@@ -339,4 +339,3 @@ const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
   );
 };
 
-export const ConditionBuilder = React.memo(ConditionBuilder);

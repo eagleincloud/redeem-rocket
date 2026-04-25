@@ -514,4 +514,3 @@ function getActionLabel(actionType: ActionType): string {
   return labels[actionType] || actionType;
 }
 
-export const RuleBuilder = React.memo(RuleBuilder);
