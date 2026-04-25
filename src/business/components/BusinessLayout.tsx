@@ -11,7 +11,7 @@ import {
   Wallet, BarChart3, Image, User, Bell, CreditCard, Menu, X, Sun, Moon,
   LogOut, ChevronRight, TrendingUp, AlertCircle, Lock, Zap,
   Megaphone, Users, Receipt, UserCheck, RadioTower, Search,
-  Mail, Link2, Workflow, Share2, Boxes, Truck, FileText,
+  Mail, Link2, Workflow, Share2, Boxes, Truck, FileText, DollarSign,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
