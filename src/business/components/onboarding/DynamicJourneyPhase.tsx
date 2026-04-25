@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import { ChevronRight, ChevronLeft, Loader } from 'lucide-react';
-import { supabase } from '../../../../app/lib/supabase';
+import { supabase } from '@/app/lib/supabase';
 
 interface Question {
   id: string;
