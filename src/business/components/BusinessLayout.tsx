@@ -349,7 +349,7 @@ export function BusinessLayout() {
     </div>
   );
   if (!bizUser) return <Navigate to="/login" replace />;
-  if (!bizUser.onboarding_done) return <Navigate to="/onboarding" replace />;
+  if (!bizUser.onboarding_done) return <Navigate to="/business/onboarding" replace />;
 
   const planColor = PLAN_COLORS[bizUser.plan] ?? '#6b7280';
   const planLabel = bizUser.plan.charAt(0).toUpperCase() + bizUser.plan.slice(1);

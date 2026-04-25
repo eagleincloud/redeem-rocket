@@ -5,27 +5,27 @@
 
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, AlertCircle, CheckCircle, XCircle } from 'lucide-react';
-import { Expense, ExpenseCategory, ExpenseFilters, CreateExpenseRequest } from '../types/finance';
-import {
-  getExpenses,
-  createExpense,
-  updateExpense,
-  approveExpense,
-  deleteExpense,
-  FinanceError
-} from '../../app/api/finance';
+import { getExpenses, createExpense, updateExpense, Expense } from '../../app/api/finance';
+import { useBusinessContext } from '../context/BusinessContext';
 
-interface ExpensesPageProps {
-  businessId: string;
-  userId: string;
+interface CreateExpenseRequest {
+  category: string;
+  amount: number;
+  date: string;
+  description: string;
 }
+
+interface ExpenseCategory extends String {}
 
 const EXPENSE_CATEGORIES: ExpenseCategory[] = [
   'supplies', 'travel', 'meals', 'utilities', 'marketing',
   'salaries', 'equipment', 'software', 'rent', 'other'
 ];
 
-const ExpensesPage: React.FC<ExpensesPageProps> = ({ businessId, userId }) => {
+const ExpensesPage: React.FC = () => {
+  const { bizUser } = useBusinessContext();
+  const businessId = bizUser?.businessId || '';
+
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -47,10 +47,10 @@ const ExpensesPage: React.FC<ExpensesPageProps> = ({ businessId, userId }) => {
       setLoading(true);
       setError(null);
 
-      const result = await getExpenses(businessId, {}, { page: 1, limit: 10 });
+      const result = await getExpenses(businessId, { limit: 50 });
       setExpenses(result.data);
     } catch (err) {
-      const message = err instanceof FinanceError ? err.message : 'Failed to load expenses';
+      const message = err instanceof Error ? err.message : 'Failed to load expenses';
       setError(message);
     } finally {
       setLoading(false);
@@ -61,12 +61,17 @@ const ExpensesPage: React.FC<ExpensesPageProps> = ({ businessId, userId }) => {
     e.preventDefault();
 
     try {
-      await createExpense(businessId, formData, userId);
+      await createExpense(businessId, {
+        category: formData.category,
+        description: formData.description,
+        amount: formData.amount,
+        expense_date: formData.date,
+      });
       setShowForm(false);
       setFormData({ category: 'other', amount: 0, date: new Date().toISOString().split('T')[0], description: '' });
       loadExpenses();
     } catch (err) {
-      const message = err instanceof FinanceError ? err.message : 'Failed to save expense';
+      const message = err instanceof Error ? err.message : 'Failed to save expense';
       setError(message);
     }
   };

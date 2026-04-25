@@ -3,11 +3,13 @@
  * Creates shareable Stripe payment links and QR codes
  */
 
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { Copy, Share2, QrCode, CheckCircle, AlertCircle, Loader, X } from 'lucide-react';
-import QRCode from 'qrcode.react';
 import { createPaymentLink } from '@/app/api/stripe';
 import { toast } from 'sonner';
+
+// Lazy load QRCode component to handle ES module import issues
+const QRCode = lazy(() => import('qrcode.react').then(mod => ({ default: mod.default || mod })));
 
 interface PaymentLinkGeneratorProps {
   invoiceId: string;
@@ -72,7 +74,9 @@ export function PaymentLinkGenerator({
               <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', color: '#999', cursor: 'pointer', fontSize: '24px' }}>×</button>
             </div>
             <div style={{ textAlign: 'center', padding: '20px', backgroundColor: inputBg, borderRadius: '8px', marginBottom: '20px' }}>
-              <QRCode value={url} size={256} level="H" />
+              <Suspense fallback={<div style={{ color: '#999' }}>Loading QR Code...</div>}>
+                <QRCode value={url} size={256} level="H" />
+              </Suspense>
             </div>
             <div style={{ marginBottom: '20px' }}>
               <label style={{ display: 'block', color: isDark ? '#e2e8f0' : '#18100a', fontSize: '13px', fontWeight: '500', marginBottom: '8px' }}>Payment Link</label>

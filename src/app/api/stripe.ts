@@ -290,3 +290,32 @@ export function getStripeConfig() {
     testMode: process.env.NODE_ENV === 'development',
   };
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ADDITIONAL STUB FUNCTIONS FOR COMPATIBILITY
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Create a Stripe payment intent (stub - requires full Stripe setup)
+ */
+export async function createPaymentIntent(amount: number, currency: string, metadata?: any): Promise<any> {
+  console.warn('createPaymentIntent: Stripe not fully configured. This is a stub implementation.');
+  return {
+    id: `pi_${Date.now()}`,
+    client_secret: `${Date.now()}_secret`,
+    amount,
+    currency,
+    status: 'requires_payment_method',
+    metadata,
+  };
+}
+
+/**
+ * Alias for getPaymentLinkStatus for backwards compatibility
+ */
+export const getPaymentStatus = getPaymentLinkStatus;
+
+/**
+ * Alias for refundInvoicePayment for backwards compatibility
+ */
+export const createRefund = refundInvoicePayment;

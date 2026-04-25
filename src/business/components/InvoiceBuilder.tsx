@@ -1,15 +1,28 @@
 import React, { useState } from 'react';
 import { Plus, Trash2, ArrowLeft } from 'lucide-react';
-import { CreateInvoiceRequest, CreateInvoiceItemRequest } from '../types/finance';
+import { useBusinessContext } from '../context/BusinessContext';
+
+interface CreateInvoiceItemRequest {
+  description: string;
+  quantity: number;
+  unit_price: number;
+}
+
+interface CreateInvoiceRequest {
+  customer_name: string;
+  customer_email?: string;
+  items: CreateInvoiceItemRequest[];
+  tax_rate: number;
+  due_date: string;
+}
 
 interface InvoiceBuilderProps {
-  businessId: string;
-  userId: string;
   onSave: (data: CreateInvoiceRequest) => Promise<void>;
   onCancel: () => void;
 }
 
-const InvoiceBuilder: React.FC<InvoiceBuilderProps> = ({ businessId, userId, onSave, onCancel }) => {
+const InvoiceBuilder: React.FC<InvoiceBuilderProps> = ({ onSave, onCancel }) => {
+  const { bizUser } = useBusinessContext();
   const [customerName, setCustomerName] = useState('');
   const [customerEmail, setCustomerEmail] = useState('');
   const [items, setItems] = useState<CreateInvoiceItemRequest[]>([

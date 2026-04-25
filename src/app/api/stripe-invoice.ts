@@ -60,23 +60,27 @@ export async function createInvoicePaymentIntent(invoiceId: string, businessId: 
 }
 
 export async function generateInvoicePaymentLink(invoiceId: string, businessId: string, amount: number, currency = 'inr', businessName?: string): Promise<string> {
-  const description = `Invoice Payment - ${businessName || 'Payment'}`;
-  const linkData = await createPaymentLink(invoiceId, amount, description, currency);
+  const linkData = await createPaymentLink({
+    invoiceId,
+    businessId,
+    amount,
+    currency,
+    customerName: businessName,
+  });
 
   const { error } = await supabase.from('payment_links').insert({
-    payment_link_id: linkData.id,
-    link_url: linkData.url,
+    payment_link_id: linkData.payment_link_id,
+    link_url: linkData.payment_link_url,
     invoice_id: invoiceId,
     business_id: businessId,
     amount,
     currency,
-    active: linkData.active,
     expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     metadata: { business_name: businessName },
   });
 
   if (error) console.error('Failed to record payment link:', error);
-  return linkData.url;
+  return linkData.payment_link_url;
 }
 
 export async function checkInvoicePaymentStatus(invoiceId: string): Promise<InvoicePaymentData | null> {
