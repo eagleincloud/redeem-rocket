@@ -20,3 +20,6 @@ export * from './automation';
 
 // ── Marketplace Types ───────────────────────────────────────────────────────
 export * from './marketplace';
+
+// ── Growth Platform Types ───────────────────────────────────────────────────
+export * from './growth-platform';

@@ -6,7 +6,7 @@ import IVRConnector from './LeadConnectors/IVRConnector'
 import DatabaseConnector from './LeadConnectors/DatabaseConnector'
 import SocialOAuthConnector from './LeadConnectors/SocialOAuthConnector'
 import { useConnectors } from '../hooks/useConnectors'
-import type { LeadConnector } from '../../types/growth-platform'
+import type { LeadConnector } from '../types'
 
 type ConnectorType = 'webhook' | 'ivr' | 'database' | 'twitter' | 'linkedin' | 'facebook' | 'instagram' | 'tiktok'
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { AlertCircle, CheckCircle, ExternalLink } from 'lucide-react'
-import type { LeadConnector } from '../../../types/growth-platform'
+import type { LeadConnector } from '../../types'
 
 interface SocialOAuthConnectorProps {
   platform: 'twitter' | 'linkedin' | 'facebook' | 'instagram' | 'tiktok'

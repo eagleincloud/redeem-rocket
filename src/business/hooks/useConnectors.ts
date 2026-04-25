@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
-import { supabase } from '../../services/supabase'
-import type { LeadConnector } from '../types/growth-platform'
+import { supabase } from '../services/supabase'
+import type { LeadConnector } from '../types'
 
 interface UseConnectorsReturn {
   connectors: LeadConnector[]

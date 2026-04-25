@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Copy, Check, AlertCircle, Plus, Trash2 } from 'lucide-react'
-import type { LeadConnector } from '../../../types/growth-platform'
+import type { LeadConnector } from '../../types'
 
 interface WebhookConnectorProps {
   connector?: LeadConnector

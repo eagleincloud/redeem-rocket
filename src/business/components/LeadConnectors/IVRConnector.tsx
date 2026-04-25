@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { AlertCircle, Plus, Trash2, Phone } from 'lucide-react'
-import type { LeadConnector } from '../../../types/growth-platform'
+import type { LeadConnector } from '../../types'
 
 interface IVRConnectorProps {
   connector?: LeadConnector

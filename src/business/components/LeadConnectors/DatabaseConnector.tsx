@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { AlertCircle, Code2, Play } from 'lucide-react'
-import type { LeadConnector } from '../../../types/growth-platform'
+import type { LeadConnector } from '../../types'
 
 interface DatabaseConnectorProps {
   connector?: LeadConnector
