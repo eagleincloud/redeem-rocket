@@ -362,6 +362,8 @@ export const router = createBrowserRouter(
       { path: 'team',          element: <TeamPage />, errorElement: <ErrorElement /> },
       { path: 'email-setup',   element: <EmailSetupPage />, errorElement: <ErrorElement /> },
       { path: 'connectors',    element: <ConnectorsPage />, errorElement: <ErrorElement /> },
+      { path: 'connectors/:type', element: <ConnectorsPage />, errorElement: <ErrorElement /> },
+      { path: 'connectors/:type/:id', element: <ConnectorsPage />, errorElement: <ErrorElement /> },
       { path: 'social',        element: <SocialPage />, errorElement: <ErrorElement /> },
       { path: 'pipelines',     element: <PipelineBoard pipelineId="" />, errorElement: <ErrorElement /> },
       { path: 'pipelines/:id', element: <PipelineBoard pipelineId="" />, errorElement: <ErrorElement /> },

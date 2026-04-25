@@ -17,29 +17,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Configure Git
-        run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "GitHub Actions"
-
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
-      - name: Verify repository structure
-        run: |
-          echo "✅ Repository cloned successfully"
-          echo "Checking monorepo structure..."
-          test -d customer-app && echo "✅ customer-app found"
-          test -d business-app && echo "✅ business-app found"
-          test -d admin-app && echo "✅ admin-app found"
-          test -d backend && echo "✅ backend found"
-          echo "✅ All required directories verified"
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run build test
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
   deploy-prod:
     needs: test

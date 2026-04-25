@@ -1,440 +1,336 @@
-import React, { useState, useEffect } from 'react';
-import { useTheme } from '@/app/context/ThemeContext';
-import { useBusiness } from '../context/BusinessContext';
-import {
-  fetchLeadConnectors,
-  createLeadConnector,
-  updateLeadConnector,
-  deleteLeadConnector,
-} from '@/app/api/supabase-data';
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { ArrowLeft, Plus, Activity, AlertCircle } from 'lucide-react'
+import WebhookConnector from './LeadConnectors/WebhookConnector'
+import IVRConnector from './LeadConnectors/IVRConnector'
+import DatabaseConnector from './LeadConnectors/DatabaseConnector'
+import SocialOAuthConnector from './LeadConnectors/SocialOAuthConnector'
+import { useConnectors } from '../hooks/useConnectors'
+import type { LeadConnector } from '../../types/growth-platform'
 
-type ConnectorType = 'csv_upload' | 'webhook' | 'form_embed' | 'api_key' | 'zapier';
+type ConnectorType = 'webhook' | 'ivr' | 'database' | 'twitter' | 'linkedin' | 'facebook' | 'instagram' | 'tiktok'
 
-interface LeadConnector {
-  id: string;
-  connector_name: string;
-  connector_type: string;
-  source_name?: string;
-  webhook_url?: string;
-  api_key?: string;
-  form_embed_code?: string;
-  is_active: boolean;
-  sync_count: number;
-  last_sync_at?: string;
-}
+export default function ConnectorsPage() {
+  const navigate = useNavigate()
+  const { type, id } = useParams<{ type?: string; id?: string }>()
+  const { connectors, loading, error, fetchConnectors, createConnector, updateConnector } = useConnectors()
 
-export const ConnectorsPage: React.FC = () => {
-  const { isDark } = useTheme();
-  const { businessId } = useBusiness();
-  const [connectors, setConnectors] = useState<LeadConnector[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showNewForm, setShowNewForm] = useState(false);
-  const [selectedType, setSelectedType] = useState<ConnectorType>('csv_upload');
-  const [formData, setFormData] = useState({
-    connector_name: '',
-    source_name: '',
-    webhook_url: '',
-    api_key: '',
-    form_embed_code: '',
-  });
-
-  const colors = {
-    bg: isDark ? '#0b1220' : '#ffffff',
-    card: isDark ? '#111827' : '#f9fafb',
-    border: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.1)',
-    text: isDark ? '#f1f5f9' : '#1f2937',
-    textMuted: isDark ? '#6b7280' : '#6b7280',
-    primary: '#6366f1',
-    accent: '#F97316',
-  };
+  const [mode, setMode] = useState<'list' | 'create' | 'edit'>('list')
+  const [selectedConnector, setSelectedConnector] = useState<LeadConnector | undefined>()
+  const [saveLoading, setSaveLoading] = useState(false)
 
   useEffect(() => {
-    loadConnectors();
-  }, [businessId]);
+    fetchConnectors()
+  }, [fetchConnectors])
 
-  const loadConnectors = async () => {
-    if (!businessId) return;
-    setLoading(true);
+  useEffect(() => {
+    if (type) {
+      if (id) {
+        // Edit mode
+        const connector = connectors.find((c) => c.id === id)
+        if (connector) {
+          setSelectedConnector(connector)
+          setMode('edit')
+        }
+      } else {
+        // Create mode
+        setSelectedConnector(undefined)
+        setMode('create')
+      }
+    }
+  }, [type, id, connectors])
+
+  const handleSaveConnector = async (data: Omit<LeadConnector, 'id' | 'business_id' | 'created_at' | 'updated_at' | 'sync_count' | 'error_count' | 'last_sync_at' | 'last_error'>) => {
+    setSaveLoading(true)
     try {
-      const data = await fetchLeadConnectors(businessId);
-      setConnectors(data as LeadConnector[]);
+      if (mode === 'edit' && selectedConnector) {
+        await updateConnector(selectedConnector.id, data)
+      } else {
+        await createConnector(data)
+      }
+      await fetchConnectors()
+      setMode('list')
+      setSelectedConnector(undefined)
+      navigate('/app/connectors')
     } catch (err) {
-      console.error('Load connectors failed:', err);
+      console.error('Failed to save connector:', err)
     } finally {
-      setLoading(false);
+      setSaveLoading(false)
     }
-  };
+  }
 
-  const handleAddConnector = async () => {
-    if (!businessId) return;
+  const handleCancel = () => {
+    setMode('list')
+    setSelectedConnector(undefined)
+    navigate('/app/connectors')
+  }
 
-    try {
-      await createLeadConnector(businessId, {
-        connector_name: formData.connector_name,
-        connector_type: selectedType,
-        source_name: formData.source_name || undefined,
-        webhook_url: formData.webhook_url || undefined,
-        api_key: formData.api_key || undefined,
-        form_embed_code: formData.form_embed_code || undefined,
-      });
+  const formatDate = (dateString: string | null | undefined) => {
+    if (!dateString) return 'Never'
+    return new Date(dateString).toLocaleDateString()
+  }
 
-      setFormData({
-        connector_name: '',
-        source_name: '',
-        webhook_url: '',
-        api_key: '',
-        form_embed_code: '',
-      });
-      setShowNewForm(false);
-      await loadConnectors();
-    } catch (err) {
-      console.error('Add connector failed:', err);
+  const getConnectorIcon = (connectorType: string) => {
+    const icons: Record<string, string> = {
+      webhook: '🪝',
+      ivr: '☎️',
+      database: '💾',
+      twitter: '𝕏',
+      linkedin: '💼',
+      facebook: '📘',
+      instagram: '📷',
+      tiktok: '♪',
     }
-  };
+    return icons[connectorType] || '🔌'
+  }
 
-  const handleDeleteConnector = async (connectorId: string) => {
-    try {
-      await deleteLeadConnector(connectorId);
-      await loadConnectors();
-    } catch (err) {
-      console.error('Delete connector failed:', err);
-    }
-  };
+  // Create/Edit View
+  if (mode !== 'list' && type) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="max-w-4xl mx-auto px-4">
+          <button
+            onClick={handleCancel}
+            className="flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6 font-medium"
+          >
+            <ArrowLeft size={20} />
+            Back to Connectors
+          </button>
 
-  const handleToggleActive = async (connectorId: string, isActive: boolean) => {
-    try {
-      await updateLeadConnector(connectorId, { is_active: !isActive });
-      await loadConnectors();
-    } catch (err) {
-      console.error('Toggle active failed:', err);
-    }
-  };
+          <div className="bg-white rounded-lg shadow-lg p-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-8">
+              {mode === 'edit' ? `Edit ${selectedConnector?.connector_name}` : `Set up ${type === 'webhook' ? 'Webhook' : type === 'ivr' ? 'IVR' : type === 'database' ? 'Database' : 'Social'} Connector`}
+            </h1>
 
-  const connectorIcons: Record<ConnectorType, string> = {
-    csv_upload: '📄',
-    webhook: '🔗',
-    form_embed: '📋',
-    api_key: '🔑',
-    zapier: '⚡',
-  };
+            {type === 'webhook' && (
+              <WebhookConnector
+                connector={selectedConnector}
+                onSave={handleSaveConnector}
+                onCancel={handleCancel}
+                loading={saveLoading}
+              />
+            )}
 
-  const connectorDescriptions: Record<ConnectorType, string> = {
-    csv_upload: 'Import leads from CSV files',
-    webhook: 'Receive leads via webhook',
-    form_embed: 'Embed a form on your website',
-    api_key: 'Use API to send leads',
-    zapier: 'Connect via Zapier integration',
-  };
+            {type === 'ivr' && (
+              <IVRConnector
+                connector={selectedConnector}
+                onSave={handleSaveConnector}
+                onCancel={handleCancel}
+                loading={saveLoading}
+              />
+            )}
 
+            {type === 'database' && (
+              <DatabaseConnector
+                connector={selectedConnector}
+                onSave={handleSaveConnector}
+                onCancel={handleCancel}
+                loading={saveLoading}
+              />
+            )}
+
+            {['twitter', 'linkedin', 'facebook', 'instagram', 'tiktok'].includes(type) && (
+              <SocialOAuthConnector
+                platform={type as 'twitter' | 'linkedin' | 'facebook' | 'instagram' | 'tiktok'}
+                connector={selectedConnector}
+                onSave={handleSaveConnector}
+                onCancel={handleCancel}
+                loading={saveLoading}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // List View
   return (
-    <div style={{ padding: '24px', minHeight: '100vh', background: colors.bg }}>
-      {/* Header */}
-      <div style={{ marginBottom: '32px' }}>
-        <h1 style={{ fontSize: '28px', fontWeight: '700', color: colors.text, margin: '0 0 8px 0' }}>
-          Lead Connectors
-        </h1>
-        <p style={{ fontSize: '14px', color: colors.textMuted, margin: 0 }}>
-          Connect lead sources from CSV, webhooks, forms, and integrations
-        </p>
-      </div>
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-4xl font-bold text-gray-900">Lead Connectors</h1>
+            <p className="text-gray-600 mt-2">Integrate leads from multiple sources into your pipeline</p>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={() => navigate('/app/connectors/webhook')}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm flex items-center gap-2"
+            >
+              <Plus size={18} />
+              Webhook
+            </button>
+            <button
+              onClick={() => navigate('/app/connectors/ivr')}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm flex items-center gap-2"
+            >
+              <Plus size={18} />
+              IVR
+            </button>
+            <button
+              onClick={() => navigate('/app/connectors/database')}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm flex items-center gap-2"
+            >
+              <Plus size={18} />
+              Database
+            </button>
+          </div>
+        </div>
 
-      {/* Add Button */}
-      <div style={{ marginBottom: '24px' }}>
-        <button
-          onClick={() => setShowNewForm(!showNewForm)}
-          style={{
-            padding: '10px 20px',
-            background: colors.primary,
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            fontWeight: '500',
-          }}
-        >
-          {showNewForm ? 'Cancel' : '+ Add Connector'}
-        </button>
-      </div>
+        {/* Error Message */}
+        {error && (
+          <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 mb-6 flex gap-2">
+            <AlertCircle size={20} className="flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="font-medium">Error loading connectors</p>
+              <p className="text-sm">{error}</p>
+            </div>
+          </div>
+        )}
 
-      {/* New Connector Form */}
-      {showNewForm && (
-        <div
-          style={{
-            background: colors.card,
-            border: `1px solid ${colors.border}`,
-            borderRadius: '8px',
-            padding: '20px',
-            marginBottom: '24px',
-          }}
-        >
-          <h3 style={{ fontSize: '16px', fontWeight: '600', color: colors.text, marginTop: 0 }}>
-            New Lead Connector
-          </h3>
-
-          {/* Connector Type Selection */}
-          <div style={{ marginBottom: '16px' }}>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: colors.text, marginBottom: '8px' }}>
-              Connector Type
-            </label>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '8px' }}>
-              {(['csv_upload', 'webhook', 'form_embed', 'api_key', 'zapier'] as const).map((type) => (
+        {/* Loading State */}
+        {loading ? (
+          <div className="text-center py-12">
+            <p className="text-gray-500">Loading connectors...</p>
+          </div>
+        ) : connectors.length === 0 ? (
+          /* Empty State */
+          <div className="bg-white rounded-lg shadow p-12 text-center">
+            <p className="text-gray-500 mb-6 text-lg">No connectors set up yet</p>
+            <p className="text-gray-600 mb-8">Start by connecting your first lead source</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                {
+                  title: 'Webhook',
+                  desc: 'From Zapier, Make, or custom APIs',
+                  icon: '🪝',
+                  action: '/app/connectors/webhook',
+                },
+                {
+                  title: 'IVR',
+                  desc: 'Phone system integration',
+                  icon: '☎️',
+                  action: '/app/connectors/ivr',
+                },
+                {
+                  title: 'Database',
+                  desc: 'PostgreSQL, MySQL, Oracle, MSSQL',
+                  icon: '💾',
+                  action: '/app/connectors/database',
+                },
+                {
+                  title: 'Social Media',
+                  desc: 'Twitter, LinkedIn, Facebook, Instagram',
+                  icon: '📱',
+                  action: '/app/connectors/social',
+                },
+              ].map((option) => (
                 <button
-                  key={type}
-                  onClick={() => setSelectedType(type)}
-                  style={{
-                    padding: '12px',
-                    background: selectedType === type ? colors.primary : colors.card,
-                    color: selectedType === type ? 'white' : colors.text,
-                    border: `1px solid ${selectedType === type ? colors.primary : colors.border}`,
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                    fontSize: '13px',
-                    fontWeight: '500',
-                    textAlign: 'center',
-                  }}
+                  key={option.title}
+                  onClick={() => navigate(option.action)}
+                  className="p-6 border-2 border-gray-300 rounded-lg hover:border-blue-600 hover:bg-blue-50 text-center transition"
                 >
-                  {connectorIcons[type]} {type.replace('_', ' ')}
+                  <div className="text-4xl mb-2">{option.icon}</div>
+                  <h4 className="font-semibold text-gray-900 mb-1">{option.title}</h4>
+                  <p className="text-sm text-gray-600">{option.desc}</p>
                 </button>
               ))}
             </div>
           </div>
-
-          {/* Connector Name */}
-          <div style={{ marginBottom: '16px' }}>
-            <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: colors.text, marginBottom: '6px' }}>
-              Connector Name
-            </label>
-            <input
-              type="text"
-              placeholder="e.g., Shopify Leads"
-              value={formData.connector_name}
-              onChange={(e) => setFormData({ ...formData, connector_name: e.target.value })}
-              style={{
-                width: '100%',
-                padding: '8px 12px',
-                background: isDark ? 'rgba(255,255,255,0.02)' : '#f0f0f0',
-                border: `1px solid ${colors.border}`,
-                borderRadius: '6px',
-                color: colors.text,
-                fontSize: '13px',
-                boxSizing: 'border-box',
-              }}
-            />
-          </div>
-
-          {/* Source Name */}
-          {(selectedType === 'zapier' || selectedType === 'webhook') && (
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: colors.text, marginBottom: '6px' }}>
-                Source Name
-              </label>
-              <input
-                type="text"
-                placeholder="e.g., Shopify, WooCommerce, Typeform"
-                value={formData.source_name}
-                onChange={(e) => setFormData({ ...formData, source_name: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  background: isDark ? 'rgba(255,255,255,0.02)' : '#f0f0f0',
-                  border: `1px solid ${colors.border}`,
-                  borderRadius: '6px',
-                  color: colors.text,
-                  fontSize: '13px',
-                  boxSizing: 'border-box',
-                }}
-              />
-            </div>
-          )}
-
-          {/* Webhook URL */}
-          {selectedType === 'webhook' && (
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: colors.text, marginBottom: '6px' }}>
-                Webhook URL
-              </label>
-              <input
-                type="text"
-                placeholder="https://your-app.com/webhooks/leads"
-                value={formData.webhook_url}
-                onChange={(e) => setFormData({ ...formData, webhook_url: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  background: isDark ? 'rgba(255,255,255,0.02)' : '#f0f0f0',
-                  border: `1px solid ${colors.border}`,
-                  borderRadius: '6px',
-                  color: colors.text,
-                  fontSize: '13px',
-                  boxSizing: 'border-box',
-                }}
-              />
-            </div>
-          )}
-
-          {/* API Key */}
-          {selectedType === 'api_key' && (
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: colors.text, marginBottom: '6px' }}>
-                API Key
-              </label>
-              <input
-                type="password"
-                placeholder="your-api-key"
-                value={formData.api_key}
-                onChange={(e) => setFormData({ ...formData, api_key: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  background: isDark ? 'rgba(255,255,255,0.02)' : '#f0f0f0',
-                  border: `1px solid ${colors.border}`,
-                  borderRadius: '6px',
-                  color: colors.text,
-                  fontSize: '13px',
-                  boxSizing: 'border-box',
-                }}
-              />
-            </div>
-          )}
-
-          {/* Form Embed Code */}
-          {selectedType === 'form_embed' && (
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '13px', fontWeight: '500', color: colors.text, marginBottom: '6px' }}>
-                Form Embed Code
-              </label>
-              <textarea
-                placeholder="Paste your form embed code here"
-                value={formData.form_embed_code}
-                onChange={(e) => setFormData({ ...formData, form_embed_code: e.target.value })}
-                style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  background: isDark ? 'rgba(255,255,255,0.02)' : '#f0f0f0',
-                  border: `1px solid ${colors.border}`,
-                  borderRadius: '6px',
-                  color: colors.text,
-                  fontSize: '13px',
-                  boxSizing: 'border-box',
-                  minHeight: '100px',
-                  fontFamily: 'monospace',
-                }}
-              />
-            </div>
-          )}
-
-          <button
-            onClick={handleAddConnector}
-            style={{
-              padding: '8px 16px',
-              background: colors.accent,
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              fontSize: '13px',
-              fontWeight: '500',
-            }}
-          >
-            Create Connector
-          </button>
-        </div>
-      )}
-
-      {/* Connectors List */}
-      {loading ? (
-        <p style={{ color: colors.textMuted }}>Loading connectors...</p>
-      ) : connectors.length === 0 ? (
-        <div
-          style={{
-            background: colors.card,
-            border: `1px solid ${colors.border}`,
-            borderRadius: '8px',
-            padding: '48px 24px',
-            textAlign: 'center',
-          }}
-        >
-          <p style={{ fontSize: '32px', margin: '0 0 8px 0' }}>🔌</p>
-          <p style={{ color: colors.textMuted, margin: 0 }}>No connectors yet. Add one to start importing leads.</p>
-        </div>
-      ) : (
-        <div style={{ display: 'grid', gap: '12px' }}>
-          {connectors.map((connector) => (
-            <div
-              key={connector.id}
-              style={{
-                background: colors.card,
-                border: `1px solid ${connector.is_active ? colors.primary : colors.border}`,
-                borderRadius: '8px',
-                padding: '16px',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '18px' }}>{connectorIcons[connector.connector_type as ConnectorType]}</span>
-                    <div>
-                      <h3 style={{ fontSize: '14px', fontWeight: '600', color: colors.text, margin: '0' }}>
-                        {connector.connector_name}
-                      </h3>
-                      <p style={{ fontSize: '12px', color: colors.textMuted, margin: '2px 0 0 0' }}>
-                        {connectorDescriptions[connector.connector_type as ConnectorType]}
+        ) : (
+          /* Connector List */
+          <div className="space-y-4">
+            {connectors.map((connector) => (
+              <div key={connector.id} className="bg-white rounded-lg shadow hover:shadow-lg transition p-6">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1 flex gap-4">
+                    <div className="text-4xl">{getConnectorIcon(connector.connector_type)}</div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="text-lg font-semibold text-gray-900">{connector.connector_name}</h3>
+                        <span className="px-2 py-1 bg-gray-100 rounded-full text-xs font-medium text-gray-700">
+                          {connector.connector_type === 'webhook' ? 'Webhook' : connector.connector_type === 'form_embed' ? 'Form' : connector.connector_type}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600">
+                        {connector.sync_count} syncs • Last sync: {formatDate(connector.last_sync_at)}
                       </p>
+                      {connector.last_error && (
+                        <p className="text-xs text-red-600 mt-1 flex gap-1">
+                          <AlertCircle size={14} className="flex-shrink-0 mt-0.5" />
+                          {connector.last_error}
+                        </p>
+                      )}
                     </div>
                   </div>
-                  {connector.source_name && (
-                    <p style={{ fontSize: '12px', color: colors.textMuted, margin: '4px 0 0 26px' }}>
-                      Source: {connector.source_name}
-                    </p>
-                  )}
-                  {connector.webhook_url && (
-                    <p style={{ fontSize: '11px', color: colors.textMuted, margin: '4px 0 0 26px', wordBreak: 'break-all' }}>
-                      {connector.webhook_url}
-                    </p>
-                  )}
-                  <p style={{ fontSize: '12px', color: colors.textMuted, margin: '4px 0 0 26px' }}>
-                    {connector.sync_count} syncs
-                    {connector.last_sync_at && ` • Last sync: ${new Date(connector.last_sync_at).toLocaleDateString()}`}
-                  </p>
-                </div>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <button
-                    onClick={() => handleToggleActive(connector.id, connector.is_active)}
-                    style={{
-                      padding: '6px 12px',
-                      background: connector.is_active ? colors.primary : 'transparent',
-                      color: connector.is_active ? 'white' : colors.textMuted,
-                      border: `1px solid ${connector.is_active ? colors.primary : colors.border}`,
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      fontSize: '12px',
-                      fontWeight: '500',
-                    }}
-                  >
-                    {connector.is_active ? 'Active' : 'Inactive'}
-                  </button>
-                  <button
-                    onClick={() => handleDeleteConnector(connector.id)}
-                    style={{
-                      padding: '6px 12px',
-                      background: 'transparent',
-                      color: colors.accent,
-                      border: `1px solid ${colors.accent}`,
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      fontSize: '12px',
-                      fontWeight: '500',
-                    }}
-                  >
-                    Delete
-                  </button>
+
+                  {/* Actions */}
+                  <div className="flex items-center gap-2 ml-4">
+                    <button
+                      onClick={() => {
+                        // Sync manually
+                      }}
+                      className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg"
+                      title="Sync now"
+                    >
+                      <Activity size={18} />
+                    </button>
+                    <button
+                      onClick={() => {
+                        updateConnector(connector.id, { is_active: !connector.is_active })
+                      }}
+                      className={`px-3 py-1 rounded-lg text-sm font-medium transition ${
+                        connector.is_active
+                          ? 'bg-green-100 text-green-800 hover:bg-green-200'
+                          : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+                      }`}
+                    >
+                      {connector.is_active ? 'Active' : 'Inactive'}
+                    </button>
+                    <button
+                      onClick={() => navigate(`/app/connectors/${connector.connector_type}/${connector.id}`)}
+                      className="text-blue-600 hover:text-blue-700 font-medium text-sm"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={async () => {
+                        if (confirm('Delete this connector?')) {
+                          // Delete connector
+                          await fetchConnectors()
+                        }
+                      }}
+                      className="text-red-600 hover:text-red-700 font-medium text-sm"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
+            ))}
+          </div>
+        )}
+
+        {/* Social Connectors Quick Links */}
+        {connectors.length > 0 && (
+          <div className="mt-8 bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded-lg p-6">
+            <h3 className="font-semibold text-gray-900 mb-4">Connect Social Media Accounts</h3>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+              {['twitter', 'linkedin', 'facebook', 'instagram', 'tiktok'].map((platform) => (
+                <button
+                  key={platform}
+                  onClick={() => navigate(`/app/connectors/${platform}`)}
+                  className="px-4 py-2 bg-white rounded-lg border border-gray-300 hover:bg-gray-50 text-sm font-medium text-gray-700"
+                >
+                  {platform.charAt(0).toUpperCase() + platform.slice(1)}
+                </button>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
-  );
-};
+  )
+}
