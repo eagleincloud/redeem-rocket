@@ -1,0 +1,161 @@
+{
+  "categories": [
+    {
+      "id": "cat-001",
+      "name": "Retail & E-Commerce",
+      "slug": "retail-ecommerce",
+      "description": "Online and physical retail businesses, e-commerce platforms, marketplaces",
+      "icon": "shopping-bag",
+      "color": "#FF6B6B",
+      "types": [
+        { "slug": "general-retail", "name": "General Retail Store" },
+        { "slug": "clothing-apparel", "name": "Clothing & Apparel" },
+        { "slug": "electronics", "name": "Electronics & Gadgets" },
+        { "slug": "furniture-home", "name": "Furniture & Home Decor" },
+        { "slug": "beauty-cosmetics", "name": "Beauty & Cosmetics" },
+        { "slug": "food-beverage", "name": "Food & Beverage Retail" }
+      ]
+    },
+    {
+      "id": "cat-002",
+      "name": "Professional Services",
+      "slug": "professional-services",
+      "description": "Consulting, legal, accounting, and other professional service providers",
+      "icon": "briefcase",
+      "color": "#4ECDC4",
+      "types": [
+        { "slug": "consulting", "name": "Management Consulting" },
+        { "slug": "legal-services", "name": "Legal Services" },
+        { "slug": "accounting", "name": "Accounting & Bookkeeping" },
+        { "slug": "tax-services", "name": "Tax Services" },
+        { "slug": "it-consulting", "name": "IT Consulting" },
+        { "slug": "marketing-services", "name": "Marketing Services" }
+      ]
+    },
+    {
+      "id": "cat-003",
+      "name": "Healthcare & Wellness",
+      "slug": "healthcare-wellness",
+      "description": "Medical practices, fitness, wellness, and health-related services",
+      "icon": "heart",
+      "color": "#FF69B4",
+      "types": [
+        { "slug": "medical-practice", "name": "Medical Practice" },
+        { "slug": "dental-clinic", "name": "Dental Clinic" },
+        { "slug": "fitness-gym", "name": "Fitness & Gym" },
+        { "slug": "mental-health", "name": "Mental Health Services" },
+        { "slug": "nutrition", "name": "Nutrition & Wellness" },
+        { "slug": "spa-salon", "name": "Spa & Salon" }
+      ]
+    },
+    {
+      "id": "cat-004",
+      "name": "Technology & Software",
+      "slug": "technology-software",
+      "description": "SaaS, software development, tech startups, and IT services",
+      "icon": "code",
+      "color": "#95E1D3",
+      "types": [
+        { "slug": "saas-platform", "name": "SaaS Platform" },
+        { "slug": "software-dev", "name": "Software Development" },
+        { "slug": "app-development", "name": "App Development" },
+        { "slug": "web-design", "name": "Web Design Agency" },
+        { "slug": "cybersecurity", "name": "Cybersecurity" },
+        { "slug": "data-analytics", "name": "Data Analytics" }
+      ]
+    },
+    {
+      "id": "cat-005",
+      "name": "Education & Training",
+      "slug": "education-training",
+      "description": "Educational institutions, training programs, online courses, tutoring",
+      "icon": "book",
+      "color": "#FFD93D",
+      "types": [
+        { "slug": "online-courses", "name": "Online Courses" },
+        { "slug": "tutoring", "name": "Tutoring Services" },
+        { "slug": "coaching", "name": "Coaching & Mentoring" },
+        { "slug": "corporate-training", "name": "Corporate Training" },
+        { "slug": "language-school", "name": "Language School" },
+        { "slug": "skills-bootcamp", "name": "Skills Bootcamp" }
+      ]
+    },
+    {
+      "id": "cat-006",
+      "name": "Hospitality & Travel",
+      "slug": "hospitality-travel",
+      "description": "Hotels, restaurants, travel agencies, tourism-related businesses",
+      "icon": "map-pin",
+      "color": "#A8E6CF",
+      "types": [
+        { "slug": "hotel", "name": "Hotel & Lodging" },
+        { "slug": "restaurant", "name": "Restaurant & Cafe" },
+        { "slug": "travel-agency", "name": "Travel Agency" },
+        { "slug": "tour-operator", "name": "Tour Operator" },
+        { "slug": "event-venue", "name": "Event Venue" },
+        { "slug": "catering", "name": "Catering Service" }
+      ]
+    },
+    {
+      "id": "cat-007",
+      "name": "Real Estate & Property",
+      "slug": "real-estate-property",
+      "description": "Real estate agencies, property management, real estate development",
+      "icon": "home",
+      "color": "#FFB6B9",
+      "types": [
+        { "slug": "real-estate-agency", "name": "Real Estate Agency" },
+        { "slug": "property-management", "name": "Property Management" },
+        { "slug": "real-estate-dev", "name": "Real Estate Development" },
+        { "slug": "real-estate-investing", "name": "Real Estate Investing" },
+        { "slug": "commercial-real-estate", "name": "Commercial Real Estate" }
+      ]
+    },
+    {
+      "id": "cat-008",
+      "name": "Manufacturing & Production",
+      "slug": "manufacturing-production",
+      "description": "Manufacturing, production facilities, industrial operations",
+      "icon": "factory",
+      "color": "#C7CEEA",
+      "types": [
+        { "slug": "industrial-manufacturing", "name": "Industrial Manufacturing" },
+        { "slug": "food-production", "name": "Food Production" },
+        { "slug": "textile-apparel", "name": "Textile & Apparel Manufacturing" },
+        { "slug": "electronics-mfg", "name": "Electronics Manufacturing" },
+        { "slug": "custom-fabrication", "name": "Custom Fabrication" }
+      ]
+    },
+    {
+      "id": "cat-009",
+      "name": "Transportation & Logistics",
+      "slug": "transportation-logistics",
+      "description": "Logistics, shipping, delivery services, transportation operations",
+      "icon": "truck",
+      "color": "#FFDDC1",
+      "types": [
+        { "slug": "logistics-company", "name": "Logistics Company" },
+        { "slug": "shipping-courier", "name": "Shipping & Courier" },
+        { "slug": "fleet-management", "name": "Fleet Management" },
+        { "slug": "moving-service", "name": "Moving Service" },
+        { "slug": "delivery-service", "name": "Delivery Service" }
+      ]
+    },
+    {
+      "id": "cat-010",
+      "name": "Finance & Insurance",
+      "slug": "finance-insurance",
+      "description": "Financial services, insurance, investment management, banking",
+      "icon": "dollar-sign",
+      "color": "#E0B9D9",
+      "types": [
+        { "slug": "financial-advisory", "name": "Financial Advisory" },
+        { "slug": "insurance-agency", "name": "Insurance Agency" },
+        { "slug": "investment-management", "name": "Investment Management" },
+        { "slug": "mortgage-broker", "name": "Mortgage Broker" },
+        { "slug": "credit-union", "name": "Credit Union" },
+        { "slug": "fintech-startup", "name": "FinTech Startup" }
+      ]
+    }
+  ]
+}

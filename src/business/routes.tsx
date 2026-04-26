@@ -5,6 +5,7 @@ import { BusinessProvider } from './context/BusinessContext';
 import { ThemeProvider } from '@/app/context/ThemeContext';
 import { BusinessLayout } from './components/BusinessLayout';
 import { SmartOnboarding } from "./components/SmartOnboarding";
+import { OnboardingOrchestrator } from "./components/onboarding/OnboardingOrchestrator";
 import { DashboardGuard, OnboardingGuard } from './components/RouteGuards';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ErrorElement } from './components/ErrorElement';
@@ -189,9 +190,7 @@ function OnboardingRoot() {
       <BusinessProvider>
         <ErrorBoundary>
           <OnboardingGuard>
-            <Suspense fallback={<OnboardingFallback />}>
-              <LazySmartOnboarding />
-            </Suspense>
+            <OnboardingOrchestrator />
           </OnboardingGuard>
         </ErrorBoundary>
       </BusinessProvider>
