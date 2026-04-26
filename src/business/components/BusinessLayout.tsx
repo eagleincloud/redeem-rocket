@@ -5,6 +5,7 @@ import { useTheme } from '@/app/context/ThemeContext';
 import { useBusinessContext } from '../context/BusinessContext';
 import { useViewport } from '../hooks/useViewport';
 import { usePersistedState } from '../hooks/usePersistedState';
+import { useThemeLoader } from '../hooks/useThemeLoader';
 import { supabase } from '@/app/lib/supabase';
 import {
   LayoutDashboard, Package, Tag, Gavel, ShoppingBag, ClipboardList,
@@ -171,6 +172,8 @@ const PLAN_BADGE_LABELS: Record<string, string> = {
 
 export function BusinessLayout() {
   const { bizUser, isLoading, logout } = useBusinessContext();
+  // Load and apply business theme from database
+  const { theme, isLoading: themeLoading, error: themeError } = useThemeLoader(bizUser?.id);
   // Sidebar open/collapsed state persisted per user
   const [sidebarOpen, setSidebarOpen] = usePersistedState<boolean>('sidebar_open', true, bizUser?.id);
   const [drawerOpen, setDrawerOpen] = useState(false);
