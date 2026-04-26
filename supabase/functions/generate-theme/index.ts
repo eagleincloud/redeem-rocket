@@ -6,11 +6,6 @@
  */
 
 import { serve } from 'https://deno.land/std@0.208.0/http/server.ts';
-import { Anthropic } from 'https://esm.sh/@anthropic-ai/sdk@0.20.11';
-
-const anthropic = new Anthropic({
-  apiKey: Deno.env.get('ANTHROPIC_API_KEY'),
-});
 
 interface OnboardingAnswers {
   businessType: string;
@@ -114,17 +109,48 @@ Guidelines:
 Respond with ONLY the JSON object, no additional text.
 `;
 
-    // Call Claude API
-    const message = await anthropic.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 1024,
-      messages: [
-        {
-          role: 'user',
-          content: prompt,
-        },
-      ],
+    // Call Claude API via Anthropic REST API
+    const anthropicApiKey = Deno.env.get('ANTHROPIC_API_KEY');
+    if (!anthropicApiKey) {
+      return new Response(
+        JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': anthropicApiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model: 'claude-3-5-sonnet-20241022',
+        max_tokens: 1024,
+        messages: [
+          {
+            role: 'user',
+            content: prompt,
+          },
+        ],
+      }),
     });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Anthropic API error:', errorData);
+      return new Response(
+        JSON.stringify({
+          error: 'Failed to call Anthropic API',
+          details: errorData,
+          theme: getDefaultTheme(answers),
+        }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const message = await response.json();
 
     // Extract response text
     const responseText =
