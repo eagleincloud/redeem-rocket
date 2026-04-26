@@ -361,3 +361,21 @@ export async function loadThemeFromDatabase(
     return null;
   }
 }
+
+/**
+ * Load theme from localStorage
+ */
+export function loadThemeFromLocalStorage(): ThemeConfig | null {
+  try {
+    const stored = localStorage.getItem('selectedTheme');
+    if (!stored) {
+      return null;
+    }
+
+    const theme = JSON.parse(stored) as ThemeConfig;
+    return theme;
+  } catch (error) {
+    console.error('Failed to load theme from localStorage:', error);
+    return null;
+  }
+}
