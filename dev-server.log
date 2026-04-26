@@ -764,3 +764,22 @@
    |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 179|  @layer theme, base, components, utilities;
 180|  @layer theme {
+4:15:13 PM [vite] .env.local changed, restarting server...
+4:15:13 PM [vite] server restarted.
+[vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+176|    }
+177|  }
+178|  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+179|  @layer theme, base, components, utilities;
+180|  @layer theme {
+4:16:06 PM [vite] .env.local changed, restarting server...
+4:16:06 PM [vite] server restarted.
+4:16:10 PM [vite] .env.local changed, restarting server...
+4:16:10 PM [vite] server restarted.
+4:20:48 PM [vite] .env.local changed, restarting server...
+4:20:48 PM [vite] server restarted.
+4:20:59 PM [vite] .env.local changed, restarting server...
+4:20:59 PM [vite] server restarted.
+4:21:08 PM [vite] .env.local changed, restarting server...
+4:21:08 PM [vite] server restarted.

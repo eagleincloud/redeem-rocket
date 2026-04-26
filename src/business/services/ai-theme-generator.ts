@@ -79,32 +79,32 @@ export function getDefaultTheme(answers: OnboardingAnswers): ThemeGenerationResu
   const businessType = answers.businessType?.toLowerCase() || 'general';
   const features = answers.selectedFeatures || [];
 
-  // Color schemes by business type
+  // Color schemes by business type - VIBRANT & DISTINCT
   const colorSchemes: Record<string, Partial<ThemeConfig>> = {
     restaurant: {
       primaryColor: '#FF6B35', // Warm orange
-      secondaryColor: '#004E89', // Deep blue
-      accentColor: '#F7931E', // Vibrant orange
-      backgroundColor: '#FFF8F3',
+      secondaryColor: '#2C1810', // Deep brown
+      accentColor: '#FFD93D', // Bright gold
+      backgroundColor: '#FEF9F3',
       textColor: '#1A1A1A',
-      borderColor: '#E0D5C7',
-      successColor: '#10B981',
+      borderColor: '#FFB85C',
+      successColor: '#22C55E',
       warningColor: '#F59E0B',
       errorColor: '#EF4444',
       infoColor: '#3B82F6',
       layout: 'visual-focused',
       fontFamily: 'playful',
       borderRadius: 'rounded',
-      shadowIntensity: 'medium',
+      shadowIntensity: 'heavy',
       spacing: 'comfortable',
     },
     ecommerce: {
-      primaryColor: '#7C3AED', // Purple
-      secondaryColor: '#EC4899', // Pink
-      accentColor: '#06B6D4', // Cyan
+      primaryColor: '#A855F7', // Vibrant Purple
+      secondaryColor: '#06B6D4', // Bright Cyan
+      accentColor: '#EC4899', // Hot Pink
       backgroundColor: '#F8FAFC',
       textColor: '#0F172A',
-      borderColor: '#CBD5E1',
+      borderColor: '#E9D5FF',
       successColor: '#10B981',
       warningColor: '#F59E0B',
       errorColor: '#EF4444',
@@ -112,16 +112,16 @@ export function getDefaultTheme(answers: OnboardingAnswers): ThemeGenerationResu
       layout: 'data-heavy',
       fontFamily: 'modern',
       borderRadius: 'smooth',
-      shadowIntensity: 'light',
+      shadowIntensity: 'medium',
       spacing: 'compact',
     },
     saas: {
-      primaryColor: '#3B82F6', // Blue
-      secondaryColor: '#8B5CF6', // Indigo
-      accentColor: '#06B6D4', // Cyan
-      backgroundColor: '#F9FAFB',
-      textColor: '#111827',
-      borderColor: '#E5E7EB',
+      primaryColor: '#2563EB', // Deep Blue
+      secondaryColor: '#7C3AED', // Indigo
+      accentColor: '#0EA5E9', // Sky Blue
+      backgroundColor: '#F0F9FF',
+      textColor: '#001F3F',
+      borderColor: '#BFDBFE',
       successColor: '#10B981',
       warningColor: '#F59E0B',
       errorColor: '#EF4444',
@@ -133,13 +133,13 @@ export function getDefaultTheme(answers: OnboardingAnswers): ThemeGenerationResu
       spacing: 'comfortable',
     },
     service: {
-      primaryColor: '#059669', // Green
-      secondaryColor: '#0891B2', // Cyan
-      accentColor: '#F59E0B', // Amber
+      primaryColor: '#059669', // Forest Green
+      secondaryColor: '#10B981', // Emerald
+      accentColor: '#06B6D4', // Teal
       backgroundColor: '#F0FDF4',
       textColor: '#064E3B',
-      borderColor: '#D1FAE5',
-      successColor: '#10B981',
+      borderColor: '#86EFAC',
+      successColor: '#22C55E',
       warningColor: '#F59E0B',
       errorColor: '#EF4444',
       infoColor: '#3B82F6',
@@ -150,16 +150,16 @@ export function getDefaultTheme(answers: OnboardingAnswers): ThemeGenerationResu
       spacing: 'spacious',
     },
     creative: {
-      primaryColor: '#EC4899', // Pink
-      secondaryColor: '#F97316', // Orange
-      accentColor: '#8B5CF6', // Purple
-      backgroundColor: '#FAFAFA',
-      textColor: '#1F2937',
-      borderColor: '#E5E5E5',
-      successColor: '#10B981',
-      warningColor: '#F59E0B',
+      primaryColor: '#DB2777', // Deep Pink
+      secondaryColor: '#9333EA', // Purple
+      accentColor: '#F97316', // Orange
+      backgroundColor: '#FDF2F8',
+      textColor: '#831843',
+      borderColor: '#F472B6',
+      successColor: '#22C55E',
+      warningColor: '#FBBF24',
       errorColor: '#EF4444',
-      infoColor: '#3B82F6',
+      infoColor: '#A855F7',
       layout: 'visual-focused',
       fontFamily: 'playful',
       borderRadius: 'rounded',
