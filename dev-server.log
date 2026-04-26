@@ -35,3 +35,11 @@
   21 |  export function DynamicJourneyPhase({
   22 |    businessType = "restaurant",
 1:30:37 AM [vite] (client) hmr update /src/styles/index.css, /src/business/components/SmartOnboarding.tsx
+10:10:54 AM [vite] (client) hmr update /src/styles/index.css
+[vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+176|    }
+177|  }
+178|  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+179|  @layer theme, base, components, utilities;
+180|  @layer theme {

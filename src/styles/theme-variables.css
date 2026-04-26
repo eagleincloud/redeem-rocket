@@ -1,0 +1,241 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME CSS VARIABLES - Applied from AI Theme Generation
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ─ Colors ─────────────────────────────────────────────────────────────── */
+  --primary: #3B82F6;           /* Primary brand color */
+  --secondary: #8B5CF6;         /* Secondary color */
+  --accent: #06B6D4;            /* Accent color */
+  --background: #FFFFFF;        /* Background color */
+  --text: #1F2937;              /* Text color */
+  --border: #E5E7EB;            /* Border color */
+  --success: #10B981;           /* Success state */
+  --warning: #F59E0B;           /* Warning state */
+  --error: #EF4444;             /* Error state */
+  --info: #3B82F6;              /* Info state */
+
+  /* ─ Typography ─────────────────────────────────────────────────────────── */
+  --font-family: Inter, system-ui, sans-serif;
+  --font-size-base: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-weight-normal: 400;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ─ Layout ─────────────────────────────────────────────────────────────── */
+  --border-radius: 8px;
+  --border-radius-lg: 12px;
+  --border-radius-xl: 16px;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-intensity: var(--shadow-md);
+
+  /* ─ Spacing ────────────────────────────────────────────────────────────── */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 32px;
+  --spacing-base: var(--spacing-lg);
+
+  /* ─ Dark Mode ──────────────────────────────────────────────────────────── */
+  --bg-dark-primary: #0a0e27;
+  --bg-dark-secondary: #111827;
+  --bg-dark-tertiary: #1f2937;
+  --text-dark-primary: #ffffff;
+  --text-dark-secondary: #e5e7eb;
+  --border-dark: #374151;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME-BASED COMPONENTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Primary Button */
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius);
+  border: none;
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background-color: var(--secondary);
+  color: white;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius);
+  border: none;
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  opacity: 0.9;
+}
+
+/* Card Component */
+.card {
+  background-color: white;
+  border: 1px solid var(--border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+}
+
+/* Alert Components */
+.alert-success {
+  background-color: var(--success);
+  color: white;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius);
+}
+
+.alert-warning {
+  background-color: var(--warning);
+  color: white;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius);
+}
+
+.alert-error {
+  background-color: var(--error);
+  color: white;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius);
+}
+
+.alert-info {
+  background-color: var(--info);
+  color: white;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--border-radius);
+}
+
+/* Badge Component */
+.badge {
+  display: inline-block;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius);
+  font-size: 12px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.badge-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.badge-secondary {
+  background-color: var(--secondary);
+  color: white;
+}
+
+.badge-success {
+  background-color: var(--success);
+  color: white;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DARK MODE SUPPORT
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--bg-dark-primary);
+    color: var(--text-dark-primary);
+  }
+
+  .card {
+    background-color: var(--bg-dark-secondary);
+    border-color: var(--border-dark);
+  }
+
+  input,
+  textarea,
+  select {
+    background-color: var(--bg-dark-tertiary);
+    color: var(--text-dark-primary);
+    border-color: var(--border-dark);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME LAYOUT CLASSES
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* Minimalist Layout */
+[data-theme-layout="minimalist"] {
+  --spacing-base: var(--spacing-lg);
+}
+
+[data-theme-layout="minimalist"] .card {
+  border: 1px solid var(--border);
+}
+
+/* Data Heavy Layout */
+[data-theme-layout="data-heavy"] {
+  --spacing-base: var(--spacing-md);
+}
+
+[data-theme-layout="data-heavy"] .grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* Visual Focused Layout */
+[data-theme-layout="visual-focused"] {
+  --spacing-base: var(--spacing-xl);
+}
+
+[data-theme-layout="visual-focused"] .card {
+  box-shadow: var(--shadow-lg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE DESIGN
+   ═════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  :root {
+    --spacing-lg: 12px;
+    --spacing-xl: 16px;
+    --font-size-base: 13px;
+  }
+
+  [data-theme-layout="data-heavy"] .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --spacing-lg: 10px;
+    --spacing-xl: 12px;
+    --font-size-base: 12px;
+  }
+
+  [data-theme-layout="data-heavy"] .grid {
+    grid-template-columns: 1fr;
+  }
+}
