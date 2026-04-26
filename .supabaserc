@@ -1,0 +1,17 @@
+[api]
+enabled = true
+
+[db]
+port = 54322
+major_version = 15
+
+[functions]
+verify_jwt = false
+import_map = "./supabase/functions/import_map.json"
+
+[auth]
+enable_signup = true
+
+[realtime]
+enabled = true
+max_bytes_per_second = 0
