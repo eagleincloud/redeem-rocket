@@ -397,7 +397,7 @@ export function TemplateSelector({ businessType, onSelect, onBack }: TemplateSel
                     borderBottom: `1px solid ${colors.border}`,
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: colors.textMuted' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: colors.textMuted }}>
                     <Zap size={14} />
                     <span>{template.featureCount} Features</span>
                   </div>
