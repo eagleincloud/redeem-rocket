@@ -3,7 +3,35 @@
 > vite --config vite.config.business.ts
 
 
-  VITE v6.3.5  ready in 186 ms
+  VITE v6.3.5  ready in 216 ms
 
   ➜  Local:   http://localhost:5174/
   ➜  Network: use --host to expose
+1:29:55 AM [vite] Internal server error: Failed to resolve import "../../../../app/lib/supabase" from "src/business/components/onboarding/DynamicJourneyPhase.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/onboarding/DynamicJourneyPhase.tsx:3:25
+  18 |  import { useState, useMemo, useEffect } from "react";
+  19 |  import { ChevronRight, ChevronLeft, Loader } from "lucide-react";
+  20 |  import { supabase } from "../../../../app/lib/supabase";
+     |                            ^
+  21 |  export function DynamicJourneyPhase({
+  22 |    businessType = "restaurant",
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 5)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+1:29:55 AM [vite] (client) Pre-transform error: Failed to resolve import "../../../../app/lib/supabase" from "src/business/components/onboarding/DynamicJourneyPhase.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/onboarding/DynamicJourneyPhase.tsx:3:25
+  18 |  import { useState, useMemo, useEffect } from "react";
+  19 |  import { ChevronRight, ChevronLeft, Loader } from "lucide-react";
+  20 |  import { supabase } from "../../../../app/lib/supabase";
+     |                            ^
+  21 |  export function DynamicJourneyPhase({
+  22 |    businessType = "restaurant",
+1:30:37 AM [vite] (client) hmr update /src/styles/index.css, /src/business/components/SmartOnboarding.tsx
