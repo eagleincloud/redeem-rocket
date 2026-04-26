@@ -19,11 +19,11 @@
 - [x] CSS variables system in place
 
 ### GitHub Secrets Configuration
-- [x] VERCEL_ORG_ID: team_mNwvarZv4qGfDMqPQ1k2rAzz
-- [x] VERCEL_PROJECT_ID: prj_kkYjalPv4bpuNU3E2T3VzSqkUjY9
-- [x] VERCEL_TOKEN: vcp_2S4X68RucgAZrPAHioVr13sCf5IJRbX37Dip3WABWZg7awhBcP03wMt7
-- [x] VITE_SUPABASE_URL: https://eomqkeoozxnttqizstzk.supabase.co
-- [x] VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVvbXFrZW9venhudHRxaXpzdHprIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1MzMyODgsImV4cCI6MjA4ODEwOTI4OH0.awCBjq0gvjLEgRXJ3OGnTGRJOfevjIgzi8Hd14Nya6M
+- [x] VERCEL_ORG_ID: <VERCEL_ORG_ID>
+- [x] VERCEL_PROJECT_ID: <VERCEL_PROJECT_ID>
+- [x] VERCEL_TOKEN: <VERCEL_TOKEN_VALUE>
+- [x] VITE_SUPABASE_URL: <SUPABASE_URL>
+- [x] VITE_SUPABASE_ANON_KEY: <SUPABASE_ANON_KEY_VALUE>
 
 **Status**: Need to be set in GitHub UI at:
 https://github.com/eagleincloud/redeem-rocket/settings/secrets/actions

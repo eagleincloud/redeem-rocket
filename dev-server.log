@@ -131,3 +131,611 @@
       at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
       at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
       at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:18:54 AM [vite] (client) hmr update /src/business/routes.tsx, /src/styles/index.css
+[vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+176|    }
+177|  }
+178|  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+179|  @layer theme, base, components, utilities;
+180|  @layer theme {
+10:18:54 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:18:54 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:18:54 AM [vite] (client) Pre-transform error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+10:18:54 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:18:54 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:19:12 AM [vite] (client) hmr update /src/business/routes.tsx, /src/styles/index.css
+[vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+176|    }
+177|  }
+178|  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+179|  @layer theme, base, components, utilities;
+180|  @layer theme {
+10:19:13 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:19:13 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:19:13 AM [vite] (client) Pre-transform error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+10:19:13 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:19:13 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:19:46 AM [vite] (client) hmr update /src/business/routes.tsx, /src/styles/index.css
+[vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+176|    }
+177|  }
+178|  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+179|  @layer theme, base, components, utilities;
+180|  @layer theme {
+10:19:47 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:19:47 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:19:47 AM [vite] (client) Pre-transform error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+10:19:47 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:19:47 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:20:29 AM [vite] (client) hmr update /src/business/routes.tsx, /src/styles/index.css
+[vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+176|    }
+177|  }
+178|  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+179|  @layer theme, base, components, utilities;
+180|  @layer theme {
+10:20:30 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:20:30 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:20:30 AM [vite] (client) Pre-transform error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+10:20:30 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+10:20:30 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+11:43:49 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+11:43:49 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+11:43:49 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+11:43:49 AM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+2:54:43 PM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+2:54:43 PM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+2:54:43 PM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+2:54:43 PM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+2:58:05 PM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+      at async viteTransformMiddleware (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:37250:24)
+3:17:01 PM [vite] (client) hmr update /src/business/routes.tsx, /src/styles/index.css
+3:17:01 PM [vite] (client) Pre-transform error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+[vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+176|    }
+177|  }
+178|  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+179|  @layer theme, base, components, utilities;
+180|  @layer theme {
+3:17:01 PM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+3:17:01 PM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+3:17:01 PM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
+3:17:01 PM [vite] Internal server error: Failed to resolve import "../hooks/useThemeLoader" from "src/business/components/BusinessLayout.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /Users/adityatiwari/Downloads/App Creation Request-2/.claude/worktrees/jolly-herschel/src/business/components/BusinessLayout.tsx:8:31
+  23 |  import { useViewport } from "../hooks/useViewport";
+  24 |  import { usePersistedState } from "../hooks/usePersistedState";
+  25 |  import { useThemeLoader } from "../hooks/useThemeLoader";
+     |                                  ^
+  26 |  import { supabase } from "@/app/lib/supabase";
+  27 |  import {
+      at TransformPluginContext._formatLog (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42499:41)
+      at TransformPluginContext.error (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42496:16)
+      at normalizeUrl (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40475:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40594:37
+      at async Promise.all (index 10)
+      at async TransformPluginContext.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:40521:7)
+      at async EnvironmentPluginContainer.transform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:42294:18)
+      at async loadAndTransform (file:///Users/adityatiwari/Downloads/App%20Creation%20Request-2/.claude/worktrees/jolly-herschel/node_modules/vite/dist/node/chunks/dep-DBxKXgDP.js:35735:27)
