@@ -32,8 +32,12 @@ const CATEGORIES: FeatureCategory[] = [
 ];
 
 export const FeatureMarketplace = memo(function FeatureMarketplace({
-  businessId,
+  businessId: providedBusinessId,
 }: FeatureMarketplaceProps) {
+  // Get businessId from context if not provided
+  const context = useContext(BusinessContext);
+  const businessId = providedBusinessId || context?.businessId || '';
+
   // State
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
