@@ -4,9 +4,12 @@
  */
 
 import React, { memo, useCallback, useMemo, useState } from 'react';
-import { Search, Grid3x3, List, Filter, Zap } from 'lucide-react';
+import { Search, Grid3x3, List, Filter, Zap, Plus, Lightbulb, X } from 'lucide-react';
 import { FeatureCard } from './FeatureCard';
 import { FeatureDetailModal } from './FeatureDetailModal';
+import { FeatureRequestForm } from './FeatureRequestForm';
+import { FeatureRequestList } from './FeatureRequestList';
+import { MyFeatures } from './MyFeatures';
 import { useMarketplaceFeatures } from '@/business/hooks/useMarketplaceFeatures';
 import { useFeatureUsage } from '@/business/hooks/useFeatureUsage';
 import type { FeatureCategory, FeatureStatus } from '@/business/types/marketplace';
@@ -39,6 +42,8 @@ export const FeatureMarketplace = memo(function FeatureMarketplace({
   const [sortBy, setSortBy] = useState<'newest' | 'trending' | 'highest_rated' | 'most_adopted'>(
     'trending',
   );
+  const [activeTab, setActiveTab] = useState<'browse' | 'my-features' | 'requests'>('browse');
+  const [showRequestForm, setShowRequestForm] = useState(false);
 
   // Hooks
   const marketplace = useMarketplaceFeatures(businessId, {
@@ -89,7 +94,6 @@ export const FeatureMarketplace = memo(function FeatureMarketplace({
     async (featureId: string, enabled: boolean) => {
       try {
         if (enabled) {
-          // Will implement actual enable/disable via hook
           console.log('Enabling feature:', featureId);
         } else {
           console.log('Disabling feature:', featureId);
@@ -110,128 +114,194 @@ export const FeatureMarketplace = memo(function FeatureMarketplace({
     <div className="flex h-full flex-col bg-gray-50">
       {/* Header */}
       <div className="border-b border-gray-200 bg-white p-6">
-        <h1 className="mb-4 text-3xl font-bold text-gray-900">Feature Marketplace</h1>
-
-        {/* Search Bar */}
-        <div className="mb-4 flex gap-3">
-          <div className="flex flex-1 items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2">
-            <Search className="h-5 w-5 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search features..."
-              value={searchQuery}
-              onChange={handleSearch}
-              className="flex-1 bg-transparent outline-none"
-            />
-          </div>
-
-          <div className="flex gap-2">
+        <div className="mb-4 flex items-center justify-between">
+          <h1 className="text-3xl font-bold text-gray-900">Feature Marketplace</h1>
+          {activeTab === 'browse' && (
             <button
-              onClick={() => setViewMode('grid')}
-              className={`rounded-lg p-2 transition-colors ${
-                viewMode === 'grid'
-                  ? 'bg-blue-100 text-blue-600'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-              title="Grid view"
+              onClick={() => setShowRequestForm(true)}
+              className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
             >
-              <Grid3x3 className="h-5 w-5" />
+              <Plus className="h-4 w-4" />
+              Request Feature
             </button>
-            <button
-              onClick={() => setViewMode('list')}
-              className={`rounded-lg p-2 transition-colors ${
-                viewMode === 'list'
-                  ? 'bg-blue-100 text-blue-600'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-              title="List view"
-            >
-              <List className="h-5 w-5" />
-            </button>
-          </div>
+          )}
         </div>
 
-        {/* Filters */}
-        <div className="flex flex-wrap gap-3">
-          <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-gray-600" />
-            <span className="text-sm font-medium text-gray-700">Categories:</span>
-          </div>
-
-          {CATEGORIES.map((category) => (
-            <button
-              key={category}
-              onClick={() => handleCategoryToggle(category)}
-              className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
-                selectedCategories.includes(category)
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
+        {/* Tabs */}
+        <div className="mb-4 flex gap-4 border-b border-gray-200 pb-0">
+          <button
+            onClick={() => setActiveTab('browse')}
+            className={`px-4 py-2 font-medium transition-colors ${
+              activeTab === 'browse'
+                ? 'border-b-2 border-blue-600 text-blue-600'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Browse Features
+          </button>
+          <button
+            onClick={() => setActiveTab('my-features')}
+            className={`px-4 py-2 font-medium transition-colors ${
+              activeTab === 'my-features'
+                ? 'border-b-2 border-blue-600 text-blue-600'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            My Features
+          </button>
+          <button
+            onClick={() => setActiveTab('requests')}
+            className={`flex items-center gap-2 px-4 py-2 font-medium transition-colors ${
+              activeTab === 'requests'
+                ? 'border-b-2 border-blue-600 text-blue-600'
+                : 'text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            <Lightbulb className="h-4 w-4" />
+            Requests
+          </button>
         </div>
+
+        {/* Search Bar - Only show on browse tab */}
+        {activeTab === 'browse' && (
+          <>
+            <div className="mb-4 flex gap-3">
+              <div className="flex flex-1 items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2">
+                <Search className="h-5 w-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search features..."
+                  value={searchQuery}
+                  onChange={handleSearch}
+                  className="flex-1 bg-transparent outline-none"
+                />
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`rounded-lg p-2 transition-colors ${
+                    viewMode === 'grid'
+                      ? 'bg-blue-100 text-blue-600'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                  title="Grid view"
+                >
+                  <Grid3x3 className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`rounded-lg p-2 transition-colors ${
+                    viewMode === 'list'
+                      ? 'bg-blue-100 text-blue-600'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                  title="List view"
+                >
+                  <List className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Filters */}
+            <div className="flex flex-wrap gap-3">
+              <div className="flex items-center gap-2">
+                <Filter className="h-4 w-4 text-gray-600" />
+                <span className="text-sm font-medium text-gray-700">Categories:</span>
+              </div>
+
+              {CATEGORIES.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => handleCategoryToggle(category)}
+                  className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
+                    selectedCategories.includes(category)
+                      ? 'bg-blue-100 text-blue-700'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Content */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Features Grid/List */}
-        <div className="flex-1 overflow-auto">
-          {marketplace.isLoading && marketplace.features.length === 0 ? (
-            <div className="flex h-full items-center justify-center">
-              <div className="text-center">
-                <Zap className="mx-auto mb-4 h-12 w-12 text-gray-400" />
-                <p className="text-gray-600">Loading features...</p>
-              </div>
-            </div>
-          ) : marketplace.features.length === 0 ? (
-            <div className="flex h-full items-center justify-center">
-              <div className="text-center">
-                <Zap className="mx-auto mb-4 h-12 w-12 text-gray-400" />
-                <p className="text-gray-600">No features found</p>
-              </div>
-            </div>
-          ) : (
-            <div className="p-6">
-              <div
-                className={
-                  viewMode === 'grid'
-                    ? 'grid auto-rows-max gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-                    : 'space-y-3'
-                }
-              >
-                {marketplace.features.map((feature) => (
-                  <FeatureCard
-                    key={feature.id}
-                    feature={feature}
-                    onViewDetails={setSelectedFeatureId}
-                    onToggle={handleFeatureToggle}
-                    isLoading={marketplace.isLoading}
-                  />
-                ))}
-              </div>
-
-              {/* Load More */}
-              {marketplace.hasMore && (
-                <div className="mt-6 flex justify-center">
-                  <button
-                    onClick={handleLoadMore}
-                    disabled={marketplace.isLoading}
-                    className="rounded-lg bg-blue-600 px-6 py-2 font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
-                  >
-                    Load More
-                  </button>
+        {/* Browse Tab */}
+        {activeTab === 'browse' && (
+          <div className="flex-1 overflow-auto">
+            {marketplace.isLoading && marketplace.features.length === 0 ? (
+              <div className="flex h-full items-center justify-center">
+                <div className="text-center">
+                  <Zap className="mx-auto mb-4 h-12 w-12 text-gray-400" />
+                  <p className="text-gray-600">Loading features...</p>
                 </div>
-              )}
-
-              {/* Page Info */}
-              <div className="mt-4 text-center text-sm text-gray-600">
-                Showing {marketplace.features.length} of {marketplace.total} features
               </div>
-            </div>
-          )}
-        </div>
+            ) : marketplace.features.length === 0 ? (
+              <div className="flex h-full items-center justify-center">
+                <div className="text-center">
+                  <Zap className="mx-auto mb-4 h-12 w-12 text-gray-400" />
+                  <p className="text-gray-600">No features found</p>
+                </div>
+              </div>
+            ) : (
+              <div className="p-6">
+                <div
+                  className={
+                    viewMode === 'grid'
+                      ? 'grid auto-rows-max gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+                      : 'space-y-3'
+                  }
+                >
+                  {marketplace.features.map((feature) => (
+                    <FeatureCard
+                      key={feature.id}
+                      feature={feature}
+                      onViewDetails={setSelectedFeatureId}
+                      onToggle={handleFeatureToggle}
+                      isLoading={marketplace.isLoading}
+                    />
+                  ))}
+                </div>
+
+                {/* Load More */}
+                {marketplace.hasMore && (
+                  <div className="mt-6 flex justify-center">
+                    <button
+                      onClick={handleLoadMore}
+                      disabled={marketplace.isLoading}
+                      className="rounded-lg bg-blue-600 px-6 py-2 font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
+                    >
+                      Load More
+                    </button>
+                  </div>
+                )}
+
+                {/* Page Info */}
+                <div className="mt-4 text-center text-sm text-gray-600">
+                  Showing {marketplace.features.length} of {marketplace.total} features
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* My Features Tab */}
+        {activeTab === 'my-features' && (
+          <div className="flex-1 overflow-auto p-6">
+            <MyFeatures businessId={businessId} />
+          </div>
+        )}
+
+        {/* Requests Tab */}
+        {activeTab === 'requests' && (
+          <div className="flex-1 overflow-auto p-6">
+            <FeatureRequestList businessId={businessId} limit={50} />
+          </div>
+        )}
       </div>
 
       {/* Feature Detail Modal */}
@@ -241,6 +311,19 @@ export const FeatureMarketplace = memo(function FeatureMarketplace({
           businessId={businessId}
           onClose={() => setSelectedFeatureId(null)}
         />
+      )}
+
+      {/* Feature Request Form Modal */}
+      {showRequestForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-xl">
+            <FeatureRequestForm
+              businessId={businessId}
+              onClose={() => setShowRequestForm(false)}
+              onSubmit={() => setShowRequestForm(false)}
+            />
+          </div>
+        </div>
       )}
     </div>
   );
