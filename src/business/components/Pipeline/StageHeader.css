@@ -1,0 +1,176 @@
+.stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f9fafb;
+  border-bottom: 2px solid #e5e7eb;
+  border-radius: 6px 6px 0 0;
+  gap: 12px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Stage Title */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.stage-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  flex: 1;
+}
+
+.stage-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.stage-title:hover .stage-color {
+  transform: scale(1.2);
+}
+
+.stage-name {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.entity-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  background: #dbeafe;
+  color: #1e40af;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Actions */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.stage-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.action-btn {
+  padding: 6px 8px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 0;
+}
+
+.action-btn:hover:not(:disabled) {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1e40af;
+}
+
+.action-btn:active:not(:disabled) {
+  background: #dbeafe;
+  transform: scale(0.95);
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Variants */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.action-btn.add-entity:hover:not(:disabled) {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+  color: #15803d;
+}
+
+.action-btn.add-entity:active:not(:disabled) {
+  background: #dcfce7;
+}
+
+.action-btn.configure:hover:not(:disabled) {
+  background: #fef3c7;
+  border-color: #fcd34d;
+  color: #b45309;
+}
+
+.action-btn.configure:active:not(:disabled) {
+  background: #fef08a;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Responsive Design */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .stage-header {
+    padding: 10px 12px;
+  }
+
+  .stage-name {
+    font-size: 13px;
+  }
+
+  .entity-count {
+    min-width: 22px;
+    height: 22px;
+    padding: 0 4px;
+    font-size: 11px;
+  }
+
+  .action-btn {
+    padding: 4px 6px;
+  }
+
+  .action-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .stage-header {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .stage-title {
+    width: 100%;
+  }
+
+  .stage-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
