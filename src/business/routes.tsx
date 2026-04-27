@@ -41,6 +41,7 @@ import { ConnectorsPage } from './components/ConnectorsPage';
 import { AutomationPage } from './components/AutomationPage';
 import { SocialPage } from './components/SocialPage';
 import PipelineBoard from './components/Pipeline/PipelineBoard';
+import PipelinesPage from './components/PipelinesPage';
 import { FeatureGuard, AuthGuard } from './guards/FeatureGuards';
 import { FinancePage } from './components/FinancePage';
 import ExpensesPage from './components/ExpensesPage';
@@ -365,8 +366,8 @@ export const router = createBrowserRouter(
       { path: 'connectors/:type', element: <ConnectorsPage />, errorElement: <ErrorElement /> },
       { path: 'connectors/:type/:id', element: <ConnectorsPage />, errorElement: <ErrorElement /> },
       { path: 'social',        element: <SocialPage />, errorElement: <ErrorElement /> },
-      { path: 'pipelines',     element: <PipelineBoard pipelineId="" />, errorElement: <ErrorElement /> },
-      { path: 'pipelines/:id', element: <PipelineBoard pipelineId="" />, errorElement: <ErrorElement /> },
+      { path: 'pipelines',     element: <PipelinesPage />, errorElement: <ErrorElement /> },
+      { path: 'pipelines/:id', element: <PipelinesPage />, errorElement: <ErrorElement /> },
 
       // ─── AUTOMATION FEATURE ROUTES ──────────────────────────────────────
       {

@@ -1,0 +1,526 @@
+.pipelines-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #ffffff;
+  color: #111827;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Container Layout */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.pipelines-container {
+  display: flex;
+  flex: 1;
+  gap: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Sidebar */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.pipelines-sidebar {
+  width: 280px;
+  background: #f9fafb;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar-header {
+  padding: 20px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.btn-create {
+  padding: 8px 12px;
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-create:hover {
+  background: #2563eb;
+}
+
+.btn-create:active {
+  transform: scale(0.95);
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Create Pipeline Form */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.create-pipeline-form {
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #eff6ff;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.create-pipeline-form input,
+.create-pipeline-form select {
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 13px;
+  background: white;
+  color: #111827;
+}
+
+.create-pipeline-form input:focus,
+.create-pipeline-form select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-primary,
+.btn-secondary {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #2563eb;
+}
+
+.btn-secondary {
+  background: white;
+  color: #6b7280;
+  border: 1px solid #e5e7eb;
+}
+
+.btn-secondary:hover {
+  background: #f3f4f6;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Pipeline List */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.pipelines-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pipeline-item {
+  padding: 12px 12px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.pipeline-item:hover {
+  background: #eff6ff;
+  border-color: #bfdbfe;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.pipeline-item.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.pipeline-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.pipeline-name {
+  font-weight: 500;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pipeline-type {
+  font-size: 11px;
+  opacity: 0.7;
+  text-transform: capitalize;
+  margin-top: 2px;
+}
+
+.pipeline-item.active .pipeline-type {
+  opacity: 0.9;
+}
+
+.pipeline-count {
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(0, 0, 0, 0.1);
+  padding: 2px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+  margin-left: 8px;
+}
+
+.pipeline-item.active .pipeline-count {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Empty State */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.empty-state {
+  padding: 40px 20px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.empty-state p {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.btn-link:hover {
+  color: #2563eb;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Main Content Area */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.pipelines-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  gap: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Error Banner */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.error-banner {
+  padding: 12px 16px;
+  background: #fef2f2;
+  border-bottom: 1px solid #fecaca;
+  color: #991b1b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.error-banner button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  font-size: 18px;
+  padding: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Pipeline Header */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.pipeline-header {
+  padding: 24px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.pipeline-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.pipeline-description {
+  margin: 8px 0 0 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-toggle {
+  padding: 10px 16px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.btn-toggle:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.btn-toggle.active {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Stats Section */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.stats-section {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fafbfc;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Kanban Section */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.kanban-section {
+  flex: 1;
+  overflow: auto;
+  padding: 24px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* No Selection */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.no-selection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+}
+
+.no-selection p {
+  font-size: 16px;
+  margin: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Loading State */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.pipelines-page.loading {
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-spinner {
+  text-align: center;
+  color: #6b7280;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Scrollbar Styling */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+.pipelines-sidebar::-webkit-scrollbar,
+.pipelines-main::-webkit-scrollbar {
+  width: 8px;
+}
+
+.pipelines-sidebar::-webkit-scrollbar-track,
+.pipelines-main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pipelines-sidebar::-webkit-scrollbar-thumb,
+.pipelines-main::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+.pipelines-sidebar::-webkit-scrollbar-thumb:hover,
+.pipelines-main::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Responsive Design */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .pipelines-sidebar {
+    width: 240px;
+  }
+
+  .pipeline-header {
+    padding: 20px;
+    flex-wrap: wrap;
+  }
+
+  .stats-section {
+    padding: 16px 20px;
+  }
+
+  .kanban-section {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .pipelines-container {
+    flex-direction: column;
+  }
+
+  .pipelines-sidebar {
+    width: 100%;
+    max-height: 200px;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .pipelines-main {
+    min-height: 0;
+  }
+
+  .pipeline-header {
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  .pipeline-header h1 {
+    font-size: 24px;
+  }
+
+  .stats-section {
+    padding: 12px 16px;
+  }
+
+  .kanban-section {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-header {
+    padding: 16px;
+  }
+
+  .sidebar-header h2 {
+    font-size: 16px;
+  }
+
+  .btn-create {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .pipelines-list {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .pipeline-item {
+    padding: 10px;
+  }
+
+  .pipeline-header {
+    padding: 12px 16px;
+  }
+
+  .pipeline-header h1 {
+    font-size: 20px;
+  }
+
+  .kanban-section {
+    padding: 12px;
+  }
+}
