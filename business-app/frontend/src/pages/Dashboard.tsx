@@ -47,57 +47,62 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4">
-        <h1 className="text-4xl font-bold text-gray-900 mb-8">Business Dashboard</h1>
-
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="text-sm text-gray-600 mb-2">Total Orders</div>
-            <div className="text-3xl font-bold text-gray-900">{stats.totalOrders}</div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="text-sm text-gray-600 mb-2">Total Revenue</div>
-            <div className="text-3xl font-bold text-green-600">₹{stats.totalRevenue}</div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="text-sm text-gray-600 mb-2">Pending Orders</div>
-            <div className="text-3xl font-bold text-yellow-600">{stats.pendingOrders}</div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="text-sm text-gray-600 mb-2">Profile Status</div>
-            <div className="text-lg font-semibold text-blue-600">Active</div>
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
+          <div className="flex items-center gap-4">
+            <img src="/logo.png" alt="Redeem Rocket" className="h-12 sm:h-16 w-auto" />
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">Business Dashboard</h1>
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Recent Orders</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+            <div className="text-xs sm:text-sm text-gray-600 mb-2">Total Orders</div>
+            <div className="text-2xl sm:text-3xl font-bold text-gray-900">{stats.totalOrders}</div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+            <div className="text-xs sm:text-sm text-gray-600 mb-2">Total Revenue</div>
+            <div className="text-2xl sm:text-3xl font-bold text-green-600">₹{stats.totalRevenue}</div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+            <div className="text-xs sm:text-sm text-gray-600 mb-2">Pending Orders</div>
+            <div className="text-2xl sm:text-3xl font-bold text-yellow-600">{stats.pendingOrders}</div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+            <div className="text-xs sm:text-sm text-gray-600 mb-2">Profile Status</div>
+            <div className="text-base sm:text-lg font-semibold text-blue-600">Active</div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow p-4 sm:p-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Recent Orders</h2>
           {stats.recentOrders.length === 0 ? (
-            <p className="text-gray-600">No recent orders</p>
+            <p className="text-gray-600 text-sm">No recent orders</p>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="border-b">
+            <div className="overflow-x-auto -mx-4 sm:mx-0">
+              <table className="w-full text-sm sm:text-base">
+                <thead className="border-b bg-gray-50">
                   <tr>
-                    <th className="text-left py-3 px-4">Order ID</th>
-                    <th className="text-left py-3 px-4">Customer</th>
-                    <th className="text-left py-3 px-4">Amount</th>
-                    <th className="text-left py-3 px-4">Status</th>
-                    <th className="text-left py-3 px-4">Date</th>
+                    <th className="text-left py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold">Order ID</th>
+                    <th className="text-left py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold hidden sm:table-cell">Customer</th>
+                    <th className="text-left py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold">Amount</th>
+                    <th className="text-left py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold">Status</th>
+                    <th className="text-left py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold hidden lg:table-cell">Date</th>
                   </tr>
                 </thead>
                 <tbody>
                   {stats.recentOrders.map((order: any) => (
                     <tr key={order.id} className="border-b hover:bg-gray-50">
-                      <td className="py-3 px-4">{order.id.slice(0, 8)}</td>
-                      <td className="py-3 px-4">{order.customerName}</td>
-                      <td className="py-3 px-4 font-semibold">₹{order.totalAmount}</td>
-                      <td className="py-3 px-4">
+                      <td className="py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold">{order.id.slice(0, 8)}</td>
+                      <td className="py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm hidden sm:table-cell">{order.customerName}</td>
+                      <td className="py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-semibold">₹{order.totalAmount}</td>
+                      <td className="py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm">
                         <span
-                          className={`px-3 py-1 rounded-full text-sm ${
+                          className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm whitespace-nowrap ${
                             order.status === 'completed'
                               ? 'bg-green-100 text-green-800'
                               : order.status === 'pending'
@@ -108,7 +113,7 @@ export default function Dashboard() {
                           {order.status}
                         </span>
                       </td>
-                      <td className="py-3 px-4">{new Date(order.createdAt).toLocaleDateString()}</td>
+                      <td className="py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm hidden lg:table-cell">{new Date(order.createdAt).toLocaleDateString()}</td>
                     </tr>
                   ))}
                 </tbody>

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import type { Feature, FeatureCategory, BusinessType } from '../../types'
+import type { Feature, FeatureCategory, BusinessType } from '../types'
 
 interface FeatureEditorProps {
   feature?: Feature | null

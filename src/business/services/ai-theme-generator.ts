@@ -51,6 +51,21 @@ export async function generateThemeWithAI(
   answers: OnboardingAnswers
 ): Promise<ThemeGenerationResult> {
   try {
+    // Validate input first
+    if (!answers) {
+      console.warn('generateThemeWithAI called with undefined answers, using default theme');
+      answers = {
+        businessType: 'general',
+        businessName: 'Unnamed Business',
+        selectedFeatures: [],
+      };
+    }
+    
+    if (!answers.businessType) {
+      console.warn('businessType is missing in onboarding answers, using "general" as fallback');
+      answers.businessType = 'general';
+    }
+    
     // Call Edge Function to generate theme with Claude
     const response = await supabase.functions.invoke('generate-theme', {
       body: {
@@ -67,7 +82,7 @@ export async function generateThemeWithAI(
     return response.data as ThemeGenerationResult;
   } catch (error) {
     console.error('Failed to generate theme with AI:', error);
-    return getDefaultTheme(answers);
+    return getDefaultTheme(answers || { businessType: 'general', businessName: 'Unnamed Business', selectedFeatures: [] });
   }
 }
 
@@ -76,6 +91,16 @@ export async function generateThemeWithAI(
  * Uses rule-based approach based on business type
  */
 export function getDefaultTheme(answers: OnboardingAnswers): ThemeGenerationResult {
+  // Add null/undefined safety check
+  if (!answers) {
+    console.warn('getDefaultTheme called with undefined answers, using safe defaults');
+    answers = {
+      businessType: 'general',
+      businessName: 'Unnamed Business',
+      selectedFeatures: [],
+    };
+  }
+  
   const businessType = answers.businessType?.toLowerCase() || 'general';
   const features = answers.selectedFeatures || [];
 
@@ -313,6 +338,10 @@ export async function saveThemeToDatabase(
   answers: OnboardingAnswers
 ): Promise<boolean> {
   try {
+    if (!supabase) {
+      console.warn('Supabase client not initialized, skipping database save');
+      return false;
+    }
     const { error } = await supabase
       .from('business_themes')
       .upsert(
@@ -345,6 +374,10 @@ export async function loadThemeFromDatabase(
   businessId: string
 ): Promise<ThemeConfig | null> {
   try {
+    if (!supabase) {
+      console.warn('Supabase client not initialized, falling back to localStorage');
+      return null;
+    }
     const { data, error } = await supabase
       .from('business_themes')
       .select('theme_config')

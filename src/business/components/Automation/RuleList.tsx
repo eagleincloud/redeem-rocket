@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Trash2, Edit2, Play, Eye, MoreVertical } from 'lucide-react';
 import type { AutomationRule } from '../../types/automation';
 import { useAutomation } from '../../hooks/useAutomation';
-import './RuleList.css';
 
 interface RuleListProps {
   onEditRule: (rule: AutomationRule) => void;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import * as featureService from '../../lib/supabase/features'
+import * as featureService from '../lib/supabase/features'
 import { FeatureEditor } from './FeatureEditor'
-import type { Feature, FeatureCategory } from '../../types'
+import type { Feature, FeatureCategory } from '../types'
 
 export function AdminFeatureManagement() {
   const [features, setFeatures] = useState<Feature[]>([])

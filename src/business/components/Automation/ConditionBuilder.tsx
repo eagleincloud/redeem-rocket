@@ -70,7 +70,7 @@ const DATE_OPERATORS: OperatorOption[] = [
   { value: 'is_not_empty', label: 'Is Not Empty', valueInputType: 'none' },
 ];
 
-const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
+export const ConditionBuilder: React.FC<ConditionBuilderProps> = ({
   conditions,
   onConditionsChange,
 }) => {

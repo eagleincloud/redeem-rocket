@@ -9,7 +9,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  root: '.',
+  root: __dirname,
   publicDir: 'public',
   server: {
     port: 5173,
@@ -25,7 +25,6 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: true,
-    minify: 'terser',
   },
   define: {
     __APP_VERSION__: JSON.stringify(process.env.npm_package_version),

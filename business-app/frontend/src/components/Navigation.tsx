@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { Menu, X } from 'lucide-react'
 import { useAuthStore } from '../stores/authStore'
 import { useCategoryStore } from '../stores/categoryStore'
 
@@ -16,6 +17,7 @@ export default function Navigation() {
   const { activeCategory, setActiveCategory } = useCategoryStore()
   const navigate = useNavigate()
   const [showCategoryMenu, setShowCategoryMenu] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   // Get feature preferences from user data or localStorage
   const featurePreferences = useMemo<FeaturePreferences>(() => {
@@ -119,11 +121,21 @@ export default function Navigation() {
     <nav className="bg-white shadow">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="text-2xl font-bold text-blue-600">
+          <Link to="/" className="text-xl sm:text-2xl font-bold text-blue-600">
             Redeem Rocket
           </Link>
 
-          <div className="flex items-center space-x-8">
+          {/* Hamburger menu button for mobile */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden p-2 rounded-md text-gray-600 hover:bg-gray-100 transition"
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+
+          {/* Desktop navigation */}
+          <div className="hidden lg:flex items-center space-x-8">
             {/* Category Switcher */}
             {activeCategory && (
               <div className="relative">
@@ -179,12 +191,12 @@ export default function Navigation() {
               </div>
             ) : (
               <div className="flex items-center space-x-4">
-                <Link to="/login" className="text-gray-600 hover:text-gray-900">
+                <Link to="/login" className="text-gray-600 hover:text-gray-900 text-sm">
                   Login
                 </Link>
                 <Link
                   to="/signup"
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm"
                 >
                   Sign Up
                 </Link>
@@ -192,6 +204,186 @@ export default function Navigation() {
             )}
           </div>
         </div>
+
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden border-t border-gray-200 py-4 space-y-4">
+            {/* Category Switcher Mobile */}
+            {activeCategory && (
+              <>
+                <div className="px-2 text-sm font-semibold text-gray-900">
+                  {getCategoryLabel()}
+                </div>
+                <div className="space-y-2 px-2">
+                  <button
+                    onClick={() => {
+                      handleSwitchCategory('redeem-rocket')
+                      setMobileMenuOpen(false)
+                    }}
+                    className={`block w-full text-left px-3 py-2 rounded-lg transition ${
+                      activeCategory === 'redeem-rocket'
+                        ? 'bg-blue-50 text-blue-700 font-medium'
+                        : 'text-gray-600 hover:bg-gray-100'
+                    }`}
+                  >
+                    🚀 Redeem Rocket
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleSwitchCategory('lead-management')
+                      setMobileMenuOpen(false)
+                    }}
+                    className={`block w-full text-left px-3 py-2 rounded-lg transition ${
+                      activeCategory === 'lead-management'
+                        ? 'bg-purple-50 text-purple-700 font-medium'
+                        : 'text-gray-600 hover:bg-gray-100'
+                    }`}
+                  >
+                    👥 Lead Management
+                  </button>
+                </div>
+                <div className="border-t border-gray-200"></div>
+              </>
+            )}
+
+            {/* Category links */}
+            <div className="space-y-2 px-2">
+              {activeCategory === 'redeem-rocket' ? (
+                <>
+                  <Link
+                    to="/"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block text-gray-600 hover:text-gray-900 py-2"
+                  >
+                    Dashboard
+                  </Link>
+                  {canAccessFeature('product_catalog') && (
+                    <>
+                      <Link
+                        to="/orders"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block text-gray-600 hover:text-gray-900 py-2"
+                      >
+                        Orders
+                      </Link>
+                      <Link
+                        to="/documents"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block text-gray-600 hover:text-gray-900 py-2"
+                      >
+                        Documents
+                      </Link>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block text-gray-600 hover:text-gray-900 py-2"
+                  >
+                    Dashboard
+                  </Link>
+                  {canAccessFeature('lead_management') && (
+                    <Link
+                      to="/leads"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block text-gray-600 hover:text-gray-900 py-2"
+                    >
+                      Leads
+                    </Link>
+                  )}
+                  {canAccessFeature('email_campaigns') && (
+                    <Link
+                      to="/email-campaigns"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block text-gray-600 hover:text-gray-900 py-2"
+                    >
+                      Campaigns
+                    </Link>
+                  )}
+                  {canAccessFeature('automation') && (
+                    <Link
+                      to="/automation-rules"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block text-gray-600 hover:text-gray-900 py-2"
+                    >
+                      Automation
+                    </Link>
+                  )}
+                  {canAccessFeature('social_media') && (
+                    <>
+                      <Link
+                        to="/social-accounts"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block text-gray-600 hover:text-gray-900 py-2"
+                      >
+                        Social
+                      </Link>
+                      <Link
+                        to="/lead-connectors"
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block text-gray-600 hover:text-gray-900 py-2"
+                      >
+                        Connectors
+                      </Link>
+                    </>
+                  )}
+                </>
+              )}
+              <Link
+                to="/features"
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-blue-600 hover:text-blue-700 py-2 font-medium"
+              >
+                🎯 Features
+              </Link>
+            </div>
+
+            {/* User menu */}
+            <div className="border-t border-gray-200 pt-4 px-2">
+              {user ? (
+                <>
+                  <div className="text-gray-700 text-sm mb-3 font-medium">{user.firstName} {user.lastName}</div>
+                  <Link
+                    to="/profile"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block text-blue-600 hover:text-blue-700 text-sm py-2"
+                  >
+                    Profile
+                  </Link>
+                  <button
+                    onClick={() => {
+                      handleLogout()
+                      setMobileMenuOpen(false)
+                    }}
+                    className="w-full text-left text-red-600 hover:text-red-700 text-sm py-2"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    to="/login"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block text-gray-600 hover:text-gray-900 text-sm py-2"
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/signup"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm font-medium text-center"
+                  >
+                    Sign Up
+                  </Link>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   )

@@ -1369,7 +1369,7 @@ export async function fetchOwnProducts(businessId: string): Promise<OwnProduct[]
   try {
     const { data, error } = await supabase
       .from('products')
-      .select('id, name, description, price, selling_price, category, image, stock')
+      .select('id, name, description, price, selling_price, category, image, stock, emoji')
       .eq('business_id', businessId)
       .order('created_at', { ascending: false });
 
@@ -1381,7 +1381,7 @@ export async function fetchOwnProducts(businessId: string): Promise<OwnProduct[]
       mrp: (r.price as number) ?? 0,
       sellingPrice: (r.selling_price as number) ?? (r.price as number) ?? 0,
       category: (r.category as string) ?? 'Other',
-      emoji: '📦',
+      emoji: (r.emoji as string) ?? '📦',
       stock: (r.stock as number) ?? 0,
     }));
   } catch { return []; }
@@ -3700,8 +3700,14 @@ export async function completeOnboardingFull(
   if (!supabase) return false;
 
   try {
+    // Validate userId before attempting update
+    if (!userId || typeof userId !== 'string' || userId.trim() === '') {
+      console.error('[completeOnboardingFull] Invalid userId provided:', { userId, type: typeof userId });
+      return false;
+    }
+
     // Update biz_users with feature preferences and theme
-    const { error: userError } = await supabase
+    const { error: userError, data: updateData } = await supabase
       .from('biz_users')
       .update({
         feature_preferences: onboardingData.featurePreferences,
@@ -3714,7 +3720,14 @@ export async function completeOnboardingFull(
       .eq('id', userId);
 
     if (userError) {
-      console.error('[completeOnboardingFull] User update error:', userError);
+      console.error('[completeOnboardingFull] User update error:', {
+        message: userError.message,
+        details: userError.details,
+        hint: userError.hint,
+        code: userError.code,
+        status: userError.status,
+        fullError: JSON.stringify(userError)
+      });
       return false;
     }
 
@@ -3736,7 +3749,12 @@ export async function completeOnboardingFull(
         .insert(pipelinesData);
 
       if (pipelineError) {
-        console.warn('[completeOnboardingFull] Pipeline insert warning:', pipelineError);
+        console.warn('[completeOnboardingFull] Pipeline insert warning:', {
+          message: pipelineError.message,
+          details: pipelineError.details,
+          hint: pipelineError.hint,
+          code: pipelineError.code,
+        });
         // Don't return false - pipelines are optional
       }
     }
@@ -3759,9 +3777,79 @@ export async function completeOnboardingFull(
         .insert(automationData);
 
       if (automationError) {
-        console.warn('[completeOnboardingFull] Automation insert warning:', automationError);
+        console.warn('[completeOnboardingFull] Automation insert warning:', {
+          message: automationError.message,
+          details: automationError.details,
+          hint: automationError.hint,
+          code: automationError.code,
+        });
         // Don't return false - automations are optional
       }
+    }
+
+    // Create sample products for onboarding
+    const sampleProducts = [
+      {
+        business_id: userId,
+        name: 'Premium Product Package',
+        description: 'Complete starter package with essential features',
+        category: 'Premium',
+        price: 999.00,
+        selling_price: 799.00,
+        stock: 50,
+        emoji: '⭐'
+      },
+      {
+        business_id: userId,
+        name: 'Standard Service Plan',
+        description: 'Reliable service plan for growing businesses',
+        category: 'Services',
+        price: 499.00,
+        selling_price: 399.00,
+        stock: 100,
+        emoji: '📋'
+      },
+      {
+        business_id: userId,
+        name: 'Starter Bundle',
+        description: 'Perfect for getting started with our platform',
+        category: 'Bundles',
+        price: 299.00,
+        selling_price: 249.00,
+        stock: 75,
+        emoji: '🎁'
+      },
+      {
+        business_id: userId,
+        name: 'Exclusive Membership',
+        description: 'Premium membership with VIP benefits and support',
+        category: 'Membership',
+        price: 599.00,
+        selling_price: 499.00,
+        stock: 200,
+        emoji: '👑'
+      },
+      {
+        business_id: userId,
+        name: 'Professional Tier',
+        description: 'Advanced solution for professional teams',
+        category: 'Professional',
+        price: 1299.00,
+        selling_price: 999.00,
+        stock: 30,
+        emoji: '🚀'
+      }
+    ];
+
+    const { error: productsError } = await supabase
+      .from('products')
+      .insert(sampleProducts);
+
+    if (productsError) {
+      console.warn('[completeOnboardingFull] Sample products insert warning:', productsError);
+      // Log but don't fail - sample products are nice-to-have
+    } else {
+      console.log('[completeOnboardingFull] Created 5 sample products for user:', userId);
     }
 
     return true;

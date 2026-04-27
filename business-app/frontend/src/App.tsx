@@ -12,7 +12,7 @@ import RedeeemRocketDashboard from './pages/RedeeemRocketDashboard'
 import LeadManagementDashboard from './pages/LeadManagementDashboard'
 import ManagerDashboard from './pages/ManagerDashboard'
 // Feature Marketplace Pages
-import { FeatureMarketplacePage } from './pages/FeatureMarketplace'
+import { FeatureMarketplacePage } from './business/pages/FeatureMarketplace'
 // Admin Pages
 import { AdminFeatureManagement } from './admin/AdminFeatureManagement'
 import { FeatureRequestQueue } from './admin/FeatureRequestQueue'

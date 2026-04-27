@@ -75,7 +75,7 @@ const TRIGGER_CARDS: TriggerCardData[] = [
   },
 ];
 
-const TriggerSelector: React.FC<TriggerSelectorProps> = ({
+export const TriggerSelector: React.FC<TriggerSelectorProps> = ({
   selectedTrigger,
   onTriggerChange,
   config,

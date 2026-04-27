@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import * as featureService from '../../lib/supabase/features'
-import type { FeatureRequest } from '../../types'
+import * as featureService from '../lib/supabase/features'
+import type { FeatureRequest } from '../types'
 
 interface FeatureRequestEditorProps {
   request: FeatureRequest
