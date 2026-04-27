@@ -1,0 +1,359 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOBILE UX IMPROVEMENTS
+   ═════════════════════════════════════════════════════════════════════════ */
+
+/* ── Minimum touch target size (44x44px WCAG recommendation) ──────────────── */
+@media (max-width: 768px) {
+  /* Buttons */
+  button {
+    min-height: 44px;
+    min-width: 44px;
+    padding: max(10px, (44px - 1.2em) / 2) max(12px, (44px - 1.2em) / 2);
+  }
+
+  /* Links */
+  a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Form inputs */
+  input,
+  textarea,
+  select {
+    min-height: 44px;
+    padding: 10px 12px;
+    font-size: 16px; /* Prevents zoom on focus in iOS */
+  }
+
+  /* Checkboxes and radio buttons */
+  input[type="checkbox"],
+  input[type="radio"] {
+    min-width: 44px;
+    min-height: 44px;
+    cursor: pointer;
+  }
+
+  /* Labels should also be touchable */
+  label {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* ── Mobile spacing improvements ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Reduce unnecessary whitespace on mobile */
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Better card spacing on mobile */
+  .card {
+    margin-bottom: 12px;
+  }
+
+  /* Improve form spacing on mobile */
+  form {
+    padding: 0 12px;
+  }
+
+  form > * {
+    margin-bottom: 16px;
+  }
+
+  /* Better list spacing */
+  ul,
+  ol {
+    padding-left: 20px;
+    margin: 12px 0;
+  }
+
+  li {
+    margin-bottom: 8px;
+  }
+
+  /* Section margins */
+  section {
+    margin-bottom: 20px;
+  }
+}
+
+/* ── Mobile text improvements ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Prevent text selection on interactive elements */
+  button,
+  a,
+  [role="button"] {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
+
+  /* Better text readability on small screens */
+  body {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  h1 {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  /* Improve contrast on small screens */
+  p {
+    line-height: 1.6;
+  }
+}
+
+/* ── Mobile navigation improvements ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Hamburger menu button */
+  [data-mobile-menu-trigger] {
+    z-index: 1000;
+    position: relative;
+  }
+
+  /* Menu drawer */
+  [data-mobile-drawer] {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+  }
+
+  /* Bottom navigation */
+  [data-bottom-nav] {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: inherit;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-around;
+    z-index: 100;
+    padding-bottom: max(0, env(safe-area-inset-bottom));
+  }
+
+  /* Bottom nav items have proper touch targets */
+  [data-bottom-nav] button {
+    flex: 1;
+    min-height: 60px;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border: none;
+    background: transparent;
+  }
+
+  /* Content should not be hidden under bottom nav */
+  main,
+  [data-main-content] {
+    padding-bottom: max(64px, calc(64px + env(safe-area-inset-bottom)));
+  }
+}
+
+/* ── Mobile modal improvements ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Modals should be full screen or near full screen */
+  [role="dialog"],
+  .modal,
+  .dialog {
+    width: 100% !important;
+    max-width: none !important;
+    height: auto;
+    max-height: 90vh;
+    margin: 0 !important;
+    border-radius: 16px 16px 0 0 !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  /* Modal should not extend into safe area */
+  [role="dialog"],
+  .modal,
+  .dialog {
+    max-height: calc(90vh - env(safe-area-inset-bottom)) !important;
+  }
+
+  /* Close button easily accessible */
+  [role="dialog"] [role="button"][aria-label="Close"],
+  .modal .close-button {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+}
+
+/* ── Mobile form improvements ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Full-width form fields */
+  input,
+  textarea,
+  select,
+  .form-field {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* Reduce form field gaps */
+  .form-field {
+    margin-bottom: 14px;
+  }
+
+  /* Better spacing for form groups */
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  /* Select dropdown better on mobile */
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231f2937' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+  }
+
+  /* Error messages more visible */
+  .error-message,
+  .field-error {
+    background: rgba(220, 38, 38, 0.1);
+    border-left: 3px solid #dc2626;
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-top: 6px;
+  }
+}
+
+/* ── Mobile table improvements ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Tables should be horizontally scrollable on mobile */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Table rows as cards on very small screens */
+  @media (max-width: 480px) {
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+      display: block;
+      width: 100%;
+    }
+
+    thead {
+      display: none;
+    }
+
+    tr {
+      margin-bottom: 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    td {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      border-bottom: 1px solid #f3f4f6;
+      text-align: right;
+    }
+
+    td:before {
+      content: attr(data-label);
+      font-weight: 600;
+      text-align: left;
+      flex: 1;
+      color: #6b7280;
+    }
+  }
+}
+
+/* ── Mobile gesture improvements ────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Better tap feedback */
+  button:active,
+  a:active,
+  [role="button"]:active {
+    opacity: 0.8;
+  }
+
+  /* Disable hover effects on touch devices */
+  @media (hover: none) {
+    button:hover,
+    a:hover,
+    [role="button"]:hover {
+      opacity: 1;
+    }
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ── Safe area support (notch, rounded corners) ──────────────────────────── */
+@media (max-width: 768px) {
+  body {
+    padding-left: max(8px, env(safe-area-inset-left));
+    padding-right: max(8px, env(safe-area-inset-right));
+    padding-top: max(8px, env(safe-area-inset-top));
+  }
+
+  [data-safe-area] {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+}
+
+/* ── Visibility at different breakpoints ────────────────────────────────── */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .show-mobile {
+    display: block !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop {
+    display: none !important;
+  }
+
+  .show-desktop {
+    display: block !important;
+  }
+}

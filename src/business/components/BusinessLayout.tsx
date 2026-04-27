@@ -7,6 +7,7 @@ import { useViewport } from '../hooks/useViewport';
 import { usePersistedState } from '../hooks/usePersistedState';
 // import { useThemeLoader } from '../hooks/useThemeLoader';
 import { supabase } from '@/app/lib/supabase';
+import { ThemeToggle } from './ThemeToggle';
 import {
   LayoutDashboard, Package, Tag, Gavel, ShoppingBag, ClipboardList,
   Wallet, BarChart3, Image, User, Bell, CreditCard, Menu, X, Sun, Moon,
@@ -524,6 +525,9 @@ export function BusinessLayout() {
 
           <div style={{ flex: 1 }} />
 
+          {/* Theme Toggle */}
+          <ThemeToggle />
+
           {/* Bell icon */}
           <button onClick={() => { navigate('/app/notifications'); setUnreadCount(0); }} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#94a3b8', padding: 6, borderRadius: 6, display: 'flex', position: 'relative' }}>
             <Bell size={20} />
@@ -976,9 +980,7 @@ export function BusinessLayout() {
             )}
           </button>
 
-          <button onClick={toggleTheme} style={{ background: 'none', border: 'none', cursor: 'pointer', color: textMuted, padding: 6, borderRadius: 6, display: 'flex' }}>
-            {isDark ? <Sun size={18} /> : <Moon size={18} />}
-          </button>
+          <ThemeToggle />
 
           <div
             style={{ width: 32, height: 32, borderRadius: '50%', background: `linear-gradient(135deg, ${accent}, #fb923c)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: '#fff', cursor: 'pointer' }}
