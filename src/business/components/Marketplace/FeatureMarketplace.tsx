@@ -3,7 +3,7 @@
  * Main hub for feature discovery, browsing, and management
  */
 
-import React, { memo, useCallback, useMemo, useState } from 'react';
+import React, { memo, useCallback, useMemo, useState, useContext } from 'react';
 import { Search, Grid3x3, List, Filter, Zap, Plus, Lightbulb, X } from 'lucide-react';
 import { FeatureCard } from './FeatureCard';
 import { FeatureDetailModal } from './FeatureDetailModal';
@@ -12,10 +12,11 @@ import { FeatureRequestList } from './FeatureRequestList';
 import { MyFeatures } from './MyFeatures';
 import { useMarketplaceFeatures } from '@/business/hooks/useMarketplaceFeatures';
 import { useFeatureUsage } from '@/business/hooks/useFeatureUsage';
+import { BusinessContext } from '@/business/context/BusinessContext';
 import type { FeatureCategory, FeatureStatus } from '@/business/types/marketplace';
 
 interface FeatureMarketplaceProps {
-  businessId: string;
+  businessId?: string;
 }
 
 const CATEGORIES: FeatureCategory[] = [

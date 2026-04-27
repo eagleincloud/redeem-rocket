@@ -255,6 +255,31 @@ async function movePipelineEntity(supabase: ReturnType<typeof createClient>, dat
       transition_by: transition_by || entityData.created_by,
     });
 
+    // Trigger automation rules on stage change
+    try {
+      const automationResponse = await fetch(`${SUPABASE_URL}/functions/v1/execute-automation-rules`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+        },
+        body: JSON.stringify({
+          business_id: entityData.business_id,
+          trigger_type: 'stage_changed',
+          trigger_data: updated,
+          entity_id: entity_id,
+          entity_type: 'pipeline_entity',
+        }),
+      });
+
+      if (!automationResponse.ok) {
+        console.warn('Automation trigger failed:', automationResponse.statusText);
+      }
+    } catch (automationErr) {
+      // Log but don't fail the request if automation fails
+      console.error('Automation trigger error:', automationErr);
+    }
+
     return json({ entity: updated });
   } catch (e) {
     return error(String(e), 500);

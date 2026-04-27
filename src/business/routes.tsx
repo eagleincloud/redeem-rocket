@@ -56,6 +56,7 @@ import { StockMovementsPage } from './components/StockMovementsPage';
 import { PurchaseOrderPage } from './components/PurchaseOrderPage';
 import { InventoryReportsPage } from './components/InventoryReportsPage';
 import { CustomizationSettings } from './components/Settings/CustomizationSettings';
+import { FeatureMarketplace } from './components/Marketplace/FeatureMarketplace';
 
 // ── Loading Fallback Components ─────────────────────────────────────────────
 function OnboardingFallback() {
@@ -370,6 +371,7 @@ export const router = createBrowserRouter(
       { path: 'social',        element: <SocialPage />, errorElement: <ErrorElement /> },
       { path: 'pipelines',     element: <PipelinesPage />, errorElement: <ErrorElement /> },
       { path: 'pipelines/:id', element: <PipelinesPage />, errorElement: <ErrorElement /> },
+      { path: 'marketplace',   element: <FeatureMarketplace businessId="" />, errorElement: <ErrorElement /> },
 
       // ─── AUTOMATION FEATURE ROUTES ──────────────────────────────────────
       {
