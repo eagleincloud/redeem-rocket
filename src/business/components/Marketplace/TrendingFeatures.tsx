@@ -5,7 +5,7 @@
 
 import React, { memo, useEffect, useState } from 'react';
 import { TrendingUp, Loader, Trophy, Star } from 'lucide-react';
-import { supabase } from '@/app/supabase';
+import { supabase } from '@/app/lib/supabase';
 
 interface TrendingFeature {
   id: string;

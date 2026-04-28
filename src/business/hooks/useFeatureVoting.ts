@@ -4,7 +4,7 @@
  */
 
 import { useCallback, useEffect, useState, useMemo } from 'react';
-import { supabase } from '@/app/supabase';
+import { supabase } from '@/app/lib/supabase';
 
 interface UseFeatureVotingState {
   votes: Record<string, number>;

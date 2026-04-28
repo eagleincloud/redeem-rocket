@@ -5,7 +5,7 @@
 
 import React, { memo, useState } from 'react';
 import { X, Send, Loader } from 'lucide-react';
-import { supabase } from '@/app/supabase';
+import { supabase } from '@/app/lib/supabase';
 
 interface FeatureRequestFormProps {
   businessId: string;

@@ -5,7 +5,7 @@
 
 import React, { memo, useEffect, useState } from 'react';
 import { TrendingUp, ChevronDown, Loader } from 'lucide-react';
-import { supabase } from '@/app/supabase';
+import { supabase } from '@/app/lib/supabase';
 
 interface FeatureRequest {
   id: string;

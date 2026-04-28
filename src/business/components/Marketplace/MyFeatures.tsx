@@ -5,7 +5,7 @@
 
 import React, { memo, useEffect, useState } from 'react';
 import { CheckCircle, MessageSquare, Loader, Zap } from 'lucide-react';
-import { supabase } from '@/app/supabase';
+import { supabase } from '@/app/lib/supabase';
 import { FeatureRequestList } from './FeatureRequestList';
 
 interface InstalledFeature {

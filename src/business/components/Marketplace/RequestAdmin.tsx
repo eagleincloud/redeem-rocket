@@ -5,7 +5,7 @@
 
 import React, { memo, useEffect, useState, useCallback } from 'react';
 import { CheckCircle, X, Clock, Loader, AlertCircle, ChevronDown } from 'lucide-react';
-import { supabase } from '@/app/supabase';
+import { supabase } from '@/app/lib/supabase';
 
 type RequestStatus = 'submitted' | 'under_review' | 'planned' | 'in_development' | 'released' | 'rejected';
 
