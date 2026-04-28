@@ -1,0 +1,65 @@
+name: Load Testing
+
+on:
+  schedule:
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to test'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+  load-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set environment
+        run: |
+          if [ "${{ github.event.inputs.environment }}" = "production" ]; then
+            echo "BASE_URL=https://redeemrocket.in" >> $GITHUB_ENV
+          else
+            echo "BASE_URL=https://staging.redeemrocket.in" >> $GITHUB_ENV
+          fi
+
+      - name: Install k6
+        run: |
+          sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3232A
+          echo "deb [signed-by=/usr/share/keyrings/grafana-keyring.gpg] https://apt.grafana.com stable main" | sudo tee /etc/apt/sources.list.d/grafana.list
+          sudo apt-get update
+          sudo apt-get install -y k6
+
+      - name: Run Load Tests
+        env:
+          BASE_URL: ${{ env.BASE_URL }}
+          API_KEY: ${{ secrets.API_TEST_KEY }}
+          BUSINESS_ID: ${{ secrets.TEST_BUSINESS_ID }}
+        run: |
+          mkdir -p test-results
+          k6 run tests/load/api-load-test.k6.js -o json=test-results/api-load-test.json || true
+          echo "Load tests completed"
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: load-test-results
+          path: test-results/
+
+      - name: Slack Notification
+        if: always()
+        uses: slackapi/slack-github-action@v1
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          payload: |
+            {
+              "text": "Load Test Results - ${{ job.status }}"
+            }
