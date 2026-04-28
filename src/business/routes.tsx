@@ -1,10 +1,9 @@
-import { createBrowserRouter, Navigate, useParams } from 'react-router-dom';
-import { lazy, Suspense, ComponentType } from 'react';
-import React from 'react';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import { BusinessProvider } from './context/BusinessContext';
 import { ThemeProvider } from '@/app/context/ThemeContext';
 import { BusinessLayout } from './components/BusinessLayout';
-import { SmartOnboarding } from "./components/SmartOnboarding";
+import { OnboardingOrchestrator } from "./components/onboarding/OnboardingOrchestrator";
 import { DashboardGuard, OnboardingGuard } from './components/RouteGuards';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ErrorElement } from './components/ErrorElement';
@@ -15,51 +14,54 @@ import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import { EmailVerificationPage } from '@/app/components/EmailVerificationPage';
-import { ProductsPage } from './components/ProductsPage';
-import { OffersPage } from './components/OffersPage';
-import { AuctionsManagePage } from './components/AuctionsManagePage';
-import { OrdersManagePage } from './components/OrdersManagePage';
-import { RequirementsManagePage } from './components/RequirementsManagePage';
-import { BusinessWalletPage } from './components/BusinessWalletPage';
-import { AnalyticsPage } from './components/AnalyticsPage';
-import { GrowthPage } from './components/GrowthPage';
-import { PhotosPage } from './components/PhotosPage';
-import { BusinessProfilePage } from './components/BusinessProfilePage';
-import { FeatureSettings } from './components/FeatureSettings';
-import { BusinessNotificationsPage } from './components/BusinessNotificationsPage';
-import { SubscriptionPage } from './components/SubscriptionPage';
-import { MarketingPage } from './components/MarketingPage';
-import { CampaignsPage } from './components/CampaignsPage';
-import { InvoicesPage } from './components/InvoicesPage';
-import { LeadsPage } from './components/LeadsPage';
-import { OutreachPage } from './components/OutreachPage';
-import { TeamPage } from './components/TeamPage';
-import { RBACProvider } from './context/RBACContext';
 import { StartPage } from './pages/StartPage';
-import { EmailSetupPage } from './components/EmailSetupPage';
-import { ConnectorsPage } from './components/ConnectorsPage';
-import { AutomationPage } from './components/AutomationPage';
-import { SocialPage } from './components/SocialPage';
-import PipelineBoard from './components/Pipeline/PipelineBoard';
-import PipelinesPage from './components/PipelinesPage';
-import { FeatureGuard, AuthGuard } from './guards/FeatureGuards';
-import { FinancePage } from './components/FinancePage';
-import ExpensesPage from './components/ExpensesPage';
-import FinancialReportsPage from './components/FinancialReportsPage';
-import InvoiceBuilder from './components/InvoiceBuilder';
-import PaymentDashboard from './components/PaymentDashboard';
-import PaymentLinkGenerator from './components/PaymentLinkGenerator';
-import StripeCheckout from './components/StripeCheckout';
-import { InventoryPage } from './components/InventoryPage';
-import { ProductsInventoryPage } from './components/ProductsInventoryPage';
-import { StockMovementsPage } from './components/StockMovementsPage';
-import { PurchaseOrderPage } from './components/PurchaseOrderPage';
-import { InventoryReportsPage } from './components/InventoryReportsPage';
-import { CustomizationSettings } from './components/Settings/CustomizationSettings';
-import { FeatureMarketplace } from './components/Marketplace/FeatureMarketplace';
 
-// ── Loading Fallback Components ─────────────────────────────────────────────
-function OnboardingFallback() {
+// ── Lazy Load Heavy Components ───────────────────────────────────────────────
+// Dashboard & Analytics
+const DashboardV2Page = lazy(() => import('./pages/DashboardV2Page'));
+const AnalyticsPage = lazy(() => import('./components/AnalyticsPage'));
+
+// Products & Inventory
+const ProductsPage = lazy(() => import('./components/ProductsPage'));
+const PhotosPage = lazy(() => import('./components/PhotosPage'));
+const OffersPage = lazy(() => import('./components/OffersPage'));
+const AuctionsManagePage = lazy(() => import('./components/AuctionsManagePage'));
+const OrdersManagePage = lazy(() => import('./components/OrdersManagePage'));
+const RequirementsManagePage = lazy(() => import('./components/RequirementsManagePage'));
+
+// Finance & Payments
+const FinancePage = lazy(() => import('./components/FinancePage'));
+const ExpensesPage = lazy(() => import('./components/ExpensesPage'));
+const FinancialReportsPage = lazy(() => import('./components/FinancialReportsPage'));
+const InvoicesPage = lazy(() => import('./components/InvoicesPage'));
+const BusinessWalletPage = lazy(() => import('./components/BusinessWalletPage'));
+const PaymentDashboard = lazy(() => import('./components/PaymentDashboard'));
+const PaymentLinkGenerator = lazy(() => import('./components/PaymentLinkGenerator'));
+const StripeCheckout = lazy(() => import('./components/StripeCheckout'));
+const InvoiceBuilder = lazy(() => import('./components/InvoiceBuilder'));
+
+// CRM & Leads
+const LeadsPage = lazy(() => import('./components/LeadsPage'));
+const OutreachPage = lazy(() => import('./components/OutreachPage'));
+const TeamPage = lazy(() => import('./components/TeamPage'));
+
+// Marketing & Growth
+const MarketingPage = lazy(() => import('./components/MarketingPage'));
+const CampaignsPage = lazy(() => import('./components/CampaignsPage'));
+const GrowthPage = lazy(() => import('./components/GrowthPage'));
+const SocialPage = lazy(() => import('./components/SocialPage'));
+
+// Settings & Configuration
+const BusinessProfilePage = lazy(() => import('./components/BusinessProfilePage'));
+const FeatureSettings = lazy(() => import('./components/FeatureSettings'));
+const BusinessNotificationsPage = lazy(() => import('./components/BusinessNotificationsPage'));
+const SubscriptionPage = lazy(() => import('./components/SubscriptionPage'));
+const EmailSetupPage = lazy(() => import('./components/EmailSetupPage'));
+const ConnectorsPage = lazy(() => import('./components/ConnectorsPage'));
+const AutomationPage = lazy(() => import('./components/AutomationPage'));
+
+// ── Loading Fallback ─────────────────────────────────────────────────────────
+function LoadingFallback() {
   return (
     <div style={{
       display: 'flex',
@@ -72,7 +74,7 @@ function OnboardingFallback() {
     }}>
       <div style={{ textAlign: 'center' }}>
         <div style={{ fontSize: '32px', marginBottom: '16px', animation: 'spin 1s linear infinite' }}>⚙️</div>
-        <p>Loading onboarding...</p>
+        <p>Loading...</p>
       </div>
       <style>{`
         @keyframes spin {
@@ -84,117 +86,27 @@ function OnboardingFallback() {
   );
 }
 
-function RouteLoadingFallback() {
-  return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '400px',
-      color: '#888',
-      fontSize: '14px',
-    }}>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: '24px', marginBottom: '12px', animation: 'spin 1s linear infinite' }}>⚙️</div>
-        <p>Loading...</p>
-      </div>
-    </div>
-  );
-}
-
-// ── Lazy-loaded Components ──────────────────────────────────────────────────
-const LazySmartOnboarding = lazy(() =>
-  import('./components/SmartOnboarding').then(mod => ({
-    default: mod.SmartOnboarding,
-  }))
-);
-
-// Automation feature routes - lazy loaded for performance
-const LazyRuleList = lazy(() =>
-  import('./components/Automation/RuleList').then(mod => ({
-    default: mod.RuleList,
-  }))
-);
-
-const LazyRuleBuilder = lazy(() =>
-  import('./components/Automation/RuleBuilder').then(mod => ({
-    default: mod.RuleBuilder,
-  }))
-);
-
-// Wrapper component for rule creation
-function RuleBuilderCreateWrapper() {
-  return <LazyRuleBuilder mode="create" />;
-}
-
-// Wrapper component for rule editing
-function RuleBuilderEditWrapper() {
-  const { ruleId } = useParams<{ ruleId: string }>();
-  return <LazyRuleBuilder mode="edit" ruleId={ruleId} />;
-}
-
-// Wrapper component for execution logs
-function ExecutionLogsWrapper() {
-  const { ruleId } = useParams<{ ruleId: string }>();
-  return <LazyExecutionLogs ruleId={ruleId} />;
-}
-
-const LazyExecutionLogs = lazy(() =>
-  import('./components/Automation/ExecutionLogs').then(mod => ({
-    default: mod.ExecutionLogs,
-  }))
-);
-
-const LazyTemplateManager = lazy(() =>
-  import('./components/Automation/TemplateManager').then(mod => ({
-    default: mod.TemplateManager,
-  }))
-);
-
-const LazyRuleDebugger = lazy(() =>
-  import('./components/Automation/RuleDebugger').then(mod => ({
-    default: mod.RuleDebugger,
-  }))
-);
-
-// ── Landing Page Root ────────────────────────────────────────────────────────
-function LandingPageRoot() {
+// ── Root wrapper that supplies global providers ───────────────────────────────
+function Root() {
   return (
     <ThemeProvider>
       <BusinessProvider>
         <ErrorBoundary>
-          <LandingPage />
+          <BusinessLayout />
         </ErrorBoundary>
       </BusinessProvider>
     </ThemeProvider>
   );
 }
 
-// ── Root wrapper that supplies global providers ───────────────────────────────
-function Root() {
-  return (
-    <ThemeProvider>
-      <BusinessProvider>
-        <RBACProvider>
-          <ErrorBoundary>
-            <BusinessLayout />
-          </ErrorBoundary>
-        </RBACProvider>
-      </BusinessProvider>
-    </ThemeProvider>
-  );
-}
-
-// ── Onboarding Root with Lazy Loading ────────────────────────────────────────
+// ── Onboarding Root ──────────────────────────────────────────────────────────
 function OnboardingRoot() {
   return (
     <ThemeProvider>
       <BusinessProvider>
         <ErrorBoundary>
           <OnboardingGuard>
-            <Suspense fallback={<OnboardingFallback />}>
-              <LazySmartOnboarding />
-            </Suspense>
+            <OnboardingOrchestrator />
           </OnboardingGuard>
         </ErrorBoundary>
       </BusinessProvider>
@@ -272,6 +184,15 @@ function StartPageRoot() {
   );
 }
 
+// ── Lazy Wrapper for Pages ───────────────────────────────────────────────────
+function LazyPageWrapper({ Component }: { Component: React.ComponentType<any> }) {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <Component />
+    </Suspense>
+  );
+}
+
 export const router = createBrowserRouter(
   [
   {
@@ -297,12 +218,6 @@ export const router = createBrowserRouter(
   {
     path: '/forgot-password',
     element: <ForgotPasswordRoot />,
-    errorElement: <ErrorElement />,
-  },
-  // Redirect /onboarding to /business/onboarding
-  {
-    path: '/onboarding',
-    element: <Navigate to="/business/onboarding" replace />,
     errorElement: <ErrorElement />,
   },
   // Smart Onboarding route (protected, lazy-loaded)
@@ -332,118 +247,33 @@ export const router = createBrowserRouter(
         ),
         errorElement: <ErrorElement />,
       },
-      { path: 'products',      element: <ProductsPage />, errorElement: <ErrorElement /> },
-      { path: 'offers',        element: <OffersPage />, errorElement: <ErrorElement /> },
-      { path: 'auctions',      element: <AuctionsManagePage />, errorElement: <ErrorElement /> },
-      { path: 'orders',        element: <OrdersManagePage />, errorElement: <ErrorElement /> },
-      { path: 'requirements',  element: <RequirementsManagePage />, errorElement: <ErrorElement /> },
-      { path: 'wallet',        element: <BusinessWalletPage />, errorElement: <ErrorElement /> },
-      { path: 'analytics',     element: <AnalyticsPage />, errorElement: <ErrorElement /> },
-      { path: 'grow',          element: <GrowthPage />, errorElement: <ErrorElement /> },
-      { path: 'photos',        element: <PhotosPage />, errorElement: <ErrorElement /> },
-      { path: 'profile',       element: <BusinessProfilePage />, errorElement: <ErrorElement /> },
-      { path: 'features-settings', element: <FeatureSettings />, errorElement: <ErrorElement /> },
-      { path: 'settings/customization', element: <CustomizationSettings businessId="" />, errorElement: <ErrorElement /> },
-      { path: 'notifications', element: <BusinessNotificationsPage />, errorElement: <ErrorElement /> },
-      { path: 'subscription',  element: <SubscriptionPage />, errorElement: <ErrorElement /> },
-      { path: 'marketing',     element: <MarketingPage />, errorElement: <ErrorElement /> },
-      { path: 'campaigns',     element: <CampaignsPage />, errorElement: <ErrorElement /> },
-      { path: 'invoices',      element: <InvoicesPage />, errorElement: <ErrorElement /> },
-      { path: 'finance',       element: <FinancePage />, errorElement: <ErrorElement /> },
-      { path: 'expenses',      element: <ExpensesPage />, errorElement: <ErrorElement /> },
-      { path: 'financial-reports', element: <FinancialReportsPage />, errorElement: <ErrorElement /> },
-      { path: 'invoice-builder', element: <InvoiceBuilder />, errorElement: <ErrorElement /> },
-      { path: 'payments',      element: <PaymentDashboard />, errorElement: <ErrorElement /> },
-      { path: 'payment-links', element: <PaymentLinkGenerator />, errorElement: <ErrorElement /> },
-      { path: 'checkout',      element: <StripeCheckout />, errorElement: <ErrorElement /> },
-      { path: 'inventory',     element: <InventoryPage />, errorElement: <ErrorElement /> },
-      { path: 'inventory/products', element: <ProductsInventoryPage />, errorElement: <ErrorElement /> },
-      { path: 'inventory/movements', element: <StockMovementsPage />, errorElement: <ErrorElement /> },
-      { path: 'inventory/orders', element: <PurchaseOrderPage />, errorElement: <ErrorElement /> },
-      { path: 'inventory/reports', element: <InventoryReportsPage />, errorElement: <ErrorElement /> },
-      { path: 'leads',         element: <LeadsPage />, errorElement: <ErrorElement /> },
-      { path: 'outreach',      element: <OutreachPage />, errorElement: <ErrorElement /> },
-      { path: 'team',          element: <TeamPage />, errorElement: <ErrorElement /> },
-      { path: 'email-setup',   element: <EmailSetupPage />, errorElement: <ErrorElement /> },
-      { path: 'connectors',    element: <ConnectorsPage />, errorElement: <ErrorElement /> },
-      { path: 'connectors/:type', element: <ConnectorsPage />, errorElement: <ErrorElement /> },
-      { path: 'connectors/:type/:id', element: <ConnectorsPage />, errorElement: <ErrorElement /> },
-      { path: 'social',        element: <SocialPage />, errorElement: <ErrorElement /> },
-      { path: 'pipelines',     element: <PipelinesPage />, errorElement: <ErrorElement /> },
-      { path: 'pipelines/:id', element: <PipelinesPage />, errorElement: <ErrorElement /> },
-      { path: 'marketplace',   element: <FeatureMarketplace businessId="" />, errorElement: <ErrorElement /> },
-
-      // ─── AUTOMATION FEATURE ROUTES ──────────────────────────────────────
-      {
-        path: 'automation',
-        element: (
-          <FeatureGuard feature="automation" fallback={<Navigate to="/app" replace />}>
-            <AutomationPage />
-          </FeatureGuard>
-        ),
-        errorElement: <ErrorElement />,
-        children: [
-          // Rules Management
-          {
-            path: 'rules',
-            element: (
-              <Suspense fallback={<RouteLoadingFallback />}>
-                <LazyRuleList />
-              </Suspense>
-            ),
-            errorElement: <ErrorElement />,
-          },
-          {
-            path: 'rules/new',
-            element: (
-              <Suspense fallback={<RouteLoadingFallback />}>
-                <RuleBuilderCreateWrapper />
-              </Suspense>
-            ),
-            errorElement: <ErrorElement />,
-          },
-          {
-            path: 'rules/:ruleId',
-            element: (
-              <Suspense fallback={<RouteLoadingFallback />}>
-                <RuleBuilderEditWrapper />
-              </Suspense>
-            ),
-            errorElement: <ErrorElement />,
-          },
-          {
-            path: 'rules/:ruleId/logs',
-            element: (
-              <Suspense fallback={<RouteLoadingFallback />}>
-                <ExecutionLogsWrapper />
-              </Suspense>
-            ),
-            errorElement: <ErrorElement />,
-          },
-
-          // Template Management
-          {
-            path: 'templates',
-            element: (
-              <Suspense fallback={<RouteLoadingFallback />}>
-                <LazyTemplateManager />
-              </Suspense>
-            ),
-            errorElement: <ErrorElement />,
-          },
-
-          // Debugging Tools
-          {
-            path: 'debug',
-            element: (
-              <Suspense fallback={<RouteLoadingFallback />}>
-                <LazyRuleDebugger />
-              </Suspense>
-            ),
-            errorElement: <ErrorElement />,
-          },
-        ],
-      },
+      { path: 'dashboard-v2',  element: <DashboardGuard><Suspense fallback={<LoadingFallback />}><DashboardV2Page /></Suspense></DashboardGuard>, errorElement: <ErrorElement /> },
+      { path: 'products',      element: <Suspense fallback={<LoadingFallback />}><ProductsPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'offers',        element: <Suspense fallback={<LoadingFallback />}><OffersPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'auctions',      element: <Suspense fallback={<LoadingFallback />}><AuctionsManagePage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'orders',        element: <Suspense fallback={<LoadingFallback />}><OrdersManagePage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'requirements',  element: <Suspense fallback={<LoadingFallback />}><RequirementsManagePage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'wallet',        element: <Suspense fallback={<LoadingFallback />}><BusinessWalletPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'analytics',     element: <Suspense fallback={<LoadingFallback />}><AnalyticsPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'grow',          element: <Suspense fallback={<LoadingFallback />}><GrowthPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'photos',        element: <Suspense fallback={<LoadingFallback />}><PhotosPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'profile',       element: <Suspense fallback={<LoadingFallback />}><BusinessProfilePage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'features-settings', element: <Suspense fallback={<LoadingFallback />}><FeatureSettings /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'notifications', element: <Suspense fallback={<LoadingFallback />}><BusinessNotificationsPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'subscription',  element: <Suspense fallback={<LoadingFallback />}><SubscriptionPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'marketing',     element: <Suspense fallback={<LoadingFallback />}><MarketingPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'campaigns',     element: <Suspense fallback={<LoadingFallback />}><CampaignsPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'invoices',      element: <Suspense fallback={<LoadingFallback />}><InvoicesPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'finance',       element: <Suspense fallback={<LoadingFallback />}><FinancePage businessId="" /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'expenses',      element: <Suspense fallback={<LoadingFallback />}><ExpensesPage businessId="" userId="" /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'reports',       element: <Suspense fallback={<LoadingFallback />}><FinancialReportsPage businessId="" /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'leads',         element: <Suspense fallback={<LoadingFallback />}><LeadsPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'outreach',      element: <Suspense fallback={<LoadingFallback />}><OutreachPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'team',          element: <Suspense fallback={<LoadingFallback />}><TeamPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'email-setup',   element: <Suspense fallback={<LoadingFallback />}><EmailSetupPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'connectors',    element: <Suspense fallback={<LoadingFallback />}><ConnectorsPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'automation',    element: <Suspense fallback={<LoadingFallback />}><AutomationPage /></Suspense>, errorElement: <ErrorElement /> },
+      { path: 'social',        element: <Suspense fallback={<LoadingFallback />}><SocialPage /></Suspense>, errorElement: <ErrorElement /> },
     ],
   },
   // Public business website page
@@ -452,12 +282,25 @@ export const router = createBrowserRouter(
     element: <BusinessWebsiteRoot />,
     errorElement: <ErrorElement />,
   },
-  // Catch-all route for undefined paths - redirect to app
+  // Catch-all route for undefined paths - shows 404
   {
     path: '*',
-    element: <Navigate to="/app" replace />,
+    element: <ErrorElement />,
     errorElement: <ErrorElement />,
   },
   ],
   { basename: import.meta.env.PROD ? '/' : '/business.html' }
 );
+
+// Helper function for LandingPageRoot
+function LandingPageRoot() {
+  return (
+    <ThemeProvider>
+      <BusinessProvider>
+        <ErrorBoundary>
+          <LandingPage />
+        </ErrorBoundary>
+      </BusinessProvider>
+    </ThemeProvider>
+  );
+}

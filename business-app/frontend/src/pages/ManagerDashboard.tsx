@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase/client'
 import { useAuthStore } from '../stores/authStore'
+import { BottleneckDetection, PerformanceTracking, TrendAnalysis, SmartRecommendations } from '../components/Analytics'
 
 interface ManagerProfile {
   id: string
@@ -217,7 +218,17 @@ export default function ManagerDashboard() {
           )}
         </div>
 
-        {/* AI Recommendations */}
+        {/* Analytics Dashboard */}
+        <div className="space-y-8 mb-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <PerformanceTracking />
+            <BottleneckDetection />
+          </div>
+          <TrendAnalysis />
+          <SmartRecommendations />
+        </div>
+
+        {/* Legacy AI Recommendations */}
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-xl font-bold text-gray-900 mb-4">AI Recommendations ({recommendations.length})</h3>
           {recommendations.length === 0 ? (
