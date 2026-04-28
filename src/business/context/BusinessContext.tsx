@@ -194,7 +194,7 @@ function saveBizUser(user: BizUser | null) {
 
 // ── Context ───────────────────────────────────────────────────────────────────
 
-const BusinessContext = createContext<BusinessContextValue | null>(null);
+export const BusinessContext = createContext<BusinessContextValue | null>(null);
 
 export function BusinessProvider({ children }: { children: React.ReactNode }) {
   const [bizUser, setBizUserState] = useState<BizUser | null>(loadBizUser);
