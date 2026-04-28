@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router';
+import { createBrowserRouter } from 'react-router-dom';
 import { AdminProvider } from './context/AdminContext';
 import { ThemeProvider } from '@/app/context/ThemeContext';
 import { AdminLoginPage } from './pages/AdminLoginPage';
