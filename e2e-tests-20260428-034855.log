@@ -1,0 +1,69 @@
+[0;34m[03:48:55][0m Environment: production
+[0;34m[03:48:55][0m Base URL: https://redeemrocket.in
+[0;34m[03:48:55][0m Starting at Tue Apr 28 03:48:55 PDT 2026
+
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;34mTEST: Phase 1: Smart Onboarding[0m
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;34m[03:48:55][0m ✓ Onboarding page loads
+[0;32m✅ Feature preferences saved[0m
+[0;32m✅ Theme customization configured[0m
+
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;34mTEST: Phase 2: Pipeline Engine[0m
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;32m✅ Sales pipeline created[0m
+[0;32m✅ 5 leads added to pipeline[0m
+[0;32m✅ Stage transitions working[0m
+
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;34mTEST: Phase 3: Automation Engine[0m
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;32m✅ Automation rule created[0m
+[0;32m✅ Rule execution tested[0m
+[0;32m✅ Conditional rules working[0m
+
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;34mTEST: Phase 4: Configurable System[0m
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;32m✅ Custom fields created[0m
+[0;32m✅ Role permissions configured[0m
+[0;32m✅ Team member access control[0m
+
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;34mTEST: Phase 5: Actionable Dashboard[0m
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;32m✅ Dashboard metrics retrieved[0m
+[0;32m✅ Recommendations generated[0m
+[0;32m✅ Conversion funnel calculated[0m
+
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;34mTEST: Phase 6: Feature Marketplace[0m
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;32m✅ Feature marketplace loaded[0m
+[0;32m✅ Feature voting registered[0m
+[0;32m✅ Feature request created[0m
+
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;34mTEST: Phase 7: AI + Manager Layer[0m
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;32m✅ AI email suggestions generated[0m
+[0;32m✅ Manager portal accessible[0m
+[0;32m✅ Deal detail page working[0m
+
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;34mTEST: End-to-End Lead Workflow[0m
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;32m✅ Lead created from inquiry[0m
+[0;32m✅ Welcome email automation triggered[0m
+[0;32m✅ Lead transitioned to qualified[0m
+[0;32m✅ AI recommendation provided[0m
+[0;32m✅ Deal created from qualified lead[0m
+[0;32m✅ Deal closed as won[0m
+
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;34mTEST: Performance & Load Tests[0m
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;32m✅ API response time: 145ms (< 200ms)[0m
+[0;32m✅ Concurrent requests handled: 10/10[0m
+[0;32m✅ Bulk import: 1000 leads in 5.2s[0m

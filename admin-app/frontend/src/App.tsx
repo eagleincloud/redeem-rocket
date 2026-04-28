@@ -6,6 +6,7 @@ import Users from './pages/Users'
 import Businesses from './pages/Businesses'
 import Orders from './pages/Orders'
 import Reports from './pages/Reports'
+import Monitoring from './pages/Monitoring'
 import Login from './pages/Login'
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
         ) : (
           <Route element={<Layout />}>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/monitoring" element={<Monitoring />} />
             <Route path="/users" element={<Users />} />
             <Route path="/businesses" element={<Businesses />} />
             <Route path="/orders" element={<Orders />} />

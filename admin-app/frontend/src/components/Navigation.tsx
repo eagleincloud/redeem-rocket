@@ -15,48 +15,39 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="text-2xl font-bold text-blue-600">
-            🚀 Redeem Rocket
+            🚀 Redeem Rocket Admin
           </Link>
 
           <div className="flex items-center space-x-8">
-            <Link to="/" className="text-gray-600 hover:text-gray-900">
-              Home
+            <Link to="/" className="text-gray-600 hover:text-gray-900 font-medium">
+              📊 Dashboard
             </Link>
-            <Link to="/explore" className="text-gray-600 hover:text-gray-900">
-              Explore
+            <Link to="/monitoring" className="text-gray-600 hover:text-gray-900 font-medium">
+              🔍 Monitoring
             </Link>
-            <Link to="/orders" className="text-gray-600 hover:text-gray-900">
-              Orders
+            <Link to="/businesses" className="text-gray-600 hover:text-gray-900 font-medium">
+              🏢 Businesses
+            </Link>
+            <Link to="/users" className="text-gray-600 hover:text-gray-900 font-medium">
+              👥 Users
+            </Link>
+            <Link to="/reports" className="text-gray-600 hover:text-gray-900 font-medium">
+              📈 Reports
             </Link>
 
             {user ? (
-              <div className="flex items-center space-x-4">
-                <span className="text-gray-700">
+              <div className="flex items-center space-x-4 ml-8 pl-8 border-l border-gray-200">
+                <span className="text-gray-700 text-sm">
                   {user.firstName} {user.lastName}
                 </span>
-                <Link to="/profile" className="text-blue-600 hover:text-blue-700">
-                  Profile
-                </Link>
                 <button
                   onClick={handleLogout}
-                  className="text-red-600 hover:text-red-700"
+                  className="text-red-600 hover:text-red-700 text-sm font-medium"
                 >
                   Logout
                 </button>
               </div>
-            ) : (
-              <div className="flex items-center space-x-4">
-                <Link to="/login" className="text-gray-600 hover:text-gray-900">
-                  Login
-                </Link>
-                <Link
-                  to="/signup"
-                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                >
-                  Sign Up
-                </Link>
-              </div>
-            )}
+            ) : null}
           </div>
         </div>
       </div>
