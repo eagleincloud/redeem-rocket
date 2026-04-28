@@ -1,0 +1,189 @@
+╔════════════════════════════════════════════════════════════╗
+║    BUSINESS OS v1.0 - PRE-DEPLOYMENT CHECKLIST            ║
+║                 STEP-BY-STEP GUIDE                         ║
+╚════════════════════════════════════════════════════════════╝
+
+PHASE 1: VERIFY PREREQUISITES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[ ] 1. Verify CLI Tools Installed
+    git --version          (Should show 2.0+)
+    node --version         (Should show 18.0+)
+    npm --version          (Should show 8.0+)
+    supabase --version     (Should show latest)
+    vercel --version       (Should show latest)
+
+[ ] 2. Verify Environment Configuration
+    - Check .env.production exists
+    - Verify VITE_SUPABASE_URL is set (should be: https://xxxxx.supabase.co)
+    - Verify VITE_SUPABASE_ANON_KEY is set (should be long string)
+    - Verify ANTHROPIC_API_KEY is set (optional but recommended)
+
+[ ] 3. Verify GitHub Integration
+    gh auth status         (Should be authenticated)
+    gh secret list         (Should show GitHub secrets)
+
+[ ] 4. Verify Supabase Connection
+    supabase status        (Should show project info)
+
+[ ] 5. Verify Vercel Connection
+    vercel whoami          (Should show your account)
+
+PHASE 2: VERIFY PROJECT STATE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[ ] 6. Check Git Status
+    git status             (Should be clean, no uncommitted changes)
+    git log --oneline -5   (Should show recent commits)
+
+[ ] 7. Verify Project Structure
+    ls -d business-app admin-app supabase  (All directories should exist)
+    ls scripts/deploy.sh scripts/smoke-tests.js  (Both scripts exist)
+
+[ ] 8. Check Node Modules
+    [ -d node_modules ] && echo "✅ node_modules exists"
+
+PHASE 3: PRE-DEPLOYMENT ACTIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[ ] 9. Install Dependencies (if needed)
+    npm ci                 (Install dependencies from package-lock.json)
+
+[ ] 10. Make Scripts Executable
+    chmod +x scripts/deploy.sh scripts/smoke-tests.js scripts/rollback.sh scripts/setup-monitoring.sh
+
+[ ] 11. Create Backups
+    git log --oneline -1 > backup-info.txt
+    cp .env.production .env.production.backup
+
+[ ] 12. Test Database Connection
+    supabase db list       (Should list databases)
+    supabase functions list (Should list edge functions)
+
+PHASE 4: FINAL VERIFICATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[ ] 13. Verify Deployment Scripts
+    ls -lh scripts/deploy.sh scripts/smoke-tests.js
+    head -5 scripts/deploy.sh (Should show shebang and comments)
+
+[ ] 14. Review Deployment Guide
+    cat docs/PRODUCTION_DEPLOYMENT_GUIDE.md
+
+[ ] 15. Get Approval
+    [ ] CTO/Engineering Lead approval obtained
+    [ ] Stakeholders notified of deployment window
+    [ ] Rollback procedure reviewed and understood
+
+PHASE 5: EXECUTE DEPLOYMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+When ready (ALL items above checked):
+
+  ./scripts/deploy.sh production
+
+This will:
+  1. Check prerequisites (supabase, vercel, git, node)
+  2. Check git status
+  3. Run database migrations
+  4. Deploy edge functions
+  5. Configure environment
+  6. Build frontend
+  7. Deploy to Vercel
+  8. Run smoke tests
+  9. Setup monitoring
+
+Expected time: 30-60 minutes
+
+PHASE 6: POST-DEPLOYMENT VERIFICATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+[ ] 16. Run Smoke Tests
+    npm run test:smoke     (Should test all 7 phases)
+
+[ ] 17. Verify Frontend
+    Open https://redeemrocket.in in browser
+    [ ] Home page loads
+    [ ] Signup page works
+    [ ] Login works
+    [ ] Dashboard accessible
+
+[ ] 18. Verify API
+    curl https://redeemrocket.in/api/health
+    Should return: {"status":"healthy"}
+
+[ ] 19. Monitor System
+    - Watch Grafana dashboard
+    - Check error logs
+    - Monitor error rates
+    - Verify no customer complaints
+
+[ ] 20. Notify Team
+    - Post in #alerts Slack channel
+    - Send email to engineering team
+    - Update status page
+
+QUICK START COMMANDS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# Verify prerequisites
+git status
+node --version
+npm --version
+supabase --version
+vercel --version
+
+# Make scripts executable
+chmod +x scripts/*.sh
+
+# Run deployment
+./scripts/deploy.sh production
+
+# Monitor after deployment
+npm run test:smoke
+curl -I https://redeemrocket.in/api/health
+
+# If issues occur, rollback with:
+./scripts/rollback.sh all latest
+
+TROUBLESHOOTING QUICK REFERENCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Issue: "supabase CLI not found"
+Fix: npm install -g supabase
+
+Issue: "vercel CLI not found"
+Fix: npm install -g vercel
+
+Issue: "Permission denied on deploy.sh"
+Fix: chmod +x scripts/deploy.sh
+
+Issue: ".env.production not found"
+Fix: cp .env.example .env.production && edit with values
+
+Issue: Deployment fails midway
+Fix: Check logs, fix issue, run: ./scripts/deploy.sh production
+     (Safe to re-run - script checks what's already done)
+
+Issue: Need to rollback
+Fix: ./scripts/rollback.sh all latest
+     (Comprehensive rollback of all components)
+
+SUPPORT & RESOURCES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Documentation:
+  - docs/PRODUCTION_DEPLOYMENT_GUIDE.md
+  - docs/MONITORING_AND_ALERTING.md
+  - docs/ROLLBACK_PROCEDURES.md
+
+Scripts:
+  - scripts/deploy.sh           (Main deployment)
+  - scripts/smoke-tests.js      (Test suite)
+  - scripts/rollback.sh         (Rollback procedures)
+  - scripts/setup-monitoring.sh (Monitoring setup)
+
+Contact:
+  - Slack: #alerts, #engineering
+  - PagerDuty: On-call engineer
+
