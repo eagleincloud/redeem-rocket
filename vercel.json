@@ -4,11 +4,7 @@
   "installCommand": "npm install",
   "routes": [
     {
-      "src": "/admin/?.*",
-      "dest": "/admin/index.html"
-    },
-    {
-      "src": "/admin$",
+      "src": "/admin/?(.*)$",
       "dest": "/admin/index.html"
     },
     {
