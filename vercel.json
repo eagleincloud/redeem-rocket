@@ -1,11 +1,15 @@
 {
-  "buildCommand": "npm run build:business",
+  "buildCommand": "npm run build:business && npm run build:admin && node scripts/merge-builds.mjs",
   "outputDirectory": "dist-business",
   "installCommand": "npm install",
   "routes": [
     {
       "src": "^/assets/(.*)$",
       "dest": "/assets/$1"
+    },
+    {
+      "src": "^/admin/assets/(.*)$",
+      "dest": "/admin/assets/$1"
     },
     {
       "src": "^/firebase-messaging-sw\\.js$",
@@ -16,8 +20,24 @@
       "dest": "/logo.$1"
     },
     {
+      "src": "^/favicon\\.svg$",
+      "dest": "/favicon.svg"
+    },
+    {
+      "src": "^/business\\.html$",
+      "dest": "/business.html"
+    },
+    {
+      "src": "^/admin\\.html$",
+      "dest": "/admin.html"
+    },
+    {
+      "src": "^/router\\.html$",
+      "dest": "/router.html"
+    },
+    {
       "src": "^/.*$",
-      "dest": "/index.html"
+      "dest": "/router.html"
     }
   ]
 }
