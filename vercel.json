@@ -2,10 +2,32 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist-business",
   "installCommand": "npm install",
-  "middleware": [
+  "functions": {
+    "api/route-handler.ts": {
+      "memory": 128,
+      "maxDuration": 10
+    }
+  },
+  "rewrites": [
     {
-      "source": "/(.*)",
-      "middleware": "vercel/middleware"
+      "source": "/admin",
+      "destination": "/api/route-handler"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/api/route-handler"
+    },
+    {
+      "source": "/app",
+      "destination": "/api/route-handler"
+    },
+    {
+      "source": "/app/:path*",
+      "destination": "/api/route-handler"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/api/route-handler"
     }
   ]
 }
