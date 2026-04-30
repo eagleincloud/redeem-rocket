@@ -32,20 +32,28 @@ function main() {
     if (!fs.existsSync(distBusiness)) throw new Error(`Business build directory not found: ${distBusiness}`);
     if (!fs.existsSync(distAdmin)) throw new Error(`Admin build directory not found: ${distAdmin}`);
 
-    console.log('1. Copying admin.html...');
+    console.log('1. Copying admin.html as admin/index.html...');
     const adminHtmlSrc = path.join(distAdmin, 'admin.html');
-    const adminHtmlDest = path.join(distBusiness, 'admin.html');
+    const adminDir = path.join(distBusiness, 'admin');
+    const adminIndexDest = path.join(adminDir, 'index.html');
+
+    // Ensure admin directory exists
+    if (!fs.existsSync(adminDir)) {
+      fs.mkdirSync(adminDir, { recursive: true });
+    }
+
     if (fs.existsSync(adminHtmlSrc)) {
-      fs.copyFileSync(adminHtmlSrc, adminHtmlDest);
-      console.log(`  ✓ Copied\n`);
+      fs.copyFileSync(adminHtmlSrc, adminIndexDest);
+      console.log(`  ✓ Copied to admin/index.html\n`);
     }
 
     console.log('2. Copying admin assets...');
     const adminAssetsDir = path.join(distBusiness, 'admin', 'assets');
     const adminAssetsSrc = path.join(distAdmin, 'assets');
     if (fs.existsSync(adminAssetsSrc)) {
-      if (fs.existsSync(path.join(distBusiness, 'admin'))) {
-        fs.rmSync(path.join(distBusiness, 'admin'), { recursive: true });
+      // Only clear assets, not the entire admin directory (which now contains index.html)
+      if (fs.existsSync(adminAssetsDir)) {
+        fs.rmSync(adminAssetsDir, { recursive: true });
       }
       fs.mkdirSync(adminAssetsDir, { recursive: true });
       copyDirRecursive(adminAssetsSrc, adminAssetsDir);
@@ -61,7 +69,7 @@ function main() {
     }
 
     console.log('4. Verifying output structure...');
-    const expectedFiles = ['business.html', 'admin.html', 'router.html', 'index.html'];
+    const expectedFiles = ['business.html', 'admin/index.html', 'router.html', 'index.html'];
     const expectedDirs = ['assets', 'admin/assets'];
 
     for (const file of expectedFiles) {

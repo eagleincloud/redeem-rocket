@@ -81,7 +81,7 @@ fi
 
 # Check merged admin files in business output
 if [ -d "$BUSINESS_DIR" ]; then
-  [ -f "$BUSINESS_DIR/admin.html" ] && echo -e "${GREEN}✓${NC} Merged: admin.html in dist-business" || echo -e "${RED}✗${NC} Missing: admin.html in dist-business"
+  [ -f "$BUSINESS_DIR/admin/index.html" ] && echo -e "${GREEN}✓${NC} Merged: admin/index.html in dist-business" || echo -e "${RED}✗${NC} Missing: admin/index.html in dist-business"
   [ -d "$BUSINESS_DIR/admin/assets" ] && echo -e "${GREEN}✓${NC} Merged: admin/assets/ in dist-business" || echo -e "${RED}✗${NC} Missing: admin/assets/ in dist-business"
 fi
 
@@ -96,7 +96,7 @@ if [ "$BUILD_SUCCESS" = true ]; then
   echo "  dist-business/          (deployed to /"
   echo "    index.html            (SPA entry, mirrors business.html)"
   echo "    business.html         (business app entry)"
-  echo "    admin.html            (admin app entry)"
+  echo "    admin/index.html      (admin app entry, routed via /admin path)"
   echo "    assets/               (business app assets)"
   echo "    admin/assets/         (admin app assets)"
   echo ""
