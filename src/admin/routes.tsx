@@ -50,25 +50,25 @@ function CustomersRoot() {
 export const adminRouter = createBrowserRouter(
   [
     {
-      path: '/admin/login',
+      path: '/login',
       element: <LoginRoot />,
     },
     {
-      path: '/admin/',
+      path: '/',
       element: <Root />,
     },
     {
-      path: '/admin/customers',
+      path: '/customers',
       element: <CustomersRoot />,
     },
     {
-      path: '/admin/businesses/:businessId',
+      path: '/businesses/:businessId',
       element: <BusinessDetailsRoot />,
     },
     {
-      path: '/admin/*',
+      path: '/*',
       element: <Root />,
     },
   ],
-  { basename: import.meta.env.PROD ? '/' : '/admin.html' }
+  { basename: import.meta.env.PROD ? '/admin' : '/admin.html' }
 );
