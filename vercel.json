@@ -4,22 +4,35 @@
   "installCommand": "npm install",
   "routes": [
     {
-      "src": "/admin/.*",
+      "src": "^/admin/index\\.html$",
       "dest": "/admin/index.html"
     },
     {
-      "src": "/logo\\.(png|jpeg|jpg|svg|ico)$",
-      "dest": "/logo.$1",
-      "headers": {
-        "cache-control": "public, max-age=86400"
-      }
+      "src": "^/admin/?(.*)$",
+      "dest": "/admin/index.html"
     },
     {
-      "src": "/assets/(.*)",
+      "src": "^/index\\.html$",
+      "dest": "/index.html"
+    },
+    {
+      "src": "^/business\\.html$",
+      "dest": "/business.html"
+    },
+    {
+      "src": "^/logo\\.(png|jpeg|jpg|svg|ico)$",
+      "dest": "/logo.$1"
+    },
+    {
+      "src": "^/admin/assets/(.*)$",
+      "dest": "/admin/assets/$1"
+    },
+    {
+      "src": "^/assets/(.*)$",
       "dest": "/assets/$1"
     },
     {
-      "src": "/.*",
+      "src": "^(?!.*(\\.(js|css|svg|png|jpg|jpeg|gif|webp|ico|json|map)$))/.*",
       "dest": "/business.html"
     }
   ]
