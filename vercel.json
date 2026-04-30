@@ -1,8 +1,12 @@
 {
-  "buildCommand": "npm run build:business",
+  "buildCommand": "bash build-merged.sh",
   "outputDirectory": "dist-business",
   "installCommand": "npm install",
   "routes": [
+    {
+      "src": "/admin/(.*)",
+      "dest": "/admin/index.html"
+    },
     {
       "src": "/logo\\.(png|jpeg|jpg|svg|ico)$",
       "dest": "/logo.$1",
