@@ -28,7 +28,7 @@ export function AdminDashboard() {
   // Check authentication
   useEffect(() => {
     if (!user) {
-      navigate('/admin/login');
+      navigate('/login');
     }
   }, [user, navigate]);
 
@@ -122,7 +122,7 @@ export function AdminDashboard() {
               <p className="text-xs text-slate-500 capitalize">{user?.role}</p>
             </div>
             <button
-              onClick={() => navigate('/admin/settings')}
+              onClick={() => navigate('/settings')}
               className="p-2 hover:bg-slate-100 rounded-lg transition"
             >
               <Settings className="w-5 h-5 text-slate-600" />
@@ -141,7 +141,7 @@ export function AdminDashboard() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Quick Navigation */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Card className="hover:shadow-md transition cursor-pointer" onClick={() => navigate('/admin/customers')}>
+          <Card className="hover:shadow-md transition cursor-pointer" onClick={() => navigate('/customers')}>
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Users className="w-5 h-5 text-blue-600" />

@@ -57,7 +57,7 @@ export function AdminLoginPage({ onSuccess }: AdminLoginPageProps) {
 
       setTimeout(() => {
         onSuccess?.();
-        navigate('/admin/');
+        navigate('/');
       }, 1000);
     } catch (err) {
       console.error('Login error:', err);

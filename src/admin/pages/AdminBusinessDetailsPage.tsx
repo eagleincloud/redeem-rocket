@@ -63,7 +63,7 @@ export function AdminBusinessDetailsPage() {
   // Check authentication
   useEffect(() => {
     if (!user) {
-      navigate('/admin/login');
+      navigate('/login');
     }
   }, [user, navigate]);
 
@@ -173,7 +173,7 @@ export function AdminBusinessDetailsPage() {
   };
 
   const handleBack = () => {
-    navigate('/admin/');
+    navigate('/');
   };
 
   if (loading) {

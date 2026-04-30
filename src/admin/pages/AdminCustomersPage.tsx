@@ -37,7 +37,7 @@ export function AdminCustomersPage() {
   // Auth check
   useEffect(() => {
     if (!user) {
-      navigate('/admin/login');
+      navigate('/login');
     }
   }, [user, navigate]);
 
@@ -172,13 +172,13 @@ export function AdminCustomersPage() {
               <p className="text-xs text-slate-500 capitalize">{user?.role}</p>
             </div>
             <button
-              onClick={() => navigate('/admin')}
+              onClick={() => navigate('/')}
               className="px-3 py-2 text-sm text-slate-700 hover:bg-slate-100 rounded-lg transition"
             >
               Back to Dashboard
             </button>
             <button
-              onClick={() => navigate('/admin/settings')}
+              onClick={() => navigate('/settings')}
               className="p-2 hover:bg-slate-100 rounded-lg transition"
             >
               <Settings className="w-5 h-5 text-slate-600" />
