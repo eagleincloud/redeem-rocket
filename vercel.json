@@ -4,20 +4,8 @@
   "installCommand": "npm install",
   "routes": [
     {
-      "src": "^/admin/index\\.html$",
-      "dest": "/admin/index.html"
-    },
-    {
-      "src": "^/admin/?(.*)$",
-      "dest": "/admin/index.html"
-    },
-    {
-      "src": "^/index\\.html$",
-      "dest": "/index.html"
-    },
-    {
-      "src": "^/business\\.html$",
-      "dest": "/business.html"
+      "src": "^/api/route-handler$",
+      "dest": "/api/route-handler.ts"
     },
     {
       "src": "^/logo\\.(png|jpeg|jpg|svg|ico)$",
@@ -32,8 +20,20 @@
       "dest": "/assets/$1"
     },
     {
-      "src": "^(?!.*(\\.(js|css|svg|png|jpg|jpeg|gif|webp|ico|json|map)$))/.*",
-      "dest": "/business.html"
+      "src": "^/admin/firebase-messaging-sw\\.js$",
+      "dest": "/admin/firebase-messaging-sw.js"
+    },
+    {
+      "src": "^/firebase-messaging-sw\\.js$",
+      "dest": "/firebase-messaging-sw.js"
+    },
+    {
+      "src": "^/admin(?:/.*)?$",
+      "dest": "/api/route-handler.ts"
+    },
+    {
+      "src": "^/(?!admin).*$",
+      "dest": "/api/route-handler.ts"
     }
   ]
 }
