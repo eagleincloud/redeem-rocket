@@ -39,7 +39,9 @@ function serveAdminHtml(): Plugin {
 }
 
 export default defineConfig({
-  base: '/admin/',
+  // When deployed to separate domain (admin.redeemrocket.in), use / as base
+  // For local development or subdirectory deployment, adjust as needed
+  base: '/',
   plugins: [react(), tailwindcss(), serveAdminHtml()],
   server: { port: 5175 },
   build: {

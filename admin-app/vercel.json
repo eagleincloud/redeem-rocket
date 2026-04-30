@@ -1,6 +1,6 @@
 {
-  "buildCommand": "npm run build:business",
-  "outputDirectory": "dist-business",
+  "buildCommand": "npm run build:admin",
+  "outputDirectory": "dist-admin",
   "installCommand": "npm install",
   "routes": [
     {
@@ -17,7 +17,7 @@
     },
     {
       "src": "^/.*$",
-      "dest": "/index.html"
+      "dest": "/admin.html"
     }
   ]
 }

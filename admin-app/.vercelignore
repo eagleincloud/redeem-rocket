@@ -1,0 +1,26 @@
+# Ignore business app files
+business-app/
+business-root/
+customer-app/
+
+# Ignore other unnecessary files
+.git
+.github
+.claude
+docs/
+guidelines/
+e2e/
+test-results/
+playwright-report/
+scripts/
+
+# Ignore dist folders from other apps
+dist/
+dist-business/
+
+# Ignore environment files
+.env.local
+.env.*.local
+
+# Keep node_modules (needed for build)
+# !node_modules/
