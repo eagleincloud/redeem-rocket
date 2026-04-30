@@ -24,10 +24,10 @@ export function middleware(request: NextRequest) {
       return NextResponse.rewrite(new URL(pathname, request.url));
     }
 
-    // Admin pages (.html files)
+    // Admin pages (.html files) - rewrite to /admin/index.html (not /admin.html)
     if (pathname === '/admin' || pathname === '/admin/') {
       return NextResponse.rewrite(
-        new URL('/admin.html', request.url),
+        new URL('/admin/index.html', request.url),
         {
           request: {
             headers: {
@@ -38,9 +38,9 @@ export function middleware(request: NextRequest) {
       );
     }
 
-    // All other /admin/* routes go to admin.html (SPA routing)
+    // All other /admin/* routes go to /admin/index.html (SPA routing)
     return NextResponse.rewrite(
-      new URL('/admin.html', request.url),
+      new URL('/admin/index.html', request.url),
       {
         request: {
           headers: {
