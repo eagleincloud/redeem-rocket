@@ -39,6 +39,7 @@ function serveAdminHtml(): Plugin {
 }
 
 export default defineConfig({
+  base: '/admin/',
   plugins: [react(), tailwindcss(), serveAdminHtml()],
   server: { port: 5175 },
   build: {
