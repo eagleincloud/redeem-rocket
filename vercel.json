@@ -1,11 +1,5 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist-business",
-  "installCommand": "npm install",
-  "middleware": [
-    {
-      "source": "/(.*)",
-      "middleware": "vercel/middleware"
-    }
-  ]
+  "installCommand": "npm install"
 }
