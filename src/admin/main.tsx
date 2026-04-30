@@ -9,3 +9,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <RouterProvider router={adminRouter} />
   </React.StrictMode>,
 );
+// Force Vercel rebuild - Thu Apr 30 07:26:03 CDT 2026
