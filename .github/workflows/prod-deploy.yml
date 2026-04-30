@@ -82,15 +82,16 @@ jobs:
           vercel --version
 
       # FIXED: Use proper Vercel deployment with all flags
+      # NOTE: Removed --token flag - Vercel will use VERCEL_TOKEN from env or .vercel directory
       - name: Deploy to Vercel (Production)
         run: |
           vercel deploy \
             --prod \
-            --confirm \
-            --token="${{ secrets.VERCEL_TOKEN }}"
+            --yes
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
