@@ -8,7 +8,11 @@
       "dest": "/admin/assets/$1"
     },
     {
-      "src": "/admin/?(.*)$",
+      "src": "/admin$",
+      "dest": "/admin/index.html"
+    },
+    {
+      "src": "/admin/(.*)",
       "dest": "/admin/index.html"
     },
     {
