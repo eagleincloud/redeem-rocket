@@ -1,48 +1,40 @@
 /**
- * Smart Onboarding Types
- * Complete type definitions for the business onboarding system
+ * Onboarding Types
+ * Defines TypeScript interfaces for the Smart Onboarding flow
  */
 
-// ── Feature Preferences ─────────────────────────────────────────────────────
-
-export type FeaturePreference =
-  | 'product_catalog'
-  | 'lead_management'
-  | 'email_campaigns'
-  | 'automation'
-  | 'social_media';
-
 export interface FeaturePreferences {
-  product_catalog: boolean;
-  lead_management: boolean;
-  email_campaigns: boolean;
+  products: boolean;
+  leads: boolean;
+  email: boolean;
   automation: boolean;
-  social_media: boolean;
-}
-
-// ── Theme Preferences ────────────────────────────────────────────────────────
-
-export interface ThemeColor {
-  hex: string;
-  rgb?: string;
-  name?: string;
+  social: boolean;
 }
 
 export interface ThemePreference {
-  primary: ThemeColor;
-  secondary: ThemeColor;
-  accent: ThemeColor;
-  background: ThemeColor;
-  text: ThemeColor;
-  textMuted: ThemeColor;
-  border?: ThemeColor;
-  success?: ThemeColor;
-  error?: ThemeColor;
-  warning?: ThemeColor;
+  layout: 'visual' | 'minimalist' | 'data-heavy';
+  primary: string;
+  font: 'modern' | 'traditional' | 'playful';
+  brandName: string;
 }
 
-// ── Placeholder for remaining types (see verification document for full list)
-export interface OnboardingState {}
-export interface OnboardingResult {}
-export interface Pipeline {}
-export interface AutomationRule {}
+export interface OnboardingResult {
+  preferences: FeaturePreferences;
+  theme: ThemePreference;
+  completedAt: string;
+}
+
+export interface OnboardingPhase {
+  id: 'discovery' | 'showcase' | 'theme' | 'setup' | 'preview';
+  label: string;
+  index: number;
+}
+
+export interface Feature {
+  id: keyof FeaturePreferences;
+  name: string;
+  icon: any;
+  color: string;
+  description: string;
+  examples: string;
+}
