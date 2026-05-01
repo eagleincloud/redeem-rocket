@@ -58,6 +58,13 @@ import { InventoryReportsPage } from './components/InventoryReportsPage';
 import { CustomizationSettings } from './components/Settings/CustomizationSettings';
 import { FeatureMarketplace } from './components/Marketplace/FeatureMarketplace';
 
+// ── New Onboarding Components (from design) ────────────────────────────────────
+import Welcome from './pages/NewOnboarding/Welcome';
+import BusinessDetails from './pages/NewOnboarding/BusinessDetails';
+import FeatureSelection from './pages/NewOnboarding/FeatureSelection';
+import AppCustomization from './pages/NewOnboarding/AppCustomization';
+import Preview from './pages/NewOnboarding/Preview';
+
 // ── Loading Fallback Components ─────────────────────────────────────────────
 function OnboardingFallback() {
   return (
@@ -202,6 +209,57 @@ function OnboardingRoot() {
   );
 }
 
+// ── New Onboarding Wrapper (from design system) ────────────────────────────────
+function NewOnboardingWelcomeRoot() {
+  return (
+    <ThemeProvider>
+      <ErrorBoundary>
+        <Welcome />
+      </ErrorBoundary>
+    </ThemeProvider>
+  );
+}
+
+function NewOnboardingDetailsRoot() {
+  return (
+    <ThemeProvider>
+      <ErrorBoundary>
+        <BusinessDetails />
+      </ErrorBoundary>
+    </ThemeProvider>
+  );
+}
+
+function NewOnboardingFeaturesRoot() {
+  return (
+    <ThemeProvider>
+      <ErrorBoundary>
+        <FeatureSelection />
+      </ErrorBoundary>
+    </ThemeProvider>
+  );
+}
+
+function NewOnboardingCustomizeRoot() {
+  return (
+    <ThemeProvider>
+      <ErrorBoundary>
+        <AppCustomization />
+      </ErrorBoundary>
+    </ThemeProvider>
+  );
+}
+
+function NewOnboardingPreviewRoot() {
+  return (
+    <ThemeProvider>
+      <ErrorBoundary>
+        <Preview />
+      </ErrorBoundary>
+    </ThemeProvider>
+  );
+}
+
 function NewLoginRoot() {
   return (
     <ThemeProvider>
@@ -299,6 +357,34 @@ export const router = createBrowserRouter(
     element: <ForgotPasswordRoot />,
     errorElement: <ErrorElement />,
   },
+
+  // ── NEW REGISTRATION FLOW (from design system) ──────────────────────────────
+  {
+    path: '/register',
+    element: <NewOnboardingWelcomeRoot />,
+    errorElement: <ErrorElement />,
+  },
+  {
+    path: '/register/details',
+    element: <NewOnboardingDetailsRoot />,
+    errorElement: <ErrorElement />,
+  },
+  {
+    path: '/register/features',
+    element: <NewOnboardingFeaturesRoot />,
+    errorElement: <ErrorElement />,
+  },
+  {
+    path: '/register/customize',
+    element: <NewOnboardingCustomizeRoot />,
+    errorElement: <ErrorElement />,
+  },
+  {
+    path: '/register/preview',
+    element: <NewOnboardingPreviewRoot />,
+    errorElement: <ErrorElement />,
+  },
+
   // Redirect /onboarding to /business/onboarding
   {
     path: '/onboarding',
@@ -459,5 +545,5 @@ export const router = createBrowserRouter(
     errorElement: <ErrorElement />,
   },
   ],
-  { basename: import.meta.env.PROD ? '/' : '/business.html' }
+  { basename: '/' }
 );

@@ -1,0 +1,535 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/app/components/ui/button';
+import { Switch } from '@/app/components/ui/switch';
+import { Badge } from '@/app/components/ui/badge';
+import FeatureRequestDialog from '@/business/pages/NewOnboarding/FeatureRequestDialog';
+import { saveAppData, getAppData } from '@/business/utils/onboarding/appState';
+import {
+  Users, MessageSquare, Tag, Bot, BarChart2, Mail,
+  Calendar, Zap, Shield, Lightbulb, Sparkles, Star,
+  CreditCard, Package, Bell, Gift, Share2, HeadphonesIcon,
+  MapPin, Layers, Store, ChevronDown, ChevronUp, Check,
+} from 'lucide-react';
+
+interface Feature {
+  id: string;
+  name: string;
+  description: string;
+  icon: any;
+  iconColor: string;
+  price: string;
+  category: string;
+  benefits: string[];
+  recommendedFor?: string[];
+}
+
+const allFeatures: Feature[] = [
+  {
+    id: 'lead-management',
+    name: 'Lead Management CRM',
+    description: 'Capture, track and convert leads into customers',
+    icon: Users, iconColor: '#3B82F6',
+    price: '₹499/month',
+    category: 'CRM',
+    benefits: ['Lead pipeline board', 'Follow-up reminders', 'Lead scoring & tags', 'Contact history'],
+    recommendedFor: ['Consulting', 'Real Estate', 'Education', 'Healthcare', 'Finance & Legal'],
+  },
+  {
+    id: 'whatsapp-marketing',
+    name: 'WhatsApp Marketing',
+    description: 'Send personalised bulk campaigns via WhatsApp',
+    icon: MessageSquare, iconColor: '#25D366',
+    price: '₹699/month',
+    category: 'Marketing',
+    benefits: ['Bulk messaging', 'Template library', 'Delivery analytics', 'Auto replies'],
+    recommendedFor: ['Retail', 'Restaurant', 'Salon & Spa', 'Fitness & Gym', 'E-commerce'],
+  },
+  {
+    id: 'coupons-offers',
+    name: 'Coupons & Offers',
+    description: 'Create discount codes and track redemptions',
+    icon: Tag, iconColor: '#F59E0B',
+    price: '₹299/month',
+    category: 'Marketing',
+    benefits: ['QR code coupons', 'Redemption tracking', 'Expiry control', 'Bulk generation'],
+    recommendedFor: ['Retail', 'Restaurant', 'E-commerce', 'Hospitality', 'Events'],
+  },
+  {
+    id: 'loyalty-program',
+    name: 'Loyalty Program',
+    description: 'Reward repeat customers with points and perks',
+    icon: Star, iconColor: '#EF4444',
+    price: '₹399/month',
+    category: 'Retention',
+    benefits: ['Points system', 'Rewards catalogue', 'Tier levels (Gold, Silver)', 'Birthday rewards'],
+    recommendedFor: ['Retail', 'Restaurant', 'Salon & Spa', 'Fitness & Gym', 'E-commerce'],
+  },
+  {
+    id: 'ai-assistant',
+    name: 'AI Business Assistant',
+    description: 'Smart AI that suggests campaigns and predicts trends',
+    icon: Bot, iconColor: '#8B5CF6',
+    price: '₹999/month',
+    category: 'AI & Automation',
+    benefits: ['Campaign suggestions', 'Predictive analytics', 'Auto-generated content', 'Smart scheduling'],
+    recommendedFor: ['Technology', 'E-commerce', 'Consulting', 'Real Estate'],
+  },
+  {
+    id: 'advanced-analytics',
+    name: 'Advanced Analytics',
+    description: 'Deep business insights with custom dashboards',
+    icon: BarChart2, iconColor: '#06B6D4',
+    price: '₹599/month',
+    category: 'Analytics',
+    benefits: ['Custom dashboards', 'Revenue tracking', 'Customer journey maps', 'CSV export'],
+    recommendedFor: ['E-commerce', 'Technology', 'Consulting', 'Finance & Legal'],
+  },
+  {
+    id: 'email-marketing',
+    name: 'Email Marketing',
+    description: 'Design and send beautiful email campaigns',
+    icon: Mail, iconColor: '#EC4899',
+    price: '₹499/month',
+    category: 'Marketing',
+    benefits: ['Drag & drop builder', 'A/B testing', 'Automated sequences', 'Open rate tracking'],
+    recommendedFor: ['E-commerce', 'Consulting', 'Education', 'Technology', 'Non-Profit'],
+  },
+  {
+    id: 'appointment-booking',
+    name: 'Appointment Booking',
+    description: 'Let customers book slots online, 24/7',
+    icon: Calendar, iconColor: '#10B981',
+    price: '₹399/month',
+    category: 'Operations',
+    benefits: ['Online booking page', 'Google Calendar sync', 'Auto reminders', 'Staff management'],
+    recommendedFor: ['Salon & Spa', 'Healthcare', 'Fitness & Gym', 'Consulting', 'Photography'],
+  },
+  {
+    id: 'marketing-automation',
+    name: 'Marketing Automation',
+    description: 'Build automated workflows triggered by actions',
+    icon: Zap, iconColor: '#F97316',
+    price: '₹799/month',
+    category: 'AI & Automation',
+    benefits: ['Visual flow builder', 'Trigger-based actions', 'Multi-channel sequences', 'Re-engagement flows'],
+    recommendedFor: ['E-commerce', 'Technology', 'Consulting', 'Education'],
+  },
+  {
+    id: 'online-payments',
+    name: 'Online Payments',
+    description: 'Accept payments directly through the app',
+    icon: CreditCard, iconColor: '#14B8A6',
+    price: '₹699/month',
+    category: 'Operations',
+    benefits: ['UPI, cards, wallets', 'Invoice generation', 'Payment reminders', 'Refund management'],
+    recommendedFor: ['Retail', 'E-commerce', 'Consulting', 'Healthcare', 'Events'],
+  },
+  {
+    id: 'sms-marketing',
+    name: 'SMS Campaigns',
+    description: 'Reach customers with targeted SMS messages',
+    icon: Bell, iconColor: '#6366F1',
+    price: '₹349/month',
+    category: 'Marketing',
+    benefits: ['Bulk SMS', 'Personalisation tags', 'Opt-out management', 'Click tracking'],
+    recommendedFor: ['Retail', 'Restaurant', 'Automotive', 'Healthcare'],
+  },
+  {
+    id: 'referral-program',
+    name: 'Referral Program',
+    description: 'Turn customers into brand ambassadors',
+    icon: Share2, iconColor: '#84CC16',
+    price: '₹449/month',
+    category: 'Retention',
+    benefits: ['Unique referral links', 'Reward tracking', 'Social sharing', 'Leaderboard'],
+    recommendedFor: ['E-commerce', 'Technology', 'Fitness & Gym', 'Education'],
+  },
+  {
+    id: 'inventory-management',
+    name: 'Inventory Management',
+    description: 'Track stock levels and get low-stock alerts',
+    icon: Package, iconColor: '#78716C',
+    price: '₹549/month',
+    category: 'Operations',
+    benefits: ['Real-time stock tracking', 'Low-stock alerts', 'Barcode scanning', 'Supplier management'],
+    recommendedFor: ['Retail', 'Restaurant', 'E-commerce', 'Automotive'],
+  },
+  {
+    id: 'review-management',
+    name: 'Review & Reputation',
+    description: 'Collect, display and manage customer reviews',
+    icon: Star, iconColor: '#FBBF24',
+    price: '₹349/month',
+    category: 'CRM',
+    benefits: ['Review collection', 'Google review sync', 'Response templates', 'Rating widgets'],
+    recommendedFor: ['Restaurant', 'Salon & Spa', 'Healthcare', 'Hospitality', 'Photography'],
+  },
+  {
+    id: 'live-chat',
+    name: 'Live Chat Support',
+    description: 'Real-time chat widget for instant customer support',
+    icon: HeadphonesIcon, iconColor: '#0EA5E9',
+    price: '₹449/month',
+    category: 'CRM',
+    benefits: ['Website chat widget', 'Chatbot automation', 'Ticket routing', 'Canned responses'],
+    recommendedFor: ['E-commerce', 'Technology', 'Consulting', 'Healthcare'],
+  },
+  {
+    id: 'multi-location',
+    name: 'Multi-Location',
+    description: 'Manage multiple branches from one dashboard',
+    icon: MapPin, iconColor: '#EF4444',
+    price: '₹899/month',
+    category: 'Operations',
+    benefits: ['Branch management', 'Location analytics', 'Staff per location', 'Consolidated reports'],
+    recommendedFor: ['Retail', 'Restaurant', 'Salon & Spa', 'Healthcare', 'Fitness & Gym'],
+  },
+  {
+    id: 'push-notifications',
+    name: 'Push Notifications',
+    description: 'Send real-time push alerts to your app users',
+    icon: Bell, iconColor: '#A855F7',
+    price: '₹299/month',
+    category: 'Marketing',
+    benefits: ['Rich push notifications', 'Segmented sends', 'Scheduled alerts', 'Click analytics'],
+    recommendedFor: ['E-commerce', 'Restaurant', 'Retail', 'Fitness & Gym'],
+  },
+  {
+    id: 'gift-cards',
+    name: 'Gift Cards & Vouchers',
+    description: 'Sell and manage digital gift cards',
+    icon: Gift, iconColor: '#F43F5E',
+    price: '₹349/month',
+    category: 'Retention',
+    benefits: ['Digital gift cards', 'Balance tracking', 'Custom designs', 'Bulk gifting'],
+    recommendedFor: ['Retail', 'Restaurant', 'Salon & Spa', 'Hospitality'],
+  },
+  {
+    id: 'team-management',
+    name: 'Team Management',
+    description: 'Manage staff roles, permissions and tasks',
+    icon: Layers, iconColor: '#64748B',
+    price: '₹499/month',
+    category: 'Operations',
+    benefits: ['Role-based access', 'Task assignment', 'Attendance tracking', 'Performance metrics'],
+    recommendedFor: ['Consulting', 'Healthcare', 'Real Estate', 'Education'],
+  },
+  {
+    id: 'ecommerce-store',
+    name: 'E-Commerce Store',
+    description: 'Sell products with a full online store experience',
+    icon: Store, iconColor: '#22C55E',
+    price: '₹999/month',
+    category: 'Operations',
+    benefits: ['Product catalogue', 'Cart & checkout', 'Order management', 'Shipping integration'],
+    recommendedFor: ['Retail', 'E-commerce', 'Hospitality', 'Photography'],
+  },
+  {
+    id: 'data-security',
+    name: 'Advanced Security',
+    description: 'Enterprise-grade data protection and compliance',
+    icon: Shield, iconColor: '#475569',
+    price: '₹699/month',
+    category: 'Operations',
+    benefits: ['End-to-end encryption', 'GDPR compliance', '2FA authentication', 'Audit logs'],
+    recommendedFor: ['Healthcare', 'Finance & Legal', 'Technology', 'Consulting'],
+  },
+];
+
+const categoryTabs = ['All', 'CRM', 'Marketing', 'Analytics', 'Retention', 'AI & Automation', 'Operations'];
+
+const bundles = [
+  {
+    id: 'starter',
+    name: 'Starter Bundle',
+    tagline: 'Perfect for new businesses',
+    price: '₹1,299/month',
+    savings: 'Save ₹498',
+    features: ['lead-management', 'whatsapp-marketing', 'coupons-offers'],
+    color: '#3B82F6',
+    emoji: '🌱',
+  },
+  {
+    id: 'growth',
+    name: 'Growth Bundle',
+    tagline: 'Accelerate your business',
+    price: '₹2,799/month',
+    savings: 'Save ₹1,496',
+    features: ['lead-management', 'whatsapp-marketing', 'coupons-offers', 'loyalty-program', 'advanced-analytics', 'appointment-booking'],
+    color: '#8B5CF6',
+    emoji: '📈',
+    popular: true,
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise Bundle',
+    tagline: 'Full power for scaling businesses',
+    price: '₹5,499/month',
+    savings: 'Save ₹3,292',
+    features: ['lead-management', 'whatsapp-marketing', 'coupons-offers', 'loyalty-program', 'ai-assistant', 'advanced-analytics', 'email-marketing', 'appointment-booking', 'marketing-automation', 'online-payments'],
+    color: '#10B981',
+    emoji: '🚀',
+  },
+];
+
+export default function FeatureSelection() {
+  const navigate = useNavigate();
+  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState('All');
+  const [expandedFeature, setExpandedFeature] = useState<string | null>(null);
+  const [activeBundleId, setActiveBundleId] = useState<string | null>(null);
+  const [businessCategory, setBusinessCategory] = useState('');
+
+  useEffect(() => {
+    const data = getAppData();
+    setBusinessCategory(data.category || '');
+    // Pre-select recommended features for the category
+    const recommended = allFeatures
+      .filter(f => !data.category || (f.recommendedFor && f.recommendedFor.includes(data.category)))
+      .slice(0, 4)
+      .map(f => f.id);
+    setSelectedFeatures(recommended.length > 0 ? recommended : ['lead-management', 'whatsapp-marketing', 'coupons-offers']);
+  }, []);
+
+  const toggleFeature = (featureId: string) => {
+    setSelectedFeatures(prev =>
+      prev.includes(featureId) ? prev.filter(id => id !== featureId) : [...prev, featureId]
+    );
+    setActiveBundleId(null);
+  };
+
+  const applyBundle = (bundle: typeof bundles[0]) => {
+    setSelectedFeatures([...bundle.features]);
+    setActiveBundleId(bundle.id);
+  };
+
+  const displayFeatures = activeTab === 'All'
+    ? allFeatures
+    : allFeatures.filter(f => f.category === activeTab);
+
+  const recommendedIds = allFeatures
+    .filter(f => f.recommendedFor && f.recommendedFor.includes(businessCategory))
+    .map(f => f.id);
+
+  const totalCost = selectedFeatures.reduce((sum, id) => {
+    const feature = allFeatures.find(f => f.id === id);
+    if (!feature) return sum;
+    const price = parseInt(feature.price.replace(/[^0-9]/g, ''));
+    return sum + price;
+  }, 0);
+
+  const handleContinue = () => {
+    saveAppData({ selectedFeatures });
+    navigate('/customize');
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 py-8">
+      <div className="max-w-5xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h2 className="text-gray-900 mb-2" style={{ fontSize: '2rem', fontWeight: 700 }}>
+            Choose Your Features
+          </h2>
+          <p className="text-gray-500">
+            {businessCategory
+              ? `Showing recommendations for ${businessCategory} businesses`
+              : 'Select the features that match your business needs'}
+          </p>
+        </div>
+
+        {/* Bundles */}
+        <div className="mb-8">
+          <h3 className="text-gray-700 mb-3" style={{ fontWeight: 600, fontSize: '1.05rem' }}>
+            ⚡ Quick Start Bundles
+          </h3>
+          <div className="grid md:grid-cols-3 gap-4">
+            {bundles.map(bundle => {
+              const isActive = activeBundleId === bundle.id;
+              return (
+                <button
+                  key={bundle.id}
+                  onClick={() => applyBundle(bundle)}
+                  className={`relative p-5 rounded-2xl border-2 text-left transition-all hover:shadow-lg ${
+                    isActive ? 'border-opacity-100 shadow-lg' : 'border-gray-200 bg-white hover:border-gray-300'
+                  }`}
+                  style={isActive ? { borderColor: bundle.color, backgroundColor: bundle.color + '08' } : {}}
+                >
+                  {bundle.popular && (
+                    <div className="absolute -top-2.5 left-4">
+                      <Badge className="bg-purple-600 text-white text-xs">Most Popular</Badge>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2 mb-2">
+                    <span style={{ fontSize: '1.4rem' }}>{bundle.emoji}</span>
+                    <span style={{ fontWeight: 700, fontSize: '1rem' }}>{bundle.name}</span>
+                  </div>
+                  <p className="text-gray-500 text-sm mb-3">{bundle.tagline}</p>
+                  <div className="flex items-center gap-2">
+                    <span style={{ fontWeight: 700, color: bundle.color }}>{bundle.price}</span>
+                    <Badge variant="secondary" className="text-xs bg-green-100 text-green-700">{bundle.savings}</Badge>
+                  </div>
+                  <p className="text-xs text-gray-400 mt-1">{bundle.features.length} features included</p>
+                  {isActive && (
+                    <div className="absolute top-4 right-4">
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: bundle.color }}>
+                        <Check className="w-3.5 h-3.5 text-white" />
+                      </div>
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Main Feature Selection */}
+        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+          {/* Category Tabs */}
+          <div className="border-b border-gray-100 px-6 pt-6">
+            <h3 className="text-gray-700 mb-4" style={{ fontWeight: 600, fontSize: '1.05rem' }}>
+              🎯 Individual Features
+            </h3>
+            <div className="flex gap-2 flex-wrap pb-4">
+              {categoryTabs.map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-1.5 rounded-full text-sm transition-all border ${
+                    activeTab === tab
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'border-gray-200 text-gray-600 hover:border-blue-300'
+                  }`}
+                  style={{ fontWeight: activeTab === tab ? 600 : 400 }}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="p-6">
+            <div className="grid md:grid-cols-2 gap-3">
+              {displayFeatures.map(feature => {
+                const Icon = feature.icon;
+                const isSelected = selectedFeatures.includes(feature.id);
+                const isRecommended = recommendedIds.includes(feature.id);
+                const isExpanded = expandedFeature === feature.id;
+
+                return (
+                  <div
+                    key={feature.id}
+                    className={`rounded-xl border-2 transition-all ${
+                      isSelected ? 'border-blue-500' : 'border-gray-100 hover:border-gray-200'
+                    }`}
+                    style={{ backgroundColor: isSelected ? feature.iconColor + '06' : '#FAFAFA' }}
+                  >
+                    <div className="p-4">
+                      <div className="flex items-start gap-3">
+                        <div
+                          className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                          style={{ backgroundColor: feature.iconColor + '18' }}
+                        >
+                          <Icon className="w-5 h-5" style={{ color: feature.iconColor }} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-gray-900" style={{ fontWeight: 600, fontSize: '0.9rem' }}>
+                              {feature.name}
+                            </span>
+                            {isRecommended && businessCategory && (
+                              <Badge className="text-xs px-1.5 py-0 bg-amber-100 text-amber-700 border-0">
+                                ⭐ Recommended
+                              </Badge>
+                            )}
+                          </div>
+                          <p className="text-gray-500 text-xs mt-0.5">{feature.description}</p>
+                        </div>
+                        <Switch
+                          checked={isSelected}
+                          onCheckedChange={() => toggleFeature(feature.id)}
+                          className="flex-shrink-0"
+                        />
+                      </div>
+
+                      <div className="flex items-center justify-between mt-3">
+                        <span className="text-sm" style={{ fontWeight: 600, color: feature.iconColor }}>
+                          {feature.price}
+                        </span>
+                        <button
+                          onClick={() => setExpandedFeature(isExpanded ? null : feature.id)}
+                          className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                        >
+                          {isExpanded ? 'Hide details' : 'See details'}
+                          {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                        </button>
+                      </div>
+
+                      {isExpanded && (
+                        <div className="mt-3 pt-3 border-t border-gray-100">
+                          <div className="grid grid-cols-2 gap-1.5">
+                            {feature.benefits.map((benefit, idx) => (
+                              <div key={idx} className="flex items-center gap-1.5 text-xs text-gray-600">
+                                <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                                <span>{benefit}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Feature Request Banner */}
+        <div className="mt-6 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-6 text-white">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+              <Lightbulb className="w-6 h-6 text-white" />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 mb-1">
+                <span style={{ fontWeight: 700, fontSize: '1.05rem' }}>Need a Custom Feature?</span>
+                <Badge className="bg-yellow-400 text-yellow-900 border-0 text-xs">
+                  <Sparkles className="w-3 h-3 mr-1" />Popular
+                </Badge>
+              </div>
+              <p className="text-white/80 text-sm">
+                Don't see what you need? We build custom features tailored to your business.
+              </p>
+            </div>
+            <FeatureRequestDialog />
+          </div>
+        </div>
+
+        {/* Sticky Footer */}
+        <div className="sticky bottom-4 mt-6">
+          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 px-6 py-4 flex items-center gap-4">
+            <div className="flex-1">
+              <div className="flex items-center gap-3">
+                <div>
+                  <span className="text-gray-900" style={{ fontWeight: 700, fontSize: '1.1rem' }}>
+                    {selectedFeatures.length} features selected
+                  </span>
+                  <p className="text-gray-500 text-sm">Total: ₹{totalCost.toLocaleString()}/month</p>
+                </div>
+              </div>
+            </div>
+            <Button
+              onClick={handleContinue}
+              disabled={selectedFeatures.length === 0}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-5"
+            >
+              Customize App →
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
