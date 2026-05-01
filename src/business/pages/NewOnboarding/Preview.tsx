@@ -33,11 +33,11 @@ export default function Preview() {
       const result = await submitRegistration(appData);
       console.log('Registration submitted:', result);
 
-      // Clear stored data and redirect to dashboard
+      // Clear stored data and redirect to login
       clearAppData();
 
-      // TODO: Redirect to email verification or dashboard
-      navigate('/dashboard');
+      // Redirect to login to create account
+      navigate('/login');
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to submit registration';
       setError(errorMessage);
@@ -221,22 +221,26 @@ export default function Preview() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 py-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-purple-950 p-4 py-8 relative overflow-hidden">
+      {/* Animated background blobs */}
+      <div className="absolute top-20 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-32 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <Button variant="outline" onClick={() => navigate('/customize')} className="gap-2">
+          <Button onClick={() => navigate('/register/customize')} className="gap-2 bg-white/10 border-white/20 text-white/80 hover:bg-white/20 hover:text-white">
             <ArrowLeft className="w-4 h-4" />
             Back to Customize
           </Button>
           <div className="text-center">
             <div className="flex items-center gap-2 justify-center">
-              <CheckCircle2 className="w-5 h-5 text-green-500" />
-              <h2 className="text-gray-900" style={{ fontSize: '1.4rem', fontWeight: 700 }}>
+              <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+              <h2 className="text-white" style={{ fontSize: '1.4rem', fontWeight: 700 }}>
                 Your App is Ready!
               </h2>
             </div>
-            <p className="text-gray-500 text-sm">Preview both customer and business views</p>
+            <p className="text-white/70 text-sm">Preview both customer and business views</p>
           </div>
           <div className="w-32" />
         </div>
@@ -244,31 +248,30 @@ export default function Preview() {
         {/* Style Summary Bar */}
         {preset && (
           <div
-            className="rounded-2xl p-4 mb-6 flex items-center gap-4 flex-wrap"
-            style={{ background: `linear-gradient(135deg, ${p.primary}15, ${p.accent}15)`, border: `1px solid ${p.primary}30` }}
+            className="rounded-2xl p-4 mb-6 flex items-center gap-4 flex-wrap bg-white/10 backdrop-blur-xl border border-white/20"
           >
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded-full" style={{ backgroundColor: p.primary }} />
               <div className="w-4 h-4 rounded-full" style={{ backgroundColor: p.accent }} />
               <span style={{ fontWeight: 600, fontSize: '0.9rem', color: p.primary }}>{preset.name}</span>
             </div>
-            <Badge variant="secondary">{catInfo.emoji} {appData.category}</Badge>
-            <Badge variant="secondary">{preset.mood}</Badge>
-            <Badge variant="secondary">{preset.font} font</Badge>
-            <Badge variant="secondary">{preset.layout} layout</Badge>
-            <Badge variant="secondary">{preset.theme === 'dark' ? '🌙 Dark' : '☀️ Light'} theme</Badge>
+            <Badge className="bg-white/20 text-white border-white/30">{catInfo.emoji} {appData.category}</Badge>
+            <Badge className="bg-white/20 text-white border-white/30">{preset.mood}</Badge>
+            <Badge className="bg-white/20 text-white border-white/30">{preset.font} font</Badge>
+            <Badge className="bg-white/20 text-white border-white/30">{preset.layout} layout</Badge>
+            <Badge className="bg-white/20 text-white border-white/30">{preset.theme === 'dark' ? '🌙 Dark' : '☀️ Light'} theme</Badge>
           </div>
         )}
 
         {/* View Toggle */}
         <div className="flex justify-center mb-8">
-          <div className="bg-white rounded-xl p-1 shadow-sm border border-gray-100 flex gap-1">
+          <div className="bg-white/10 backdrop-blur-xl rounded-xl p-1 shadow-lg border border-white/20 flex gap-1">
             {(['mobile', 'desktop'] as const).map(mode => (
               <button
                 key={mode}
                 onClick={() => setViewMode(mode)}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-lg transition-all ${
-                  viewMode === mode ? 'bg-gray-900 text-white shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                  viewMode === mode ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg' : 'text-white/50 hover:text-white/70'
                 }`}
                 style={{ fontWeight: viewMode === mode ? 600 : 400 }}
               >
@@ -283,8 +286,8 @@ export default function Preview() {
           {/* Customer View */}
           <div>
             <div className="text-center mb-4">
-              <Badge className="bg-blue-100 text-blue-700">👤 Customer App</Badge>
-              <p className="text-xs text-gray-500 mt-1">What your customers see</p>
+              <Badge className="bg-blue-500/30 text-blue-200 border-blue-500/50">👤 Customer App</Badge>
+              <p className="text-xs text-white/50 mt-1">What your customers see</p>
             </div>
             {viewMode === 'mobile' ? (
               <div className="flex justify-center">
@@ -305,8 +308,8 @@ export default function Preview() {
           {/* Business View */}
           <div>
             <div className="text-center mb-4">
-              <Badge className="bg-purple-100 text-purple-700">🏢 Business Dashboard</Badge>
-              <p className="text-xs text-gray-500 mt-1">Your management view</p>
+              <Badge className="bg-purple-500/30 text-purple-200 border-purple-500/50">🏢 Business Dashboard</Badge>
+              <p className="text-xs text-white/50 mt-1">Your management view</p>
             </div>
             {viewMode === 'mobile' ? (
               <div className="flex justify-center">
@@ -327,7 +330,7 @@ export default function Preview() {
 
         {/* Error Message */}
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
+          <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-lg mb-6 text-sm">
             {error}
           </div>
         )}
@@ -335,9 +338,8 @@ export default function Preview() {
         {/* CTA */}
         <div className="flex gap-4 justify-center mt-10">
           <Button
-            variant="outline"
-            onClick={() => navigate('/customize')}
-            className="px-8 py-5 gap-2"
+            onClick={() => navigate('/register/customize')}
+            className="px-8 py-5 gap-2 bg-white/10 border-white/20 text-white/80 hover:bg-white/20 hover:text-white transition-all"
             disabled={isLoading}
           >
             ← Edit Design
@@ -345,7 +347,7 @@ export default function Preview() {
           <Button
             onClick={handleLaunch}
             disabled={isLoading}
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-5 gap-2"
+            className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-12 py-5 gap-2 font-semibold shadow-lg hover:shadow-xl transition-all"
             style={{ fontSize: '1rem' }}
           >
             {isLoading ? (

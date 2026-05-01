@@ -321,29 +321,31 @@ export default function FeatureSelection() {
 
   const handleContinue = () => {
     saveAppData({ selectedFeatures });
-    navigate('/customize');
+    navigate('/register/customize');
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 py-8">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-purple-950 p-4 py-8 relative overflow-hidden">
+      {/* Animated background blobs */}
+      <div className="absolute top-20 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-32 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+
+      <div className="max-w-5xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h2 className="text-gray-900 mb-2" style={{ fontSize: '2rem', fontWeight: 700 }}>
+        <div className="text-center mb-12">
+          <h2 className="text-white mb-2" style={{ fontSize: '2.5rem', fontWeight: 800 }}>
             Choose Your Features
           </h2>
-          <p className="text-gray-500">
+          <p className="text-white/70 text-lg max-w-2xl mx-auto">
             {businessCategory
-              ? `Showing recommendations for ${businessCategory} businesses`
-              : 'Select the features that match your business needs'}
+              ? `🎯 Showing recommendations for ${businessCategory} businesses`
+              : '📦 Select the features that match your business needs'}
           </p>
         </div>
 
         {/* Bundles */}
-        <div className="mb-8">
-          <h3 className="text-gray-700 mb-3" style={{ fontWeight: 600, fontSize: '1.05rem' }}>
-            ⚡ Quick Start Bundles
-          </h3>
+        <div className="mb-12">
+          <h3 className="text-white mb-4 font-bold text-lg">⚡ Quick Start Bundles</h3>
           <div className="grid md:grid-cols-3 gap-4">
             {bundles.map(bundle => {
               const isActive = activeBundleId === bundle.id;
@@ -351,30 +353,31 @@ export default function FeatureSelection() {
                 <button
                   key={bundle.id}
                   onClick={() => applyBundle(bundle)}
-                  className={`relative p-5 rounded-2xl border-2 text-left transition-all hover:shadow-lg ${
-                    isActive ? 'border-opacity-100 shadow-lg' : 'border-gray-200 bg-white hover:border-gray-300'
+                  className={`relative p-6 rounded-2xl border-2 text-left transition-all duration-300 hover:scale-105 ${
+                    isActive
+                      ? 'border-opacity-100 shadow-xl shadow-blue-500/20 bg-white/15 backdrop-blur-sm'
+                      : 'border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 hover:border-white/20'
                   }`}
-                  style={isActive ? { borderColor: bundle.color, backgroundColor: bundle.color + '08' } : {}}
                 >
                   {bundle.popular && (
-                    <div className="absolute -top-2.5 left-4">
-                      <Badge className="bg-purple-600 text-white text-xs">Most Popular</Badge>
+                    <div className="absolute -top-3 left-4">
+                      <Badge className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs font-bold shadow-lg">⭐ Most Popular</Badge>
                     </div>
                   )}
+                  <div className="flex items-center gap-3 mb-3">
+                    <span style={{ fontSize: '1.6rem' }}>{bundle.emoji}</span>
+                    <span className="text-white font-bold text-lg">{bundle.name}</span>
+                  </div>
+                  <p className="text-white/60 text-sm mb-4">{bundle.tagline}</p>
                   <div className="flex items-center gap-2 mb-2">
-                    <span style={{ fontSize: '1.4rem' }}>{bundle.emoji}</span>
-                    <span style={{ fontWeight: 700, fontSize: '1rem' }}>{bundle.name}</span>
+                    <span className="text-white font-bold text-lg" style={{ color: bundle.color }}>{bundle.price}</span>
+                    <Badge className="text-xs bg-green-500/30 text-green-200 border-green-500/50">{bundle.savings}</Badge>
                   </div>
-                  <p className="text-gray-500 text-sm mb-3">{bundle.tagline}</p>
-                  <div className="flex items-center gap-2">
-                    <span style={{ fontWeight: 700, color: bundle.color }}>{bundle.price}</span>
-                    <Badge variant="secondary" className="text-xs bg-green-100 text-green-700">{bundle.savings}</Badge>
-                  </div>
-                  <p className="text-xs text-gray-400 mt-1">{bundle.features.length} features included</p>
+                  <p className="text-xs text-white/50">{bundle.features.length} features included</p>
                   {isActive && (
                     <div className="absolute top-4 right-4">
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: bundle.color }}>
-                        <Check className="w-3.5 h-3.5 text-white" />
+                      <div className="w-7 h-7 rounded-full flex items-center justify-center shadow-lg" style={{ backgroundColor: bundle.color }}>
+                        <Check className="w-4 h-4 text-white" />
                       </div>
                     </div>
                   )}
@@ -385,23 +388,20 @@ export default function FeatureSelection() {
         </div>
 
         {/* Main Feature Selection */}
-        <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl overflow-hidden">
           {/* Category Tabs */}
-          <div className="border-b border-gray-100 px-6 pt-6">
-            <h3 className="text-gray-700 mb-4" style={{ fontWeight: 600, fontSize: '1.05rem' }}>
-              🎯 Individual Features
-            </h3>
-            <div className="flex gap-2 flex-wrap pb-4">
+          <div className="border-b border-white/10 px-8 pt-8">
+            <h3 className="text-white mb-4 font-bold text-lg">🎯 Individual Features</h3>
+            <div className="flex gap-2 flex-wrap pb-6">
               {categoryTabs.map(tab => (
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-1.5 rounded-full text-sm transition-all border ${
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${
                     activeTab === tab
-                      ? 'bg-blue-600 text-white border-blue-600'
-                      : 'border-gray-200 text-gray-600 hover:border-blue-300'
+                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white border-transparent shadow-lg shadow-blue-500/30'
+                      : 'border-white/10 text-white/60 bg-white/5 hover:bg-white/10 hover:border-white/20'
                   }`}
-                  style={{ fontWeight: activeTab === tab ? 600 : 400 }}
                 >
                   {tab}
                 </button>
@@ -409,8 +409,8 @@ export default function FeatureSelection() {
             </div>
           </div>
 
-          <div className="p-6">
-            <div className="grid md:grid-cols-2 gap-3">
+          <div className="p-8">
+            <div className="grid md:grid-cols-2 gap-4">
               {displayFeatures.map(feature => {
                 const Icon = feature.icon;
                 const isSelected = selectedFeatures.includes(feature.id);
@@ -420,31 +420,33 @@ export default function FeatureSelection() {
                 return (
                   <div
                     key={feature.id}
-                    className={`rounded-xl border-2 transition-all ${
-                      isSelected ? 'border-blue-500' : 'border-gray-100 hover:border-gray-200'
+                    className={`rounded-xl border-2 transition-all duration-300 ${
+                      isSelected
+                        ? 'border-blue-400 bg-blue-500/20 shadow-lg shadow-blue-500/20'
+                        : 'border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20'
                     }`}
-                    style={{ backgroundColor: isSelected ? feature.iconColor + '06' : '#FAFAFA' }}
                   >
-                    <div className="p-4">
-                      <div className="flex items-start gap-3">
+                    <div className="p-5">
+                      <div className="flex items-start gap-4">
                         <div
-                          className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
-                          style={{ backgroundColor: feature.iconColor + '18' }}
+                          className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all"
+                          style={{
+                            backgroundColor: isSelected ? feature.iconColor + '40' : feature.iconColor + '20',
+                            boxShadow: isSelected ? `0 0 12px ${feature.iconColor}40` : 'none'
+                          }}
                         >
-                          <Icon className="w-5 h-5" style={{ color: feature.iconColor }} />
+                          <Icon className="w-6 h-6" style={{ color: feature.iconColor }} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="text-gray-900" style={{ fontWeight: 600, fontSize: '0.9rem' }}>
-                              {feature.name}
-                            </span>
+                          <div className="flex items-center gap-2 flex-wrap mb-1">
+                            <span className="text-white font-semibold text-sm">{feature.name}</span>
                             {isRecommended && businessCategory && (
-                              <Badge className="text-xs px-1.5 py-0 bg-amber-100 text-amber-700 border-0">
+                              <Badge className="text-xs px-2 py-0.5 bg-amber-500/30 text-amber-200 border-amber-500/50">
                                 ⭐ Recommended
                               </Badge>
                             )}
                           </div>
-                          <p className="text-gray-500 text-xs mt-0.5">{feature.description}</p>
+                          <p className="text-white/50 text-xs mt-0.5 leading-relaxed">{feature.description}</p>
                         </div>
                         <Switch
                           checked={isSelected}
@@ -459,7 +461,7 @@ export default function FeatureSelection() {
                         </span>
                         <button
                           onClick={() => setExpandedFeature(isExpanded ? null : feature.id)}
-                          className="flex items-center gap-1 text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                          className="flex items-center gap-1 text-xs text-white/50 hover:text-white/80 transition-colors"
                         >
                           {isExpanded ? 'Hide details' : 'See details'}
                           {isExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
@@ -467,11 +469,11 @@ export default function FeatureSelection() {
                       </div>
 
                       {isExpanded && (
-                        <div className="mt-3 pt-3 border-t border-gray-100">
+                        <div className="mt-3 pt-3 border-t border-white/10">
                           <div className="grid grid-cols-2 gap-1.5">
                             {feature.benefits.map((benefit, idx) => (
-                              <div key={idx} className="flex items-center gap-1.5 text-xs text-gray-600">
-                                <Check className="w-3 h-3 text-green-500 flex-shrink-0" />
+                              <div key={idx} className="flex items-center gap-1.5 text-xs text-white/70">
+                                <Check className="w-3 h-3 text-emerald-400 flex-shrink-0" />
                                 <span>{benefit}</span>
                               </div>
                             ))}
@@ -509,21 +511,21 @@ export default function FeatureSelection() {
 
         {/* Sticky Footer */}
         <div className="sticky bottom-4 mt-6">
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 px-6 py-4 flex items-center gap-4">
+          <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/20 px-6 py-4 flex items-center gap-4">
             <div className="flex-1">
               <div className="flex items-center gap-3">
                 <div>
-                  <span className="text-gray-900" style={{ fontWeight: 700, fontSize: '1.1rem' }}>
+                  <span className="text-white" style={{ fontWeight: 700, fontSize: '1.1rem' }}>
                     {selectedFeatures.length} features selected
                   </span>
-                  <p className="text-gray-500 text-sm">Total: ₹{totalCost.toLocaleString()}/month</p>
+                  <p className="text-white/70 text-sm">Total: ₹{totalCost.toLocaleString()}/month</p>
                 </div>
               </div>
             </div>
             <Button
               onClick={handleContinue}
               disabled={selectedFeatures.length === 0}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-5"
+              className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-5 font-semibold shadow-lg hover:shadow-xl transition-all"
             >
               Customize App →
             </Button>

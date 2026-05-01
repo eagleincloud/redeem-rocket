@@ -4,6 +4,17 @@
  */
 
 const API_BASE = import.meta.env.VITE_SUPABASE_URL + '/functions/v1/registration-api';
+const ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+/**
+ * Get default headers with authentication
+ */
+function getHeaders() {
+  return {
+    'Content-Type': 'application/json',
+    ...(ANON_KEY && { 'Authorization': `Bearer ${ANON_KEY}` }),
+  };
+}
 
 export interface RegistrationData {
   // Business Basics
@@ -44,11 +55,9 @@ export interface RegistrationData {
  */
 export async function submitRegistration(data: RegistrationData) {
   try {
-    const response = await fetch(`${API_BASE}/register/submit`, {
+    const response = await fetch(`${API_BASE}?action=submit`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getHeaders(),
       body: JSON.stringify(data),
     });
 
@@ -69,11 +78,9 @@ export async function submitRegistration(data: RegistrationData) {
  */
 export async function validateEmail(email: string) {
   try {
-    const response = await fetch(`${API_BASE}/register/validate-email`, {
+    const response = await fetch(`${API_BASE}?action=validate-email`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getHeaders(),
       body: JSON.stringify({ email }),
     });
 
@@ -93,11 +100,9 @@ export async function validateEmail(email: string) {
  */
 export async function createBusiness(registrationId: string, userId: string) {
   try {
-    const response = await fetch(`${API_BASE}/register/create-business`, {
+    const response = await fetch(`${API_BASE}?action=create-business`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getHeaders(),
       body: JSON.stringify({ registrationId, userId }),
     });
 
@@ -118,11 +123,9 @@ export async function createBusiness(registrationId: string, userId: string) {
  */
 export async function getPresetsForCategory(category: string) {
   try {
-    const response = await fetch(`${API_BASE}/register/presets/${encodeURIComponent(category)}`, {
+    const response = await fetch(`${API_BASE}?action=presets&category=${encodeURIComponent(category)}`, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getHeaders(),
     });
 
     if (!response.ok) {

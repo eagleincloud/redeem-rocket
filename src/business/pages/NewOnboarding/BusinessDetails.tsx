@@ -117,117 +117,133 @@ export default function BusinessDetails() {
 
   const handleSubmit = () => {
     saveAppData(formData);
-    navigate('/features');
+    navigate('/register/features');
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-purple-950 flex items-center justify-center p-4 py-10">
-      <div className="max-w-3xl w-full">
-        {/* Logo */}
-        <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
-            <Rocket className="w-5 h-5 text-white" />
-          </div>
-          <span className="text-white text-xl" style={{ fontWeight: 700 }}>Redeem Rocket</span>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-purple-950 flex items-center justify-center p-4 py-8 relative overflow-hidden">
+      {/* Animated background blobs */}
+      <div className="absolute top-32 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-0 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
 
-        {/* Step Indicator */}
-        <div className="flex items-center gap-0 mb-8 px-2">
-          {stepLabels.map((label, idx) => {
-            const step = idx + 1;
-            const isCompleted = currentStep > step;
-            const isActive = currentStep === step;
-            return (
-              <div key={step} className="flex items-center flex-1">
-                <div className="flex flex-col items-center gap-1">
-                  <div className={`w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
-                    isCompleted ? 'bg-green-500 border-green-500' :
-                    isActive ? 'bg-blue-500 border-blue-500' : 'bg-transparent border-white/30'
-                  }`}>
-                    {isCompleted
-                      ? <CheckCircle2 className="w-5 h-5 text-white" />
-                      : <span className={`text-sm ${isActive ? 'text-white' : 'text-white/40'}`} style={{ fontWeight: 600 }}>{step}</span>
-                    }
+      <div className="max-w-3xl w-full relative z-10">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center">
+              <Rocket className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-white font-bold text-lg">Redeem Rocket</span>
+          </div>
+
+          {/* Step Indicator */}
+          <div className="flex items-center justify-center gap-4 mb-8">
+            {stepLabels.map((label, idx) => {
+              const step = idx + 1;
+              const isCompleted = currentStep > step;
+              const isActive = currentStep === step;
+              return (
+                <div key={step} className="flex items-center flex-1">
+                  <div className="flex flex-col items-center">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 ${
+                      isCompleted ? 'bg-green-500 text-white border-2 border-green-500' :
+                      isActive ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white border-2 border-transparent' :
+                      'bg-white/10 text-white/40 border-2 border-white/20'
+                    }`}>
+                      {isCompleted ? <CheckCircle2 className="w-5 h-5" /> : step}
+                    </div>
+                    <span className={`text-xs mt-2 font-medium hidden sm:block whitespace-nowrap transition-all ${
+                      isActive ? 'text-blue-300' : isCompleted ? 'text-green-400' : 'text-white/40'
+                    }`}>
+                      {label}
+                    </span>
                   </div>
-                  <span className={`text-xs hidden sm:block whitespace-nowrap transition-all ${isActive ? 'text-white' : isCompleted ? 'text-green-400' : 'text-white/40'}`}>
-                    {label}
-                  </span>
+                  {step < TOTAL_STEPS && (
+                    <div className={`flex-1 h-1 mx-3 rounded-full transition-all duration-300 ${
+                      currentStep > step ? 'bg-green-500' : 'bg-white/10'
+                    }`} />
+                  )}
                 </div>
-                {step < TOTAL_STEPS && (
-                  <div className={`flex-1 h-0.5 mx-2 mb-5 rounded-full transition-all duration-500 ${
-                    currentStep > step ? 'bg-green-500' : 'bg-white/20'
-                  }`} />
-                )}
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 shadow-2xl overflow-hidden">
           {/* Step 1: Business Basics */}
           {currentStep === 1 && (
-            <div className="p-8">
+            <div className="p-8 md:p-10">
               <div className="mb-8">
-                <Badge className="mb-3 bg-blue-100 text-blue-700 border-0">Step 1 of 3</Badge>
-                <h2 className="text-gray-900" style={{ fontSize: '1.75rem', fontWeight: 700 }}>
+                <Badge className="mb-4 bg-blue-500/30 text-blue-200 border-blue-500/50 hover:bg-blue-500/40">Step 1 of 3</Badge>
+                <h2 className="text-white text-2xl md:text-3xl font-bold mb-2">
                   Tell us about your business
                 </h2>
-                <p className="text-gray-500 mt-1">We'll use this to personalise your experience</p>
+                <p className="text-white/60">We'll use this to personalize your experience</p>
               </div>
 
-              <div className="space-y-5">
+              <div className="space-y-6">
                 <div>
-                  <Label htmlFor="business-name">Business Name <span className="text-red-500">*</span></Label>
+                  <Label htmlFor="business-name" className="text-white font-semibold mb-2 block">
+                    Business Name <span className="text-red-400">*</span>
+                  </Label>
                   <Input
                     id="business-name"
                     placeholder="e.g. Sunrise Bakery, NexGen Tech..."
                     value={formData.businessName}
                     onChange={e => setSingle('businessName', e.target.value)}
-                    className="mt-2 h-12"
+                    className="h-11 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:border-blue-400 focus:bg-white/15"
                   />
                 </div>
 
-                <div className="grid sm:grid-cols-2 gap-5">
+                <div className="grid sm:grid-cols-2 gap-6">
                   <div>
-                    <Label htmlFor="email">Email Address <span className="text-red-500">*</span></Label>
+                    <Label htmlFor="email" className="text-white font-semibold mb-2 block">
+                      Email Address <span className="text-red-400">*</span>
+                    </Label>
                     <Input
                       id="email"
                       type="email"
                       placeholder="you@business.com"
                       value={formData.email}
                       onChange={e => setSingle('email', e.target.value)}
-                      className="mt-2 h-12"
+                      className="h-11 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:border-blue-400 focus:bg-white/15"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="phone">Phone Number</Label>
+                    <Label htmlFor="phone" className="text-white font-semibold mb-2 block">
+                      Phone Number
+                    </Label>
                     <Input
                       id="phone"
                       type="tel"
                       placeholder="+1 (555) 000-0000"
                       value={formData.phone}
                       onChange={e => setSingle('phone', e.target.value)}
-                      className="mt-2 h-12"
+                      className="h-11 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:border-blue-400 focus:bg-white/15"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <Label htmlFor="location">Business Location</Label>
+                  <Label htmlFor="location" className="text-white font-semibold mb-2 block">
+                    Business Location
+                  </Label>
                   <Input
                     id="location"
                     placeholder="City, State / Country"
                     value={formData.location}
                     onChange={e => setSingle('location', e.target.value)}
-                    className="mt-2 h-12"
+                    className="h-11 bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:border-blue-400 focus:bg-white/15"
                   />
                 </div>
 
                 {/* Social Media */}
                 <div>
-                  <Label>Where are you active? <span className="text-gray-400 text-sm">(optional)</span></Label>
-                  <p className="text-sm text-gray-500 mb-3">Select your social media platforms</p>
+                  <Label className="text-white font-semibold mb-2 block">
+                    Where are you active? <span className="text-white/50 text-sm font-normal">(optional)</span>
+                  </Label>
+                  <p className="text-white/50 text-sm mb-4">Select your social media platforms</p>
                   <div className="flex flex-wrap gap-2">
                     {socialMediaOptions.map(platform => {
                       const sel = formData.socialMedia.includes(platform);
@@ -235,10 +251,11 @@ export default function BusinessDetails() {
                         <button
                           key={platform}
                           onClick={() => toggleArray('socialMedia', platform)}
-                          className={`px-4 py-2 rounded-full border-2 text-sm transition-all ${
-                            sel ? 'border-blue-600 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-600 hover:border-blue-300'
+                          className={`px-4 py-2 rounded-full border transition-all duration-300 text-sm font-medium ${
+                            sel
+                              ? 'bg-blue-500/30 border-blue-400 text-blue-200'
+                              : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10 hover:border-white/20'
                           }`}
-                          style={{ fontWeight: sel ? 600 : 400 }}
                         >
                           {platform}
                         </button>
@@ -252,32 +269,35 @@ export default function BusinessDetails() {
 
           {/* Step 2: Category & Profile */}
           {currentStep === 2 && (
-            <div className="p-8">
-              <div className="mb-6">
-                <Badge className="mb-3 bg-purple-100 text-purple-700 border-0">Step 2 of 3</Badge>
-                <h2 className="text-gray-900" style={{ fontSize: '1.75rem', fontWeight: 700 }}>
+            <div className="p-8 md:p-10">
+              <div className="mb-8">
+                <Badge className="mb-4 bg-purple-500/30 text-purple-200 border-purple-500/50 hover:bg-purple-500/40">Step 2 of 3</Badge>
+                <h2 className="text-white text-2xl md:text-3xl font-bold mb-2">
                   Your Business Profile
                 </h2>
-                <p className="text-gray-500 mt-1">Help us recommend the perfect features and style</p>
+                <p className="text-white/60">Help us recommend the perfect features and style</p>
               </div>
 
               {/* Category Grid */}
-              <div className="mb-7">
-                <Label className="text-base mb-3 block">Business Category <span className="text-red-500">*</span></Label>
-                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+              <div className="mb-8">
+                <Label className="text-white font-semibold text-base mb-4 block">
+                  Business Category <span className="text-red-400">*</span>
+                </Label>
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
                   {categoryList.map(cat => {
                     const sel = formData.category === cat.id;
                     return (
                       <button
                         key={cat.id}
                         onClick={() => setSingle('category', cat.id)}
-                        className={`p-3 rounded-xl border-2 flex flex-col items-center gap-1.5 transition-all hover:scale-105 ${
-                          sel ? 'border-blue-600 shadow-md shadow-blue-100' : 'border-gray-200 hover:border-blue-300'
+                        className={`p-4 rounded-xl flex flex-col items-center gap-2 transition-all duration-300 border-2 hover:scale-105 ${
+                          sel
+                            ? 'bg-white/15 border-blue-400 shadow-lg shadow-blue-500/20'
+                            : 'bg-white/5 border-white/10 hover:border-white/20'
                         }`}
-                        style={{ backgroundColor: sel ? cat.bgColor : '#FAFAFA' }}
                       >
-                        <span style={{ fontSize: '1.6rem' }}>{cat.emoji}</span>
-                        <span className="text-xs text-center text-gray-700 leading-tight" style={{ fontWeight: sel ? 600 : 400 }}>
+                        <span className="text-2xl">{cat.emoji}</span>
+                        <span className={`text-xs text-center font-medium leading-tight ${sel ? 'text-blue-200' : 'text-white/70'}`}>
                           {cat.label}
                         </span>
                       </button>
@@ -287,8 +307,10 @@ export default function BusinessDetails() {
               </div>
 
               {/* Team Size */}
-              <div className="mb-6">
-                <Label className="text-base mb-3 block">Team Size <span className="text-red-500">*</span></Label>
+              <div className="mb-8">
+                <Label className="text-white font-semibold text-base mb-4 block">
+                  Team Size <span className="text-red-400">*</span>
+                </Label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {teamSizeOptions.map(opt => {
                     const sel = formData.teamSize === opt.id;
@@ -296,13 +318,15 @@ export default function BusinessDetails() {
                       <button
                         key={opt.id}
                         onClick={() => setSingle('teamSize', opt.id)}
-                        className={`p-4 rounded-xl border-2 flex flex-col items-center gap-1 transition-all ${
-                          sel ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-blue-300'
+                        className={`p-4 rounded-xl flex flex-col items-center gap-1.5 transition-all duration-300 border-2 ${
+                          sel
+                            ? 'bg-blue-500/20 border-blue-400 text-blue-100'
+                            : 'bg-white/5 border-white/10 text-white/70 hover:border-white/20'
                         }`}
                       >
-                        <span style={{ fontSize: '1.4rem' }}>{opt.emoji}</span>
-                        <span className="text-sm" style={{ fontWeight: 700 }}>{opt.label}</span>
-                        <span className="text-xs text-gray-500">{opt.sublabel}</span>
+                        <span className="text-xl">{opt.emoji}</span>
+                        <span className="text-sm font-bold">{opt.label}</span>
+                        <span className="text-xs text-white/50">{opt.sublabel}</span>
                       </button>
                     );
                   })}
@@ -310,8 +334,10 @@ export default function BusinessDetails() {
               </div>
 
               {/* Business Stage */}
-              <div className="mb-6">
-                <Label className="text-base mb-3 block">Business Stage <span className="text-red-500">*</span></Label>
+              <div className="mb-8">
+                <Label className="text-white font-semibold text-base mb-4 block">
+                  Business Stage <span className="text-red-400">*</span>
+                </Label>
                 <div className="grid grid-cols-2 gap-3">
                   {businessStageOptions.map(opt => {
                     const sel = formData.businessStage === opt.id;
@@ -319,14 +345,16 @@ export default function BusinessDetails() {
                       <button
                         key={opt.id}
                         onClick={() => setSingle('businessStage', opt.id)}
-                        className={`p-4 rounded-xl border-2 flex items-center gap-3 transition-all ${
-                          sel ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-blue-300'
+                        className={`p-4 rounded-xl flex items-center gap-3 transition-all duration-300 border-2 ${
+                          sel
+                            ? 'bg-purple-500/20 border-purple-400'
+                            : 'bg-white/5 border-white/10 hover:border-white/20'
                         }`}
                       >
-                        <span style={{ fontSize: '1.4rem' }}>{opt.emoji}</span>
+                        <span className="text-2xl">{opt.emoji}</span>
                         <div className="text-left">
-                          <div className="text-sm" style={{ fontWeight: 600 }}>{opt.label}</div>
-                          <div className="text-xs text-gray-500">{opt.sublabel}</div>
+                          <div className={`font-semibold ${sel ? 'text-purple-200' : 'text-white/80'}`}>{opt.label}</div>
+                          <div className="text-xs text-white/50">{opt.sublabel}</div>
                         </div>
                       </button>
                     );
@@ -336,7 +364,7 @@ export default function BusinessDetails() {
 
               {/* Target Audience */}
               <div>
-                <Label className="text-base mb-3 block">Target Audience</Label>
+                <Label className="text-white font-semibold text-base mb-4 block">Target Audience</Label>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                   {targetAudienceOptions.map(opt => {
                     const sel = formData.targetAudience === opt.id;
@@ -344,13 +372,15 @@ export default function BusinessDetails() {
                       <button
                         key={opt.id}
                         onClick={() => setSingle('targetAudience', opt.id)}
-                        className={`p-3 rounded-xl border-2 flex flex-col items-center gap-1 transition-all ${
-                          sel ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-blue-300'
+                        className={`p-4 rounded-xl flex flex-col items-center gap-1.5 transition-all duration-300 border-2 ${
+                          sel
+                            ? 'bg-green-500/20 border-green-400 text-green-100'
+                            : 'bg-white/5 border-white/10 text-white/70 hover:border-white/20'
                         }`}
                       >
-                        <span style={{ fontSize: '1.3rem' }}>{opt.emoji}</span>
-                        <span className="text-sm" style={{ fontWeight: sel ? 600 : 400 }}>{opt.label}</span>
-                        <span className="text-xs text-gray-500">{opt.sublabel}</span>
+                        <span className="text-2xl">{opt.emoji}</span>
+                        <span className="text-sm font-bold">{opt.label}</span>
+                        <span className="text-xs text-white/50">{opt.sublabel}</span>
                       </button>
                     );
                   })}
@@ -359,24 +389,24 @@ export default function BusinessDetails() {
             </div>
           )}
 
-          {/* Step 3: Goals & Audience */}
+          {/* Step 3: Goals & Challenges */}
           {currentStep === 3 && (
-            <div className="p-8">
-              <div className="mb-6">
-                <Badge className="mb-3 bg-green-100 text-green-700 border-0">Step 3 of 3</Badge>
-                <h2 className="text-gray-900" style={{ fontSize: '1.75rem', fontWeight: 700 }}>
+            <div className="p-8 md:p-10">
+              <div className="mb-8">
+                <Badge className="mb-4 bg-green-500/30 text-green-200 border-green-500/50 hover:bg-green-500/40">Step 3 of 3</Badge>
+                <h2 className="text-white text-2xl md:text-3xl font-bold mb-2">
                   Goals & Challenges
                 </h2>
-                <p className="text-gray-500 mt-1">What do you want to achieve? This helps us recommend features.</p>
+                <p className="text-white/60">What do you want to achieve? This helps us recommend features.</p>
               </div>
 
               {/* Business Goals */}
-              <div className="mb-7">
-                <Label className="text-base mb-3 block">
-                  Business Goals <span className="text-red-500">*</span>
-                  <span className="text-sm text-gray-400 ml-2">(select all that apply)</span>
+              <div className="mb-8">
+                <Label className="text-white font-semibold text-base mb-4 block">
+                  Business Goals <span className="text-red-400">*</span>
+                  <span className="text-white/50 font-normal text-sm ml-2">(select all that apply)</span>
                 </Label>
-                <div className="grid sm:grid-cols-2 gap-2">
+                <div className="grid sm:grid-cols-2 gap-3">
                   {goals.map(goal => {
                     const Icon = goal.icon;
                     const sel = formData.goals.includes(goal.id);
@@ -384,19 +414,22 @@ export default function BusinessDetails() {
                       <button
                         key={goal.id}
                         onClick={() => toggleArray('goals', goal.id)}
-                        className={`flex items-center gap-3 p-3.5 rounded-xl border-2 transition-all text-left ${
-                          sel ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-blue-300'
+                        className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all duration-300 text-left ${
+                          sel
+                            ? 'bg-blue-500/20 border-blue-400 text-blue-100'
+                            : 'bg-white/5 border-white/10 text-white/70 hover:border-white/20'
                         }`}
                       >
                         <div
-                          className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                          style={{ backgroundColor: sel ? goal.color : '#F3F4F6' }}
+                          className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-all"
+                          style={{
+                            backgroundColor: sel ? goal.color + '40' : 'transparent',
+                            color: sel ? goal.color : 'white'
+                          }}
                         >
-                          <Icon className="w-4 h-4" style={{ color: sel ? '#FFFFFF' : goal.color }} />
+                          <Icon className="w-5 h-5" />
                         </div>
-                        <span className="text-sm" style={{ fontWeight: sel ? 600 : 400, color: sel ? '#1E3A8A' : '#374151' }}>
-                          {goal.label}
-                        </span>
+                        <span className="text-sm font-medium">{goal.label}</span>
                       </button>
                     );
                   })}
@@ -404,10 +437,10 @@ export default function BusinessDetails() {
               </div>
 
               {/* Challenges */}
-              <div className="mb-7">
-                <Label className="text-base mb-3 block">
+              <div>
+                <Label className="text-white font-semibold text-base mb-4 block">
                   Current Challenges
-                  <span className="text-sm text-gray-400 ml-2">(optional)</span>
+                  <span className="text-white/50 font-normal text-sm ml-2">(optional)</span>
                 </Label>
                 <div className="flex flex-wrap gap-2">
                   {challenges.map(ch => {
@@ -416,34 +449,13 @@ export default function BusinessDetails() {
                       <button
                         key={ch}
                         onClick={() => toggleArray('challenges', ch)}
-                        className={`px-3 py-1.5 rounded-full border-2 text-sm transition-all ${
-                          sel ? 'border-orange-500 bg-orange-50 text-orange-700' : 'border-gray-200 text-gray-600 hover:border-orange-300'
+                        className={`px-4 py-2 rounded-full border transition-all duration-300 text-sm font-medium ${
+                          sel
+                            ? 'bg-orange-500/30 border-orange-400 text-orange-200'
+                            : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10'
                         }`}
-                        style={{ fontWeight: sel ? 600 : 400 }}
                       >
                         {ch}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Monthly Customers */}
-              <div>
-                <Label className="text-base mb-3 block">Monthly Customer Volume</Label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  {monthlyCustomerOptions.map(opt => {
-                    const sel = formData.monthlyCustomers === opt.id;
-                    return (
-                      <button
-                        key={opt.id}
-                        onClick={() => setSingle('monthlyCustomers', opt.id)}
-                        className={`p-3 rounded-xl border-2 flex flex-col items-center gap-1 transition-all ${
-                          sel ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-blue-300'
-                        }`}
-                      >
-                        <span style={{ fontSize: '1.3rem' }}>{opt.emoji}</span>
-                        <span className="text-sm" style={{ fontWeight: sel ? 600 : 400 }}>{opt.label}</span>
                       </button>
                     );
                   })}
@@ -453,12 +465,12 @@ export default function BusinessDetails() {
           )}
 
           {/* Footer Navigation */}
-          <div className="px-8 pb-8 flex items-center gap-4">
+          <div className="px-8 pb-8 md:px-10 md:pb-10 flex items-center gap-4 border-t border-white/10">
             {currentStep > 1 && (
               <Button
                 variant="outline"
                 onClick={() => setCurrentStep(s => s - 1)}
-                className="flex-1 h-12 gap-2"
+                className="flex-1 h-11 gap-2 bg-white/5 border-white/20 text-white hover:bg-white/10 transition-all"
               >
                 <ChevronLeft className="w-4 h-4" />
                 Back
@@ -467,7 +479,11 @@ export default function BusinessDetails() {
             <Button
               onClick={handleNext}
               disabled={!canGoNext()}
-              className="flex-1 h-12 gap-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+              className={`flex-1 h-11 gap-2 font-bold text-white transition-all ${
+                canGoNext()
+                  ? 'bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 shadow-lg shadow-blue-500/30'
+                  : 'bg-white/10 text-white/40 cursor-not-allowed'
+              }`}
             >
               {currentStep < TOTAL_STEPS ? (
                 <>Next <ChevronRight className="w-4 h-4" /></>
@@ -476,18 +492,6 @@ export default function BusinessDetails() {
               )}
             </Button>
           </div>
-        </div>
-
-        {/* Step dots */}
-        <div className="flex justify-center gap-2 mt-6">
-          {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
-            <div
-              key={i}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i + 1 === currentStep ? 'w-8 bg-white' : i + 1 < currentStep ? 'w-4 bg-green-400' : 'w-4 bg-white/30'
-              }`}
-            />
-          ))}
         </div>
       </div>
     </div>

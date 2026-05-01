@@ -344,15 +344,19 @@ export default function AppCustomization() {
       layoutStyle,
       buttonStyle,
     });
-    navigate('/preview');
+    navigate('/register/preview');
   };
 
   const presets = getPresetsForCategory(category);
   const catInfo = categoryData[category] ?? categoryData['Other'];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4 py-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-purple-950 p-4 py-8 relative overflow-hidden">
+      {/* Animated background blobs */}
+      <div className="absolute top-20 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-32 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+
+      <div className="max-w-6xl mx-auto relative z-10">
 
         {/* Category Banner */}
         <div
@@ -384,13 +388,13 @@ export default function AppCustomization() {
           <div className="lg:col-span-3 space-y-5">
 
             {/* Section Toggle */}
-            <div className="bg-white rounded-2xl p-1 shadow-sm border border-gray-100 flex">
+            <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-1 shadow-lg border border-white/20 flex">
               {(['preset', 'customize'] as const).map(sec => (
                 <button
                   key={sec}
                   onClick={() => setActiveSection(sec)}
                   className={`flex-1 py-2.5 rounded-xl text-sm transition-all ${
-                    activeSection === sec ? 'bg-blue-600 text-white shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                    activeSection === sec ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg' : 'text-white/50 hover:text-white/70'
                   }`}
                   style={{ fontWeight: activeSection === sec ? 600 : 400 }}
                 >
@@ -409,8 +413,8 @@ export default function AppCustomization() {
 
             {/* Preset Cards */}
             {activeSection === 'preset' && (
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-                <h3 className="text-gray-900 mb-4" style={{ fontWeight: 600 }}>
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 p-5">
+                <h3 className="text-white mb-4" style={{ fontWeight: 600 }}>
                   Choose a Style Preset
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
@@ -420,10 +424,10 @@ export default function AppCustomization() {
                       <button
                         key={preset.id}
                         onClick={() => handleSelectPreset(preset.id)}
-                        className={`relative rounded-xl border-2 overflow-hidden text-left transition-all hover:shadow-md ${
-                          isSelected ? 'ring-2 ring-offset-1 ring-blue-500' : ''
+                        className={`relative rounded-xl border-2 overflow-hidden text-left transition-all hover:shadow-lg ${
+                          isSelected ? 'ring-2 ring-offset-2 ring-blue-400' : ''
                         }`}
-                        style={{ borderColor: isSelected ? preset.primary : '#E5E7EB' }}
+                        style={{ borderColor: isSelected ? preset.primary : 'rgba(255,255,255,0.1)', backgroundColor: 'rgba(255,255,255,0.05)' }}
                       >
                         {/* Color Swatch */}
                         <div
@@ -463,19 +467,19 @@ export default function AppCustomization() {
                         </div>
 
                         {/* Info */}
-                        <div className="p-3" style={{ backgroundColor: isSelected ? preset.primary + '06' : '#FAFAFA' }}>
-                          <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#1A1A1A' }}>{preset.name}</div>
-                          <div style={{ fontSize: '0.7rem', color: '#6B7280', marginTop: '2px' }}>{preset.mood}</div>
-                          <div style={{ fontSize: '0.68rem', color: '#9CA3AF', marginTop: '2px' }}>{preset.tagline}</div>
+                        <div className="p-3" style={{ backgroundColor: isSelected ? 'rgba(59, 130, 246, 0.1)' : 'rgba(255,255,255,0.05)' }}>
+                          <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#FFFFFF' }}>{preset.name}</div>
+                          <div style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.7)', marginTop: '2px' }}>{preset.mood}</div>
+                          <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>{preset.tagline}</div>
                           {isSelected && (
                             <div className="flex gap-1 mt-2 flex-wrap">
-                              <span style={{ fontSize: '0.65rem', backgroundColor: '#EFF6FF', color: '#1D4ED8', padding: '1px 6px', borderRadius: '9999px', fontWeight: 600 }}>
+                              <span style={{ fontSize: '0.65rem', backgroundColor: 'rgba(59, 130, 246, 0.3)', color: '#93C5FD', padding: '1px 6px', borderRadius: '9999px', fontWeight: 600, border: '1px solid rgba(59, 130, 246, 0.5)' }}>
                                 {preset.font}
                               </span>
-                              <span style={{ fontSize: '0.65rem', backgroundColor: '#F0FDF4', color: '#166534', padding: '1px 6px', borderRadius: '9999px', fontWeight: 600 }}>
+                              <span style={{ fontSize: '0.65rem', backgroundColor: 'rgba(16, 185, 129, 0.3)', color: '#6EE7B7', padding: '1px 6px', borderRadius: '9999px', fontWeight: 600, border: '1px solid rgba(16, 185, 129, 0.5)' }}>
                                 {preset.layout}
                               </span>
-                              <span style={{ fontSize: '0.65rem', backgroundColor: preset.theme === 'dark' ? '#1A1A1A' : '#F5F5F5', color: preset.theme === 'dark' ? '#FFFFFF' : '#374151', padding: '1px 6px', borderRadius: '9999px', fontWeight: 600 }}>
+                              <span style={{ fontSize: '0.65rem', backgroundColor: 'rgba(139, 92, 246, 0.3)', color: '#D8B4FE', padding: '1px 6px', borderRadius: '9999px', fontWeight: 600, border: '1px solid rgba(139, 92, 246, 0.5)' }}>
                                 {preset.theme}
                               </span>
                             </div>
@@ -492,75 +496,75 @@ export default function AppCustomization() {
             {activeSection === 'customize' && (
               <div className="space-y-4">
                 {/* App Identity */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-                  <h3 className="text-gray-900 mb-4" style={{ fontWeight: 600 }}>App Identity</h3>
+                <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 p-5">
+                  <h3 className="text-white mb-4" style={{ fontWeight: 600 }}>App Identity</h3>
 
                   {/* Logo Upload */}
                   <div className="mb-4">
-                    <Label>App Logo</Label>
-                    <div className="mt-2 border-2 border-dashed border-gray-200 rounded-xl p-5 text-center hover:border-blue-400 cursor-pointer transition-colors bg-gray-50">
-                      <Upload className="w-8 h-8 mx-auto text-gray-300 mb-2" />
-                      <p className="text-sm text-gray-500">Click to upload logo</p>
-                      <p className="text-xs text-gray-400 mt-1">PNG, JPG up to 5MB</p>
+                    <Label className="text-white/80">App Logo</Label>
+                    <div className="mt-2 border-2 border-dashed border-white/20 rounded-xl p-5 text-center hover:border-white/40 cursor-pointer transition-colors bg-white/5">
+                      <Upload className="w-8 h-8 mx-auto text-white/40 mb-2" />
+                      <p className="text-sm text-white/70">Click to upload logo</p>
+                      <p className="text-xs text-white/50 mt-1">PNG, JPG up to 5MB</p>
                     </div>
                   </div>
 
                   <div>
-                    <Label htmlFor="app-name">App Name</Label>
+                    <Label htmlFor="app-name" className="text-white/80">App Name</Label>
                     <Input
                       id="app-name"
                       placeholder="My Business App"
                       value={appName}
                       onChange={e => setAppName(e.target.value)}
-                      className="mt-2 h-11"
+                      className="mt-2 h-11 bg-white/10 border-white/20 text-white placeholder:text-white/40"
                     />
                   </div>
                 </div>
 
                 {/* Colors */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-                  <h3 className="text-gray-900 mb-4 flex items-center gap-2" style={{ fontWeight: 600 }}>
-                    <Palette className="w-4 h-4 text-blue-500" /> Colors
+                <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 p-5">
+                  <h3 className="text-white mb-4 flex items-center gap-2" style={{ fontWeight: 600 }}>
+                    <Palette className="w-4 h-4 text-blue-400" /> Colors
                   </h3>
 
                   <div className="space-y-4">
                     <div>
-                      <Label className="text-sm">Primary Color</Label>
+                      <Label className="text-sm text-white/80">Primary Color</Label>
                       <div className="flex flex-wrap gap-2 mt-2">
                         {colorSwatches.map(c => (
                           <button
                             key={c}
                             onClick={() => setPrimaryColor(c)}
                             className="w-7 h-7 rounded-lg border-2 transition-all hover:scale-110"
-                            style={{ backgroundColor: c, borderColor: primaryColor === c ? '#1A1A1A' : 'transparent' }}
+                            style={{ backgroundColor: c, borderColor: primaryColor === c ? '#FFFFFF' : 'rgba(255,255,255,0.2)' }}
                           />
                         ))}
                         <input
                           type="color"
                           value={primaryColor}
                           onChange={e => setPrimaryColor(e.target.value)}
-                          className="w-7 h-7 rounded-lg cursor-pointer border-0 p-0"
+                          className="w-7 h-7 rounded-lg cursor-pointer border-2 border-white/20 p-0"
                           title="Custom color"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <Label className="text-sm">Accent Color</Label>
+                      <Label className="text-sm text-white/80">Accent Color</Label>
                       <div className="flex flex-wrap gap-2 mt-2">
                         {colorSwatches.map(c => (
                           <button
                             key={c}
                             onClick={() => setAccentColor(c)}
                             className="w-7 h-7 rounded-lg border-2 transition-all hover:scale-110"
-                            style={{ backgroundColor: c, borderColor: accentColor === c ? '#1A1A1A' : 'transparent' }}
+                            style={{ backgroundColor: c, borderColor: accentColor === c ? '#FFFFFF' : 'rgba(255,255,255,0.2)' }}
                           />
                         ))}
                         <input
                           type="color"
                           value={accentColor}
                           onChange={e => setAccentColor(e.target.value)}
-                          className="w-7 h-7 rounded-lg cursor-pointer border-0 p-0"
+                          className="w-7 h-7 rounded-lg cursor-pointer border-2 border-white/20 p-0"
                           title="Custom color"
                         />
                       </div>
@@ -568,17 +572,17 @@ export default function AppCustomization() {
 
                     {/* Theme */}
                     <div>
-                      <Label className="text-sm">Theme</Label>
+                      <Label className="text-sm text-white/80">Theme</Label>
                       <div className="flex gap-3 mt-2">
                         {(['light', 'dark'] as const).map(t => (
                           <button
                             key={t}
                             onClick={() => setTheme(t)}
                             className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border-2 transition-all ${
-                              theme === t ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
+                              theme === t ? 'border-blue-400 bg-blue-500/20 text-blue-200' : 'border-white/20 text-white/50 hover:border-white/30'
                             }`}
                           >
-                            {t === 'light' ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4 text-indigo-500" />}
+                            {t === 'light' ? <Sun className="w-4 h-4 text-amber-300" /> : <Moon className="w-4 h-4 text-indigo-300" />}
                             <span className="text-sm capitalize" style={{ fontWeight: theme === t ? 600 : 400 }}>{t}</span>
                           </button>
                         ))}
@@ -588,9 +592,9 @@ export default function AppCustomization() {
                 </div>
 
                 {/* Font Style */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-                  <h3 className="text-gray-900 mb-4 flex items-center gap-2" style={{ fontWeight: 600 }}>
-                    <Type className="w-4 h-4 text-purple-500" /> Typography
+                <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 p-5">
+                  <h3 className="text-white mb-4 flex items-center gap-2" style={{ fontWeight: 600 }}>
+                    <Type className="w-4 h-4 text-purple-400" /> Typography
                   </h3>
                   <div className="grid grid-cols-3 gap-2">
                     {Object.entries(fontStyleInfo).map(([key, info]) => (
@@ -598,7 +602,7 @@ export default function AppCustomization() {
                         key={key}
                         onClick={() => setFontStyle(key)}
                         className={`p-3 rounded-xl border-2 flex flex-col items-center gap-1 transition-all ${
-                          fontStyle === key ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
+                          fontStyle === key ? 'border-blue-400 bg-blue-500/20' : 'border-white/20 hover:border-white/30'
                         }`}
                       >
                         <span
@@ -607,24 +611,24 @@ export default function AppCustomization() {
                             fontWeight: key === 'bold' ? 900 : key === 'elegant' ? 400 : 600,
                             fontStyle: key === 'elegant' ? 'italic' : 'normal',
                             fontFamily: key === 'tech' ? 'monospace' : key === 'classic' ? 'Georgia, serif' : 'inherit',
-                            color: fontStyle === key ? '#1D4ED8' : '#374151',
+                            color: fontStyle === key ? '#93C5FD' : '#D1D5DB',
                           }}
                         >
                           {info.sample}
                         </span>
-                        <span style={{ fontSize: '0.7rem', fontWeight: 600, color: fontStyle === key ? '#1D4ED8' : '#374151' }}>
+                        <span style={{ fontSize: '0.7rem', fontWeight: 600, color: fontStyle === key ? '#93C5FD' : 'rgba(255,255,255,0.7)' }}>
                           {info.label}
                         </span>
-                        <span style={{ fontSize: '0.65rem', color: '#9CA3AF' }}>{info.desc}</span>
+                        <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.5)' }}>{info.desc}</span>
                       </button>
                     ))}
                   </div>
                 </div>
 
                 {/* Layout Style */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-                  <h3 className="text-gray-900 mb-4 flex items-center gap-2" style={{ fontWeight: 600 }}>
-                    <Layout className="w-4 h-4 text-green-500" /> Layout Style
+                <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 p-5">
+                  <h3 className="text-white mb-4 flex items-center gap-2" style={{ fontWeight: 600 }}>
+                    <Layout className="w-4 h-4 text-green-400" /> Layout Style
                   </h3>
                   <div className="grid grid-cols-3 gap-2">
                     {Object.entries(layoutStyleInfo).map(([key, info]) => (
@@ -632,29 +636,29 @@ export default function AppCustomization() {
                         key={key}
                         onClick={() => setLayoutStyle(key)}
                         className={`p-3 rounded-xl border-2 flex flex-col items-center gap-1 transition-all ${
-                          layoutStyle === key ? 'border-blue-600 bg-blue-50' : 'border-gray-200 hover:border-gray-300'
+                          layoutStyle === key ? 'border-green-400 bg-green-500/20' : 'border-white/20 hover:border-white/30'
                         }`}
                       >
                         <span style={{ fontSize: '1.3rem' }}>{info.icon}</span>
-                        <span style={{ fontSize: '0.7rem', fontWeight: 600, color: layoutStyle === key ? '#1D4ED8' : '#374151' }}>
+                        <span style={{ fontSize: '0.7rem', fontWeight: 600, color: layoutStyle === key ? '#86EFAC' : 'rgba(255,255,255,0.7)' }}>
                           {info.label}
                         </span>
-                        <span style={{ fontSize: '0.65rem', color: '#9CA3AF' }}>{info.desc}</span>
+                        <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.5)' }}>{info.desc}</span>
                       </button>
                     ))}
                   </div>
                 </div>
 
                 {/* Button Style */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-                  <h3 className="text-gray-900 mb-4" style={{ fontWeight: 600 }}>Button Style</h3>
+                <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 p-5">
+                  <h3 className="text-white mb-4" style={{ fontWeight: 600 }}>Button Style</h3>
                   <div className="flex gap-3">
                     {(['rounded', 'pill', 'square'] as const).map(style => (
                       <button
                         key={style}
                         onClick={() => setButtonStyle(style)}
                         className={`flex-1 py-2 border-2 transition-all text-sm ${
-                          buttonStyle === style ? 'border-blue-600 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                          buttonStyle === style ? 'border-blue-400 bg-blue-500/20 text-blue-200' : 'border-white/20 text-white/70 hover:border-white/30'
                         }`}
                         style={{
                           borderRadius: style === 'pill' ? '9999px' : style === 'square' ? '6px' : '10px',
@@ -673,12 +677,12 @@ export default function AppCustomization() {
           {/* Right: Live Preview */}
           <div className="lg:col-span-2">
             <div className="sticky top-6">
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+              <div className="bg-white/10 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 p-6">
                 <div className="flex items-center justify-between mb-5">
-                  <h3 className="text-gray-900" style={{ fontWeight: 600 }}>Live Preview</h3>
+                  <h3 className="text-white" style={{ fontWeight: 600 }}>Live Preview</h3>
                   <div className="flex items-center gap-1.5">
-                    <Eye className="w-4 h-4 text-gray-400" />
-                    <span className="text-xs text-gray-400">Updates live</span>
+                    <Eye className="w-4 h-4 text-white/40" />
+                    <span className="text-xs text-white/50">Updates live</span>
                   </div>
                 </div>
                 <PhonePreview preset={livePreset} appName={appName} category={category} />
@@ -687,18 +691,18 @@ export default function AppCustomization() {
                 {selectedPresetId && (
                   <div
                     className="mt-5 p-3 rounded-xl border"
-                    style={{ backgroundColor: livePreset.primary + '08', borderColor: livePreset.primary + '30' }}
+                    style={{ backgroundColor: 'rgba(59, 130, 246, 0.15)', borderColor: 'rgba(59, 130, 246, 0.3)' }}
                   >
                     <div className="flex items-center gap-2 mb-1">
                       <div className="w-3 h-3 rounded-full" style={{ backgroundColor: livePreset.primary }} />
                       <span className="text-sm" style={{ fontWeight: 600, color: livePreset.primary }}>
                         {presets.find(p => p.id === selectedPresetId)?.name ?? 'Custom'}
                       </span>
-                      <Badge variant="secondary" className="text-xs ml-auto">
+                      <Badge className="text-xs ml-auto bg-white/20 text-white border-white/30">
                         {livePreset.theme === 'dark' ? '🌙 Dark' : '☀️ Light'}
                       </Badge>
                     </div>
-                    <p className="text-xs text-gray-500">{livePreset.mood}</p>
+                    <p className="text-xs text-white/60">{livePreset.mood}</p>
                   </div>
                 )}
               </div>
@@ -710,7 +714,7 @@ export default function AppCustomization() {
         <div className="mt-8 flex justify-center">
           <Button
             onClick={handleContinue}
-            className="gap-2 px-12 py-6 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white"
+            className="gap-2 px-12 py-6 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
             style={{ fontSize: '1rem' }}
           >
             Preview Your App <ChevronRight className="w-4 h-4" />

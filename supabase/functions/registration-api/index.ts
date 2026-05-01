@@ -56,31 +56,45 @@ Deno.serve(async (req) => {
   }
 
   const url = new URL(req.url);
+  const action = url.searchParams.get('action');
   const path = url.pathname;
 
   try {
-    // POST /register/submit - Save complete registration
-    if (path === '/register/submit' && req.method === 'POST') {
+    // Support both path-based and query-param routing
+    // Path-based (from URL like /register/submit)
+    // Query-param (from URL like ?action=submit)
+
+    // Path-based routing (parts after /registration-api)
+    if (path.includes('/submit') && req.method === 'POST') {
       return await handleRegistrationSubmit(req);
     }
-
-    // POST /register/validate-email - Check email availability
-    if (path === '/register/validate-email' && req.method === 'POST') {
+    if (path.includes('/validate-email') && req.method === 'POST') {
       return await handleEmailValidation(req);
     }
-
-    // POST /register/create-business - Create business account
-    if (path === '/register/create-business' && req.method === 'POST') {
+    if (path.includes('/create-business') && req.method === 'POST') {
       return await handleCreateBusiness(req);
     }
-
-    // GET /register/presets/:category - Get design presets
-    if (path.startsWith('/register/presets/') && req.method === 'GET') {
-      const category = path.split('/')[3];
+    if (path.includes('/presets/') && req.method === 'GET') {
+      const category = path.split('/presets/')[1] || url.searchParams.get('category');
       return await handleGetPresets(category);
     }
 
-    return new Response(JSON.stringify({ error: 'Not found' }), {
+    // Query parameter routing
+    if (action === 'submit' && req.method === 'POST') {
+      return await handleRegistrationSubmit(req);
+    }
+    if (action === 'validate-email' && req.method === 'POST') {
+      return await handleEmailValidation(req);
+    }
+    if (action === 'create-business' && req.method === 'POST') {
+      return await handleCreateBusiness(req);
+    }
+    if (action === 'presets' && req.method === 'GET') {
+      const category = url.searchParams.get('category');
+      return await handleGetPresets(category);
+    }
+
+    return new Response(JSON.stringify({ error: 'Not found. Use ?action=submit|validate-email|create-business|presets' }), {
       status: 404,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });

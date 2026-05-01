@@ -70,7 +70,7 @@ export default function BusinessGoals() {
         </div>
 
         <Button
-          onClick={() => navigate('/details')}
+          onClick={() => navigate('/register/details')}
           disabled={selectedGoals.length === 0}
           className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-6 text-lg"
         >
