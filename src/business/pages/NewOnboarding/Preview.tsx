@@ -2,15 +2,18 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/app/components/ui/button';
 import { Badge } from '@/app/components/ui/badge';
-import { getAppData } from '@/business/utils/onboarding/appState';
+import { getAppData, clearAppData } from '@/business/utils/onboarding/appState';
 import { getPresetById, categoryData } from '@/business/utils/onboarding/categoryStyles';
-import { Monitor, Smartphone, ArrowLeft, Rocket, CheckCircle2 } from 'lucide-react';
+import { submitRegistration } from '@/business/lib/registrationAPI';
+import { Monitor, Smartphone, ArrowLeft, Rocket, CheckCircle2, Loader2 } from 'lucide-react';
 
 export default function Preview() {
   const navigate = useNavigate();
   const [viewMode, setViewMode] = useState<'mobile' | 'desktop'>('mobile');
   const [appData, setAppData] = useState<any>(null);
   const [preset, setPreset] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const data = getAppData();
@@ -19,6 +22,30 @@ export default function Preview() {
       setPreset(getPresetById(data.category, data.stylePresetId));
     }
   }, []);
+
+  const handleLaunch = async () => {
+    if (!appData) return;
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const result = await submitRegistration(appData);
+      console.log('Registration submitted:', result);
+
+      // Clear stored data and redirect to dashboard
+      clearAppData();
+
+      // TODO: Redirect to email verification or dashboard
+      navigate('/dashboard');
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to submit registration';
+      setError(errorMessage);
+      console.error('Launch error:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   if (!appData) return null;
 
@@ -298,18 +325,40 @@ export default function Preview() {
           </div>
         </div>
 
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm">
+            {error}
+          </div>
+        )}
+
         {/* CTA */}
         <div className="flex gap-4 justify-center mt-10">
-          <Button variant="outline" onClick={() => navigate('/customize')} className="px-8 py-5 gap-2">
+          <Button
+            variant="outline"
+            onClick={() => navigate('/customize')}
+            className="px-8 py-5 gap-2"
+            disabled={isLoading}
+          >
             ← Edit Design
           </Button>
           <Button
-            onClick={() => navigate('/dashboard')}
+            onClick={handleLaunch}
+            disabled={isLoading}
             className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-5 gap-2"
             style={{ fontSize: '1rem' }}
           >
-            <Rocket className="w-5 h-5" />
-            Go Live! 🚀
+            {isLoading ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                Launching...
+              </>
+            ) : (
+              <>
+                <Rocket className="w-5 h-5" />
+                Go Live! 🚀
+              </>
+            )}
           </Button>
         </div>
       </div>

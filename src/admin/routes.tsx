@@ -70,5 +70,5 @@ export const adminRouter = createBrowserRouter(
       element: <Root />,
     },
   ],
-  { basename: import.meta.env.PROD ? '/admin' : '/admin.html' }
+  { basename: '/admin' }
 );

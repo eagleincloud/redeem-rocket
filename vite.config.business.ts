@@ -18,12 +18,7 @@ function serveBusinessHtml(): Plugin {
         const lastSegment = url.split('?')[0].split('/').pop() ?? '';
         const isAsset = lastSegment.includes('.') && !lastSegment.endsWith('.html');
         if (isViteInternal || isAsset) return next();
-        // Redirect bare root to /business.html so the React Router basename matches
-        if (url === '/' || url === '') {
-          res.writeHead(302, { Location: '/business.html' });
-          res.end();
-          return;
-        }
+        // Serve business.html for all SPA routes (no redirect, just serve the file)
         try {
           const raw = fs.readFileSync(htmlPath, 'utf-8');
           const html = await server.transformIndexHtml(url, raw, req.originalUrl);
