@@ -4,15 +4,13 @@ import React from 'react';
 import { BusinessProvider } from './context/BusinessContext';
 import { ThemeProvider } from '@/app/context/ThemeContext';
 import { BusinessLayout } from './components/BusinessLayout';
-import { SmartOnboarding } from "./components/SmartOnboarding";
-import { DashboardGuard, OnboardingGuard } from './components/RouteGuards';
+import { DashboardGuard } from './components/RouteGuards';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ErrorElement } from './components/ErrorElement';
 import { LandingPage } from './pages/LandingPage';
 import { BusinessWebsitePage } from './pages/BusinessWebsitePage';
 import { DashboardPage } from './components/DashboardPage';
 import { LoginPage } from './pages/LoginPage';
-import { SignupPage } from './pages/SignupPage';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
 import { EmailVerificationPage } from '@/app/components/EmailVerificationPage';
 import { ProductsPage } from './components/ProductsPage';
@@ -35,7 +33,6 @@ import { LeadsPage } from './components/LeadsPage';
 import { OutreachPage } from './components/OutreachPage';
 import { TeamPage } from './components/TeamPage';
 import { RBACProvider } from './context/RBACContext';
-import { StartPage } from './pages/StartPage';
 import { EmailSetupPage } from './components/EmailSetupPage';
 import { ConnectorsPage } from './components/ConnectorsPage';
 import { AutomationPage } from './components/AutomationPage';
@@ -66,31 +63,6 @@ import AppCustomization from './pages/NewOnboarding/AppCustomization';
 import Preview from './pages/NewOnboarding/Preview';
 
 // ── Loading Fallback Components ─────────────────────────────────────────────
-function OnboardingFallback() {
-  return (
-    <div style={{
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      background: '#0a0e27',
-      color: '#ffffff',
-      fontSize: '16px',
-    }}>
-      <div style={{ textAlign: 'center' }}>
-        <div style={{ fontSize: '32px', marginBottom: '16px', animation: 'spin 1s linear infinite' }}>⚙️</div>
-        <p>Loading onboarding...</p>
-      </div>
-      <style>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
-    </div>
-  );
-}
-
 function RouteLoadingFallback() {
   return (
     <div style={{
@@ -110,12 +82,6 @@ function RouteLoadingFallback() {
 }
 
 // ── Lazy-loaded Components ──────────────────────────────────────────────────
-const LazySmartOnboarding = lazy(() =>
-  import('./components/SmartOnboarding').then(mod => ({
-    default: mod.SmartOnboarding,
-  }))
-);
-
 // Automation feature routes - lazy loaded for performance
 const LazyRuleList = lazy(() =>
   import('./components/Automation/RuleList').then(mod => ({
@@ -192,23 +158,6 @@ function Root() {
   );
 }
 
-// ── Onboarding Root with Lazy Loading ────────────────────────────────────────
-function OnboardingRoot() {
-  return (
-    <ThemeProvider>
-      <BusinessProvider>
-        <ErrorBoundary>
-          <OnboardingGuard>
-            <Suspense fallback={<OnboardingFallback />}>
-              <LazySmartOnboarding />
-            </Suspense>
-          </OnboardingGuard>
-        </ErrorBoundary>
-      </BusinessProvider>
-    </ThemeProvider>
-  );
-}
-
 // ── New Onboarding Wrapper (from design system) ────────────────────────────────
 function NewOnboardingWelcomeRoot() {
   return (
@@ -272,18 +221,6 @@ function NewLoginRoot() {
   );
 }
 
-function SignupRoot() {
-  return (
-    <ThemeProvider>
-      <BusinessProvider>
-        <ErrorBoundary>
-          <SignupPage />
-        </ErrorBoundary>
-      </BusinessProvider>
-    </ThemeProvider>
-  );
-}
-
 function ForgotPasswordRoot() {
   return (
     <ThemeProvider>
@@ -318,18 +255,6 @@ function BusinessWebsiteRoot() {
   );
 }
 
-function StartPageRoot() {
-  return (
-    <ThemeProvider>
-      <BusinessProvider>
-        <ErrorBoundary>
-          <StartPage />
-        </ErrorBoundary>
-      </BusinessProvider>
-    </ThemeProvider>
-  );
-}
-
 export const router = createBrowserRouter(
   [
   {
@@ -340,11 +265,6 @@ export const router = createBrowserRouter(
   {
     path: '/login',
     element: <NewLoginRoot />,
-    errorElement: <ErrorElement />,
-  },
-  {
-    path: '/signup',
-    element: <SignupRoot />,
     errorElement: <ErrorElement />,
   },
   {
@@ -385,24 +305,6 @@ export const router = createBrowserRouter(
     errorElement: <ErrorElement />,
   },
 
-  // Redirect /onboarding to /business/onboarding
-  {
-    path: '/onboarding',
-    element: <Navigate to="/business/onboarding" replace />,
-    errorElement: <ErrorElement />,
-  },
-  // Smart Onboarding route (protected, lazy-loaded)
-  // Supports query params: ?skipOnboarding=true, ?onboardingPhase=N (for development)
-  {
-    path: '/business/onboarding',
-    element: <OnboardingRoot />,
-    errorElement: <ErrorElement />,
-  },
-  {
-    path: '/start',
-    element: <StartPageRoot />,
-    errorElement: <ErrorElement />,
-  },
   {
     path: '/app',
     element: <Root />,
