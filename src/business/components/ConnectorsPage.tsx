@@ -87,18 +87,18 @@ export function ConnectorsPage() {
   // Create/Edit View
   if (mode !== 'list' && type) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen py-8" style={{ background: 'var(--bg-dark, #0B1220)' }}>
         <div className="max-w-4xl mx-auto px-4">
           <button
             onClick={handleCancel}
-            className="flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-6 font-medium"
+            className="flex items-center gap-2 text-orange-400 hover:text-orange-300 mb-6 font-medium transition-colors"
           >
             <ArrowLeft size={20} />
             Back to Connectors
           </button>
 
-          <div className="bg-white rounded-lg shadow-lg p-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-8">
+          <div className="bg-white bg-opacity-8 backdrop-blur-xl rounded-xl shadow-2xl p-8 border border-white border-opacity-15">
+            <h1 className="text-3xl font-bold text-white mb-8">
               {mode === 'edit' ? `Edit ${selectedConnector?.connector_name}` : `Set up ${type === 'webhook' ? 'Webhook' : type === 'ivr' ? 'IVR' : type === 'database' ? 'Database' : 'Social'} Connector`}
             </h1>
 
@@ -146,7 +146,7 @@ export function ConnectorsPage() {
 
   // List View
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen py-8" style={{ background: 'var(--bg-dark, #0B1220)' }}>
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">

@@ -6,6 +6,7 @@
 
 import React, { useState, useCallback, useMemo } from 'react';
 import { ChevronLeft, ChevronRight, Save, AlertCircle } from 'lucide-react';
+import { useViewport } from '../../hooks/useViewport';
 import type {
   AutomationRule,
   Condition,
@@ -37,6 +38,7 @@ interface ActionFormData {
 }
 
 export const RuleBuilder: React.FC<RuleBuilderProps> = ({ initialRule, onSave, onCancel }) => {
+  const { isMobile } = useViewport();
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
   const [loading, setLoading] = useState(false);
 
@@ -434,41 +436,51 @@ export const RuleBuilder: React.FC<RuleBuilderProps> = ({ initialRule, onSave, o
   }, [currentStep, formData, conditions, actions, actionFormData, errors]);
 
   return (
-    <div className="rule-builder-container">
-      {/* Step Indicator */}
-      <div className="step-indicator">
-        {[1, 2, 3, 4].map((step) => (
-          <div
-            key={step}
-            className={`step-item ${step === currentStep ? 'active' : ''} ${
-              step < currentStep ? 'completed' : ''
-            }`}
-          >
-            <div className="step-number">{step}</div>
-            <div className="step-label">
-              {['Info', 'Trigger', 'Conditions', 'Actions'][step - 1]}
-            </div>
+    <div className={`rule-builder-container ${isMobile ? 'mobile-wizard' : ''}`}>
+      {/* Step Indicator / Progress Bar */}
+      <div className={`step-indicator ${isMobile ? 'mobile-progress' : ''}`}>
+        {isMobile ? (
+          // Mobile: Simple progress bar
+          <div className="progress-bar">
+            <div className="progress-fill" style={{ width: `${(currentStep / 4) * 100}%` }}></div>
+            <span className="progress-text">{currentStep}/4</span>
           </div>
-        ))}
+        ) : (
+          // Desktop: Full step indicator
+          [1, 2, 3, 4].map((step) => (
+            <div
+              key={step}
+              className={`step-item ${step === currentStep ? 'active' : ''} ${
+                step < currentStep ? 'completed' : ''
+              }`}
+            >
+              <div className="step-number">{step}</div>
+              <div className="step-label">
+                {['Info', 'Trigger', 'Conditions', 'Actions'][step - 1]}
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
       {/* Form Content */}
       <div className="form-content">{stepContent}</div>
 
       {/* Navigation Buttons */}
-      <div className="form-actions">
-        <button
-          className="btn btn-secondary"
-          onClick={handlePrevious}
-          disabled={currentStep === 1}
-        >
-          <ChevronLeft size={16} />
-          Previous
-        </button>
+      <div className={`form-actions ${isMobile ? 'mobile-actions' : ''}`}>
+        {currentStep > 1 && (
+          <button
+            className="btn btn-secondary"
+            onClick={handlePrevious}
+          >
+            <ChevronLeft size={16} />
+            {!isMobile && 'Previous'}
+          </button>
+        )}
 
         {currentStep < 4 && (
           <button className="btn btn-primary" onClick={handleNext}>
-            Next
+            {!isMobile && 'Next'}
             <ChevronRight size={16} />
           </button>
         )}
@@ -480,13 +492,13 @@ export const RuleBuilder: React.FC<RuleBuilderProps> = ({ initialRule, onSave, o
             disabled={loading}
           >
             <Save size={16} />
-            {loading ? 'Saving...' : 'Save Rule'}
+            {loading ? 'Saving...' : 'Save'}
           </button>
         )}
 
         {onCancel && (
           <button className="btn btn-outline" onClick={onCancel}>
-            Cancel
+            {isMobile ? 'Close' : 'Cancel'}
           </button>
         )}
       </div>

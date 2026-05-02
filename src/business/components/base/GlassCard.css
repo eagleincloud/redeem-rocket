@@ -1,0 +1,107 @@
+/**
+ * GlassCard Styles
+ * Dark glassmorphic design system
+ */
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  transition: all var(--transition-base, 200ms ease-in-out);
+}
+
+/* Padding variants */
+.glass-card--sm {
+  padding: 12px;
+}
+
+.glass-card--md {
+  padding: 16px;
+}
+
+.glass-card--lg {
+  padding: 24px;
+}
+
+/* Visual variants */
+.glass-card--default {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.glass-card--hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(255, 158, 100, 0.15);
+}
+
+.glass-card--active {
+  background: rgba(255, 158, 100, 0.1);
+  border-color: rgba(255, 158, 100, 0.3);
+  box-shadow: 0 0 20px rgba(255, 158, 100, 0.25);
+}
+
+/* Interactive states */
+.glass-card[role='button'] {
+  cursor: pointer;
+}
+
+.glass-card[role='button']:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.glass-card[role='button']:focus-visible {
+  outline: 2px solid rgba(255, 158, 100, 0.5);
+  outline-offset: 2px;
+}
+
+/* Dark mode support (explicit) */
+@media (prefers-color-scheme: dark) {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .glass-card--default {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .glass-card--hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .glass-card--active {
+    background: rgba(255, 158, 100, 0.1);
+    border-color: rgba(255, 158, 100, 0.3);
+  }
+}
+
+/* Light mode support */
+@media (prefers-color-scheme: light) {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  .glass-card--default {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  .glass-card--hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(0, 0, 0, 0.12);
+    box-shadow: 0 0 20px rgba(255, 158, 100, 0.1);
+  }
+
+  .glass-card--active {
+    background: rgba(255, 158, 100, 0.08);
+    border-color: rgba(255, 158, 100, 0.25);
+  }
+}

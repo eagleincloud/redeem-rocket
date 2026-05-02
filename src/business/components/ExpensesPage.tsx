@@ -90,7 +90,7 @@ const ExpensesPage: React.FC = () => {
       </div>
 
       {error && (
-        <div className="bg-red-900 border border-red-700 rounded-lg p-4 flex items-start gap-4 mb-6">
+        <div className="bg-red-500 bg-opacity-15 border border-red-500 border-opacity-30 rounded-lg p-4 flex items-start gap-4 mb-6 backdrop-blur-xl">
           <AlertCircle className="text-red-400" />
           <div>
             <h3 className="font-semibold text-red-200">Error</h3>
@@ -101,37 +101,37 @@ const ExpensesPage: React.FC = () => {
 
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-gray-800 rounded-lg shadow-xl max-w-md w-full p-6">
+          <div className="bg-white bg-opacity-8 backdrop-blur-xl rounded-xl shadow-2xl max-w-md w-full p-6 border border-white border-opacity-15">
             <h2 className="text-xl font-bold text-white mb-4">Add Expense</h2>
             <form onSubmit={handleCreateExpense} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
+                <label className="block text-sm font-medium text-white text-opacity-90 mb-2">Description</label>
                 <input
                   type="text"
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
+                  className="w-full bg-white bg-opacity-8 border border-white border-opacity-15 rounded-lg px-4 py-2 text-white backdrop-blur-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-20 outline-none transition-all"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Amount</label>
+                <label className="block text-sm font-medium text-white text-opacity-90 mb-2">Amount</label>
                 <input
                   type="number"
                   value={formData.amount}
                   onChange={(e) => setFormData({ ...formData, amount: parseFloat(e.target.value) })}
-                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
+                  className="w-full bg-white bg-opacity-8 border border-white border-opacity-15 rounded-lg px-4 py-2 text-white backdrop-blur-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-20 outline-none transition-all"
                   step="0.01"
                   min="0"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Category</label>
+                <label className="block text-sm font-medium text-white text-opacity-90 mb-2">Category</label>
                 <select
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value as ExpenseCategory })}
-                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
+                  className="w-full bg-white bg-opacity-8 border border-white border-opacity-15 rounded-lg px-4 py-2 text-white backdrop-blur-xl focus:border-orange-500 focus:ring-2 focus:ring-orange-500 focus:ring-opacity-20 outline-none transition-all"
                 >
                   {EXPENSE_CATEGORIES.map(cat => (
                     <option key={cat} value={cat}>{cat.charAt(0).toUpperCase() + cat.slice(1)}</option>
@@ -142,13 +142,13 @@ const ExpensesPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowForm(false)}
-                  className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium"
+                  className="flex-1 px-4 py-2 bg-white bg-opacity-10 hover:bg-opacity-15 text-white rounded-lg font-medium border border-white border-opacity-15 transition-all"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium"
+                  className="flex-1 px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg font-medium transition-all hover:shadow-lg hover:shadow-orange-500/30"
                 >
                   Add
                 </button>
@@ -160,38 +160,38 @@ const ExpensesPage: React.FC = () => {
 
       {loading ? (
         <div className="flex items-center justify-center h-64">
-          <p className="text-gray-400">Loading expenses...</p>
+          <p className="text-white text-opacity-70">Loading expenses...</p>
         </div>
       ) : expenses.length === 0 ? (
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-12 text-center">
-          <p className="text-gray-400 mb-4">No expenses found</p>
+        <div className="bg-white bg-opacity-8 backdrop-blur-xl border border-white border-opacity-15 rounded-lg p-12 text-center">
+          <p className="text-white text-opacity-70 mb-4">No expenses found</p>
           <button
             onClick={() => setShowForm(true)}
-            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium"
+            className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-4 py-2 rounded-lg font-medium transition-all hover:shadow-lg hover:shadow-orange-500/30"
           >
             Add Your First Expense
           </button>
         </div>
       ) : (
-        <div className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden">
+        <div className="bg-white bg-opacity-8 backdrop-blur-xl border border-white border-opacity-15 rounded-lg overflow-hidden">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-gray-700 bg-gray-900">
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-200">Description</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-200">Category</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-200">Amount</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-200">Date</th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-200">Status</th>
+              <tr className="border-b border-white border-opacity-10 bg-white bg-opacity-5">
+                <th className="px-6 py-4 text-left text-sm font-semibold text-white text-opacity-90">Description</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-white text-opacity-90">Category</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-white text-opacity-90">Amount</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-white text-opacity-90">Date</th>
+                <th className="px-6 py-4 text-left text-sm font-semibold text-white text-opacity-90">Status</th>
               </tr>
             </thead>
             <tbody>
               {expenses.map((expense) => (
-                <tr key={expense.id} className="border-b border-gray-700 hover:bg-gray-700">
+                <tr key={expense.id} className="border-b border-white border-opacity-10 hover:bg-white hover:bg-opacity-10 transition-colors">
                   <td className="px-6 py-4 text-sm text-white">{expense.description}</td>
-                  <td className="px-6 py-4 text-sm text-gray-300">{expense.category}</td>
+                  <td className="px-6 py-4 text-sm text-white text-opacity-70">{expense.category}</td>
                   <td className="px-6 py-4 text-sm text-white">${expense.amount.toFixed(2)}</td>
-                  <td className="px-6 py-4 text-sm text-gray-300">{new Date(expense.date).toLocaleDateString()}</td>
-                  <td className="px-6 py-4 text-sm"><span className="bg-green-900 text-green-200 px-2 py-1 rounded text-xs">{expense.status}</span></td>
+                  <td className="px-6 py-4 text-sm text-white text-opacity-70">{new Date(expense.date).toLocaleDateString()}</td>
+                  <td className="px-6 py-4 text-sm"><span className="bg-green-500 bg-opacity-20 text-green-200 px-2 py-1 rounded text-xs border border-green-500 border-opacity-30">{expense.status}</span></td>
                 </tr>
               ))}
             </tbody>

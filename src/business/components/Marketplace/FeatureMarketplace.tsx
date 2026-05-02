@@ -116,15 +116,15 @@ export const FeatureMarketplace = memo(function FeatureMarketplace({
 
   // Render
   return (
-    <div className="flex h-full flex-col bg-gray-50">
+    <div className="flex h-full flex-col" style={{ background: 'var(--bg-dark, #0B1220)' }}>
       {/* Header */}
-      <div className="border-b border-gray-200 bg-white p-6">
+      <div className="border-b border-white border-opacity-10 bg-white bg-opacity-8 backdrop-blur-xl p-6">
         <div className="mb-4 flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-gray-900">Feature Marketplace</h1>
+          <h1 className="text-3xl font-bold text-white">Feature Marketplace</h1>
           {activeTab === 'browse' && (
             <button
               onClick={() => setShowRequestForm(true)}
-              className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
+              className="flex items-center gap-2 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 px-4 py-2 font-medium text-white transition-all hover:shadow-lg hover:shadow-orange-500/30"
             >
               <Plus className="h-4 w-4" />
               Request Feature
@@ -133,13 +133,13 @@ export const FeatureMarketplace = memo(function FeatureMarketplace({
         </div>
 
         {/* Tabs */}
-        <div className="mb-4 flex gap-4 border-b border-gray-200 pb-0">
+        <div className="mb-4 flex gap-4 border-b border-white border-opacity-10 pb-0">
           <button
             onClick={() => setActiveTab('browse')}
             className={`px-4 py-2 font-medium transition-colors ${
               activeTab === 'browse'
-                ? 'border-b-2 border-blue-600 text-blue-600'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'border-b-2 border-orange-500 text-orange-400'
+                : 'text-white text-opacity-70 hover:text-opacity-90'
             }`}
           >
             Browse Features

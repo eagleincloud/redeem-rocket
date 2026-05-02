@@ -55,6 +55,7 @@
   --secondary-foreground: var(--text);
   --muted:              var(--bg3);
   --muted-foreground:   var(--text2);
+  --accent:             var(--accent);
   --accent-foreground:  var(--text);
   --destructive:        var(--red);
   --destructive-foreground: #fff;
@@ -65,6 +66,10 @@
   --radius: 0.625rem;
   --font-weight-medium: 500;
   --font-weight-normal:  400;
+
+  /* New shadcn/ui tokens for light mode */
+  --border: rgba(255,140,80,0.10);
+  --input-border: rgba(255,140,80,0.10);
 
   /* Chart colours */
   --chart-1: #ff6b35;

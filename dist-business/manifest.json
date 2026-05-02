@@ -1,0 +1,75 @@
+{
+  "name": "Redeem Rocket",
+  "short_name": "Redeem",
+  "description": "Comprehensive business management platform for orders, campaigns, and customer relations",
+  "start_url": "/app",
+  "scope": "/app",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0B1220",
+  "theme_color": "#FF9E64",
+  "categories": ["business", "productivity"],
+  "screenshots": [
+    {
+      "src": "/screenshots/screenshot-1-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshots/screenshot-1-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192x192-maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512x512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "View your business dashboard",
+      "url": "/app?shortcut=dashboard",
+      "icons": [{ "src": "/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "Leads",
+      "short_name": "Leads",
+      "description": "Manage your sales leads",
+      "url": "/app/leads?shortcut=leads",
+      "icons": [{ "src": "/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "Campaigns",
+      "short_name": "Campaigns",
+      "description": "Manage marketing campaigns",
+      "url": "/app/campaigns?shortcut=campaigns",
+      "icons": [{ "src": "/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
+    }
+  ]
+}

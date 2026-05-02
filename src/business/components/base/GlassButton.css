@@ -1,0 +1,132 @@
+/**
+ * GlassButton Styles
+ * Dark glassmorphic button design
+ */
+
+.glass-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition-base, 200ms ease-in-out);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Size variants */
+.glass-button--sm {
+  padding: 8px 16px;
+  font-size: 0.875rem;
+}
+
+.glass-button--md {
+  padding: 10px 20px;
+  font-size: 1rem;
+}
+
+.glass-button--lg {
+  padding: 12px 24px;
+  font-size: 1.125rem;
+}
+
+/* Primary variant */
+.glass-button--primary {
+  background: linear-gradient(135deg, #FF9E64 0%, #FFAB61 100%);
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(255, 158, 100, 0.2);
+}
+
+.glass-button--primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #FF8C3A 0%, #FF9E64 100%);
+  box-shadow: 0 0 30px rgba(255, 158, 100, 0.35);
+  transform: translateY(-2px);
+}
+
+.glass-button--primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Secondary variant */
+.glass-button--secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #F1F5F9;
+  border: 1px solid rgba(255, 158, 100, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.glass-button--secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 158, 100, 0.5);
+  box-shadow: 0 0 20px rgba(255, 158, 100, 0.15);
+}
+
+/* Danger variant */
+.glass-button--danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: #FCA5A5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.glass-button--danger:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: rgba(239, 68, 68, 0.5);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+}
+
+/* Disabled state */
+.glass-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Loading spinner */
+.glass-button__spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: glass-button__spin 0.8s linear infinite;
+}
+
+@keyframes glass-button__spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Light mode support */
+@media (prefers-color-scheme: light) {
+  .glass-button--primary {
+    background: linear-gradient(135deg, #FF9E64 0%, #FFAB61 100%);
+    color: #ffffff;
+  }
+
+  .glass-button--secondary {
+    background: rgba(0, 0, 0, 0.05);
+    color: #1F2937;
+    border-color: rgba(255, 158, 100, 0.2);
+  }
+
+  .glass-button--secondary:hover:not(:disabled) {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(255, 158, 100, 0.4);
+  }
+
+  .glass-button--danger {
+    background: rgba(239, 68, 68, 0.1);
+    color: #DC2626;
+    border-color: rgba(239, 68, 68, 0.2);
+  }
+
+  .glass-button--danger:hover:not(:disabled) {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.35);
+  }
+}

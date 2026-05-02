@@ -11,3 +11,6 @@ export * from './onboarding-errors';
 
 // ── Help Content (existing) ─────────────────────────────────────────────────
 export * from './helpContent';
+
+// ── Permission & RBAC Utilities (new) ───────────────────────────────────────
+export * from './permissionHelpers';

@@ -38,6 +38,7 @@ import { ConnectorsPage } from './components/ConnectorsPage';
 import { AutomationPage } from './components/AutomationPage';
 import { SocialPage } from './components/SocialPage';
 import PipelineBoard from './components/Pipeline/PipelineBoard';
+import { ManagerDashboard } from './components/ManagerPortal';
 import PipelinesPage from './components/PipelinesPage';
 import { FeatureGuard, AuthGuard } from './guards/FeatureGuards';
 import { FinancePage } from './components/FinancePage';
@@ -55,12 +56,30 @@ import { InventoryReportsPage } from './components/InventoryReportsPage';
 import { CustomizationSettings } from './components/Settings/CustomizationSettings';
 import { FeatureMarketplace } from './components/Marketplace/FeatureMarketplace';
 
+// ── PHASE 6: Advanced Analytics Components ──────────────────────────────────
+import { AnalyticsDashboard } from './pages/AnalyticsDashboard';
+import { TrendAnalysis } from './pages/TrendAnalysis';
+import { PredictiveAnalytics } from './pages/PredictiveAnalytics';
+
 // ── New Onboarding Components (from design) ────────────────────────────────────
 import Welcome from './pages/NewOnboarding/Welcome';
 import BusinessDetails from './pages/NewOnboarding/BusinessDetails';
 import FeatureSelection from './pages/NewOnboarding/FeatureSelection';
 import AppCustomization from './pages/NewOnboarding/AppCustomization';
 import Preview from './pages/NewOnboarding/Preview';
+
+// ── Layer 5: Actionable Dashboard Components ────────────────────────────────────
+import DashboardInsights from './pages/DashboardInsights';
+import BottleneckDetection from './pages/BottleneckDetection';
+import PerformanceAnalyzer from './pages/PerformanceAnalyzer';
+
+// ── Layer 7: AI + Manager Portal ─────────────────────────────────────────────
+import ManagerPortal from './pages/ManagerPortal';
+
+// ── PHASE 9: Multi-Tenancy & Role-Based Access Control ──────────────────────
+import { TeamRoleManager } from './pages/TeamRoleManager';
+import { TeamFeaturePermissions } from './pages/TeamFeaturePermissions';
+import { DepartmentPipelines } from './pages/DepartmentPipelines';
 
 // ── Loading Fallback Components ─────────────────────────────────────────────
 function RouteLoadingFallback() {
@@ -327,6 +346,12 @@ export const router = createBrowserRouter(
       { path: 'requirements',  element: <RequirementsManagePage />, errorElement: <ErrorElement /> },
       { path: 'wallet',        element: <BusinessWalletPage />, errorElement: <ErrorElement /> },
       { path: 'analytics',     element: <AnalyticsPage />, errorElement: <ErrorElement /> },
+
+      // ─── PHASE 6: Advanced Analytics Routes ──────────────────────────────
+      { path: 'analytics/advanced', element: <AnalyticsDashboard />, errorElement: <ErrorElement /> },
+      { path: 'analytics/trends', element: <TrendAnalysis />, errorElement: <ErrorElement /> },
+      { path: 'analytics/forecast', element: <PredictiveAnalytics />, errorElement: <ErrorElement /> },
+
       { path: 'grow',          element: <GrowthPage />, errorElement: <ErrorElement /> },
       { path: 'photos',        element: <PhotosPage />, errorElement: <ErrorElement /> },
       { path: 'profile',       element: <BusinessProfilePage />, errorElement: <ErrorElement /> },
@@ -350,6 +375,7 @@ export const router = createBrowserRouter(
       { path: 'inventory/orders', element: <PurchaseOrderPage />, errorElement: <ErrorElement /> },
       { path: 'inventory/reports', element: <InventoryReportsPage />, errorElement: <ErrorElement /> },
       { path: 'leads',         element: <LeadsPage />, errorElement: <ErrorElement /> },
+      { path: "manager", element: <ManagerPortal />, errorElement: <ErrorElement /> },
       { path: 'outreach',      element: <OutreachPage />, errorElement: <ErrorElement /> },
       { path: 'team',          element: <TeamPage />, errorElement: <ErrorElement /> },
       { path: 'email-setup',   element: <EmailSetupPage />, errorElement: <ErrorElement /> },
@@ -360,6 +386,11 @@ export const router = createBrowserRouter(
       { path: 'pipelines',     element: <PipelinesPage />, errorElement: <ErrorElement /> },
       { path: 'pipelines/:id', element: <PipelinesPage />, errorElement: <ErrorElement /> },
       { path: 'marketplace',   element: <FeatureMarketplace businessId="" />, errorElement: <ErrorElement /> },
+
+      // ─── LAYER 5: ACTIONABLE DASHBOARD ROUTES ──────────────────────────
+      { path: 'dashboard-insights', element: <DashboardInsights businessId="" />, errorElement: <ErrorElement /> },
+      { path: 'analytics/bottlenecks', element: <BottleneckDetection businessId="" />, errorElement: <ErrorElement /> },
+      { path: 'analytics/performance', element: <PerformanceAnalyzer businessId="" />, errorElement: <ErrorElement /> },
 
       // ─── AUTOMATION FEATURE ROUTES ──────────────────────────────────────
       {
@@ -432,6 +463,11 @@ export const router = createBrowserRouter(
           },
         ],
       },
+
+      // ─── PHASE 9: MULTI-TENANCY & RBAC ROUTES ──────────────────────────────
+      { path: 'team/roles', element: <TeamRoleManager />, errorElement: <ErrorElement /> },
+      { path: 'team/permissions', element: <TeamFeaturePermissions />, errorElement: <ErrorElement /> },
+      { path: 'team/departments', element: <DepartmentPipelines />, errorElement: <ErrorElement /> },
     ],
   },
   // Public business website page

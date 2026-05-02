@@ -55,9 +55,9 @@ export const CustomizationSettings: React.FC<CustomizationSettingsProps> = ({
   return (
     <div className="space-y-6">
       {/* Page Header */}
-      <div className="border-b border-gray-200 pb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Customization Settings</h1>
-        <p className="mt-2 text-gray-600">
+      <div className="border-b border-white border-opacity-10 pb-6">
+        <h1 className="text-3xl font-bold text-white">Customization Settings</h1>
+        <p className="mt-2 text-white text-opacity-70">
           Customize fields, pipelines, and permissions without code
         </p>
       </div>
@@ -85,10 +85,10 @@ export const CustomizationSettings: React.FC<CustomizationSettingsProps> = ({
 
         {/* Custom Fields Tab */}
         <TabsContent value="fields" className="mt-6 space-y-6">
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="bg-white bg-opacity-8 backdrop-blur-xl rounded-xl border border-white border-opacity-15 p-6">
             <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-900">Custom Fields</h2>
-              <p className="mt-1 text-gray-600">
+              <h2 className="text-xl font-semibold text-white">Custom Fields</h2>
+              <p className="mt-1 text-white text-opacity-70">
                 Add custom fields to your leads, contacts, deals, and other entities.
                 Fields are tailored to your business needs.
               </p>
@@ -100,10 +100,10 @@ export const CustomizationSettings: React.FC<CustomizationSettingsProps> = ({
 
         {/* Pipelines Tab */}
         <TabsContent value="pipelines" className="mt-6 space-y-6">
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="bg-white bg-opacity-8 backdrop-blur-xl rounded-xl border border-white border-opacity-15 p-6">
             <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-900">Pipeline Stages</h2>
-              <p className="mt-1 text-gray-600">
+              <h2 className="text-xl font-semibold text-white">Pipeline Stages</h2>
+              <p className="mt-1 text-white text-opacity-70">
                 Customize your sales pipeline stages. Add stages, change colors, and
                 configure what fields are required at each stage.
               </p>
@@ -111,10 +111,10 @@ export const CustomizationSettings: React.FC<CustomizationSettingsProps> = ({
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-white text-opacity-90 mb-2">
                   Select Pipeline
                 </label>
-                <select className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                <select className="w-full px-3 py-2 border border-white border-opacity-15 rounded-lg bg-white bg-opacity-8 backdrop-blur-xl text-white focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
                   <option>Sales Pipeline</option>
                   <option>Support Pipeline</option>
                   <option>Custom Pipeline</option>
@@ -167,12 +167,12 @@ export const CustomizationSettings: React.FC<CustomizationSettingsProps> = ({
 
         {/* Permissions Tab */}
         <TabsContent value="permissions" className="mt-6 space-y-6">
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="bg-white bg-opacity-8 backdrop-blur-xl rounded-xl border border-white border-opacity-15 p-6">
             <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-900">
+              <h2 className="text-xl font-semibold text-white">
                 Role Permissions
               </h2>
-              <p className="mt-1 text-gray-600">
+              <p className="mt-1 text-white text-opacity-70">
                 Control what different roles can do in your account. Set up granular
                 permissions for each entity type (leads, deals, invoices, etc.).
               </p>
@@ -184,10 +184,10 @@ export const CustomizationSettings: React.FC<CustomizationSettingsProps> = ({
 
         {/* Team Tab */}
         <TabsContent value="team" className="mt-6 space-y-6">
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <div className="bg-white bg-opacity-8 backdrop-blur-xl rounded-xl border border-white border-opacity-15 p-6">
             <div className="mb-6">
-              <h2 className="text-xl font-semibold text-gray-900">Team Members</h2>
-              <p className="mt-1 text-gray-600">
+              <h2 className="text-xl font-semibold text-white">Team Members</h2>
+              <p className="mt-1 text-white text-opacity-70">
                 Manage team members and assign them to roles. You can also override
                 permissions for specific users.
               </p>
@@ -195,9 +195,9 @@ export const CustomizationSettings: React.FC<CustomizationSettingsProps> = ({
 
             <div className="space-y-4">
               {/* Team Members List */}
-              <div className="border border-gray-200 rounded-lg overflow-hidden">
-                <div className="bg-gray-50 p-4 border-b border-gray-200">
-                  <div className="grid grid-cols-4 gap-4 font-semibold text-sm text-gray-900">
+              <div className="border border-white border-opacity-15 rounded-lg overflow-hidden">
+                <div className="bg-white bg-opacity-5 p-4 border-b border-white border-opacity-10">
+                  <div className="grid grid-cols-4 gap-4 font-semibold text-sm text-white text-opacity-90">
                     <div>Name</div>
                     <div>Email</div>
                     <div>Role</div>
@@ -228,23 +228,23 @@ export const CustomizationSettings: React.FC<CustomizationSettingsProps> = ({
                   ].map((member) => (
                     <div
                       key={member.id}
-                      className="p-4 border-t border-gray-200 hover:bg-gray-50"
+                      className="p-4 border-t border-white border-opacity-10 hover:bg-white hover:bg-opacity-10 transition-colors"
                     >
                       <div className="grid grid-cols-4 gap-4 items-center">
-                        <div className="font-medium text-gray-900">
+                        <div className="font-medium text-white">
                           {member.name}
                         </div>
-                        <div className="text-gray-600">{member.email}</div>
+                        <div className="text-white text-opacity-70">{member.email}</div>
                         <div>
-                          <span className="px-2 py-1 bg-blue-50 text-blue-700 text-sm rounded">
+                          <span className="px-2 py-1 bg-orange-500 bg-opacity-20 text-orange-200 text-sm rounded border border-orange-500 border-opacity-30">
                             {member.role}
                           </span>
                         </div>
                         <div className="flex gap-2">
-                          <button className="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 rounded border border-blue-200">
+                          <button className="px-3 py-1 text-sm text-orange-400 hover:bg-orange-500 hover:bg-opacity-20 rounded border border-orange-500 border-opacity-30 transition-colors">
                             Edit
                           </button>
-                          <button className="px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded border border-red-200">
+                          <button className="px-3 py-1 text-sm text-red-400 hover:bg-red-500 hover:bg-opacity-20 rounded border border-red-500 border-opacity-30 transition-colors">
                             Remove
                           </button>
                         </div>
@@ -254,7 +254,7 @@ export const CustomizationSettings: React.FC<CustomizationSettingsProps> = ({
                 </div>
               </div>
 
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+              <button className="px-4 py-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all hover:shadow-lg hover:shadow-orange-500/30">
                 Add Team Member
               </button>
             </div>
@@ -263,9 +263,9 @@ export const CustomizationSettings: React.FC<CustomizationSettingsProps> = ({
       </Tabs>
 
       {/* Help Section */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-        <h3 className="font-semibold text-blue-900 mb-2">Need Help?</h3>
-        <p className="text-blue-800 text-sm">
+      <div className="bg-orange-500 bg-opacity-15 border border-orange-500 border-opacity-30 rounded-lg p-6 backdrop-blur-xl">
+        <h3 className="font-semibold text-orange-200 mb-2">Need Help?</h3>
+        <p className="text-orange-100 text-sm">
           These settings help you customize your system without writing code. Changes
           take effect immediately for all team members.
         </p>
