@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/app/components/ui/button';
-import { Checkbox } from '@/app/components/ui/checkbox';
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Users, TrendingUp, Target, Megaphone, Award } from 'lucide-react';
+import OnboardingLayout from './OnboardingLayout';
 
 const goals = [
   { id: 'customers', label: 'Get New Customers', icon: Users },
@@ -17,66 +18,83 @@ export default function BusinessGoals() {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
 
   const toggleGoal = (goalId: string) => {
-    setSelectedGoals(prev =>
+    setSelectedGoals((prev) =>
       prev.includes(goalId)
-        ? prev.filter(id => id !== goalId)
+        ? prev.filter((id) => id !== goalId)
         : [...prev, goalId]
     );
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-4">
-      <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">
-          What do you want to achieve?
-        </h2>
-        <p className="text-gray-600 mb-8">
-          Select all that apply to get personalized feature recommendations
-        </p>
+    <OnboardingLayout step={2} totalSteps={5}>
+      <Card>
+        <CardHeader>
+          <h2 className="text-2xl font-bold text-foreground">What do you want to achieve?</h2>
+          <p className="text-sm text-muted-foreground mt-1">Select all that apply to get personalized feature recommendations</p>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col gap-4 mb-8">
+            {goals.map((goal) => {
+              const Icon = goal.icon;
+              const isSelected = selectedGoals.includes(goal.id);
 
-        <div className="space-y-4 mb-8">
-          {goals.map((goal) => {
-            const Icon = goal.icon;
-            const isSelected = selectedGoals.includes(goal.id);
+              return (
+                <div
+                  key={goal.id}
+                  onClick={() => toggleGoal(goal.id)}
+                  className={`flex items-center gap-6 p-4 rounded border cursor-pointer transition-all ${
+                    isSelected
+                      ? 'border-blue-600 bg-blue-500/5'
+                      : 'border-border bg-transparent hover:border-blue-400 hover:bg-blue-500/5'
+                  }`}
+                >
+                  {/* Checkbox */}
+                  <input
+                    type="checkbox"
+                    checked={isSelected}
+                    onChange={() => toggleGoal(goal.id)}
+                    className="w-5 h-5 cursor-pointer accent-blue-600"
+                  />
 
-            return (
-              <div
-                key={goal.id}
-                onClick={() => toggleGoal(goal.id)}
-                className={`
-                  flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all
-                  ${isSelected
-                    ? 'border-blue-600 bg-blue-50'
-                    : 'border-gray-200 hover:border-blue-300'
-                  }
-                `}
-              >
-                <Checkbox
-                  checked={isSelected}
-                  onCheckedChange={() => toggleGoal(goal.id)}
-                />
-                <div className={`
-                  p-3 rounded-lg
-                  ${isSelected ? 'bg-blue-600' : 'bg-gray-100'}
-                `}>
-                  <Icon className={`w-6 h-6 ${isSelected ? 'text-white' : 'text-gray-600'}`} />
+                  {/* Icon */}
+                  <div
+                    className={`w-12 h-12 rounded flex items-center justify-center flex-shrink-0 ${
+                      isSelected
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-secondary text-blue-500'
+                    }`}
+                  >
+                    <Icon className="w-6 h-6" />
+                  </div>
+
+                  {/* Label */}
+                  <span className="text-base font-medium text-foreground">
+                    {goal.label}
+                  </span>
                 </div>
-                <span className="text-lg font-medium text-gray-900">
-                  {goal.label}
-                </span>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
 
-        <Button
-          onClick={() => navigate('/register/details')}
-          disabled={selectedGoals.length === 0}
-          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-6 text-lg"
-        >
-          Next
-        </Button>
-      </div>
-    </div>
+          {/* Navigation */}
+          <div className="flex gap-4 flex-col">
+            <Button
+              onClick={() => navigate('/register/details')}
+              disabled={selectedGoals.length === 0}
+              className="w-full h-11 text-base"
+            >
+              Next
+            </Button>
+            <Button
+              onClick={() => navigate('/register')}
+              variant="outline"
+              className="w-full h-11 text-base"
+            >
+              Back
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </OnboardingLayout>
   );
 }
