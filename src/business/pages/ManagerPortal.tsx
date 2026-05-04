@@ -18,7 +18,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/app/components/ui/ca
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/ui/tabs';
 import { Badge } from '@/app/components/ui/badge';
 import { Button } from '@/app/components/ui/button';
-import GlassCard from '@/business/components/base/GlassCard';
+import { GlassCard } from '@/business/components/base/GlassCard';
 import { supabase } from '@/app/lib/supabase';
 import { useBusinessContext } from '@/business/context/BusinessContext';
 import EmailDraftAssistant from '@/business/components/EmailDraftAssistant';

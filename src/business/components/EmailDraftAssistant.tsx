@@ -13,7 +13,7 @@ import {
   DialogFooter,
 } from '@/app/components/ui/dialog';
 import { Button } from '@/app/components/ui/button';
-import GlassCard from '@/business/components/base/GlassCard';
+import { GlassCard } from '@/business/components/base/GlassCard';
 import { generateEmailDraft } from '@/business/services/AIRecommendationEngine';
 
 interface EmailDraftAssistantProps {
