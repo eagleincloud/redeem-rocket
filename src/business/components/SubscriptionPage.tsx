@@ -32,7 +32,7 @@ const PLANS: Plan[] = [
     limits: { products: '50', offers: '10', analytics: 'Full', support: 'Email' },
   },
   {
-    id: 'pro', name: 'Pro', price: 999, billingPeriod: '/month', color: '#fb923c', gradient: 'linear-gradient(135deg, #fb923c33, #a78bfa11)',
+    id: 'pro', name: 'Pro', price: 999, billingPeriod: '/month', color: '#FF9E1B', gradient: 'linear-gradient(135deg, #FF9E1B33, #a78bfa11)',
     badge: 'Most Popular',
     features: ['Unlimited products', 'Unlimited offers', 'Advanced analytics + exports', 'Featured badge on map', 'Auction hosting', 'Photo gallery (6 slots)', 'Priority support', 'Customer insights'],
     limits: { products: 'Unlimited', offers: 'Unlimited', analytics: 'Advanced', support: 'Priority' },
@@ -69,7 +69,7 @@ export function SubscriptionPage() {
   const text    = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
   const inputBg = isDark ? '#162040' : '#fdf6f0';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
 
   const currentPlan = bizUser?.plan ?? 'free';
   const yearlyDiscount = 0.8; // 20% off

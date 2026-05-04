@@ -2,7 +2,7 @@ import { getBusinessTypeKey } from '@/app/utils/businessType';
 
 // Same category colors as the customer map (Home.tsx)
 const CATEGORY_COLORS: Record<string, string> = {
-  restaurant: '#f97316',
+  restaurant: '#FF9E1B',
   grocery:    '#16a34a',
   pharmacy:   '#2563eb',
   salon:      '#db2777',

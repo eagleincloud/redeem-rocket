@@ -29,7 +29,7 @@ interface Insight {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ACCENT = '#f97316';
+const ACCENT = '#FF9E1B';
 
 const SOURCE_SCORES: Record<string, number> = {
   scrape: 5, referral: 15, walk_in: 12, website: 10, campaign: 8, csv: 5, manual: 3,
@@ -69,7 +69,7 @@ function computeScore(
 function getTier(score: number): ScoreTier {
   if (score <= 30)  return { label: 'Cold',    emoji: '❄️',  color: '#64748b' };
   if (score <= 50)  return { label: 'Warm',    emoji: '🙂',  color: '#f59e0b' };
-  if (score <= 70)  return { label: 'Hot',     emoji: '🔥',  color: '#f97316' };
+  if (score <= 70)  return { label: 'Hot',     emoji: '🔥',  color: '#FF9E1B' };
   return              { label: 'Burning', emoji: '🚀', color: '#22c55e' };
 }
 

@@ -91,7 +91,7 @@ function ProfileCompletenessBanner({ bizUser, isDark, isMobile }: { bizUser: { n
     setDismissed(true);
   }
 
-  const accent = '#f97316';
+  const accent = '#FF9E1B';
   const card   = isDark ? '#111827' : '#ffffff';
   const border = isDark ? 'rgba(255,255,255,0.07)' : '#e8d8cc';
   const text   = isDark ? '#f1f5f9' : '#18100a';
@@ -119,7 +119,7 @@ function ProfileCompletenessBanner({ bizUser, isDark, isMobile }: { bizUser: { n
         </div>
         <Link
           to="/app/profile?highlight=incomplete"
-          style={{ padding: '8px 16px', borderRadius: 8, background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 12, fontWeight: 700, textDecoration: 'none', flexShrink: 0, display: 'none' }}
+          style={{ padding: '8px 16px', borderRadius: 8, background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 12, fontWeight: 700, textDecoration: 'none', flexShrink: 0, display: 'none' }}
           className="profile-complete-btn"
         >
           Complete Profile
@@ -127,7 +127,7 @@ function ProfileCompletenessBanner({ bizUser, isDark, isMobile }: { bizUser: { n
         {!isMobile && (
           <Link
             to="/app/profile?highlight=incomplete"
-            style={{ padding: '8px 16px', borderRadius: 8, background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 12, fontWeight: 700, textDecoration: 'none', flexShrink: 0 }}
+            style={{ padding: '8px 16px', borderRadius: 8, background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 12, fontWeight: 700, textDecoration: 'none', flexShrink: 0 }}
           >
             Complete Profile
           </Link>
@@ -135,7 +135,7 @@ function ProfileCompletenessBanner({ bizUser, isDark, isMobile }: { bizUser: { n
       </div>
 
       <div style={{ height: 6, borderRadius: 6, background: isDark ? '#1f2937' : '#f3f0ec', marginBottom: 12, overflow: 'hidden' }}>
-        <div style={{ height: '100%', width: `${pct}%`, borderRadius: 6, background: `linear-gradient(90deg, ${accent}, #fb923c)`, transition: 'width 0.4s ease' }} />
+        <div style={{ height: '100%', width: `${pct}%`, borderRadius: 6, background: `linear-gradient(90deg, ${accent}, #FF9E1B)`, transition: 'width 0.4s ease' }} />
       </div>
 
       {missing.length > 0 && (
@@ -186,7 +186,7 @@ function FirstLoginPasswordModal({ isDark }: { isDark: boolean }) {
   const text   = isDark ? '#f1f5f9' : '#18100a';
   const muted  = isDark ? '#6b7280' : '#9a7860';
   const inputBg = isDark ? '#1f2937' : '#fdf6f0';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -285,7 +285,7 @@ function FirstLoginPasswordModal({ isDark }: { isDark: boolean }) {
           <button
             type="submit"
             disabled={loading}
-            style={{ padding: '12px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 14, fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1 }}
+            style={{ padding: '12px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 14, fontWeight: 700, cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1 }}
           >
             {loading ? 'Saving...' : 'Set Password'}
           </button>
@@ -310,7 +310,7 @@ function BusinessWebsiteCard({ bizUser, isDark, isMobile }: { bizUser: { busines
   const text   = isDark ? '#f1f5f9' : '#18100a';
   const muted  = isDark ? '#6b7280' : '#9a7860';
   const inputBg = isDark ? '#1f2937' : '#fdf6f0';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
 
   function copyLink() {
     navigator.clipboard.writeText(bizUrl).then(() => {
@@ -364,7 +364,7 @@ function BusinessWebsiteCard({ bizUser, isDark, isMobile }: { bizUser: { busines
             </button>
             <button
               onClick={openWebsite}
-              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 16px', borderRadius: 8, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 16px', borderRadius: 8, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}
             >
               <ExternalLink size={13} /> Open Website
             </button>
@@ -416,7 +416,7 @@ export function DashboardPage() {
     () => localStorage.getItem('team_member_first_login') === 'true'
   );
 
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
   const card    = isDark ? '#111827' : '#ffffff';
   const cardAlt = isDark ? '#1f2937' : '#fdf6f0';
   const border  = isDark ? 'rgba(255,255,255,0.07)' : '#e8d8cc';
@@ -435,7 +435,7 @@ export function DashboardPage() {
   const [leadPipeline, setLeadPipeline] = useState<LeadStageCount[]>([
     { label: 'New',       count: 3, value: 85000,  color: '#64748b' },
     { label: 'Contacted', count: 1, value: 30000,  color: '#3b82f6' },
-    { label: 'Proposal',  count: 1, value: 120000, color: '#f97316' },
+    { label: 'Proposal',  count: 1, value: 120000, color: '#FF9E1B' },
     { label: 'Won',       count: 1, value: 52000,  color: '#22c55e' },
   ]);
   const [recentNotifs, setRecentNotifs] = useState<RecentNotif[]>([
@@ -475,7 +475,7 @@ export function DashboardPage() {
 
         const STAGE_COLORS: Record<string, string> = {
           new: '#64748b', contacted: '#3b82f6', qualified: '#f59e0b',
-          proposal: '#f97316', negotiation: '#a855f7', won: '#22c55e', lost: '#ef4444',
+          proposal: '#FF9E1B', negotiation: '#a855f7', won: '#22c55e', lost: '#ef4444',
         };
 
         const pipelineRows: LeadStageCount[] = ['new','contacted','proposal','won']
@@ -591,7 +591,7 @@ export function DashboardPage() {
   );
   const sparklineOrange = (
     <svg width="80" height="32" viewBox="0 0 80 32" fill="none">
-      <path d="M0,26 C12,20 22,24 34,18 C46,12 56,8 68,6 C74,5 77,4 80,3" stroke="#f97316" strokeWidth="2" fill="none" />
+      <path d="M0,26 C12,20 22,24 34,18 C46,12 56,8 68,6 C74,5 77,4 80,3" stroke="#FF9E1B" strokeWidth="2" fill="none" />
     </svg>
   );
 
@@ -635,7 +635,7 @@ export function DashboardPage() {
     },
     {
       icon: '👥',
-      iconColor: '#f97316',
+      iconColor: '#FF9E1B',
       value: String(kpis.openLeads),
       trend: '+33.3%',
       trendUp: true,
@@ -658,7 +658,7 @@ export function DashboardPage() {
   const notifDotColors: Record<string, string> = {
     order: '#22c55e',
     bid: '#3b82f6',
-    lead: '#f97316',
+    lead: '#FF9E1B',
     payment_received: '#a855f7',
   };
 
@@ -703,7 +703,7 @@ export function DashboardPage() {
             </div>
             <div style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)',
               borderRadius: 12, border: '1px solid rgba(249,115,22,0.2)', padding: '10px 14px', marginBottom: 10 }}>
-              <div style={{ fontSize: 10, fontWeight: 700, color: '#f97316', marginBottom: 4, letterSpacing: '0.05em' }}>✨ AI SUGGESTION</div>
+              <div style={{ fontSize: 10, fontWeight: 700, color: '#FF9E1B', marginBottom: 4, letterSpacing: '0.05em' }}>✨ AI SUGGESTION</div>
               <div style={{ fontSize: 13, fontWeight: 600, color: '#fff', marginBottom: 3 }}>Run a ₹200 OFF above ₹999 offer this weekend</div>
               <div style={{ fontSize: 11, color: '#22c55e', fontWeight: 600 }}>+32% conversions expected</div>
             </div>
@@ -713,7 +713,7 @@ export function DashboardPage() {
             <div style={{ display: 'flex', gap: 8 }}>
               <button onClick={() => navigate('/app/offers')} style={{
                 padding: '9px 16px', borderRadius: 10, border: 'none',
-                background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff',
+                background: 'linear-gradient(135deg, #FF9E1B, #FF9E1B)', color: '#fff',
                 fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>Apply Suggestion</button>
               <button onClick={() => navigate('/app/analytics')} style={{
                 padding: '9px 14px', borderRadius: 10,
@@ -814,7 +814,7 @@ export function DashboardPage() {
                 borderRadius: 14, background: '#111827' }}>
                 <span style={{ fontSize: 22, flexShrink: 0 }}>{item.emoji}</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 12, fontWeight: 700, color: '#f97316' }}>{item.title}</div>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#FF9E1B' }}>{item.title}</div>
                   <div style={{ fontSize: 11, color: '#6b7280' }}>{item.detail}</div>
                 </div>
                 <div style={{ fontSize: 10, color: '#6b7280', flexShrink: 0 }}>{item.time}</div>
@@ -917,7 +917,7 @@ export function DashboardPage() {
             padding: '12px 16px',
             marginBottom: 12,
           }}>
-            <div style={{ fontSize: 11, fontWeight: 600, color: '#f97316', marginBottom: 6, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+            <div style={{ fontSize: 11, fontWeight: 600, color: '#FF9E1B', marginBottom: 6, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
               ✨ AI Suggestion
             </div>
             <div style={{ fontSize: isMobile ? 13 : 15, fontWeight: 600, color: '#ffffff', marginBottom: 4 }}>
@@ -944,7 +944,7 @@ export function DashboardPage() {
                 padding: '10px 20px',
                 borderRadius: 10,
                 border: 'none',
-                background: `linear-gradient(135deg, ${accent}, #fb923c)`,
+                background: `linear-gradient(135deg, ${accent}, #FF9E1B)`,
                 color: '#ffffff',
                 fontSize: 13,
                 fontWeight: 700,
@@ -1166,7 +1166,7 @@ export function DashboardPage() {
               padding: '10px',
               borderRadius: 10,
               border: 'none',
-              background: `linear-gradient(135deg, ${accent}, #fb923c)`,
+              background: `linear-gradient(135deg, ${accent}, #FF9E1B)`,
               color: '#ffffff',
               fontSize: 12,
               fontWeight: 700,

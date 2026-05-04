@@ -70,7 +70,7 @@ export function LeadFormModal({ onClose, onSave, initial }: LeadFormModalProps) 
   const border  = isDark ? '#1c2a55' : '#e8d8cc';
   const text    = isDark ? '#e2e8f0' : '#18100a';
   const muted   = isDark ? '#64748b' : '#9a7860';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
   const inputBg = isDark ? '#0a1020' : '#fdf6f0';
 
   const isEdit = Boolean(initial?.id);
@@ -158,8 +158,8 @@ export function LeadFormModal({ onClose, onSave, initial }: LeadFormModalProps) 
             </h3>
             {!isEdit && (
               <span style={{
-                fontSize: 10, color: '#f97316', background: '#f9731615',
-                border: '1px solid #f9731630', borderRadius: 5, padding: '2px 7px', fontWeight: 600,
+                fontSize: 10, color: '#FF9E1B', background: '#FF9E1B15',
+                border: '1px solid #FF9E1B30', borderRadius: 5, padding: '2px 7px', fontWeight: 600,
               }}>
                 ⚡ AI Duplicate Check
               </span>
@@ -346,7 +346,7 @@ export function LeadFormModal({ onClose, onSave, initial }: LeadFormModalProps) 
               </button>
               <button type="submit" style={{
                 padding: '9px 24px',
-                background: `linear-gradient(135deg, ${accent}, #fb923c)`,
+                background: `linear-gradient(135deg, ${accent}, #FF9E1B)`,
                 border: 'none', borderRadius: 8, cursor: 'pointer',
                 color: '#fff', fontSize: 13, fontWeight: 700,
                 boxShadow: '0 2px 12px rgba(249,115,22,0.4)',

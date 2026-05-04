@@ -75,7 +75,7 @@ export function ProductsPage() {
   const text      = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
   const inputBg   = isDark ? '#162040' : '#fdf6f0';
-  const accent    = '#f97316';
+  const accent    = '#FF9E1B';
 
   const maxCashback = form.mrp > form.sellingPrice ? Math.floor((form.mrp - form.sellingPrice) / 2) : 0;
   const margin = form.mrp > 0 ? ((form.mrp - form.sellingPrice) / form.mrp * 100).toFixed(1) : '0';
@@ -160,7 +160,7 @@ export function ProductsPage() {
             <p style={{ fontSize: 13, color: textMuted }}>{products.length} products in your catalog</p>
           </div>
           {!isMobile && (
-            <button onClick={openNew} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 16px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+            <button onClick={openNew} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 16px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
               <Plus size={16} /> Add Product
             </button>
           )}
@@ -277,7 +277,7 @@ export function ProductsPage() {
           style={{
             position: 'fixed', bottom: 80, right: 20,
             width: 52, height: 52, borderRadius: '50%',
-            background: `linear-gradient(135deg, ${accent}, #fb923c)`,
+            background: `linear-gradient(135deg, ${accent}, #FF9E1B)`,
             border: 'none', cursor: 'pointer', color: '#fff',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 4px 20px rgba(99,102,241,0.5)', zIndex: 30,
@@ -359,7 +359,7 @@ export function ProductsPage() {
 
             <div style={{ padding: '16px 24px', borderTop: `1px solid ${border}`, display: 'flex', gap: 10 }}>
               <button onClick={closePanel} style={{ flex: 1, padding: '11px', borderRadius: 10, border: `1px solid ${border}`, background: 'transparent', color: textMuted, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>Cancel</button>
-              <button onClick={saveProduct} disabled={saved} style={{ flex: 2, padding: '11px', borderRadius: 10, border: 'none', background: saved ? '#22c55e' : `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', cursor: 'pointer', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+              <button onClick={saveProduct} disabled={saved} style={{ flex: 2, padding: '11px', borderRadius: 10, border: 'none', background: saved ? '#22c55e' : `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', cursor: 'pointer', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                 {saved ? <><Check size={16} /> Saved!</> : <>{editId ? 'Save Changes' : 'Add Product'}</>}
               </button>
             </div>

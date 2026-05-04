@@ -19,7 +19,7 @@ const TILE_LIGHT = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.p
 const TILE_ATTR  = '© <a href="https://www.openstreetmap.org/copyright">OSM</a> © <a href="https://carto.com/">CARTO</a>';
 
 const PIN_COLORS: Record<string, string> = {
-  restaurant: '#f97316', grocery: '#16a34a', pharmacy: '#2563eb',
+  restaurant: '#FF9E1B', grocery: '#16a34a', pharmacy: '#2563eb',
   salon: '#db2777', hotel: '#7c3aed', atm: '#ca8a04', other: '#475569',
 };
 
@@ -263,7 +263,7 @@ export function BusinessProfilePage() {
   const text      = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
   const inputBg   = isDark ? '#162040' : '#fdf6f0';
-  const accent    = '#f97316';
+  const accent    = '#FF9E1B';
 
   const inputStyle = {
     width: '100%', padding: '10px 12px', borderRadius: 8,
@@ -351,14 +351,14 @@ export function BusinessProfilePage() {
           <h1 style={{ fontSize: isMobile ? 18 : 20, fontWeight: 700, color: text, marginBottom: 2 }}>Business Profile</h1>
           <p style={{ fontSize: 13, color: textMuted }}>Manage your business information and settings</p>
         </div>
-        <button onClick={saveProfile} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 10, border: 'none', background: saved ? '#22c55e' : `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', transition: 'background 0.3s' }}>
+        <button onClick={saveProfile} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 10, border: 'none', background: saved ? '#22c55e' : `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', transition: 'background 0.3s' }}>
           {saved ? <><Check size={15} /> Saved!</> : <><Save size={15} /> Save Changes</>}
         </button>
       </div>
 
       {/* Profile header */}
-      <div style={{ background: `linear-gradient(135deg, ${accent}22, #fb923c22)`, borderRadius: 20, border: `1px solid ${accent}44`, padding: isMobile ? 16 : 24, marginBottom: 24, display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-        <div style={{ width: 80, height: 80, borderRadius: 20, background: `linear-gradient(135deg, ${accent}55, #fb923c55)`, border: `2px solid ${accent}66`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 44, cursor: 'pointer', flexShrink: 0 }}
+      <div style={{ background: `linear-gradient(135deg, ${accent}22, #FF9E1B22)`, borderRadius: 20, border: `1px solid ${accent}44`, padding: isMobile ? 16 : 24, marginBottom: 24, display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+        <div style={{ width: 80, height: 80, borderRadius: 20, background: `linear-gradient(135deg, ${accent}55, #FF9E1B55)`, border: `2px solid ${accent}66`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 44, cursor: 'pointer', flexShrink: 0 }}
           onClick={() => {
             const emojis = ['🏪', '🛒', '🍛', '💊', '👗', '🔌', '💈', '🏋️', '🎁', '🏥'];
             const current = emojis.indexOf(form.businessLogo);
@@ -668,7 +668,7 @@ export function BusinessProfilePage() {
                   style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                     padding: '12px', borderRadius: 10, border: 'none',
-                    background: mapSaved ? '#22c55e' : `linear-gradient(135deg, ${accent}, #fb923c)`,
+                    background: mapSaved ? '#22c55e' : `linear-gradient(135deg, ${accent}, #FF9E1B)`,
                     color: '#fff', fontSize: 13, fontWeight: 700, cursor: mapSaving ? 'not-allowed' : 'pointer',
                     opacity: mapSaving ? 0.7 : 1,
                   }}
@@ -694,10 +694,10 @@ export function BusinessProfilePage() {
         <div style={{ background: isDark ? '#0e1530' : '#fff', borderRadius: 16, border: `1px solid ${border}`, padding: 20, marginTop: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
           <span style={{ fontSize: 20 }}>🔒</span>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: '#f97316', marginBottom: 2 }}>Platform Access — Owner Only</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: '#FF9E1B', marginBottom: 2 }}>Platform Access — Owner Only</div>
             <div style={{ fontSize: 12, color: '#64748b' }}>
               Only the business owner can change the active platform (Redeem Rocket / LMS).
-              Currently active: <strong style={{ color: '#f97316' }}>{bizUser?.product_selection === 'rr' ? 'Redeem Rocket' : bizUser?.product_selection === 'lms' ? 'LMS' : 'Both'}</strong>
+              Currently active: <strong style={{ color: '#FF9E1B' }}>{bizUser?.product_selection === 'rr' ? 'Redeem Rocket' : bizUser?.product_selection === 'lms' ? 'LMS' : 'Both'}</strong>
             </div>
           </div>
         </div>
@@ -714,7 +714,7 @@ export function BusinessProfilePage() {
             disabled={platformSaving}
             style={{
               padding: '9px 18px', borderRadius: 8, border: 'none',
-              background: platformSaved ? '#22c55e' : `linear-gradient(135deg, ${accent}, #fb923c)`,
+              background: platformSaved ? '#22c55e' : `linear-gradient(135deg, ${accent}, #FF9E1B)`,
               color: '#fff', fontSize: 12, fontWeight: 700, cursor: platformSaving ? 'not-allowed' : 'pointer',
               opacity: platformSaving ? 0.7 : 1,
             }}

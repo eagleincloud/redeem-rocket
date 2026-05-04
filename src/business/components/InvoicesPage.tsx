@@ -75,7 +75,7 @@ function InvoiceModal({
   const text   = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
   const inputBg   = isDark ? '#162040' : '#fdf6f0';
-  const accent = '#f97316';
+  const accent = '#FF9E1B';
   const meta = STATUS_META[invoice.status];
 
   async function handleAcknowledge() {
@@ -258,7 +258,7 @@ function CreateInvoiceModal({
   const text   = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
   const inputBg   = isDark ? '#162040' : '#fdf6f0';
-  const accent = '#f97316';
+  const accent = '#FF9E1B';
 
   const inputStyle = { width: '100%', padding: '10px 12px', borderRadius: 8, border: `1.5px solid ${border}`, background: inputBg, color: text, fontSize: 13, outline: 'none', boxSizing: 'border-box' as const };
 
@@ -276,7 +276,7 @@ function CreateInvoiceModal({
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 22px', borderBottom: `1px solid ${border}` }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 36, height: 36, borderRadius: 10, background: '#f9731622', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 36, height: 36, borderRadius: 10, background: '#FF9E1B22', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <FileText size={18} color={accent} />
             </div>
             <div>
@@ -289,7 +289,7 @@ function CreateInvoiceModal({
         {/* Body */}
         <div style={{ padding: '22px', display: 'flex', flexDirection: 'column', gap: 16 }}>
           {prefill && (
-            <div style={{ padding: '10px 14px', borderRadius: 10, background: '#f9731611', border: '1px solid #f9731633', fontSize: 12, color: accent }}>
+            <div style={{ padding: '10px 14px', borderRadius: 10, background: '#FF9E1B11', border: '1px solid #FF9E1B33', fontSize: 12, color: accent }}>
               ✅ Invoice details auto-filled from your won lead. Review and adjust as needed.
             </div>
           )}
@@ -318,7 +318,7 @@ function CreateInvoiceModal({
         </div>
         <div style={{ padding: '16px 22px', borderTop: `1px solid ${border}`, display: 'flex', gap: 10 }}>
           <button onClick={onClose} style={{ flex: 1, padding: 11, borderRadius: 10, border: `1px solid ${border}`, background: 'transparent', color: textMuted, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>Cancel</button>
-          <button onClick={handleSave} disabled={saving || !form.customerName.trim() || !form.amount} style={{ flex: 2, padding: 11, borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', cursor: 'pointer', fontSize: 13, fontWeight: 700, opacity: saving ? 0.7 : 1 }}>
+          <button onClick={handleSave} disabled={saving || !form.customerName.trim() || !form.amount} style={{ flex: 2, padding: 11, borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', cursor: 'pointer', fontSize: 13, fontWeight: 700, opacity: saving ? 0.7 : 1 }}>
             {saving ? 'Creating…' : 'Create Invoice'}
           </button>
         </div>
@@ -345,7 +345,7 @@ export function InvoicesPage() {
   const border    = isDark ? '#1c2a55' : '#e8d8cc';
   const text      = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
-  const accent    = '#f97316';
+  const accent    = '#FF9E1B';
 
   const bizId = bizUser?.businessId ?? null;
 
@@ -562,7 +562,7 @@ export function InvoicesPage() {
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           <button
             onClick={() => { setCreatePrefill(null); setShowCreate(true); }}
-            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}
+            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 14px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}
           >
             <Plus size={14} /> Create
           </button>
@@ -579,7 +579,7 @@ export function InvoicesPage() {
       {/* Stats row */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
         {[
-          { label: 'Total', value: `₹${invoices.reduce((s, i) => s + i.amount, 0).toLocaleString()}`, color: '#f97316' },
+          { label: 'Total', value: `₹${invoices.reduce((s, i) => s + i.amount, 0).toLocaleString()}`, color: '#FF9E1B' },
           { label: 'Pending', value: String(invoices.filter(i => i.status === 'pending').length), color: '#f59e0b' },
           { label: 'Approved', value: String(invoices.filter(i => i.status === 'approved').length), color: '#10b981' },
           { label: 'Cashback', value: `₹${invoices.reduce((s, i) => s + (i.cashbackAmount ?? 0), 0).toFixed(0)}`, color: '#3b82f6' },

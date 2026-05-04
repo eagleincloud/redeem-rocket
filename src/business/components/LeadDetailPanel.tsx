@@ -22,7 +22,7 @@ const STAGES: { key: LeadStage; label: string; color: string }[] = [
   { key: 'new',         label: 'New',         color: '#64748b' },
   { key: 'contacted',   label: 'Contacted',   color: '#3b82f6' },
   { key: 'qualified',   label: 'Qualified',   color: '#f59e0b' },
-  { key: 'proposal',    label: 'Proposal',    color: '#f97316' },
+  { key: 'proposal',    label: 'Proposal',    color: '#FF9E1B' },
   { key: 'negotiation', label: 'Negotiation', color: '#a855f7' },
   { key: 'won',         label: 'Won',         color: '#22c55e' },
   { key: 'lost',        label: 'Lost',        color: '#ef4444' },
@@ -124,7 +124,7 @@ export function LeadDetailPanel({ lead, onClose, onLeadUpdate, popupMode = false
   const border   = isDark ? '#1c2a55' : '#e8d8cc';
   const text     = isDark ? '#e2e8f0' : '#18100a';
   const muted    = isDark ? '#64748b' : '#9a7860';
-  const accent   = '#f97316';
+  const accent   = '#FF9E1B';
   const inputBg  = isDark ? '#0a1020' : '#fdf6f0';
 
   const inputSt = {
@@ -588,7 +588,7 @@ export function LeadDetailPanel({ lead, onClose, onLeadUpdate, popupMode = false
 
               <button onClick={handleSaveOverview} disabled={savingEdit} style={{
                 width: '100%', padding: '9px',
-                background: savingEdit ? `${accent}66` : `linear-gradient(135deg, ${accent}, #fb923c)`,
+                background: savingEdit ? `${accent}66` : `linear-gradient(135deg, ${accent}, #FF9E1B)`,
                 border: 'none', borderRadius: 8, cursor: savingEdit ? 'not-allowed' : 'pointer',
                 color: '#fff', fontSize: 13, fontWeight: 700,
                 boxShadow: '0 2px 12px rgba(249,115,22,0.3)', marginBottom: 12,

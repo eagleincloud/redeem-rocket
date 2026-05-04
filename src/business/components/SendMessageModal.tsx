@@ -35,7 +35,7 @@ export function SendMessageModal({ channel, recipientName, recipientPhone, recip
   const text    = isDark ? '#e2e8f0' : '#18100a';
   const muted   = isDark ? '#64748b' : '#9a7860';
   const inputBg = isDark ? '#0a1020' : '#fdf6f0';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
 
   const CHANNEL_META = {
     whatsapp: { label: 'WhatsApp', icon: <MessageSquare size={16} />, color: '#22c55e', placeholder: 'Type your WhatsApp message…' },

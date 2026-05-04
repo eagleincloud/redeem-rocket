@@ -69,7 +69,7 @@ export function SenderIdentityModal({ onClose, onSaved, existing }: Props) {
   const text    = isDark ? '#e2e8f0'           : '#18100a';
   const muted   = isDark ? '#64748b'           : '#9a7860';
   const inputBg = isDark ? '#0a1020'           : '#fdf6f0';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
 
   const selected = CHANNEL_OPTIONS.find(c => c.value === channel)!;
 
@@ -305,7 +305,7 @@ export function SenderIdentityModal({ onClose, onSaved, existing }: Props) {
           </button>
           <button onClick={handleSave} disabled={saving || saved} style={{
             flex: 2, padding: '10px',
-            background: saved ? '#22c55e' : `linear-gradient(135deg, ${accent}, #fb923c)`,
+            background: saved ? '#22c55e' : `linear-gradient(135deg, ${accent}, #FF9E1B)`,
             border: 'none', borderRadius: 9, cursor: saving || saved ? 'default' : 'pointer',
             color: '#fff', fontSize: 13, fontWeight: 700,
             boxShadow: '0 2px 12px rgba(249,115,22,0.3)',

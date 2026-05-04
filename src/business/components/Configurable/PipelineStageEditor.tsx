@@ -29,7 +29,7 @@ interface StageFormData {
 }
 
 const STAGE_COLORS = [
-  '#f97316', '#3b82f6', '#10b981', '#f43f5e', '#8b5cf6', '#06b6d4', '#eab308', '#6366f1',
+  '#FF9E1B', '#3b82f6', '#10b981', '#f43f5e', '#8b5cf6', '#06b6d4', '#eab308', '#6366f1',
 ];
 
 const PipelineStageEditor = React.memo<PipelineStageEditorProps>(function PipelineStageEditor({
@@ -247,7 +247,7 @@ const StageEditorRow = React.memo<StageEditorRowProps>(function StageEditorRow({
             <label className="block text-sm font-medium text-gray-700 mb-1">Color</label>
             <input
               type="color"
-              value={editingStage?.stageColor || '#f97316'}
+              value={editingStage?.stageColor || '#FF9E1B'}
               onChange={(e) => onUpdateField('stageColor', e.target.value)}
               className="w-full h-10 border border-gray-300 rounded cursor-pointer"
             />

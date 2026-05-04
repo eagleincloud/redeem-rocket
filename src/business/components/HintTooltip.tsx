@@ -102,7 +102,7 @@ export function HintTooltip({ hint, title, position = 'top', size = 14 }: HintTo
           minWidth:       size,
           minHeight:      size,
           borderRadius:   '50%',
-          background:     '#f97316',
+          background:     '#FF9E1B',
           color:          '#fff',
           border:         'none',
           cursor:         'pointer',

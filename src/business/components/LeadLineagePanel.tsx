@@ -14,7 +14,7 @@ import {
 
 const STAGE_COLORS: Record<string, string> = {
   new: '#64748b', contacted: '#3b82f6', qualified: '#f59e0b',
-  proposal: '#f97316', negotiation: '#a855f7', won: '#22c55e', lost: '#ef4444',
+  proposal: '#FF9E1B', negotiation: '#a855f7', won: '#22c55e', lost: '#ef4444',
 };
 
 const STAGE_LABELS: Record<string, string> = {
@@ -23,7 +23,7 @@ const STAGE_LABELS: Record<string, string> = {
 };
 
 const PRIORITY_COLORS: Record<string, string> = {
-  low: '#64748b', medium: '#f59e0b', high: '#f97316', urgent: '#ef4444',
+  low: '#64748b', medium: '#f59e0b', high: '#FF9E1B', urgent: '#ef4444',
 };
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -205,7 +205,7 @@ function AIInsightBox({
     }}>
       <div style={{ fontSize: 22, lineHeight: 1, marginTop: 1 }}>{emoji}</div>
       <div>
-        <div style={{ fontSize: 11, fontWeight: 600, color: '#f97316', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
+        <div style={{ fontSize: 11, fontWeight: 600, color: '#FF9E1B', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>
           AI Insight
         </div>
         <div style={{ fontSize: 13, color: text, lineHeight: 1.55 }}>{message}</div>
@@ -512,7 +512,7 @@ function getMatchReason(current: Lead, other: Lead): string {
 
 export function LeadLineagePanel({ leadId, lead: leadProp, onOpenLead }: LeadLineagePanelProps) {
   const { isDark, theme } = useTheme();
-  const accent = theme?.accent ?? '#f97316';
+  const accent = theme?.accent ?? '#FF9E1B';
 
   const [loading, setLoading]           = useState(true);
   const [entity, setEntity]             = useState<LeadEntity | null>(null);

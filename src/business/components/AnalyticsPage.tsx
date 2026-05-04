@@ -47,22 +47,22 @@ const TOP_PRODUCTS = [
 ];
 
 const CUSTOMER_TYPE = [
-  { name: 'New Customers', value: 38, color: '#f97316' },
+  { name: 'New Customers', value: 38, color: '#FF9E1B' },
   { name: 'Returning', value: 62, color: '#22c55e' },
 ];
 
 const CATEGORY_BREAKDOWN = [
-  { name: 'Grocery', value: 55, color: '#f97316' },
+  { name: 'Grocery', value: 55, color: '#FF9E1B' },
   { name: 'Beauty', value: 18, color: '#f59e0b' },
   { name: 'Food & Bev', value: 27, color: '#22c55e' },
 ];
 
 const STAGE_COLORS: Record<string, string> = {
   new: '#64748b', contacted: '#3b82f6', qualified: '#f59e0b',
-  proposal: '#f97316', negotiation: '#a855f7', won: '#22c55e', lost: '#ef4444',
+  proposal: '#FF9E1B', negotiation: '#a855f7', won: '#22c55e', lost: '#ef4444',
 };
 const SOURCE_COLORS: Record<string, string> = {
-  manual: '#64748b', csv: '#3b82f6', scrape: '#f97316',
+  manual: '#64748b', csv: '#3b82f6', scrape: '#FF9E1B',
   campaign: '#a855f7', referral: '#22c55e', walk_in: '#f59e0b', website: '#ec4899',
 };
 
@@ -80,7 +80,7 @@ export function AnalyticsPage() {
   const border  = isDark ? '#1c2a55' : '#e8d8cc';
   const text    = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
 
   // ── Real lead analytics state ──────────────────────────────────────────────
   const [leadStageData, setLeadStageData] = useState<LeadStageRow[]>([

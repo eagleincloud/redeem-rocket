@@ -45,7 +45,7 @@ function Spinner() {
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#0d0d18', gap: 16 }}>
       <div style={{
         width: 48, height: 48, borderRadius: '50%',
-        border: '4px solid #f97316', borderTopColor: 'transparent',
+        border: '4px solid #FF9E1B', borderTopColor: 'transparent',
         animation: 'spin 0.8s linear infinite',
       }} />
       <div style={{ color: '#94a3b8', fontSize: 14 }}>Loading business...</div>
@@ -64,7 +64,7 @@ function NotFound() {
       <p style={{ fontSize: 15, color: '#64748b', maxWidth: 400, lineHeight: 1.6 }}>
         We couldn't find a business with this link. It may have been removed or the link is incorrect.
       </p>
-      <a href="/" style={{ padding: '12px 28px', borderRadius: 10, background: 'linear-gradient(135deg, #f97316, #fb923c)', color: '#fff', fontSize: 14, fontWeight: 700, textDecoration: 'none' }}>
+      <a href="/" style={{ padding: '12px 28px', borderRadius: 10, background: 'linear-gradient(135deg, #FF9E1B, #FF9E1B)', color: '#fff', fontSize: 14, fontWeight: 700, textDecoration: 'none' }}>
         Go Home
       </a>
     </div>
@@ -82,7 +82,7 @@ function OfferCard({ offer, accent }: { offer: Offer; accent: string }) {
     >
       {/* Discount badge */}
       {offer.discount_pct && (
-        <div style={{ position: 'absolute', top: 12, right: 12, background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 13, fontWeight: 800, padding: '4px 12px', borderRadius: 20 }}>
+        <div style={{ position: 'absolute', top: 12, right: 12, background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 13, fontWeight: 800, padding: '4px 12px', borderRadius: 20 }}>
           {offer.discount_pct}% OFF
         </div>
       )}
@@ -108,7 +108,7 @@ function ProductCard({ product, accent, onOrder }: { product: Product; accent: s
       onMouseLeave={e => (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'}
     >
       {/* Image or placeholder */}
-      <div style={{ height: 160, background: `linear-gradient(135deg, ${accent}22, #fb923c22)`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+      <div style={{ height: 160, background: `linear-gradient(135deg, ${accent}22, #FF9E1B22)`, display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
         {product.image_url
           ? <img src={product.image_url} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           : <span style={{ fontSize: 48 }}>🛍️</span>
@@ -123,7 +123,7 @@ function ProductCard({ product, accent, onOrder }: { product: Product; accent: s
           )}
           <button
             onClick={onOrder}
-            style={{ padding: '8px 16px', borderRadius: 8, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}
+            style={{ padding: '8px 16px', borderRadius: 8, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}
           >
             Order via App
           </button>
@@ -144,7 +144,7 @@ export function BusinessWebsitePage() {
   const [notFound, setNotFound] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
-  const accent = '#f97316';
+  const accent = '#FF9E1B';
 
   useEffect(() => {
     if (!businessId || !supabase) {
@@ -292,7 +292,7 @@ export function BusinessWebsitePage() {
 
         <div style={{ ...containerStyle, textAlign: 'center', position: 'relative', zIndex: 1 }}>
           {/* Logo */}
-          <div style={{ width: 100, height: 100, borderRadius: 24, background: `linear-gradient(135deg, ${accent}55, #fb923c55)`, border: `2px solid ${accent}66`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 56, margin: '0 auto 24px', boxShadow: `0 20px 60px ${accent}33` }}>
+          <div style={{ width: 100, height: 100, borderRadius: 24, background: `linear-gradient(135deg, ${accent}55, #FF9E1B55)`, border: `2px solid ${accent}66`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 56, margin: '0 auto 24px', boxShadow: `0 20px 60px ${accent}33` }}>
             {bizData.logo || '🏪'}
           </div>
 
@@ -314,7 +314,7 @@ export function BusinessWebsitePage() {
           {/* CTA Buttons */}
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
             {bizData.phone && (
-              <a href={`tel:${bizData.phone}`} style={{ padding: '14px 28px', borderRadius: 12, background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 15, fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, boxShadow: `0 8px 30px ${accent}44` }}>
+              <a href={`tel:${bizData.phone}`} style={{ padding: '14px 28px', borderRadius: 12, background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 15, fontWeight: 700, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8, boxShadow: `0 8px 30px ${accent}44` }}>
                 📞 Contact Us
               </a>
             )}
@@ -426,7 +426,7 @@ export function BusinessWebsitePage() {
 
           <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
             {bizData.phone && (
-              <a href={`tel:${bizData.phone}`} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '14px 24px', borderRadius: 12, background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 14, fontWeight: 700, textDecoration: 'none' }}>
+              <a href={`tel:${bizData.phone}`} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '14px 24px', borderRadius: 12, background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 14, fontWeight: 700, textDecoration: 'none' }}>
                 📞 {bizData.phone}
               </a>
             )}

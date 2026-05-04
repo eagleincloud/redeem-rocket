@@ -7,7 +7,7 @@ export function LandingPage() {
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null);
   const [hoveredAdvantage, setHoveredAdvantage] = useState<string | null>(null);
 
-  const accent = '#f97316';
+  const accent = '#FF9E1B';
   const text = '#e2e8f0';
   const textMuted = '#64748b';
   const cardBg = '#0e1530';
@@ -42,7 +42,7 @@ export function LandingPage() {
   ];
 
   const advantages = [
-    { icon: '⚡', color: '#f97316', title: 'All-in-One Platform', description: 'Stop using multiple tools. Manage products, payments, marketing, and analytics in one unified dashboard.' },
+    { icon: '⚡', color: '#FF9E1B', title: 'All-in-One Platform', description: 'Stop using multiple tools. Manage products, payments, marketing, and analytics in one unified dashboard.' },
     { icon: '📈', color: '#3b82f6', title: 'Smart Growth Features', description: 'Built-in auction system, automated campaigns, and lead management designed specifically for business growth.' },
     { icon: '🔐', color: '#a855f7', title: 'Enterprise Security', description: 'Bank-level encryption, role-based access control, and compliance with data protection regulations.' },
     { icon: '⚙️', color: '#22c55e', title: 'Role-Based Permissions', description: 'Assign custom roles to team members with granular control over who can access what features.' },
@@ -103,7 +103,7 @@ export function LandingPage() {
               padding: '10px 24px',
               borderRadius: 10,
               border: 'none',
-              background: `linear-gradient(135deg, ${accent}, #fb923c)`,
+              background: `linear-gradient(135deg, ${accent}, #FF9E1B)`,
               color: '#fff',
               cursor: 'pointer',
               fontWeight: 700,
@@ -157,7 +157,7 @@ export function LandingPage() {
               color: 'transparent',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
-              backgroundImage: `linear-gradient(135deg, ${accent}, #fb923c, #fbbf24)`,
+              backgroundImage: `linear-gradient(135deg, ${accent}, #FF9E1B, #fbbf24)`,
             }}>
               Supercharged
             </span>
@@ -172,7 +172,7 @@ export function LandingPage() {
                 padding: '16px 36px',
                 borderRadius: 12,
                 border: 'none',
-                background: `linear-gradient(135deg, ${accent}, #fb923c)`,
+                background: `linear-gradient(135deg, ${accent}, #FF9E1B)`,
                 color: '#fff',
                 fontSize: 16,
                 fontWeight: 700,
@@ -396,7 +396,7 @@ export function LandingPage() {
               padding: '18px 44px',
               borderRadius: 14,
               border: 'none',
-              background: `linear-gradient(135deg, ${accent}, #fb923c)`,
+              background: `linear-gradient(135deg, ${accent}, #FF9E1B)`,
               color: '#fff',
               fontSize: 17,
               fontWeight: 700,

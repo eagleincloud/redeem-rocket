@@ -36,7 +36,7 @@ export function PhotosPage() {
   const border  = isDark ? '#1c2a55' : '#e8d8cc';
   const text    = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
   const businessId = bizUser?.businessId || bizUser?.id;
 
   // Fetch photos on mount
@@ -161,7 +161,7 @@ export function PhotosPage() {
               <Upload size={15} /> Add Photo
             </button>
           )}
-          <button onClick={saveOrder} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 16px', borderRadius: 10, border: 'none', background: saved ? '#22c55e' : `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+          <button onClick={saveOrder} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 16px', borderRadius: 10, border: 'none', background: saved ? '#22c55e' : `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
             {saved ? <><Check size={15} /> Saved!</> : 'Save Order'}
           </button>
         </div>

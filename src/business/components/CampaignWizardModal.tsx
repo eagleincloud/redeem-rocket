@@ -132,7 +132,7 @@ export function CampaignWizardModal({ onClose, onCreated, senders, prefill }: Pr
   const border  = isDark ? '#1c2a55' : '#e8d8cc';
   const text    = isDark ? '#e2e8f0' : '#18100a';
   const muted   = isDark ? '#64748b' : '#9a7860';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
   const inputBg = isDark ? '#0a1020' : '#fdf6f0';
 
   const inputStyle = {
@@ -814,7 +814,7 @@ export function CampaignWizardModal({ onClose, onCreated, senders, prefill }: Pr
               disabled={!canProceed()}
               style={{
                 padding: '9px 20px',
-                background: canProceed() ? `linear-gradient(135deg, ${accent}, #fb923c)` : border,
+                background: canProceed() ? `linear-gradient(135deg, ${accent}, #FF9E1B)` : border,
                 border: 'none', borderRadius: 8, color: canProceed() ? '#fff' : muted,
                 fontSize: 13, fontWeight: 700, cursor: canProceed() ? 'pointer' : 'not-allowed',
                 display: 'flex', alignItems: 'center', gap: 6,

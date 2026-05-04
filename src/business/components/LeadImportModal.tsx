@@ -111,7 +111,7 @@ export function LeadImportModal({ onClose, onImported, currentLeadCount }: Props
   const border  = isDark ? '#1c2a55' : '#e8d8cc';
   const text    = isDark ? '#e2e8f0' : '#18100a';
   const muted   = isDark ? '#64748b' : '#9a7860';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
   const inputBg = isDark ? '#0a1020' : '#fdf6f0';
   const inputSt = {
     width: '100%', padding: '8px 12px', background: inputBg,
@@ -352,7 +352,7 @@ export function LeadImportModal({ onClose, onImported, currentLeadCount }: Props
               Upgrade to import leads via CSV or scrape from our database.
             </div>
             <button onClick={onClose} style={{
-              padding: '10px 24px', background: `linear-gradient(135deg, ${accent}, #fb923c)`,
+              padding: '10px 24px', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`,
               border: 'none', borderRadius: 8, cursor: 'pointer',
               color: '#fff', fontSize: 13, fontWeight: 700,
             }}>
@@ -524,7 +524,7 @@ export function LeadImportModal({ onClose, onImported, currentLeadCount }: Props
                           style={{
                             flex: showLineageStep ? 1 : 2, padding: '10px',
                             background: !importing && Object.values(mapping).includes('name')
-                              ? `linear-gradient(135deg, ${accent}, #fb923c)` : `${accent}44`,
+                              ? `linear-gradient(135deg, ${accent}, #FF9E1B)` : `${accent}44`,
                             border: 'none', borderRadius: 8,
                             cursor: !importing && Object.values(mapping).includes('name') ? 'pointer' : 'not-allowed',
                             color: '#fff', fontSize: 13, fontWeight: 700,
@@ -652,7 +652,7 @@ export function LeadImportModal({ onClose, onImported, currentLeadCount }: Props
                       <button onClick={handleScrapeImport} disabled={importing || scrapeSelected.size === 0} style={{
                         width: '100%', padding: '10px', marginTop: 12,
                         background: !importing && scrapeSelected.size > 0
-                          ? `linear-gradient(135deg, ${accent}, #fb923c)` : `${accent}44`,
+                          ? `linear-gradient(135deg, ${accent}, #FF9E1B)` : `${accent}44`,
                         border: 'none', borderRadius: 8,
                         cursor: !importing && scrapeSelected.size > 0 ? 'pointer' : 'not-allowed',
                         color: '#fff', fontSize: 13, fontWeight: 700,

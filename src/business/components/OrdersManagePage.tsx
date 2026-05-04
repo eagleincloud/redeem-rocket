@@ -57,7 +57,7 @@ export function OrdersManagePage() {
   const text    = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
   const inputBg = isDark ? '#162040' : '#fdf6f0';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
 
   const filtered = orders.filter(o => {
     const matchSearch = o.customer.toLowerCase().includes(search.toLowerCase()) || o.id.toLowerCase().includes(search.toLowerCase());
@@ -178,7 +178,7 @@ export function OrdersManagePage() {
                         </button>
                       )}
                       {order.status === 'verified' && (
-                        <button onClick={() => openVerify(order)} style={{ padding: '5px 10px', borderRadius: 8, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 11, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
+                        <button onClick={() => openVerify(order)} style={{ padding: '5px 10px', borderRadius: 8, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 11, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
                           <QrCode size={12} /> Verify Code
                         </button>
                       )}
@@ -237,7 +237,7 @@ export function OrdersManagePage() {
 
             <div style={{ display: 'flex', gap: 10 }}>
               <button onClick={() => { setVerifyModal(null); setVerifyResult('idle'); }} style={{ flex: 1, padding: 11, borderRadius: 10, border: `1px solid ${border}`, background: 'transparent', color: textMuted, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>Cancel</button>
-              <button onClick={verifyCode} disabled={verifyResult === 'success' || codeInput.length < 4} style={{ flex: 2, padding: 11, borderRadius: 10, border: 'none', background: verifyResult === 'success' ? '#22c55e' : `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', cursor: 'pointer', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+              <button onClick={verifyCode} disabled={verifyResult === 'success' || codeInput.length < 4} style={{ flex: 2, padding: 11, borderRadius: 10, border: 'none', background: verifyResult === 'success' ? '#22c55e' : `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', cursor: 'pointer', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                 {verifyResult === 'success' ? <><Check size={16} /> Verified!</> : <>Confirm & Redeem</>}
               </button>
             </div>

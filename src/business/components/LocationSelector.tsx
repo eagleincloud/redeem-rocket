@@ -75,7 +75,7 @@ export function LocationSelector({
 
     // Add custom marker
     const customIcon = L.divIcon({
-      html: `<div style="background: #f97316; color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">📍</div>`,
+      html: `<div style="background: #FF9E1B; color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">📍</div>`,
       iconSize: [40, 40],
       className: 'custom-marker',
     });
@@ -243,8 +243,8 @@ export function LocationSelector({
             padding: '8px 12px',
             border: 'none',
             background: 'transparent',
-            color: activeTab === 'map' ? '#f97316' : isDark ? '#94a3b8' : '#9a7860',
-            borderBottom: activeTab === 'map' ? '2px solid #f97316' : 'none',
+            color: activeTab === 'map' ? '#FF9E1B' : isDark ? '#94a3b8' : '#9a7860',
+            borderBottom: activeTab === 'map' ? '2px solid #FF9E1B' : 'none',
             cursor: 'pointer',
             fontSize: 14,
             fontWeight: activeTab === 'map' ? 600 : 400,
@@ -259,8 +259,8 @@ export function LocationSelector({
             padding: '8px 12px',
             border: 'none',
             background: 'transparent',
-            color: activeTab === 'search' ? '#f97316' : isDark ? '#94a3b8' : '#9a7860',
-            borderBottom: activeTab === 'search' ? '2px solid #f97316' : 'none',
+            color: activeTab === 'search' ? '#FF9E1B' : isDark ? '#94a3b8' : '#9a7860',
+            borderBottom: activeTab === 'search' ? '2px solid #FF9E1B' : 'none',
             cursor: 'pointer',
             fontSize: 14,
             fontWeight: activeTab === 'search' ? 600 : 400,
@@ -275,8 +275,8 @@ export function LocationSelector({
             padding: '8px 12px',
             border: 'none',
             background: 'transparent',
-            color: activeTab === 'location' ? '#f97316' : isDark ? '#94a3b8' : '#9a7860',
-            borderBottom: activeTab === 'location' ? '2px solid #f97316' : 'none',
+            color: activeTab === 'location' ? '#FF9E1B' : isDark ? '#94a3b8' : '#9a7860',
+            borderBottom: activeTab === 'location' ? '2px solid #FF9E1B' : 'none',
             cursor: 'pointer',
             fontSize: 14,
             fontWeight: activeTab === 'location' ? 600 : 400,
@@ -320,7 +320,7 @@ export function LocationSelector({
               disabled={searchLoading}
               style={{
                 padding: '10px 16px',
-                background: '#f97316',
+                background: '#FF9E1B',
                 color: 'white',
                 border: 'none',
                 borderRadius: 8,
@@ -370,7 +370,7 @@ export function LocationSelector({
             disabled={geoLoading}
             style={{
               padding: '12px 24px',
-              background: '#f97316',
+              background: '#FF9E1B',
               color: 'white',
               border: 'none',
               borderRadius: 8,
@@ -418,7 +418,7 @@ export function LocationSelector({
         style={{
           width: '100%',
           padding: '12px 16px',
-          background: '#f97316',
+          background: '#FF9E1B',
           color: 'white',
           border: 'none',
           borderRadius: 8,

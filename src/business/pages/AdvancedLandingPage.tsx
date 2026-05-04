@@ -12,7 +12,7 @@ export function AdvancedLandingPage() {
   const navigate = useNavigate();
   const [selectedUseCase, setSelectedUseCase] = useState<UseCase | null>(null);
 
-  const accent = '#f97316';
+  const accent = '#FF9E1B';
   const text = '#e2e8f0';
   const textMuted = '#64748b';
   const cardBg = '#0e1530';

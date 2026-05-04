@@ -52,7 +52,7 @@ export function PaymentLinkGenerator({
     }
   };
 
-  const accentColor = '#f97316';
+  const accentColor = '#FF9E1B';
   const inputBg = isDark ? '#162040' : '#fdf6f0';
 
   return (

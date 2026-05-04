@@ -71,7 +71,7 @@ function AuctionCard({ auction, onEdit, onViewBids, isDark, border, text, textMu
   isDark: boolean; border: string; text: string; textMuted: string; card: string; isMobile: boolean;
 }) {
   const countdown = useCountdown(auction.endAt, auction.status);
-  const accent = '#f97316';
+  const accent = '#FF9E1B';
   const STATUS_STYLES = {
     draft:    { color: '#6b7280', bg: '#6b728022', label: '📝 Draft' },
     live:     { color: '#22c55e', bg: '#22c55e22', label: '🟢 Live' },
@@ -84,7 +84,7 @@ function AuctionCard({ auction, onEdit, onViewBids, isDark, border, text, textMu
     <div style={{ background: card, borderRadius: 16, border: `1px solid ${border}`, padding: 20 }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-          <div style={{ width: 52, height: 52, borderRadius: 14, background: `linear-gradient(135deg, ${accent}33, #fb923c33)`, border: `1px solid ${accent}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28 }}>
+          <div style={{ width: 52, height: 52, borderRadius: 14, background: `linear-gradient(135deg, ${accent}33, #FF9E1B33)`, border: `1px solid ${accent}44`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 28 }}>
             {auction.emoji}
           </div>
           <div>
@@ -181,7 +181,7 @@ export function AuctionsManagePage() {
   const text    = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
   const inputBg = isDark ? '#162040' : '#fdf6f0';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
 
   const filtered = tab === 'all' ? auctions : auctions.filter(a => a.status === tab);
 
@@ -268,7 +268,7 @@ export function AuctionsManagePage() {
               </button>
             ))}
           </div>
-          <button onClick={openNew} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 16px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+          <button onClick={openNew} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 16px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
             <Plus size={16} /> Create Auction
           </button>
         </div>
@@ -452,7 +452,7 @@ export function AuctionsManagePage() {
             </div>
             <div style={{ padding: '16px 24px', borderTop: `1px solid ${border}`, display: 'flex', gap: 10 }}>
               <button onClick={() => setFormOpen(false)} style={{ flex: 1, padding: 11, borderRadius: 10, border: `1px solid ${border}`, background: 'transparent', color: textMuted, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>Cancel</button>
-              <button onClick={save} disabled={saved} style={{ flex: 2, padding: 11, borderRadius: 10, border: 'none', background: saved ? '#22c55e' : `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', cursor: 'pointer', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+              <button onClick={save} disabled={saved} style={{ flex: 2, padding: 11, borderRadius: 10, border: 'none', background: saved ? '#22c55e' : `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', cursor: 'pointer', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                 {saved ? <><Check size={16} /> Created!</> : editId ? 'Save Changes' : 'Launch Auction'}
               </button>
             </div>

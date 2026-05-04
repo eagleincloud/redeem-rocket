@@ -17,7 +17,7 @@ const STAGES: { key: LeadStage; label: string; color: string }[] = [
   { key: 'new',         label: 'New',         color: '#64748b' },
   { key: 'contacted',   label: 'Contacted',   color: '#3b82f6' },
   { key: 'qualified',   label: 'Qualified',   color: '#f59e0b' },
-  { key: 'proposal',    label: 'Proposal',    color: '#f97316' },
+  { key: 'proposal',    label: 'Proposal',    color: '#FF9E1B' },
   { key: 'negotiation', label: 'Negotiation', color: '#a855f7' },
   { key: 'won',         label: 'Won',         color: '#22c55e' },
   { key: 'lost',        label: 'Lost',        color: '#ef4444' },
@@ -91,7 +91,7 @@ export function LeadsPage() {
   const border   = isDark ? '#1c2a55' : '#e8d8cc';
   const text     = isDark ? '#e2e8f0' : '#18100a';
   const muted    = isDark ? '#64748b' : '#9a7860';
-  const accent   = '#f97316';
+  const accent   = '#FF9E1B';
 
   const isFree      = bizUser.plan === 'free';
   const canKanban   = meetsRequirement(bizUser.plan, 'basic');
@@ -294,7 +294,7 @@ export function LeadsPage() {
 
   const statCards = [
     { label: 'Total Leads',      value: leads.length,                    icon: <Users size={16} color={muted} />,       color: '#3b82f6' },
-    { label: 'Pipeline Value',   value: formatCurrency(pipelineValue),   icon: <TrendingUp size={16} color={muted} />,  color: '#f97316' },
+    { label: 'Pipeline Value',   value: formatCurrency(pipelineValue),   icon: <TrendingUp size={16} color={muted} />,  color: '#FF9E1B' },
     { label: 'Won This Month',   value: wonThisMonth,                    icon: <Trophy size={16} color={muted} />,      color: '#22c55e' },
     { label: 'Overdue Follow-ups', value: overdueCount,                  icon: <Clock size={16} color={muted} />,       color: overdueCount > 0 ? '#ef4444' : muted as string },
   ];
@@ -491,7 +491,7 @@ export function LeadsPage() {
                 display: 'flex', alignItems: 'center', gap: 5,
                 padding: '8px 16px',
                 background: isFree && leads.length >= FREE_LEAD_CAP
-                  ? `${accent}44` : `linear-gradient(135deg, ${accent}, #fb923c)`,
+                  ? `${accent}44` : `linear-gradient(135deg, ${accent}, #FF9E1B)`,
                 border: 'none', borderRadius: 8,
                 cursor: isFree && leads.length >= FREE_LEAD_CAP ? 'not-allowed' : 'pointer',
                 color: '#fff', fontSize: 13, fontWeight: 700,
@@ -621,7 +621,7 @@ export function LeadsPage() {
 
           {/* Primary CTA */}
           <div style={{ display: 'flex', gap: 10 }}>
-            <button onClick={() => setShowAddLead(true)} style={{ padding: '11px 28px', background: `linear-gradient(135deg, ${accent}, #fb923c)`, border: 'none', borderRadius: 10, color: '#fff', fontSize: 14, fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 16px rgba(249,115,22,0.35)' }}>
+            <button onClick={() => setShowAddLead(true)} style={{ padding: '11px 28px', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, border: 'none', borderRadius: 10, color: '#fff', fontSize: 14, fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 16px rgba(249,115,22,0.35)' }}>
               + Add First Lead
             </button>
             <button onClick={() => setShowImport(true)} style={{ padding: '11px 20px', background: 'none', border: `1px solid ${border}`, borderRadius: 10, color: muted, fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
@@ -653,7 +653,7 @@ export function LeadsPage() {
                 Upgrade to Basic plan to unlock the Kanban pipeline view, CSV import, and more.
               </div>
               <button onClick={() => {}} style={{
-                padding: '10px 28px', background: `linear-gradient(135deg, ${accent}, #fb923c)`,
+                padding: '10px 28px', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`,
                 border: 'none', borderRadius: 8, cursor: 'pointer',
                 color: '#fff', fontSize: 14, fontWeight: 700,
                 boxShadow: '0 4px 16px rgba(249,115,22,0.5)',
@@ -798,7 +798,7 @@ export function LeadsPage() {
                     borderBottom: i < filtered.length - 1 ? `1px solid ${border}` : 'none',
                     cursor: 'pointer', alignItems: 'center',
                     transition: 'background 0.12s',
-                    background: isSelected ? (isDark ? '#f9731610' : '#fff7ed') : 'transparent',
+                    background: isSelected ? (isDark ? '#FF9E1B10' : '#fff7ed') : 'transparent',
                   }}
                   onMouseEnter={e => { if (!isSelected) (e.currentTarget as HTMLElement).style.background = isDark ? '#ffffff08' : '#fdf6f0'; }}
                   onMouseLeave={e => { if (!isSelected) (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
@@ -878,7 +878,7 @@ export function LeadsPage() {
             <option value="">Move to stage…</option>
             {STAGES.map(s => <option key={s.key} value={s.key}>{s.label}</option>)}
           </select>
-          <button onClick={handleBulkStageChange} disabled={!bulkStage} style={{ padding: '7px 14px', borderRadius: 8, background: bulkStage ? `linear-gradient(135deg, ${accent}, #fb923c)` : '#64748b', border: 'none', color: '#fff', fontSize: 12, fontWeight: 700, cursor: bulkStage ? 'pointer' : 'default' }}>
+          <button onClick={handleBulkStageChange} disabled={!bulkStage} style={{ padding: '7px 14px', borderRadius: 8, background: bulkStage ? `linear-gradient(135deg, ${accent}, #FF9E1B)` : '#64748b', border: 'none', color: '#fff', fontSize: 12, fontWeight: 700, cursor: bulkStage ? 'pointer' : 'default' }}>
             Apply
           </button>
           <div style={{ width: 1, height: 24, background: border }} />

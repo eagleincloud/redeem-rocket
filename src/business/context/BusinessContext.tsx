@@ -156,7 +156,7 @@ function getDefaultFeaturePreferences(plan: SubscriptionPlan): FeaturePreference
 function getDefaultThemePreference(): ThemePreference {
   return {
     layout: 'grid',
-    primaryColor: '#f97316', // orange
+    primaryColor: '#FF9E1B', // orange
     secondaryColor: '#6366f1', // indigo
     fontStyle: 'sans',
   };

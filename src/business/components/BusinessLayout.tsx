@@ -163,7 +163,7 @@ function getDaysLeft(expiry: string | null): number | null {
 }
 
 const PLAN_COLORS: Record<string, string> = {
-  free: '#6b7280', basic: '#3b82f6', pro: '#fb923c', enterprise: '#f59e0b',
+  free: '#6b7280', basic: '#3b82f6', pro: '#FF9E1B', enterprise: '#f59e0b',
 };
 
 const PLAN_BADGE_LABELS: Record<string, string> = {
@@ -345,10 +345,10 @@ export function BusinessLayout() {
 
   // Wait for async team-member session to load before deciding auth state
   if (isLoading) return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0b1220' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0f1d2d' }}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
         <img src="/logo.png" alt="Redeem Rocket" style={{ width: 56, height: 56, objectFit: 'contain', opacity: 0.8 }} />
-        <div style={{ width: 36, height: 36, border: '3px solid #f97316', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
+        <div style={{ width: 36, height: 36, border: '3px solid #FF9E1B', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     </div>
@@ -384,12 +384,12 @@ export function BusinessLayout() {
     }
   }
 
-  const bg        = isDark ? '#0b1220' : '#faf7f3';
-  const sidebar   = isDark ? '#0f172a' : '#ffffff';
+  const bg        = isDark ? '#0f1d2d' : '#faf7f3';
+  const sidebar   = isDark ? '#1a3a52' : '#ffffff';
   const border    = isDark ? 'rgba(255,255,255,0.07)' : '#e8d8cc';
   const text      = isDark ? '#f1f5f9' : '#18100a';
   const textMuted = isDark ? '#6b7280' : '#9a7860';
-  const accent    = '#f97316';
+  const accent    = '#FF9E1B';
 
   // ── Dynamic nav groups based on product_selection ─────────────────────────
   const productSelection = (bizUser.product_selection as 'rr' | 'lms' | 'both') || 'both';
@@ -462,9 +462,9 @@ export function BusinessLayout() {
                     {locked && planRequired && (
                       <span style={{
                         fontSize: 9, fontWeight: 800, padding: '2px 5px', borderRadius: 4,
-                        background: planRequired === 'pro' ? '#fb923c22' : '#3b82f622',
-                        color: planRequired === 'pro' ? '#fb923c' : '#3b82f6',
-                        border: `1px solid ${planRequired === 'pro' ? '#fb923c44' : '#3b82f644'}`,
+                        background: planRequired === 'pro' ? '#FF9E1B22' : '#3b82f622',
+                        color: planRequired === 'pro' ? '#FF9E1B' : '#3b82f6',
+                        border: `1px solid ${planRequired === 'pro' ? '#FF9E1B44' : '#3b82f644'}`,
                         letterSpacing: '0.04em', flexShrink: 0,
                       }}>
                         {PLAN_BADGE_LABELS[planRequired] ?? 'PAID'}
@@ -499,7 +499,7 @@ export function BusinessLayout() {
 
         {/* Mobile header */}
         <header style={{
-          height: 56, background: '#0f172a', borderBottom: '1px solid rgba(255,255,255,0.06)',
+          height: 56, background: '#1a3a52', borderBottom: '1px solid rgba(255,255,255,0.06)',
           display: 'flex', alignItems: 'center', padding: '0 16px', gap: 12, flexShrink: 0,
           position: 'sticky', top: 0, zIndex: 50,
         }}>
@@ -510,7 +510,7 @@ export function BusinessLayout() {
           >
             <div style={{
               width: 32, height: 32, borderRadius: 8,
-              background: 'linear-gradient(135deg, #f97316, #fb923c)',
+              background: 'linear-gradient(135deg, #FF9E1B, #FF9E1B)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 16, flexShrink: 0,
             }}>
@@ -566,7 +566,7 @@ export function BusinessLayout() {
         <main style={{
           flex: 1, overflowY: 'auto', padding: '16px 16px 80px',
           background: isDark
-            ? 'radial-gradient(ellipse 80% 60% at 70% 20%, rgba(99,102,241,0.08) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 30% 80%, rgba(124,58,237,0.06) 0%, transparent 60%), #0b1220'
+            ? 'radial-gradient(ellipse 80% 60% at 70% 20%, rgba(99,102,241,0.08) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 30% 80%, rgba(124,58,237,0.06) 0%, transparent 60%), #0f1d2d'
             : bg,
         }}>
           <Outlet />
@@ -575,7 +575,7 @@ export function BusinessLayout() {
         {/* Bottom nav */}
         <nav style={{
           position: 'fixed', bottom: 0, left: 0, right: 0, height: 64,
-          background: '#0f172a', borderTop: '1px solid rgba(255,255,255,0.06)',
+          background: '#1a3a52', borderTop: '1px solid rgba(255,255,255,0.06)',
           display: 'flex', alignItems: 'stretch', zIndex: 100,
         }}>
           {BOTTOM_NAV.map((item) => {
@@ -589,7 +589,7 @@ export function BusinessLayout() {
                 style={{
                   flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
                   justifyContent: 'center', gap: 3, background: 'transparent', border: 'none',
-                  cursor: 'pointer', color: active ? '#f97316' : '#6b7280',
+                  cursor: 'pointer', color: active ? '#FF9E1B' : '#6b7280',
                   fontSize: 10, fontWeight: active ? 700 : 400,
                   position: 'relative', paddingTop: 8,
                 }}
@@ -599,7 +599,7 @@ export function BusinessLayout() {
                   <span style={{
                     position: 'absolute', top: 6, left: '50%', transform: 'translateX(-50%)',
                     width: 6, height: 6, borderRadius: '50%',
-                    background: '#f97316',
+                    background: '#FF9E1B',
                     boxShadow: '0 0 6px rgba(249,115,22,0.8)',
                   }} />
                 )}
@@ -609,7 +609,7 @@ export function BusinessLayout() {
                   <span style={{
                     position: 'absolute', top: 10, right: '25%',
                     width: 10, height: 10, borderRadius: '50%',
-                    background: '#0f172a', border: '1px solid rgba(255,255,255,0.06)',
+                    background: '#1a3a52', border: '1px solid rgba(255,255,255,0.06)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
                     <Lock size={6} color="#ef4444" />
@@ -662,7 +662,7 @@ export function BusinessLayout() {
                 {bizUser.businessName && (
                   <div style={{ padding: '12px 16px', borderBottom: `1px solid ${border}`, background: isDark ? '#111827' : '#fdf6f0' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <div style={{ width: 32, height: 32, borderRadius: 8, background: `linear-gradient(135deg, ${accent}33, #fb923c33)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, border: `1px solid ${accent}44` }}>
+                      <div style={{ width: 32, height: 32, borderRadius: 8, background: `linear-gradient(135deg, ${accent}33, #FF9E1B33)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, border: `1px solid ${accent}44` }}>
                         {bizUser.businessLogo || '🏪'}
                       </div>
                       <div>
@@ -729,13 +729,13 @@ export function BusinessLayout() {
             position: 'fixed', bottom: 72,
             left: '50%', transform: 'translateX(-50%)',
             background: isDark ? '#1c2a55' : '#18100a',
-            border: '1px solid #f9731633', borderRadius: 10,
+            border: '1px solid #FF9E1B33', borderRadius: 10,
             padding: '10px 16px', fontSize: 12, color: '#e2e8f0',
             boxShadow: '0 4px 20px rgba(0,0,0,0.4)', zIndex: 300,
             display: 'flex', alignItems: 'center', gap: 8,
             whiteSpace: 'nowrap',
           }}>
-            <Lock size={14} color="#f97316" />
+            <Lock size={14} color="#FF9E1B" />
             {lockedMsg}
           </div>
         )}
@@ -745,7 +745,7 @@ export function BusinessLayout() {
 
   // ── Desktop layout ─────────────────────────────────────────────────────────
   return (
-    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: isDark ? '#0b1220' : bg, color: text, fontFamily: 'system-ui, sans-serif', position: 'relative' }}>
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: isDark ? '#0f1d2d' : bg, color: text, fontFamily: 'system-ui, sans-serif', position: 'relative' }}>
 
       {/* Sidebar */}
       <aside style={{
@@ -773,7 +773,7 @@ export function BusinessLayout() {
         {sidebarOpen && bizUser.businessName && (
           <div style={{ padding: '12px 16px', borderBottom: `1px solid ${border}`, background: isDark ? '#111827' : '#fdf6f0', flexShrink: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ width: 32, height: 32, borderRadius: 8, background: `linear-gradient(135deg, ${accent}33, #fb923c33)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, border: `1px solid ${accent}44`, flexShrink: 0 }}>
+              <div style={{ width: 32, height: 32, borderRadius: 8, background: `linear-gradient(135deg, ${accent}33, #FF9E1B33)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, border: `1px solid ${accent}44`, flexShrink: 0 }}>
                 {bizUser.businessLogo || '🏪'}
               </div>
               <div style={{ overflow: 'hidden' }}>
@@ -984,7 +984,7 @@ export function BusinessLayout() {
           <ThemeToggle />
 
           <div
-            style={{ width: 32, height: 32, borderRadius: '50%', background: `linear-gradient(135deg, ${accent}, #fb923c)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: '#fff', cursor: 'pointer' }}
+            style={{ width: 32, height: 32, borderRadius: '50%', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, color: '#fff', cursor: 'pointer' }}
             onClick={() => navigate('/app/profile')}
           >
             {bizUser.name?.charAt(0).toUpperCase() ?? 'B'}
@@ -995,7 +995,7 @@ export function BusinessLayout() {
         <main style={{
           flex: 1, overflowY: 'auto', padding: 24,
           background: isDark
-            ? 'radial-gradient(ellipse 80% 60% at 70% 20%, rgba(99,102,241,0.08) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 30% 80%, rgba(124,58,237,0.06) 0%, transparent 60%), #0b1220'
+            ? 'radial-gradient(ellipse 80% 60% at 70% 20%, rgba(99,102,241,0.08) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 30% 80%, rgba(124,58,237,0.06) 0%, transparent 60%), #0f1d2d'
             : bg,
           position: 'relative',
         }}>
@@ -1009,7 +1009,7 @@ export function BusinessLayout() {
           position: 'fixed', bottom: 80,
           left: sidebarOpen ? 256 : 80,
           background: isDark ? '#1c2a55' : '#18100a',
-          border: '1px solid #f9731633',
+          border: '1px solid #FF9E1B33',
           borderRadius: 10, padding: '10px 16px',
           fontSize: 12, color: '#e2e8f0',
           boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
@@ -1018,7 +1018,7 @@ export function BusinessLayout() {
           transition: 'left 0.25s',
           maxWidth: 360,
         }}>
-          <Lock size={14} color="#f97316" />
+          <Lock size={14} color="#FF9E1B" />
           {lockedMsg}
         </div>
       )}

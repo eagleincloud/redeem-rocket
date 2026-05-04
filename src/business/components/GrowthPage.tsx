@@ -36,7 +36,7 @@ const COMPETITORS: Record<string, Array<{ name: string; plan: 'free' | 'basic' |
 };
 
 const PLAN_COLORS: Record<string, string> = {
-  free: '#6b7280', basic: '#3b82f6', pro: '#fb923c', enterprise: '#f59e0b',
+  free: '#6b7280', basic: '#3b82f6', pro: '#FF9E1B', enterprise: '#f59e0b',
 };
 
 const AD_PACKAGES = [
@@ -58,8 +58,8 @@ const AD_PACKAGES = [
     name: 'Push Blast',
     price: 199,
     period: 'blast',
-    color: '#f97316',
-    gradient: 'linear-gradient(135deg, #f9731622, #fb923c11)',
+    color: '#FF9E1B',
+    gradient: 'linear-gradient(135deg, #FF9E1B22, #FF9E1B11)',
     tag: '5,000+ users',
     desc: 'Send a push notification to all nearby Redeem Rocket users about your deal.',
     stats: ['5k+ app users notified', 'Geo-targeted 5km', 'Custom message', 'Instant delivery'],
@@ -83,7 +83,7 @@ const AD_PACKAGES = [
     price: 99,
     period: 'day',
     color: '#ef4444',
-    gradient: 'linear-gradient(135deg, #ef444422, #f9731611)',
+    gradient: 'linear-gradient(135deg, #ef444422, #FF9E1B11)',
     tag: 'Quick ROI',
     desc: 'Boost your flash deal to the top of the flash deals feed for a full day.',
     stats: ['Top of flash deals', 'Urgency badge', 'Timer display', 'Social sharing'],
@@ -92,7 +92,7 @@ const AD_PACKAGES = [
 
 const GROWTH_STATS = [
   { label: 'Avg. extra revenue for Pro users', value: '₹42,000', sub: 'per month vs Free', color: '#22c55e' },
-  { label: 'Increase in store visits', value: '4.3×', sub: 'with Featured badge', color: '#f97316' },
+  { label: 'Increase in store visits', value: '4.3×', sub: 'with Featured badge', color: '#FF9E1B' },
   { label: 'Customer reach with Push Blast', value: '5,200+', sub: 'within 5km radius', color: '#f59e0b' },
   { label: 'Businesses upgraded this month', value: '847', sub: 'in your city', color: '#ec4899' },
 ];
@@ -117,7 +117,7 @@ export function GrowthPage() {
   const text   = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
   const inputBg = isDark ? '#162040' : '#fdf6f0';
-  const accent = '#f97316';
+  const accent = '#FF9E1B';
 
   // ROI calculator
   const currentMonthlyRevenue = avgTicket * footfall;
@@ -130,7 +130,7 @@ export function GrowthPage() {
     <div style={{ color: text, display: 'flex', flexDirection: 'column', gap: 32 }}>
 
       {/* Header */}
-      <div style={{ background: `linear-gradient(135deg, ${accent}22, #fb923c11)`, borderRadius: 20, border: `1px solid ${accent}33`, padding: '28px 32px', display: 'flex', alignItems: 'center', gap: 24 }}>
+      <div style={{ background: `linear-gradient(135deg, ${accent}22, #FF9E1B11)`, borderRadius: 20, border: `1px solid ${accent}33`, padding: '28px 32px', display: 'flex', alignItems: 'center', gap: 24 }}>
         <div style={{ flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
             <TrendingUp size={22} color={accent} />
@@ -223,9 +223,9 @@ export function GrowthPage() {
         </div>
         <div style={{ padding: '14px 24px', background: isDark ? '#0f0f1e' : '#fdf6f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <p style={{ fontSize: 12, color: textMuted }}>
-            💡 Upgrade to <strong style={{ color: '#fb923c' }}>Pro</strong> to get a Featured badge and move to the top 3 in your category
+            💡 Upgrade to <strong style={{ color: '#FF9E1B' }}>Pro</strong> to get a Featured badge and move to the top 3 in your category
           </p>
-          <button onClick={() => navigate('/subscription')} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
+          <button onClick={() => navigate('/subscription')} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '8px 16px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
             Get Featured <ArrowRight size={13} />
           </button>
         </div>
@@ -239,7 +239,7 @@ export function GrowthPage() {
           <p style={{ fontSize: 12, color: textMuted, marginBottom: 20 }}>How visible you are vs. category leaders</p>
           {[
             { label: 'Your business', value: 34, color: accent },
-            { label: 'Pro plan avg', value: 71, color: '#fb923c' },
+            { label: 'Pro plan avg', value: 71, color: '#FF9E1B' },
             { label: 'Enterprise avg', value: 94, color: '#f59e0b' },
           ].map(row => (
             <div key={row.label} style={{ marginBottom: 14 }}>
@@ -389,7 +389,7 @@ export function GrowthPage() {
           </div>
 
           {/* ROI Summary */}
-          <div style={{ padding: 20, borderRadius: 14, background: `linear-gradient(135deg, ${accent}22, #fb923c11)`, border: `1px solid ${accent}44` }}>
+          <div style={{ padding: 20, borderRadius: 14, background: `linear-gradient(135deg, ${accent}22, #FF9E1B11)`, border: `1px solid ${accent}44` }}>
             <div style={{ textAlign: 'center', marginBottom: 16 }}>
               <div style={{ fontSize: 11, color: accent, fontWeight: 600, marginBottom: 4 }}>Return on Investment</div>
               <div style={{ fontSize: 48, fontWeight: 900, color: accent, lineHeight: 1 }}>{roi}%</div>
@@ -399,7 +399,7 @@ export function GrowthPage() {
               Pro plan costs ₹999/mo.<br />
               You'd earn ₹{extraRevenue.toLocaleString('en-IN')} extra = <strong style={{ color: accent }}>{roi}× your investment</strong>
             </div>
-            <button onClick={() => navigate('/subscription')} style={{ width: '100%', padding: '11px', borderRadius: 12, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+            <button onClick={() => navigate('/subscription')} style={{ width: '100%', padding: '11px', borderRadius: 12, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
               Upgrade to Pro <ArrowRight size={14} />
             </button>
           </div>

@@ -29,7 +29,7 @@ const KANBAN_COLUMNS: { key: OutreachStatus; label: string; color: string; icon:
   { key: 'draft',       label: 'Draft',       color: '#64748b', icon: <Mail size={13} /> },
   { key: 'scheduled',   label: 'Scheduled',   color: '#3b82f6', icon: <Clock size={13} /> },
   { key: 'warming_up',  label: 'Warming Up',  color: '#f59e0b', icon: <RefreshCw size={13} /> },
-  { key: 'running',     label: 'Running',     color: '#f97316', icon: <Play size={13} /> },
+  { key: 'running',     label: 'Running',     color: '#FF9E1B', icon: <Play size={13} /> },
   { key: 'paused',      label: 'Paused',      color: '#a855f7', icon: <Pause size={13} /> },
   { key: 'completed',   label: 'Completed',   color: '#22c55e', icon: <CheckCircle size={13} /> },
   { key: 'failed',      label: 'Failed',      color: '#ef4444', icon: <XCircle size={13} /> },
@@ -192,7 +192,7 @@ function CampaignCard({
 
       {/* Running: next batch info */}
       {isActive && (
-        <div style={{ fontSize: 10, color: '#f97316', marginBottom: 8 }}>
+        <div style={{ fontSize: 10, color: '#FF9E1B', marginBottom: 8 }}>
           ⚡ Sending {campaign.batch_size}/batch · every {campaign.batch_interval_minutes}min
         </div>
       )}
@@ -216,8 +216,8 @@ function CampaignCard({
         )}
         {campaign.status === 'paused' && (
           <button onClick={onResume} style={{
-            flex: 1, padding: '5px 0', background: '#f9731620', color: '#f97316',
-            border: '1px solid #f9731640', borderRadius: 6, cursor: 'pointer',
+            flex: 1, padding: '5px 0', background: '#FF9E1B20', color: '#FF9E1B',
+            border: '1px solid #FF9E1B40', borderRadius: 6, cursor: 'pointer',
             fontSize: 11, fontWeight: 600, display: 'flex', alignItems: 'center',
             justifyContent: 'center', gap: 4,
           }}>
@@ -267,7 +267,7 @@ function CampaignDetailModal({
   const delivered = campaign.delivered_count || campaign.sent_count;
   const stats = [
     { label: 'Total Recipients', value: campaign.total_recipients.toLocaleString(), color: '#3b82f6' },
-    { label: 'Sent',             value: campaign.sent_count.toLocaleString(),        color: '#f97316' },
+    { label: 'Sent',             value: campaign.sent_count.toLocaleString(),        color: '#FF9E1B' },
     { label: 'Delivered',        value: delivered.toLocaleString(),                  color: '#22c55e' },
     { label: 'Opened',           value: `${campaign.opened_count.toLocaleString()} (${openRate(campaign)})`, color: '#a855f7' },
     { label: 'Clicked',          value: `${campaign.clicked_count.toLocaleString()} (${clickRate(campaign)})`, color: '#06b6d4' },
@@ -311,7 +311,7 @@ function CampaignDetailModal({
             <div style={{ height: 8, background: `${border}88`, borderRadius: 4, overflow: 'hidden' }}>
               <div style={{
                 height: '100%', width: `${progressPct(campaign)}%`, borderRadius: 4,
-                background: 'linear-gradient(90deg, #f97316, #22c55e)',
+                background: 'linear-gradient(90deg, #FF9E1B, #22c55e)',
               }} />
             </div>
           </div>
@@ -395,7 +395,7 @@ export function OutreachPage() {
   const border = isDark ? '#1c2a55' : '#e8d8cc';
   const text   = isDark ? '#e2e8f0' : '#18100a';
   const muted  = isDark ? '#64748b' : '#9a7860';
-  const accent = '#f97316';
+  const accent = '#FF9E1B';
 
   useEffect(() => {
     if (!bizUser?.businessId) return;
@@ -557,7 +557,7 @@ export function OutreachPage() {
         gap: 12, marginBottom: 20,
       }}>
         {[
-          { label: 'Total Sent',    value: formatNumber(totalSent),          icon: <Send size={16} />,      color: '#f97316' },
+          { label: 'Total Sent',    value: formatNumber(totalSent),          icon: <Send size={16} />,      color: '#FF9E1B' },
           { label: 'Total Reached', value: formatNumber(totalRecipients),    icon: <Users size={16} />,     color: '#3b82f6' },
           { label: 'Live Campaigns', value: String(running),                 icon: <Play size={16} />,      color: '#22c55e' },
           { label: 'Avg Open Rate', value: `${Math.round(avgOpen)}%`,        icon: <BarChart2 size={16} />, color: '#a855f7' },
@@ -624,7 +624,7 @@ export function OutreachPage() {
               </div>
               <button onClick={() => setShowWizard(true)} style={{
                 padding: '8px 18px',
-                background: `linear-gradient(135deg, ${accent}, #fb923c)`,
+                background: `linear-gradient(135deg, ${accent}, #FF9E1B)`,
                 border: 'none', borderRadius: 8, color: '#fff',
                 fontSize: 12, fontWeight: 700, cursor: 'pointer',
                 display: 'flex', alignItems: 'center', gap: 6,
@@ -661,7 +661,7 @@ export function OutreachPage() {
             { n: '3', icon: '🚀', title: 'Schedule & Send', desc: 'Send immediately or schedule for the perfect time. Track opens and replies live.', action: null },
           ].map(step => (
             <div key={step.n} style={{ display: 'flex', gap: 16, alignItems: 'flex-start', textAlign: 'left', marginBottom: 20, padding: '14px 16px', borderRadius: 12, background: isDark ? '#0a1020' : '#fdf6f0', border: `1px solid ${border}` }}>
-              <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #fb923c)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800, color: '#fff', flexShrink: 0 }}>
+              <div style={{ width: 32, height: 32, borderRadius: '50%', background: 'linear-gradient(135deg, #FF9E1B, #FF9E1B)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 800, color: '#fff', flexShrink: 0 }}>
                 {step.n}
               </div>
               <div style={{ flex: 1 }}>
@@ -670,7 +670,7 @@ export function OutreachPage() {
                 </div>
                 <div style={{ fontSize: 12, color: muted, lineHeight: 1.5 }}>{step.desc}</div>
                 {step.action && (
-                  <button onClick={step.action} style={{ marginTop: 10, padding: '7px 16px', borderRadius: 8, background: 'linear-gradient(135deg, #f97316, #fb923c)', border: 'none', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
+                  <button onClick={step.action} style={{ marginTop: 10, padding: '7px 16px', borderRadius: 8, background: 'linear-gradient(135deg, #FF9E1B, #FF9E1B)', border: 'none', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
                     {step.actionLabel}
                   </button>
                 )}
@@ -679,7 +679,7 @@ export function OutreachPage() {
           ))}
 
           {/* Primary CTA */}
-          <button onClick={() => setShowWizard(true)} style={{ marginTop: 8, padding: '12px 32px', background: 'linear-gradient(135deg, #f97316, #fb923c)', border: 'none', borderRadius: 12, color: '#fff', fontSize: 14, fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 20px rgba(249,115,22,0.35)' }}>
+          <button onClick={() => setShowWizard(true)} style={{ marginTop: 8, padding: '12px 32px', background: 'linear-gradient(135deg, #FF9E1B, #FF9E1B)', border: 'none', borderRadius: 12, color: '#fff', fontSize: 14, fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 20px rgba(249,115,22,0.35)' }}>
             + Create My First Campaign
           </button>
         </div>

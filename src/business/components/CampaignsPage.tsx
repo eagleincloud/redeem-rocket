@@ -59,7 +59,7 @@ const CHIP_VARIABLES = ['{name}', '{business}', '{offer}', '{amount}'];
 
 // ─── TAG COLORS ───────────────────────────────────────────────────────────────
 const TAG_COLORS = [
-  '#f97316', '#22c55e', '#3b82f6', '#a855f7', '#ec4899',
+  '#FF9E1B', '#22c55e', '#3b82f6', '#a855f7', '#ec4899',
   '#f59e0b', '#14b8a6', '#ef4444',
 ];
 function tagColor(tag: string): string {
@@ -86,7 +86,7 @@ function ComposeSheet({ contacts, channel, bizName, isDark, onClose }: ComposeSh
   const text      = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
   const inputBg   = isDark ? '#162040' : '#fdf6f0';
-  const accent    = '#f97316';
+  const accent    = '#FF9E1B';
   const overlay   = isDark ? 'rgba(0,0,0,0.75)' : 'rgba(0,0,0,0.45)';
 
   function handleTemplateChange(id: string) {
@@ -291,7 +291,7 @@ function ContactsTab({
   const text      = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
   const inputBg   = isDark ? '#162040' : '#fdf6f0';
-  const accent    = '#f97316';
+  const accent    = '#FF9E1B';
 
   const allChecked = contacts.length > 0 && selectedIds.size === contacts.length;
   const someChecked = selectedIds.size > 0 && selectedIds.size < contacts.length;
@@ -865,7 +865,7 @@ function CreateCampaignTab({
   const text      = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
   const inputBg   = isDark ? '#162040' : '#fdf6f0';
-  const accent    = '#f97316';
+  const accent    = '#FF9E1B';
 
   function handleTemplateIdChange(id: string) {
     setTemplateId(id);
@@ -1315,7 +1315,7 @@ export function CampaignsPage() {
   const border    = isDark ? '#1c2a55' : '#e8d8cc';
   const text      = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
-  const accent    = '#f97316';
+  const accent    = '#FF9E1B';
 
   const bizId   = bizUser?.businessId ?? null;
   const bizName = bizUser?.businessName ?? 'My Business';

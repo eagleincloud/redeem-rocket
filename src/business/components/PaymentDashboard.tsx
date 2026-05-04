@@ -38,7 +38,7 @@ export function PaymentDashboard({ businessId, isDark = false, days = 30 }: Paym
   const bgColor = isDark ? '#0e1530' : '#ffffff';
   const borderColor = isDark ? '#1c2a55' : '#e8d8cc';
   const textColor = isDark ? '#e2e8f0' : '#18100a';
-  const accentColor = '#f97316';
+  const accentColor = '#FF9E1B';
 
   if (loading) return <div style={{ padding: '24px', backgroundColor: bgColor, borderRadius: '12px', border: `1px solid ${borderColor}`, textAlign: 'center' }}><p style={{ color: textColor }}>Loading...</p></div>;
 

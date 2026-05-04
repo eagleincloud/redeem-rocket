@@ -35,7 +35,7 @@ function ShareOfferTab({ bizName, isDark, offers }: { bizName: string; isDark: b
   const text      = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
   const inputBg   = isDark ? '#162040' : '#fdf6f0';
-  const accent    = '#f97316';
+  const accent    = '#FF9E1B';
 
   const appUrl = window.location.origin;
   const shareMessage = selectedOffer
@@ -196,7 +196,7 @@ function InstagramTab({ bizName, isDark, offers }: { bizName: string; isDark: bo
   const text      = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
   const inputBg   = isDark ? '#162040' : '#fdf6f0';
-  const accent    = '#f97316';
+  const accent    = '#FF9E1B';
 
   // Draw preview card on canvas whenever offer/biz changes
   useEffect(() => {
@@ -211,7 +211,7 @@ function InstagramTab({ bizName, isDark, offers }: { bizName: string; isDark: bo
 
     // Background gradient
     const grad = ctx.createLinearGradient(0, 0, W, H);
-    grad.addColorStop(0, '#0f172a');
+    grad.addColorStop(0, '#1a3a52');
     grad.addColorStop(1, '#1e293b');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, W, H);
@@ -263,8 +263,8 @@ function InstagramTab({ bizName, isDark, offers }: { bizName: string; isDark: bo
     ctx.quadraticCurveTo(rx, ry, rx + r, ry);
     ctx.closePath();
     const btnGrad = ctx.createLinearGradient(rx, ry, rx + rw, ry);
-    btnGrad.addColorStop(0, '#f97316');
-    btnGrad.addColorStop(1, '#fb923c');
+    btnGrad.addColorStop(0, '#FF9E1B');
+    btnGrad.addColorStop(1, '#FF9E1B');
     ctx.fillStyle = btnGrad;
     ctx.fill();
 
@@ -281,7 +281,7 @@ function InstagramTab({ bizName, isDark, offers }: { bizName: string; isDark: bo
 
     // Branding
     ctx.font = 'bold 32px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#f97316';
+    ctx.fillStyle = '#FF9E1B';
     ctx.textAlign = 'center';
     ctx.fillText('redeemrocket.app', W / 2, 970);
 
@@ -434,7 +434,7 @@ export function MarketingPage() {
   const border    = isDark ? '#1c2a55' : '#e8d8cc';
   const text      = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
-  const accent    = '#f97316';
+  const accent    = '#FF9E1B';
 
   const bizName = bizUser?.businessName ?? 'My Business';
   const businessId = bizUser?.businessId || bizUser?.id;
@@ -472,7 +472,7 @@ export function MarketingPage() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24 }}>
         <div style={{
           width: 40, height: 40, borderRadius: 10,
-          background: `linear-gradient(135deg, ${accent}33, #fb923c33)`,
+          background: `linear-gradient(135deg, ${accent}33, #FF9E1B33)`,
           border: `1px solid ${accent}44`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>

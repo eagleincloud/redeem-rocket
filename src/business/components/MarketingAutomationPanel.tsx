@@ -31,7 +31,7 @@ type TriggerOption =
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const ACCENT = '#f97316';
+const ACCENT = '#FF9E1B';
 
 const MOCK_WORKFLOWS: Workflow[] = [
   { id: 'w1', name: 'New Lead Welcome',      trigger: 'Lead added',             steps: 3, active: true,  leads_enrolled: 47, last_run: '2h ago' },
@@ -78,7 +78,7 @@ const TRIGGER_OPTIONS: TriggerOption[] = [
 const STEP_COLORS: Record<StepType, { bg: string; border: string; label: string }> = {
   trigger:   { bg: '#1d4ed822', border: '#3b82f6', label: 'TRIGGER' },
   wait:      { bg: '#37415122', border: '#6b7280', label: 'WAIT' },
-  send:      { bg: '#f9731622', border: '#f97316', label: 'SEND' },
+  send:      { bg: '#FF9E1B22', border: '#FF9E1B', label: 'SEND' },
   condition: { bg: '#a855f722', border: '#a855f7', label: 'CONDITION' },
   action:    { bg: '#22c55e22', border: '#22c55e', label: 'ACTION' },
 };

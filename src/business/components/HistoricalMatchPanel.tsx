@@ -21,7 +21,7 @@ interface Props {
 
 const STAGE_COLORS: Record<string, string> = {
   new: '#64748b', contacted: '#3b82f6', qualified: '#f59e0b',
-  proposal: '#f97316', negotiation: '#a855f7', won: '#22c55e', lost: '#ef4444',
+  proposal: '#FF9E1B', negotiation: '#a855f7', won: '#22c55e', lost: '#ef4444',
 };
 
 const ACTIVITY_ICONS: Record<string, string> = {
@@ -177,7 +177,7 @@ function MatchCard({
             <span style={{ fontSize: 11, color: muted }}>{lead.company}</span>
           )}
           {lead.deal_value && (
-            <span style={{ fontSize: 11, color: '#f97316', fontWeight: 600 }}>
+            <span style={{ fontSize: 11, color: '#FF9E1B', fontWeight: 600 }}>
               ₹{Number(lead.deal_value).toLocaleString('en-IN')}
             </span>
           )}
@@ -251,7 +251,7 @@ function MatchCard({
           disabled={linking}
           style={{
             flex: 1, padding: '6px 0', fontSize: 11, fontWeight: 700,
-            background: '#f97316', color: '#fff', border: 'none',
+            background: '#FF9E1B', color: '#fff', border: 'none',
             borderRadius: 6, cursor: linking ? 'not-allowed' : 'pointer',
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4,
             opacity: linking ? 0.6 : 1,
@@ -328,12 +328,12 @@ export function HistoricalMatchPanel({ businessId, query, excludeId, onViewLead,
         marginBottom: 10,
       }}>
         <div style={{
-          background: '#f9731620', border: '1px solid #f9731640',
+          background: '#FF9E1B20', border: '1px solid #FF9E1B40',
           borderRadius: 6, padding: '2px 8px',
           display: 'flex', alignItems: 'center', gap: 5,
         }}>
-          <Zap size={11} color="#f97316" />
-          <span style={{ fontSize: 11, fontWeight: 700, color: '#f97316' }}>
+          <Zap size={11} color="#FF9E1B" />
+          <span style={{ fontSize: 11, fontWeight: 700, color: '#FF9E1B' }}>
             AI Match
           </span>
         </div>

@@ -8,7 +8,7 @@ export function StartPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
-  const accent = '#f97316';
+  const accent = '#FF9E1B';
   const text = '#e2e8f0';
   const textMuted = '#64748b';
   const cardBg = '#0e1530';
@@ -79,7 +79,7 @@ export function StartPage() {
               color: 'transparent',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
-              backgroundImage: `linear-gradient(135deg, ${accent}, #fb923c, #fbbf24)`,
+              backgroundImage: `linear-gradient(135deg, ${accent}, #FF9E1B, #fbbf24)`,
             }}>
               Redeem Rocket
             </span>
@@ -271,7 +271,7 @@ export function StartPage() {
                       padding: '13px',
                       borderRadius: 11,
                       border: 'none',
-                      background: `linear-gradient(135deg, ${cred.badgeColor === accent ? accent : '#a855f7'}, ${cred.badgeColor === accent ? '#fb923c' : '#7c3aed'})`,
+                      background: `linear-gradient(135deg, ${cred.badgeColor === accent ? accent : '#a855f7'}, ${cred.badgeColor === accent ? '#FF9E1B' : '#7c3aed'})`,
                       color: '#fff',
                       fontSize: 14,
                       fontWeight: 700,

@@ -54,7 +54,7 @@ export function BusinessWalletPage() {
   const border  = isDark ? '#1c2a55' : '#e8d8cc';
   const text    = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
 
   const grossRevenue = transactions.filter(t => t.type === 'order_payment').reduce((s, t) => s + t.amount, 0);
   const platformFees = transactions.filter(t => t.type === 'platform_fee').reduce((s, t) => s + t.amount, 0);

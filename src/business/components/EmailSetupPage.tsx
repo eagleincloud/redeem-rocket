@@ -41,7 +41,7 @@ export const EmailSetupPage: React.FC = () => {
   });
 
   const colors = {
-    bg: isDark ? '#0b1220' : '#ffffff',
+    bg: isDark ? '#0f1d2d' : '#ffffff',
     card: isDark ? '#111827' : '#f9fafb',
     border: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.1)',
     text: isDark ? '#f1f5f9' : '#1f2937',

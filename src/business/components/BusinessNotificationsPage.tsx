@@ -23,7 +23,7 @@ interface Notification {
 
 const TYPE_META: Record<NotifType, { icon: React.ReactNode; color: string; bg: string; label: string }> = {
   order:            { icon: <ShoppingBag size={16} />,   color: '#22c55e', bg: '#22c55e22', label: 'Order' },
-  auction:          { icon: <Gavel size={16} />,         color: '#fb923c', bg: '#fb923c22', label: 'Auction' },
+  auction:          { icon: <Gavel size={16} />,         color: '#FF9E1B', bg: '#FF9E1B22', label: 'Auction' },
   lead:             { icon: <UserCheck size={16} />,     color: '#3b82f6', bg: '#3b82f622', label: 'Lead' },
   review:           { icon: <Star size={16} />,          color: '#f59e0b', bg: '#f59e0b22', label: 'Review' },
   system:           { icon: <AlertCircle size={16} />,   color: '#6b7280', bg: '#6b728022', label: 'System' },
@@ -107,7 +107,7 @@ export function BusinessNotificationsPage() {
   const border  = isDark ? '#1c2a55' : '#e8d8cc';
   const text    = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
 
   const bizId = bizUser?.businessId;
 

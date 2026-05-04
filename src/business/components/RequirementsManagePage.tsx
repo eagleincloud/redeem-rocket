@@ -69,7 +69,7 @@ export function RequirementsManagePage() {
   const text    = isDark ? '#e2e8f0' : '#18100a';
   const textMuted = isDark ? '#64748b' : '#9a7860';
   const inputBg = isDark ? '#162040' : '#fdf6f0';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
 
   const bizId = bizUser?.businessId;
 
@@ -277,7 +277,7 @@ export function RequirementsManagePage() {
                           <div style={{ fontSize: 10, color: textMuted, marginBottom: 8 }}>👤 {req.customerName} · {timeAgo(req.createdAt)}</div>
                           <div style={{ display: 'flex', gap: 6 }}>
                             {!req.myQuote && req.status === 'open' && (
-                              <button onClick={() => { setQuoteModal(req); setQuoteMessage(''); setQuotePrice(String(req.budget)); }} style={{ flex: 1, padding: '5px 8px', borderRadius: 7, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 10, fontWeight: 700, cursor: 'pointer' }}>
+                              <button onClick={() => { setQuoteModal(req); setQuoteMessage(''); setQuotePrice(String(req.budget)); }} style={{ flex: 1, padding: '5px 8px', borderRadius: 7, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 10, fontWeight: 700, cursor: 'pointer' }}>
                                 Quote
                               </button>
                             )}
@@ -347,7 +347,7 @@ export function RequirementsManagePage() {
                       </div>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end' }}>
                         {!hasMyQuote && req.status === 'open' && (
-                          <button onClick={() => { setQuoteModal(req); setQuoteMessage(''); setQuotePrice(String(req.budget)); }} style={{ padding: '8px 14px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
+                          <button onClick={() => { setQuoteModal(req); setQuoteMessage(''); setQuotePrice(String(req.budget)); }} style={{ padding: '8px 14px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}>
                             <Send size={13} /> Send Quote
                           </button>
                         )}
@@ -423,7 +423,7 @@ export function RequirementsManagePage() {
             </div>
             <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
               <button onClick={() => setQuoteModal(null)} style={{ flex: 1, padding: 11, borderRadius: 10, border: `1px solid ${border}`, background: 'transparent', color: textMuted, cursor: 'pointer', fontSize: 13, fontWeight: 600 }}>Cancel</button>
-              <button onClick={sendQuote} disabled={sent} style={{ flex: 2, padding: 11, borderRadius: 10, border: 'none', background: sent ? '#22c55e' : `linear-gradient(135deg, ${accent}, #fb923c)`, color: '#fff', cursor: 'pointer', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+              <button onClick={sendQuote} disabled={sent} style={{ flex: 2, padding: 11, borderRadius: 10, border: 'none', background: sent ? '#22c55e' : `linear-gradient(135deg, ${accent}, #FF9E1B)`, color: '#fff', cursor: 'pointer', fontSize: 13, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                 {sent ? <><Check size={16} /> Sent!</> : <><Send size={15} /> Send Quote</>}
               </button>
             </div>

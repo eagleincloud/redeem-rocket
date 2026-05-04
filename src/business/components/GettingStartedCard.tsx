@@ -61,7 +61,7 @@ export function GettingStartedCard({ completedSteps = [] }: GettingStartedCardPr
 
   // ── colours ──────────────────────────────────────────────────────────────
   const cardBg     = isDark ? '#0d1f3c' : '#fff9f5';
-  const borderCol  = '#f97316';
+  const borderCol  = '#FF9E1B';
   const text       = isDark ? '#e2e8f0' : '#18100a';
   const textMuted  = isDark ? '#64748b' : '#9a7860';
   const trackBg    = isDark ? '#1e3a5f' : '#ffe8d6';
@@ -95,7 +95,7 @@ export function GettingStartedCard({ completedSteps = [] }: GettingStartedCardPr
           <span style={{ fontWeight: 700, fontSize: 15, color: text }}>Getting Started</span>
           <span
             style={{
-              background:   '#f97316',
+              background:   '#FF9E1B',
               color:        '#fff',
               borderRadius: 20,
               fontSize:     11,
@@ -138,7 +138,7 @@ export function GettingStartedCard({ completedSteps = [] }: GettingStartedCardPr
         >
           <div
             style={{
-              background:   '#f97316',
+              background:   '#FF9E1B',
               width:        `${(doneCount / totalCount) * 100}%`,
               height:       '100%',
               borderRadius: 99,
@@ -199,7 +199,7 @@ export function GettingStartedCard({ completedSteps = [] }: GettingStartedCardPr
                       gap:        12,
                       padding:    '10px 18px',
                       background: active ? rowHoverBg : 'transparent',
-                      borderLeft: active ? `3px solid #f97316` : '3px solid transparent',
+                      borderLeft: active ? `3px solid #FF9E1B` : '3px solid transparent',
                       transition: 'background 0.15s',
                     }}
                   >
@@ -253,7 +253,7 @@ export function GettingStartedCard({ completedSteps = [] }: GettingStartedCardPr
                       <button
                         onClick={() => navigate(step.path!)}
                         style={{
-                          background:   '#f97316',
+                          background:   '#FF9E1B',
                           color:        '#fff',
                           border:       'none',
                           borderRadius: 6,

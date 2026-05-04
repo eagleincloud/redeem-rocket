@@ -143,7 +143,7 @@ export function DocumentUploader({ onDocumentsUpdated, documents = {}, disabled 
               style={{
                 padding: '10px 12px',
                 borderRadius: 8,
-                border: `2px solid ${selectedType === type.key ? '#f97316' : isDark ? '#1c2a55' : '#e8d8cc'}`,
+                border: `2px solid ${selectedType === type.key ? '#FF9E1B' : isDark ? '#1c2a55' : '#e8d8cc'}`,
                 background:
                   selectedType === type.key
                     ? isDark
@@ -178,7 +178,7 @@ export function DocumentUploader({ onDocumentsUpdated, documents = {}, disabled 
         onDrop={handleDrop}
         onClick={() => !disabled && !uploading && fileInputRef.current?.click()}
         style={{
-          border: `2px dashed ${dragActive ? '#f97316' : isDark ? '#1c2a55' : '#e8d8cc'}`,
+          border: `2px dashed ${dragActive ? '#FF9E1B' : isDark ? '#1c2a55' : '#e8d8cc'}`,
           borderRadius: 8,
           padding: 24,
           textAlign: 'center',
@@ -200,14 +200,14 @@ export function DocumentUploader({ onDocumentsUpdated, documents = {}, disabled 
 
         {uploading ? (
           <>
-            <Loader2 style={{ width: 32, height: 32, margin: '0 auto 8px', color: '#f97316', animation: 'spin 1s linear infinite' }} />
+            <Loader2 style={{ width: 32, height: 32, margin: '0 auto 8px', color: '#FF9E1B', animation: 'spin 1s linear infinite' }} />
             <div style={{ fontSize: 14, fontWeight: 600, color: isDark ? '#e2e8f0' : '#18100a' }}>
               Uploading...
             </div>
           </>
         ) : (
           <>
-            <Upload style={{ width: 32, height: 32, margin: '0 auto 8px', color: '#f97316' }} />
+            <Upload style={{ width: 32, height: 32, margin: '0 auto 8px', color: '#FF9E1B' }} />
             <div style={{ fontSize: 14, fontWeight: 600, color: isDark ? '#e2e8f0' : '#18100a', marginBottom: 4 }}>
               {selectedType ? 'Drag & drop or click to upload' : 'Select a document type first'}
             </div>
@@ -235,7 +235,7 @@ export function DocumentUploader({ onDocumentsUpdated, documents = {}, disabled 
             {uploadedDocs.map((doc) => (
               <div key={doc.type} style={{ padding: 12, background: isDark ? '#162040' : '#fdf6f0', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1 }}>
-                  <File style={{ width: 20, height: 20, color: '#f97316', flexShrink: 0 }} />
+                  <File style={{ width: 20, height: 20, color: '#FF9E1B', flexShrink: 0 }} />
                   <div style={{ minWidth: 0 }}>
                     <div style={{ fontSize: 13, fontWeight: 500, color: isDark ? '#e2e8f0' : '#18100a', marginBottom: 2 }}>
                       {doc.name}

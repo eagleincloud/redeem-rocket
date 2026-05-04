@@ -110,7 +110,7 @@ export function StripeCheckout({
   const borderColor = isDark ? '#1c2a55' : '#e8d8cc';
   const textColor = isDark ? '#e2e8f0' : '#18100a';
   const inputBg = isDark ? '#162040' : '#fdf6f0';
-  const accentColor = '#f97316';
+  const accentColor = '#FF9E1B';
 
   return (
     <div style={{ padding: '24px', backgroundColor: bgColor, borderRadius: '12px', border: `1px solid ${borderColor}`, maxWidth: '500px', margin: '0 auto' }}>

@@ -280,7 +280,7 @@ function AddMemberModal({ onClose, onSave, initial, roles, isDark, border, input
           <button onClick={onClose} style={{ flex: 1, padding: '11px', borderRadius: 10, border: `1px solid ${border}`, background: 'none', cursor: 'pointer', color: muted, fontSize: 13, fontWeight: 600 }}>
             Cancel
           </button>
-          <button onClick={handleSave} disabled={saving} style={{ flex: 2, padding: '11px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, cursor: saving ? 'not-allowed' : 'pointer', color: '#fff', fontSize: 13, fontWeight: 700, opacity: saving ? 0.7 : 1 }}>
+          <button onClick={handleSave} disabled={saving} style={{ flex: 2, padding: '11px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, cursor: saving ? 'not-allowed' : 'pointer', color: '#fff', fontSize: 13, fontWeight: 700, opacity: saving ? 0.7 : 1 }}>
             {saving ? 'Saving...' : initial ? 'Save Changes' : 'Add Member'}
           </button>
         </div>
@@ -412,7 +412,7 @@ function AddRoleModal({ onClose, onSave, initial, isDark, border, inputBg, text,
           <button onClick={onClose} style={{ flex: 1, padding: '11px', borderRadius: 10, border: `1px solid ${border}`, background: 'none', cursor: 'pointer', color: muted, fontSize: 13, fontWeight: 600 }}>
             Cancel
           </button>
-          <button onClick={handleSave} style={{ flex: 2, padding: '11px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, cursor: 'pointer', color: '#fff', fontSize: 13, fontWeight: 700 }}>
+          <button onClick={handleSave} style={{ flex: 2, padding: '11px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, cursor: 'pointer', color: '#fff', fontSize: 13, fontWeight: 700 }}>
             {initial ? 'Save Changes' : 'Create Role'}
           </button>
         </div>
@@ -433,7 +433,7 @@ export function TeamPage() {
   const text    = isDark ? '#e2e8f0' : '#18100a';
   const muted   = isDark ? '#64748b' : '#9a7860';
   const inputBg = isDark ? '#162040' : '#fdf6f0';
-  const accent  = '#f97316';
+  const accent  = '#FF9E1B';
 
   const [tab, setTab] = useState<'members' | 'roles'>('members');
   const [members, setMembers] = useState<TeamMember[]>([]);
@@ -649,7 +649,7 @@ export function TeamPage() {
           </span>
           <button
             onClick={() => tab === 'members' ? setShowAddMember(true) : setShowAddRole(true)}
-            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 16px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #fb923c)`, cursor: 'pointer', color: '#fff', fontSize: 13, fontWeight: 700 }}
+            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '9px 16px', borderRadius: 10, border: 'none', background: `linear-gradient(135deg, ${accent}, #FF9E1B)`, cursor: 'pointer', color: '#fff', fontSize: 13, fontWeight: 700 }}
           >
             <Plus size={15} />
             {tab === 'members' ? 'Add Member' : 'Add Role'}
@@ -700,7 +700,7 @@ export function TeamPage() {
           {members.map(m => (
             <div key={m.id} style={{ padding: '16px', borderRadius: 12, border: `1px solid ${border}`, background: inputBg, display: 'flex', alignItems: 'flex-start', gap: 14 }}>
               {/* Avatar */}
-              <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg, #f97316, #fb923c)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 800, color: '#fff', flexShrink: 0 }}>
+              <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'linear-gradient(135deg, #FF9E1B, #FF9E1B)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 800, color: '#fff', flexShrink: 0 }}>
                 {m.name[0]?.toUpperCase()}
               </div>
               {/* Info */}
