@@ -68,6 +68,9 @@ import FeatureSelection from './pages/NewOnboarding/FeatureSelection';
 import AppCustomization from './pages/NewOnboarding/AppCustomization';
 import Preview from './pages/NewOnboarding/Preview';
 
+// ── Smart Onboarding (8-Screen Figma Design) ────────────────────────────────────
+import { SmartOnboarding } from './pages/SmartOnboarding';
+
 // ── Layer 5: Actionable Dashboard Components ────────────────────────────────────
 import DashboardInsights from './pages/DashboardInsights';
 import BottleneckDetection from './pages/BottleneckDetection';
@@ -274,6 +277,19 @@ function BusinessWebsiteRoot() {
   );
 }
 
+// ── Smart Onboarding Root (8-Screen Flow) ────────────────────────────────────────
+function SmartOnboardingRoot() {
+  return (
+    <ThemeProvider>
+      <BusinessProvider>
+        <ErrorBoundary>
+          <SmartOnboarding />
+        </ErrorBoundary>
+      </BusinessProvider>
+    </ThemeProvider>
+  );
+}
+
 export const router = createBrowserRouter(
   [
   {
@@ -324,11 +340,24 @@ export const router = createBrowserRouter(
     errorElement: <ErrorElement />,
   },
 
+  // ── SMART ONBOARDING (8-Screen Figma Design) ────────────────────────────────
+  {
+    path: '/onboarding',
+    element: <SmartOnboardingRoot />,
+    errorElement: <ErrorElement />,
+  },
+
   {
     path: '/app',
     element: <Root />,
     errorElement: <ErrorElement />,
     children: [
+      // Smart Onboarding (8-Screen Flow) - New Figma Design
+      {
+        path: 'onboarding',
+        element: <SmartOnboardingRoot />,
+        errorElement: <ErrorElement />,
+      },
       // Dashboard with onboarding guard
       {
         index: true,

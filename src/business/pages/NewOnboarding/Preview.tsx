@@ -30,7 +30,9 @@ export default function Preview() {
       console.log('Registration submitted:', result);
 
       clearAppData();
-      navigate('/login');
+      // After successful registration, redirect to Smart Onboarding flow
+      // where users can configure feature preferences and customize their app
+      navigate('/app/onboarding');
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to submit registration';
       setError(errorMessage);
