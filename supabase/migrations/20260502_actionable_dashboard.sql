@@ -1,5 +1,8 @@
+-- Layer 5: Actionable Dashboard Tables
+-- Metrics and Recommendations for intelligent insights
+
 -- Dashboard Daily Metrics
-CREATE TABLE dashboard_daily_metrics (
+CREATE TABLE IF NOT EXISTS dashboard_daily_metrics (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   business_id UUID NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
   pipeline_id UUID REFERENCES business_pipelines(id) ON DELETE CASCADE,
@@ -21,12 +24,11 @@ CREATE TABLE dashboard_daily_metrics (
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
 
-  UNIQUE(business_id, pipeline_id, metric_date),
-  INDEX (business_id, metric_date)
+  UNIQUE(business_id, pipeline_id, metric_date)
 );
 
 -- Smart Recommendations
-CREATE TABLE smart_recommendations (
+CREATE TABLE IF NOT EXISTS smart_recommendations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   business_id UUID NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
 
@@ -48,10 +50,11 @@ CREATE TABLE smart_recommendations (
   INDEX (business_id, created_at)
 );
 
+-- Enable RLS
 ALTER TABLE dashboard_daily_metrics ENABLE ROW LEVEL SECURITY;
 ALTER TABLE smart_recommendations ENABLE ROW LEVEL SECURITY;
 
--- RLS Policies
+-- RLS Policies for dashboard_daily_metrics
 CREATE POLICY "Users can view own business metrics"
   ON dashboard_daily_metrics FOR SELECT
   USING (business_id IN (
@@ -59,9 +62,28 @@ CREATE POLICY "Users can view own business metrics"
     WHERE user_id = auth.uid()
   ));
 
+CREATE POLICY "Business owner can manage metrics"
+  ON dashboard_daily_metrics FOR ALL
+  USING (business_id IN (
+    SELECT business_id FROM biz_users
+    WHERE user_id = auth.uid()
+  ));
+
+-- RLS Policies for smart_recommendations
 CREATE POLICY "Users can view own business recommendations"
   ON smart_recommendations FOR SELECT
   USING (business_id IN (
     SELECT business_id FROM team_members
     WHERE user_id = auth.uid()
   ));
+
+CREATE POLICY "Business owner can manage recommendations"
+  ON smart_recommendations FOR ALL
+  USING (business_id IN (
+    SELECT business_id FROM biz_users
+    WHERE user_id = auth.uid()
+  ));
+
+-- Indexes for performance
+CREATE INDEX IF NOT EXISTS idx_dashboard_metrics_business ON dashboard_daily_metrics(business_id, metric_date);
+CREATE INDEX IF NOT EXISTS idx_smart_recommendations_business ON smart_recommendations(business_id, created_at);

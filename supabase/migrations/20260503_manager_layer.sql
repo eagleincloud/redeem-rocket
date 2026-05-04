@@ -1,8 +1,11 @@
+-- Layer 7: AI + Manager Layer Tables
+-- Manager dashboards, recommendations, tasks, and activity logs
+
 -- AI Recommendations
-CREATE TABLE ai_recommendations (
+CREATE TABLE IF NOT EXISTS ai_recommendations (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   business_id UUID NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
-  manager_id UUID NOT NULL REFERENCES auth.users(id),
+  manager_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   lead_id UUID REFERENCES leads(id) ON DELETE SET NULL,
 
   type VARCHAR(100),
@@ -22,7 +25,7 @@ CREATE TABLE ai_recommendations (
 );
 
 -- Manager Metrics
-CREATE TABLE manager_metrics (
+CREATE TABLE IF NOT EXISTS manager_metrics (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   manager_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   business_id UUID NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
@@ -43,7 +46,7 @@ CREATE TABLE manager_metrics (
 );
 
 -- Manager Tasks
-CREATE TABLE manager_tasks (
+CREATE TABLE IF NOT EXISTS manager_tasks (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   manager_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   lead_id UUID REFERENCES leads(id) ON DELETE CASCADE,
@@ -60,7 +63,7 @@ CREATE TABLE manager_tasks (
 );
 
 -- Manager Activity Logs
-CREATE TABLE manager_activity_logs (
+CREATE TABLE IF NOT EXISTS manager_activity_logs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   manager_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   business_id UUID NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
@@ -74,10 +77,10 @@ CREATE TABLE manager_activity_logs (
 );
 
 -- Email Drafts
-CREATE TABLE email_drafts (
+CREATE TABLE IF NOT EXISTS email_drafts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   business_id UUID NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
-  manager_id UUID NOT NULL REFERENCES auth.users(id),
+  manager_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   lead_id UUID REFERENCES leads(id),
 
   subject VARCHAR(255),
@@ -90,9 +93,10 @@ CREATE TABLE email_drafts (
 );
 
 -- Add manager_id to leads if not exists
-ALTER TABLE leads ADD COLUMN manager_id UUID REFERENCES auth.users(id) ON DELETE SET NULL;
-ALTER TABLE leads ADD INDEX (business_id, manager_id);
+ALTER TABLE leads ADD COLUMN IF NOT EXISTS manager_id UUID REFERENCES auth.users(id) ON DELETE SET NULL;
+ALTER TABLE leads ADD INDEX IF NOT EXISTS idx_leads_manager ON leads(business_id, manager_id);
 
+-- Enable RLS
 ALTER TABLE ai_recommendations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE manager_metrics ENABLE ROW LEVEL SECURITY;
 ALTER TABLE manager_tasks ENABLE ROW LEVEL SECURITY;
