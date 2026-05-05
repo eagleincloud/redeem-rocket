@@ -1,14 +1,15 @@
 {
-  "name": "Redeem Rocket",
-  "short_name": "Redeem",
+  "name": "Redeem Rocket - Business Growth Platform",
+  "short_name": "Redeem Rocket",
   "description": "Comprehensive business management platform for orders, campaigns, and customer relations",
-  "start_url": "/app",
-  "scope": "/app",
+  "start_url": "/app/dashboard",
+  "scope": "/app/",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#0B1220",
   "theme_color": "#FF9E64",
   "categories": ["business", "productivity"],
+  "prefer_related_applications": false,
   "screenshots": [
     {
       "src": "/screenshots/screenshot-1-192x192.png",
@@ -54,7 +55,14 @@
       "name": "Dashboard",
       "short_name": "Dashboard",
       "description": "View your business dashboard",
-      "url": "/app?shortcut=dashboard",
+      "url": "/app/dashboard?shortcut=dashboard",
+      "icons": [{ "src": "/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "New Lead",
+      "short_name": "New Lead",
+      "description": "Create a new sales lead",
+      "url": "/app/leads/new?shortcut=new-lead",
       "icons": [{ "src": "/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
     },
     {
@@ -71,5 +79,15 @@
       "url": "/app/campaigns?shortcut=campaigns",
       "icons": [{ "src": "/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
     }
-  ]
+  ],
+  "share_target": {
+    "action": "/app/share",
+    "method": "POST",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  }
 }
