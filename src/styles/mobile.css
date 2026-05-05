@@ -1,0 +1,305 @@
+/* Mobile Optimization Styles */
+
+/* Safe area insets for notched devices */
+:root {
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-right: env(safe-area-inset-right, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left: env(safe-area-inset-left, 0px);
+}
+
+/* Body safe area padding for mobile */
+body {
+  padding-top: var(--safe-area-inset-top);
+  padding-left: var(--safe-area-inset-left);
+  padding-right: var(--safe-area-inset-right);
+}
+
+/* Offline mode indicator */
+body.offline {
+  filter: brightness(0.95);
+}
+
+/* Mobile viewport configuration */
+@media (max-width: 767px) {
+  /* Prevent zoom on input focus (iOS) */
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Disable zoom on double tap select (iOS) */
+  body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Allow text selection in inputs */
+  input,
+  textarea {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Touch-friendly button sizing */
+  button,
+  [role='button'],
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Bottom navigation spacing */
+  body.has-bottom-nav {
+    padding-bottom: 80px;
+  }
+
+  /* Reduce gap for mobile */
+  .gap-4 {
+    gap: 12px;
+  }
+
+  .gap-6 {
+    gap: 16px;
+  }
+
+  /* Card overflow fix */
+  .card {
+    overflow: hidden;
+  }
+
+  /* Modal on mobile should be full-screen */
+  [role='dialog'] {
+    max-width: 100vw;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  /* Sheet animation */
+  [data-sheet-open='true'] {
+    animation: slideUp 300ms ease-out;
+  }
+
+  @keyframes slideUp {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* Stack flex items on mobile */
+  .flex-row\@md {
+    flex-direction: column;
+  }
+
+  /* Larger text on mobile */
+  .text-sm {
+    font-size: 14px;
+  }
+
+  /* Reduce padding for mobile */
+  .p-4 {
+    padding: 12px;
+  }
+
+  .p-6 {
+    padding: 16px;
+  }
+
+  /* Full width inputs */
+  input,
+  select,
+  textarea {
+    width: 100%;
+  }
+
+  /* Prevent horizontal overflow */
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  /* List items tappable */
+  [role='listitem'],
+  li {
+    padding: 12px 0;
+  }
+
+  /* Form spacing */
+  label {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  /* Select dropdown text size (prevent zoom) */
+  select {
+    font-size: 16px;
+  }
+
+  /* Prevent pinch zoom (optional, be careful) */
+  /* html {
+    touch-action: manipulation;
+  } */
+}
+
+/* Tablet optimization (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Two column layouts */
+  .grid-auto-fit {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* Side-by-side when space allows */
+  .flex-row\@lg {
+    flex-direction: row;
+  }
+
+  /* Wider cards on tablet */
+  .card {
+    max-width: 400px;
+  }
+}
+
+/* Desktop (1024px+) */
+@media (min-width: 1024px) {
+  /* Multi-column layouts */
+  .grid-auto-fit {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  /* Normal button size */
+  button {
+    min-height: auto;
+    min-width: auto;
+  }
+}
+
+/* Landscape optimization (for mobile) */
+@media (max-height: 500px) and (orientation: landscape) {
+  /* Reduce vertical spacing */
+  .gap-4 {
+    gap: 8px;
+  }
+
+  .p-4 {
+    padding: 8px;
+  }
+
+  /* Sticky headers */
+  [role='banner'],
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+  }
+
+  /* Reduce padding */
+  body {
+    padding-top: 0;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print,
+  [data-no-print] {
+    display: none !important;
+  }
+
+  /* Optimize for printing */
+  body {
+    background: white;
+    color: black;
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Dark mode adjustments for mobile */
+@media (prefers-color-scheme: dark) {
+  body.offline {
+    filter: brightness(0.85);
+  }
+}
+
+/* High DPI devices (retina) */
+@media (min-device-pixel-ratio: 2) {
+  /* Thinner borders on high-DPI screens */
+  [role='separator'],
+  hr,
+  .border {
+    border-width: 0.5px;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover states */
+  button:hover,
+  a:hover {
+    opacity: 1;
+  }
+
+  /* Add active states instead */
+  button:active,
+  a:active {
+    opacity: 0.8;
+  }
+
+  /* Larger touch targets */
+  button,
+  [role='button'],
+  a {
+    padding: 12px 16px;
+  }
+
+  /* Disable hover effects */
+  [data-hover] {
+    display: none;
+  }
+}
+
+/* Pointer device (mouse/trackpad) */
+@media (hover: hover) and (pointer: fine) {
+  /* Show hover states */
+  button:hover {
+    background-color: var(--color-hover);
+  }
+
+  /* Hide touch-specific elements */
+  [data-touch-only] {
+    display: none;
+  }
+}
