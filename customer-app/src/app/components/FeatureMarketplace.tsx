@@ -33,8 +33,8 @@ import {
   FEATURE_BUNDLES,
   calculateBundlePrice,
   getFeaturesByBundle
-} from '../lib/features-catalog';
-import { useFeatures } from '../hooks/useFeatures';
+} from '../../lib/features-catalog';
+import { useFeatures } from '../../hooks/useFeatures';
 
 type CategoryKey = 'crm' | 'marketing' | 'retention' | 'automation' | 'analytics' | 'operations' | 'all';
 

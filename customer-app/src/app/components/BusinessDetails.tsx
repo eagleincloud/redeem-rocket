@@ -117,7 +117,7 @@ export default function BusinessDetails() {
 
   const handleSubmit = () => {
     saveAppData(formData);
-    navigate('/features');
+    navigate('/feature-selection');
   };
 
   return (

@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
 import { ChevronRight, ChevronLeft, Check, Package, Users, Mail, Zap, Smartphone } from 'lucide-react';
 import { toast } from 'sonner';
-import { useFeatures, FeaturePreferences } from '../hooks/useFeatures';
+import { useFeatures, FeaturePreferences } from '../../hooks/useFeatures';
 
 interface Question {
   id: string;
